@@ -10,7 +10,7 @@ public class server extends Thread{
 	public server(int port) throws IOException
 	{
 		sSocket = new ServerSocket(port);//Set the port
-		sSocket.setSoTimeout(10000);//Set how long to wait for a connection
+		sSocket.setSoTimeout(100000);//Set how long to wait for a connection
 	}
 	
 	public void run()//Main thread
@@ -21,10 +21,10 @@ public class server extends Thread{
 			{
 				System.out.println("Waiting for client on port " + sSocket.getLocalPort() + "...");
 				Socket serv = sSocket.accept(); //Wait for a client to connect to us on this port
-				System.out.println("Connected to " + serv.getRemoteSocketAddress());
+				System.out.println("Server connected to " + serv.getRemoteSocketAddress());
 				
 				DataInputStream in = new DataInputStream(serv.getInputStream());//Read the data from the connected client
-				System.out.println(in.readUTF());
+				System.out.println("Client said " + in.readUTF());
 				
 				DataOutputStream out = new DataOutputStream(serv.getOutputStream()); //Create an output stream
 				out.writeUTF("You connected to " + serv.getLocalSocketAddress()); //Send back a response to the client

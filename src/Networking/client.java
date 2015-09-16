@@ -13,7 +13,7 @@ public class client {
 			System.out.println("Connecting to " + serverName + " on port " + port);
 			
 			Socket client = new Socket(serverName, port);//Connect to the specified computer
-			System.out.println("Connected to " + client.getRemoteSocketAddress());
+			System.out.println("Client connected to " + client.getRemoteSocketAddress());
 			
 			OutputStream outToServer = client.getOutputStream(); //Create a stream so that we can send information to the server
 			DataOutputStream out = new DataOutputStream(outToServer);
