@@ -5,6 +5,8 @@ import java.awt.Canvas;
 
 import javax.swing.JFrame;
 
+import networking.ClockThread;
+
 /**
  * Creates the game application window which displays the gui
  * @author godfreya
@@ -12,7 +14,7 @@ import javax.swing.JFrame;
  */
 
 public class GameFrame extends JFrame{
-
+	private ClockThread ck;
 	private Canvas canvas;
 
 	public GameFrame(){
@@ -24,8 +26,11 @@ public class GameFrame extends JFrame{
 		//setUndecorated(true); makes full screen
 		pack();
 		setExtendedState(MAXIMIZED_BOTH);
+		
+		ck = new ClockThread(this);
+		ck.start();
 		setVisible(true);
-		canvas.requestFocus();
+		//canvas.requestFocus();
 	}
 
 	public void repaint(){
