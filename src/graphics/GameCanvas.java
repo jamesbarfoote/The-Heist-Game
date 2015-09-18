@@ -7,6 +7,9 @@ import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.awt.event.MouseMotionListener;
 import java.io.IOException;
 
 import javax.imageio.ImageIO;
@@ -17,14 +20,18 @@ import javax.imageio.ImageIO;
  *
  */
 
-public class GameCanvas extends Canvas implements KeyListener{
+public class GameCanvas extends Canvas implements KeyListener, MouseListener, MouseMotionListener{
 	private static final String IMAGE_PATH = "images\\";
 	private boolean menuUp = false;
 	private Image secondScreen;
+	private GameMenu gameMenu;
 	
 	public GameCanvas(){
 		setSize(new Dimension(750, 750));
 		addKeyListener(this);
+		gameMenu = new GameMenu();
+		addMouseListener(this);
+		addMouseMotionListener(this);
 	}
 
 	public void paint(Graphics g){
@@ -32,10 +39,7 @@ public class GameCanvas extends Canvas implements KeyListener{
 		g.fillRect(0, 0, getWidth(), getHeight());
 		
 		if(menuUp){
-			Image m = loadImage("menu.png");
-			int x = (getWidth()/2) - (m.getWidth(null)/2);
-			int y = (getHeight()/2) - (m.getHeight(null)/2); 
-			g.drawImage(m, x, y, null);
+			gameMenu.draw(g, getWidth(), getHeight());
 		}
 	}
 	
@@ -50,6 +54,36 @@ public class GameCanvas extends Canvas implements KeyListener{
 	}
 	
 	public void keyTyped(KeyEvent e) {
+		
+	}
+	
+	public void mousePressed(MouseEvent e) {
+
+	}
+
+	public void mouseReleased(MouseEvent e) {
+
+	}
+
+    public void mouseEntered(MouseEvent e) {
+
+	}
+
+    public void mouseExited(MouseEvent e) {
+
+    }
+
+	public void mouseClicked(MouseEvent e) {
+
+	}
+	
+	public void mouseMoved(MouseEvent e){
+		if(menuUp){
+			gameMenu.mouseMoved(e);
+		}
+	}
+	
+	public void mouseDragged(MouseEvent e){
 		
 	}
 	

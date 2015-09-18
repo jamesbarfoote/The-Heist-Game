@@ -23,21 +23,23 @@ public class GameFrame extends JFrame{
 		setLayout(new BorderLayout());
 		add(canvas, BorderLayout.CENTER);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		//setUndecorated(true); makes full screen
+		//setUndecorated(true); //makes full screen
+		setIconImage(GameCanvas.loadImage("money_bag_icon.png"));
 		pack();
 		setExtendedState(MAXIMIZED_BOTH);
 		
 		ck = new ClockThread(this);
-		ck.start();
+		ck.start(); //start the graphics thread running
+		
 		setVisible(true);
-		//canvas.requestFocus();
+		canvas.requestFocus();
 	}
 
 	public void repaint(){
 		canvas.repaint();
 	}
 
-	//just for testing
+	//just for testing purposes
 	public static void main(String[] args){
 		new GameFrame();
 	}

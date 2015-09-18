@@ -3,7 +3,7 @@ package networking;
 import java.net.*;
 import java.io.*;
 
-public class client {
+public class Client {
 	public static void main(String [] args)
 	{
 		String serverName = args[0];

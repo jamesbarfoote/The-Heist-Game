@@ -3,11 +3,11 @@ package networking;
 import java.net.*;
 import java.io.*;
 
-public class server extends Thread{
+public class Server extends Thread{
 
 	private ServerSocket sSocket;
 	
-	public server(int port) throws IOException
+	public Server(int port) throws IOException
 	{
 		sSocket = new ServerSocket(port);//Set the port
 		sSocket.setSoTimeout(100000);//Set how long to wait for a connection
@@ -48,7 +48,7 @@ public class server extends Thread{
 		int port = Integer.parseInt(args[0]); //Get our port number from the command line
 		try
 		{
-			Thread t = new server(port);
+			Thread t = new Server(port);
 			t.start();//Start the thread and wait for connection
 		}
 		catch(IOException e)
