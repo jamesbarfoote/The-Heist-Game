@@ -10,12 +10,10 @@ import networking.ClockThread;
 /**
  * Creates the game application window which displays the gui
  * @author godfreya
- *
  */
-
 public class GameFrame extends JFrame{
-	private ClockThread ck;
-	private Canvas canvas;
+	private ClockThread ck; //graphical update thread
+	private GameCanvas canvas;  //graphics canvas
 
 	public GameFrame(){
 		super("The Heist");
@@ -26,11 +24,12 @@ public class GameFrame extends JFrame{
 		//setUndecorated(true); //makes full screen
 		setIconImage(GameCanvas.loadImage("money_bag_icon.png"));
 		pack();
-		setExtendedState(MAXIMIZED_BOTH);
+		setExtendedState(MAXIMIZED_BOTH); //go full screen
 		
 		ck = new ClockThread(this);
 		ck.start(); //start the graphics thread running
 		
+		//make us visible
 		setVisible(true);
 		canvas.requestFocus();
 	}
@@ -38,9 +37,8 @@ public class GameFrame extends JFrame{
 	public void repaint(){
 		canvas.repaint();
 	}
-
-	//just for testing purposes
-	public static void main(String[] args){
-		new GameFrame();
+	
+	public GameCanvas getCanvas(){
+		return canvas;
 	}
 }
