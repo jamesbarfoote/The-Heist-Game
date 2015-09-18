@@ -1,6 +1,7 @@
 package control;
 
 import graphics.GameCanvas;
+import graphics.GameCanvas.State;
 import graphics.GameFrame;
 
 import java.awt.event.KeyEvent;
@@ -36,7 +37,7 @@ public class Player implements KeyListener, MouseListener, MouseMotionListener{
 		}
 	}
 	
-	//------below are various methods for handling mouse input---------
+	//------below are various methods for handling mouse input-------
 	
 	public void keyReleased(KeyEvent e) {}
 	
@@ -45,24 +46,7 @@ public class Player implements KeyListener, MouseListener, MouseMotionListener{
 	public void mousePressed(MouseEvent e) {}
 
 	public void mouseReleased(MouseEvent e) {
-		if(canvas.menuUp()){
-			String button = canvas.gameMenu().onClick(e);
-			if(button == null) {
-				mouseMoved(e);
-				return;
-			}
-			switch(button){
-			case "options":
-				
-				return;
-			case "quit":
-				
-				return;
-			default:
-				canvas.gameMenuSelect();
-				return;
-			}
-		}
+		canvas.mouseReleased(e);
 	}
 
     public void mouseEntered(MouseEvent e) {}
@@ -72,9 +56,7 @@ public class Player implements KeyListener, MouseListener, MouseMotionListener{
 	public void mouseClicked(MouseEvent e) {}
 	
 	public void mouseMoved(MouseEvent e){
-		if(canvas.menuUp()){
-			canvas.gameMenu().mouseMoved(e);
-		}
+		canvas.mouseMoved(e);
 	}
 	
 	public void mouseDragged(MouseEvent e){}

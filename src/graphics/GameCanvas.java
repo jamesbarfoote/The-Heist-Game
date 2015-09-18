@@ -5,6 +5,7 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Image;
+import java.awt.event.MouseEvent;
 import java.io.IOException;
 
 import javax.imageio.ImageIO;
@@ -14,14 +15,17 @@ import javax.imageio.ImageIO;
  * @author godfreya
  */
 public class GameCanvas extends Canvas{
+	public enum State{MENU, PLAYING}
+	
 	private static final String IMAGE_PATH = "images\\"; //path for locating images
 	private boolean menuUp = false; //is the in game menu up?
 	private Image secondScreen;     //second image for use in double buffering
-	private GameMenu gameMenu;		//in game menu, shows when escape pressed
+	private Menu gameMenu; //the current game menu
+	private State gameState; //determines the status of the game client
 	
 	public GameCanvas(){
-		setSize(new Dimension(750, 750)); //default size if program minimized
-		gameMenu = new GameMenu();
+		setSize(new Dimension(900, 900)); //default size if program minimized
+		setState(State.MENU);
 	}
 	
 	/** flips the menuUp selection**/
@@ -33,8 +37,33 @@ public class GameCanvas extends Canvas{
 		return menuUp;
 	}
 	
-	public GameMenu gameMenu(){
+	public Menu gameMenu(){
 		return gameMenu;
+	}
+	
+	public void mouseReleased(MouseEvent e) {
+		if(gameState.equals(State.PLAYING) && menuUp || gameState.equals(State.MENU)){
+			if(gameMenu.mouseReleased(e)){
+				gameMenuSelect();
+			}
+		}
+	}
+	
+	public void mouseMoved(MouseEvent e){
+		if(gameState.equals(State.MENU) || gameState.equals(State.PLAYING) && menuUp){
+			gameMenu.mouseMoved(e);
+		}
+	}
+	
+	public void setState(State s){
+		gameState = s;
+		if(s.equals(State.MENU)){
+			gameMenu = new MainMenu();
+		}
+		else if(s.equals(State.PLAYING)){
+			menuUp = false;
+			gameMenu = new GameMenu();
+		}
 	}
 
 	/**
@@ -44,8 +73,15 @@ public class GameCanvas extends Canvas{
 		g.setColor(Color.BLACK);
 		g.fillRect(0, 0, getWidth(), getHeight());
 		
-		if(menuUp){
-			gameMenu.draw(g, getWidth(), getHeight());
+		if(gameState.equals(State.PLAYING)){
+			if(menuUp){
+				gameMenu.draw(g, getWidth(), getHeight());
+			}
+		}
+		else if(gameState.equals(State.MENU)){
+			Image logo = loadImage("title.png");
+			g.drawImage(logo, getWidth()/2 - logo.getWidth(null)/2, 25, null);
+			gameMenu.draw(g, getWidth(), 25 + logo.getHeight(null) + 50);
 		}
 	}
 	

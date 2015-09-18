@@ -21,7 +21,7 @@ public class GameFrame extends JFrame{
 		setLayout(new BorderLayout());
 		add(canvas, BorderLayout.CENTER);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		//setUndecorated(true); //makes full screen
+		setUndecorated(true); //makes full screen
 		setIconImage(GameCanvas.loadImage("money_bag_icon.png"));
 		pack();
 		setExtendedState(MAXIMIZED_BOTH); //go full screen
