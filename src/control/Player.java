@@ -1,7 +1,6 @@
 package control;
 
 import graphics.GameCanvas;
-import graphics.GameCanvas.State;
 import graphics.GameFrame;
 
 import java.awt.event.KeyEvent;

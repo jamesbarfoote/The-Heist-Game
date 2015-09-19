@@ -11,7 +11,8 @@ import java.util.ArrayList;
 public class GameMenu extends Menu{
 	private final int YSTART = 200; //how far down the buttons should appear on the menu
 	
-	public GameMenu(){
+	public GameMenu(GameCanvas gc){
+		canvas = gc;
 		menuBack = GameCanvas.loadImage("menu.png");
 		gameButtons = new ArrayList<GameButton>();
 		
@@ -21,22 +22,24 @@ public class GameMenu extends Menu{
 		gameButtons.add(new GameButton("quit"));
 	}
 	
-	public boolean mouseReleased(MouseEvent e) {
+	public Choice mouseReleased(MouseEvent e) {
 		String button = onClick(e);
 		if(button == null) {
 			mouseMoved(e);
-			return false;
+			return Choice.VOID;
 		}
 		switch(button){
 		case "options":
 		
-			return true;
+			return Choice.ACT;
 		case "quit":
 				
-			return true;
-		default:
-			return true;
+			return Choice.ACT;
+		case "resume":
+			
+			return Choice.ACT;
 		}
+		return Choice.VOID;
 	}
 	
 	public void draw(Graphics g, int width, int height){

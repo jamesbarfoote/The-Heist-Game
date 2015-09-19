@@ -22,6 +22,7 @@ public class GameCanvas extends Canvas{
 	private Image secondScreen;     //second image for use in double buffering
 	private Menu gameMenu; //the current game menu
 	private State gameState; //determines the status of the game client
+	private Dialogue dialogue; //current dialogue open, if any
 	
 	public GameCanvas(){
 		setSize(new Dimension(900, 900)); //default size if program minimized
@@ -41,16 +42,29 @@ public class GameCanvas extends Canvas{
 		return gameMenu;
 	}
 	
+	public void showDialogue(){
+		dialogue = new Dialogue(this);
+	}
+	
 	public void mouseReleased(MouseEvent e) {
-		if(gameState.equals(State.PLAYING) && menuUp || gameState.equals(State.MENU)){
-			if(gameMenu.mouseReleased(e)){
-				gameMenuSelect();
-			}
+		if(dialogue != null){
+			dialogue.mouseReleased(e);
+		}
+		else if(gameState.equals(State.PLAYING) && menuUp){
+			//if(gameMenu.mouseReleased(e)){
+			//	gameMenuSelect();
+			//}
+		}
+		else if(gameState.equals(State.MENU)){
+			gameMenu.mouseReleased(e);
 		}
 	}
 	
 	public void mouseMoved(MouseEvent e){
-		if(gameState.equals(State.MENU) || gameState.equals(State.PLAYING) && menuUp){
+		if(dialogue != null){
+			dialogue.mouseMoved(e);
+		}
+		else if(gameState.equals(State.MENU) || gameState.equals(State.PLAYING) && menuUp){
 			gameMenu.mouseMoved(e);
 		}
 	}
@@ -58,11 +72,11 @@ public class GameCanvas extends Canvas{
 	public void setState(State s){
 		gameState = s;
 		if(s.equals(State.MENU)){
-			gameMenu = new MainMenu();
+			gameMenu = new MainMenu(this);
 		}
 		else if(s.equals(State.PLAYING)){
 			menuUp = false;
-			gameMenu = new GameMenu();
+			gameMenu = new GameMenu(this);
 		}
 	}
 
@@ -82,6 +96,10 @@ public class GameCanvas extends Canvas{
 			Image logo = loadImage("title.png");
 			g.drawImage(logo, getWidth()/2 - logo.getWidth(null)/2, 25, null);
 			gameMenu.draw(g, getWidth(), 25 + logo.getHeight(null) + 50);
+		}
+		
+		if(dialogue != null){
+			dialogue.draw(g, getWidth(), getHeight());
 		}
 	}
 	

@@ -1,7 +1,6 @@
 package graphics;
 
 import java.awt.BorderLayout;
-import java.awt.Canvas;
 
 import javax.swing.JFrame;
 
