@@ -22,7 +22,7 @@ public class GameCanvas extends Canvas{
 	private Image secondScreen;     //second image for use in double buffering
 	private Menu gameMenu; //the current game menu
 	private State gameState; //determines the status of the game client
-	private Dialogue dialogue; //current dialogue open, if any
+	private Confirmation dialogue; //current dialogue open, if any
 	
 	public GameCanvas(){
 		setSize(new Dimension(900, 900)); //default size if program minimized
@@ -43,7 +43,11 @@ public class GameCanvas extends Canvas{
 	}
 	
 	public void showDialogue(){
-		dialogue = new Dialogue(this);
+		dialogue = new Confirmation(this);
+	}
+	
+	public void removeDialogue(){
+		dialogue = null;
 	}
 	
 	public void mouseReleased(MouseEvent e) {

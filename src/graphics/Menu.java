@@ -5,9 +5,7 @@ import java.awt.Image;
 import java.awt.event.MouseEvent;
 import java.util.List;
 
-import javax.swing.JFrame;
-
-public abstract class Menu extends JFrame{
+public abstract class Menu{
 	protected List<GameButton> gameButtons;
 	protected Image menuBack; //menu image
 	protected int menuX; //start x position for drawing menu, helpful for drawing buttons on later
