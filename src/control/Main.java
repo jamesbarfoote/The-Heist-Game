@@ -10,15 +10,15 @@ import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 
 /**
- * Represents a player in the game. Acts as the controller, taking input, consulting the model
- * and updating the view accordingly. Is used for both single player and multiplayer
+ * Is the main class in the game. Acts as the controller, taking input, consulting the model
+ * and updating the view accordingly.
  * @author godfreya
  */
-public class Player implements KeyListener, MouseListener, MouseMotionListener{
+public class Main implements KeyListener, MouseListener, MouseMotionListener{
 	private GameFrame frame;
 	private GameCanvas canvas;
 	
-	public Player(){
+	public Main(){
 		frame = new GameFrame();
 		canvas = frame.getCanvas();
 		canvas.addKeyListener(this);
@@ -62,6 +62,6 @@ public class Player implements KeyListener, MouseListener, MouseMotionListener{
 	
 	//main method for starting program
 	public static void main(String[] args){
-		new Player();
+		new Main();
 	}
 }

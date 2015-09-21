@@ -6,9 +6,10 @@ import java.util.ArrayList;
 
 public class Confirmation extends Dialogue{
 	private final int YSTART = 50; //how far down the buttons should appear on the menu
+	private Menu listener;
 	
-	public Confirmation(GameCanvas gc){
-		canvas = gc;
+	public Confirmation(Menu m){
+		listener = m;
 		menuBack = GameCanvas.loadImage("popup.png");
 		gameButtons = new ArrayList<GameButton>();
 		
@@ -24,10 +25,10 @@ public class Confirmation extends Dialogue{
 			return Choice.VOID; //no button was selected
 		}
 		if(button.equals("yes")){
-			System.exit(0);
+			listener.accept();
 			return Choice.YES; //action confirmed
 		}
-		canvas.removeDialogue();
+		listener.decline();
 		return Choice.NO; //only other alternative is action declined
 	}
 	

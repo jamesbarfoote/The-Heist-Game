@@ -1,6 +1,6 @@
 package graphics;
 
-import graphics.Menu.Choice;
+import graphics.Dialogue.Choice;
 
 import java.awt.Graphics;
 import java.awt.event.MouseEvent;
@@ -13,8 +13,8 @@ import java.util.ArrayList;
 public class MainMenu extends Menu{
 	private final int YSTART = 100; //how far down the buttons should appear on the menu
 	
-	public MainMenu(GameCanvas gc){
-		canvas = gc;
+	public MainMenu(GameCanvas cv){
+		canvas = cv;
 		menuBack = GameCanvas.loadImage("main_menu.png");
 		gameButtons = new ArrayList<GameButton>();
 		
@@ -35,13 +35,26 @@ public class MainMenu extends Menu{
 		
 			return Choice.ACT;
 		case "quit":
-			canvas.showDialogue();
+			action = Action.QUIT;
+			canvas.showConfirmation(this);
 			return Choice.ACT;
 		case "single":
 			
 			return Choice.ACT;
 		}
 		return Choice.VOID;
+	}
+	
+	public void accept(){
+		switch(action){
+		case QUIT:
+			System.exit(0);
+		}
+	}
+	
+	public void decline(){
+		action = null;
+		canvas.removeConfirmation();
 	}
 
 	public void draw(Graphics g, int width, int height){

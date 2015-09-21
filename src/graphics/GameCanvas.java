@@ -20,12 +20,12 @@ public class GameCanvas extends Canvas{
 	private static final String IMAGE_PATH = "images\\"; //path for locating images
 	private boolean menuUp = false; //is the in game menu up?
 	private Image secondScreen;     //second image for use in double buffering
-	private Menu gameMenu; //the current game menu
+	private Dialogue gameMenu; //the current game menu
 	private State gameState; //determines the status of the game client
 	private Confirmation dialogue; //current dialogue open, if any
 	
 	public GameCanvas(){
-		setSize(new Dimension(900, 900)); //default size if program minimized
+		setSize(new Dimension(900, 900)); //default size if program minimised
 		setState(State.MENU);
 	}
 	
@@ -38,15 +38,15 @@ public class GameCanvas extends Canvas{
 		return menuUp;
 	}
 	
-	public Menu gameMenu(){
+	public Dialogue gameMenu(){
 		return gameMenu;
 	}
 	
-	public void showDialogue(){
-		dialogue = new Confirmation(this);
+	public void showConfirmation(Menu listener){
+		dialogue = new Confirmation(listener);
 	}
 	
-	public void removeDialogue(){
+	public void removeConfirmation(){
 		dialogue = null;
 	}
 	
@@ -130,9 +130,9 @@ public class GameCanvas extends Canvas{
 	public void update(Graphics g) {	
 		secondScreen = createImage(getWidth(), getHeight());
 		Graphics g2 = secondScreen.getGraphics();		
-		// do normal redraw
+		// do normal redraw on second screen
 		paint(g2);
-		// now draw second screen on window
+		// draw second screen on window
 		g.drawImage(secondScreen, 0, 0, null);
 	}
 }

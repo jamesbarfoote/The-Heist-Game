@@ -11,8 +11,8 @@ import java.util.ArrayList;
 public class GameMenu extends Menu{
 	private final int YSTART = 200; //how far down the buttons should appear on the menu
 	
-	public GameMenu(GameCanvas gc){
-		canvas = gc;
+	public GameMenu(GameCanvas cv){
+		canvas = cv;
 		menuBack = GameCanvas.loadImage("menu.png");
 		gameButtons = new ArrayList<GameButton>();
 		
@@ -40,6 +40,14 @@ public class GameMenu extends Menu{
 			return Choice.ACT;
 		}
 		return Choice.VOID;
+	}
+	
+	public void accept(){
+		
+	}
+	
+	public void decline(){
+		
 	}
 	
 	public void draw(Graphics g, int width, int height){
