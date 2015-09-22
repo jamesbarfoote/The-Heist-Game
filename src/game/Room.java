@@ -10,7 +10,9 @@ import java.util.List;
  *
  */
 public class Room {
-
+//Stores the locations of all the objects that need to be drawn
+//Canvas calls this class and asks it to draw itself
+	
 	private String roomName;
 	private List<Item> itemsInRoom;
 	private List<Money> moneyInRoom;

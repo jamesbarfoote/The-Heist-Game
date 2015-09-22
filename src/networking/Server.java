@@ -4,6 +4,7 @@ import java.net.*;
 import java.io.*;
 
 public class Server extends Thread{
+	//array of characters with their room
 
 	private ServerSocket sSocket;
 	
