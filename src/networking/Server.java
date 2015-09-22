@@ -23,13 +23,27 @@ public class Server extends Thread{
 				Socket serv = sSocket.accept(); //Wait for a client to connect to us on this port
 				System.out.println("Server connected to " + serv.getRemoteSocketAddress());
 				
-				DataInputStream in = new DataInputStream(serv.getInputStream());//Read the data from the connected client
-				System.out.println("Client said " + in.readUTF());
+				PrintWriter out = new PrintWriter(serv.getOutputStream(), true);//Create a stream so that we can send information to the server
+				BufferedReader in = new BufferedReader(new InputStreamReader(serv.getInputStream()));//Create an input stream so that we can read any response from the server
+				out.println("You have successfully connected");
+				String inputTxt;
+				String outputTxt;
 				
-				DataOutputStream out = new DataOutputStream(serv.getOutputStream()); //Create an output stream
-				out.writeUTF("You connected to " + serv.getLocalSocketAddress()); //Send back a response to the client
+				while((inputTxt = in.readLine()) != null)
+				{
+					System.out.println("Client said " + inputTxt);
+					//System.out.println("Client said: " + in.readLine());
+					//out.println("Message recieved by: " + serv.getLocalSocketAddress()); //Send back a response to the client
+					out.println("Client said: " + inputTxt);
+					if(inputTxt.equalsIgnoreCase("Exit"))
+					{
+						serv.close(); //Close the connection
+						break;
+					}
+				}
 				
-				serv.close(); //Close the connection
+				
+				
 				
 			}
 			catch(SocketTimeoutException s)
