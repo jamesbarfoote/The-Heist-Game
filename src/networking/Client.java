@@ -14,13 +14,18 @@ public class Client implements KeyListener{
 	//if player has moved then call an update
 	//update will tell the server what has changed after it has got the most recent locations from the server 
 	public static PrintWriter out;
-	static DataOutputStream outputStream;
-	private static ArrayList<Player> players;
+	static OutputStream outputStream;
+	static InputStream inputStream;
+	private static ArrayList<String> players;
 	
 	public static void main(String [] args)
 	{
 		String serverName = args[0];
 		int port = Integer.parseInt(args[1]);
+		players = new ArrayList<String>();
+		String s = "new";
+		players.add(s);
+		players.add("another string");
 		try
 		{
 			System.out.println("Connecting to " + serverName + " on port " + port);
@@ -29,8 +34,11 @@ public class Client implements KeyListener{
 			System.out.println("Client connected to " + client.getRemoteSocketAddress());
 
 			//Set date for the players before transmitting
-			outputStream = new DataOutputStream(client.getOutputStream());
-
+			outputStream = new ObjectOutputStream(client.getOutputStream());
+			inputStream = new ObjectInputStream(client.getInputStream());
+			
+			//send array
+			 ((ObjectOutputStream) outputStream).writeObject(players);
 				//Send message key press
 			//out = new PrintWriter(client.getOutputStream(), true);//Create a stream so that we can send information to the server
 			BufferedReader in = new BufferedReader(new InputStreamReader(client.getInputStream()));//Create an input stream so that we can read any response from the server
@@ -55,8 +63,8 @@ public class Client implements KeyListener{
 				txtFromClient = input.readLine();
 				if(txtFromClient != null)
 				{
-					GZIPOutputStream objectOutput = new GZIPOutputStream(new ObjectOutputStream(outputStream));
-					((ObjectOutput) objectOutput).writeObject(players);
+					//GZIPOutputStream objectOutput = new GZIPOutputStream(new ObjectOutputStream(outputStream));
+					//((ObjectOutput) objectOutput).writeObject(players);
 					//out.println(txtFromClient);
 					//out.println(key);
 

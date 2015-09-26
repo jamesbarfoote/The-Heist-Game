@@ -13,14 +13,16 @@ public class Server extends Thread{
 	//array of characters with their room
 
 	private ServerSocket sSocket;
-	private ArrayList<Player> players;
+	private ArrayList<String> players;
 	private Date date;
+	static OutputStream outputStream;
+	static InputStream inputStream;
 	
 	public Server(int port) throws IOException
 	{
 		sSocket = new ServerSocket(port);//Set the port
 		sSocket.setSoTimeout(100000);//Set how long to wait for a connection
-		this.players = new ArrayList<Player>();
+		this.players = new ArrayList<String>();
 		date  = new Date();
 	}
 	
@@ -34,20 +36,23 @@ public class Server extends Thread{
 				Socket serv = sSocket.accept(); //Wait for a client to connect to us on this port
 				System.out.println("Server connected to " + serv.getRemoteSocketAddress());
 				
+				outputStream = new ObjectOutputStream(serv.getOutputStream());
+				inputStream = new ObjectInputStream(serv.getInputStream());
+				try {
+					players = (ArrayList<String>) ((ObjectInputStream) inputStream).readObject();
+					System.out.println(players.get(1));
+				} catch (ClassNotFoundException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				
 				PrintWriter out = new PrintWriter(serv.getOutputStream(), true);//Create a stream so that we can send information to the server
 				BufferedReader in = new BufferedReader(new InputStreamReader(serv.getInputStream()));//Create an input stream so that we can read any response from the server
 				//out.println("You have successfully connected");
 				String inputTxt;
-				InputStream socketStream = new DataInputStream(serv.getInputStream());
-				//InputStream socketStream = new PrintStream(new InputStreamReader(serv.getInputStream()));
-						ObjectInputStream objectInput = new ObjectInputStream(new GZIPInputStream(socketStream));
-						try {
-							players = (ArrayList<Player>) objectInput.readObject();
-							System.out.println("got arraylist");
-						} catch (ClassNotFoundException e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
-						}
+				
+						//ObjectInputStream objectInput = new ObjectInputStream(new GZIPInputStream(socketStream));
+						
 				
 				while((inputTxt = in.readLine()) != null)
 				{
