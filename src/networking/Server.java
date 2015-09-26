@@ -1,17 +1,26 @@
 package networking;
 
 import java.net.*;
+import java.util.ArrayList;
+import java.util.Date;
+
+import game.Player;
+
 import java.io.*;
 
 public class Server extends Thread{
 	//array of characters with their room
 
 	private ServerSocket sSocket;
+	private ArrayList<Player> players;
+	private Date date;
 	
 	public Server(int port) throws IOException
 	{
 		sSocket = new ServerSocket(port);//Set the port
 		sSocket.setSoTimeout(100000);//Set how long to wait for a connection
+		this.players = new ArrayList<Player>();
+		date  = new Date();
 	}
 	
 	public void run()//Main thread
@@ -28,7 +37,6 @@ public class Server extends Thread{
 				BufferedReader in = new BufferedReader(new InputStreamReader(serv.getInputStream()));//Create an input stream so that we can read any response from the server
 				out.println("You have successfully connected");
 				String inputTxt;
-				String outputTxt;
 				
 				while((inputTxt = in.readLine()) != null)
 				{

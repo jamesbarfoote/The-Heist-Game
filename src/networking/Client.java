@@ -1,6 +1,10 @@
 package networking;
 
 import java.net.*;
+import java.util.ArrayList;
+
+import game.Player;
+
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.io.*;
@@ -9,6 +13,8 @@ public class Client implements KeyListener{
 	//if player has moved then call an update
 	//update will tell the server what has changed after it has got the most recent locations from the server 
 	public static PrintWriter out;
+	ObjectOutputStream outputStream = new ObjectOutputStream();
+	private ArrayList<Player> players;
 	
 	public static void main(String [] args)
 	{
@@ -21,7 +27,7 @@ public class Client implements KeyListener{
 			Socket client = new Socket(serverName, port);//Connect to the specified computer
 			System.out.println("Client connected to " + client.getRemoteSocketAddress());
 
-			
+			//Set date for the players before transmitting
 				//Send message key press
 			out = new PrintWriter(client.getOutputStream(), true);//Create a stream so that we can send information to the server
 			BufferedReader in = new BufferedReader(new InputStreamReader(client.getInputStream()));//Create an input stream so that we can read any response from the server

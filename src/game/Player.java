@@ -1,6 +1,7 @@
 package game;
 
 import java.awt.Point;
+import java.util.Date;
 
 public class Player implements Cloneable{
 	private Room room;
@@ -8,6 +9,7 @@ public class Player implements Cloneable{
 	private int score;
 	private Point location;//Location(coords of the square with current room)
 	private Type t;
+	private Date date;
 	
 	//Robber or guard(can't pick up money, can open all doors) enum
 	public enum Type{
@@ -20,6 +22,16 @@ public class Player implements Cloneable{
 		this.weapon = w;
 		this.location = p;
 		this.t = t;
+	}
+	
+	public Date getDate()
+	{
+		return date;
+	}
+	
+	public void setDate(Date d)
+	{
+		this.date = d;
 	}
 	
 	public int getScore()
