@@ -18,12 +18,15 @@ public class Client implements KeyListener{
 	static InputStream inputStream;
 	private static ArrayList<String> players;
 	
+	
+	//start by recieving array
+	//the main class should determine what player u are
 	public static void main(String [] args)
 	{
 		String serverName = args[0];
 		int port = Integer.parseInt(args[1]);
 		players = new ArrayList<String>();
-		String s = "new";
+		String s = "new string";
 		players.add(s);
 		players.add("another string");
 		try
@@ -41,36 +44,36 @@ public class Client implements KeyListener{
 			 ((ObjectOutputStream) outputStream).writeObject(players);
 				//Send message key press
 			//out = new PrintWriter(client.getOutputStream(), true);//Create a stream so that we can send information to the server
-			BufferedReader in = new BufferedReader(new InputStreamReader(client.getInputStream()));//Create an input stream so that we can read any response from the server
-			
-			BufferedReader input = new BufferedReader(new InputStreamReader(System.in));
-			
-			String txtFromServer;
-			String txtFromClient;
-			
-			while(input != null )
-			{
-				
-				//System.out.println("You typed: " + input.readLine());
-				txtFromServer = in.readLine();
-				System.out.println("Server said: " + txtFromServer);
-				if(txtFromServer.equalsIgnoreCase("Exit"))
-				{
-					System.out.println("Exiting");
-					break;
-				}
-				
-				txtFromClient = input.readLine();
-				if(txtFromClient != null)
-				{
-					//GZIPOutputStream objectOutput = new GZIPOutputStream(new ObjectOutputStream(outputStream));
-					//((ObjectOutput) objectOutput).writeObject(players);
-					//out.println(txtFromClient);
-					//out.println(key);
-
-				}
-			}
-			System.out.println("Input was null");
+//			BufferedReader in = new BufferedReader(new InputStreamReader(client.getInputStream()));//Create an input stream so that we can read any response from the server
+//			
+//			BufferedReader input = new BufferedReader(new InputStreamReader(System.in));
+//			
+//			String txtFromServer;
+//			String txtFromClient;
+//			
+//			while(input != null )
+//			{
+//				
+//				//System.out.println("You typed: " + input.readLine());
+//				txtFromServer = in.readLine();
+//				System.out.println("Server said: " + txtFromServer);
+//				if(txtFromServer.equalsIgnoreCase("Exit"))
+//				{
+//					System.out.println("Exiting");
+//					break;
+//				}
+//				
+//				txtFromClient = input.readLine();
+//				if(txtFromClient != null)
+//				{
+//					//GZIPOutputStream objectOutput = new GZIPOutputStream(new ObjectOutputStream(outputStream));
+//					//((ObjectOutput) objectOutput).writeObject(players);
+//					//out.println(txtFromClient);
+//					//out.println(key);
+//
+//				}
+			//}
+			//System.out.println("Input was null");
 			
 			client.close(); //Close the TCP connection
 
