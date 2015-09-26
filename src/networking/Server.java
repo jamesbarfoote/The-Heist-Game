@@ -3,6 +3,7 @@ package networking;
 import java.net.*;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.zip.GZIPInputStream;
 
 import game.Player;
 
@@ -35,8 +36,18 @@ public class Server extends Thread{
 				
 				PrintWriter out = new PrintWriter(serv.getOutputStream(), true);//Create a stream so that we can send information to the server
 				BufferedReader in = new BufferedReader(new InputStreamReader(serv.getInputStream()));//Create an input stream so that we can read any response from the server
-				out.println("You have successfully connected");
+				//out.println("You have successfully connected");
 				String inputTxt;
+				InputStream socketStream = new DataInputStream(serv.getInputStream());
+				//InputStream socketStream = new PrintStream(new InputStreamReader(serv.getInputStream()));
+						ObjectInputStream objectInput = new ObjectInputStream(new GZIPInputStream(socketStream));
+						try {
+							players = (ArrayList<Player>) objectInput.readObject();
+							System.out.println("got arraylist");
+						} catch (ClassNotFoundException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
 				
 				while((inputTxt = in.readLine()) != null)
 				{
