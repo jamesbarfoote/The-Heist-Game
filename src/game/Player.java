@@ -2,7 +2,7 @@ package game;
 
 import java.awt.Point;
 
-public class Player {
+public class Player implements Cloneable{
 	private Room room;
 	private Weapon weapon;
 	private int score;
@@ -72,6 +72,9 @@ public class Player {
 		this.t = t;
 	}
 	
-	
+	@Override
+    protected Object clone() throws CloneNotSupportedException {
+        return super.clone();
+    }
 
 }
