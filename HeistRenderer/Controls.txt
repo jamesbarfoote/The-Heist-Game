@@ -1,0 +1,2 @@
+Movement:	arrow keys
+Zoom:		+ and - keys
