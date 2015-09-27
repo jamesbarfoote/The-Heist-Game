@@ -3,6 +3,7 @@ package control;
 import graphics.GameCanvas;
 import graphics.GameFrame;
 
+import java.awt.Point;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
@@ -55,7 +56,7 @@ public class Main implements KeyListener, MouseListener, MouseMotionListener{
 	public void mouseClicked(MouseEvent e) {}
 	
 	public void mouseMoved(MouseEvent e){
-		canvas.mouseMoved(e);
+		canvas.mouseMoved(new Point(e.getX(), e.getY()));
 	}
 	
 	public void mouseDragged(MouseEvent e){}

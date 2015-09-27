@@ -3,8 +3,11 @@ package graphics;
 import java.awt.Canvas;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Image;
+import java.awt.MouseInfo;
+import java.awt.Point;
 import java.awt.event.MouseEvent;
 import java.io.IOException;
 
@@ -23,6 +26,7 @@ public class GameCanvas extends Canvas{
 	private Dialogue gameMenu; //the current game menu
 	private State gameState; //determines the status of the game client
 	private Confirmation dialogue; //current dialogue open, if any
+	public static final Font textFont = new Font("TimesRoman", Font.PLAIN, 18); //font to be used for text in game
 	
 	public GameCanvas(){
 		setSize(new Dimension(900, 900)); //default size if program minimised
@@ -42,8 +46,8 @@ public class GameCanvas extends Canvas{
 		return gameMenu;
 	}
 	
-	public void showConfirmation(Menu listener){
-		dialogue = new Confirmation(listener);
+	public void showConfirmation(Menu listener, String message){
+		dialogue = new Confirmation(listener, message);
 	}
 	
 	public void removeConfirmation(){
@@ -64,13 +68,20 @@ public class GameCanvas extends Canvas{
 		}
 	}
 	
-	public void mouseMoved(MouseEvent e){
+	public void mouseMoved(Point p){
 		if(dialogue != null){
-			dialogue.mouseMoved(e);
+			dialogue.mouseMoved(p);
 		}
 		else if(gameState.equals(State.MENU) || gameState.equals(State.PLAYING) && menuUp){
-			gameMenu.mouseMoved(e);
+			gameMenu.mouseMoved(p);
 		}
+	}
+	
+	/**
+	 * simulates a mouse movement to refresh buttons
+	 */
+	public void simulateMouseMove(){
+		mouseMoved(new Point(MouseInfo.getPointerInfo().getLocation()));
 	}
 	
 	public void setState(State s){
@@ -98,8 +109,8 @@ public class GameCanvas extends Canvas{
 		}
 		else if(gameState.equals(State.MENU)){
 			Image logo = loadImage("title.png");
-			g.drawImage(logo, getWidth()/2 - logo.getWidth(null)/2, 25, null);
-			gameMenu.draw(g, getWidth(), 25 + logo.getHeight(null) + 50);
+			g.drawImage(logo, getWidth()/2 - logo.getWidth(null)/2, 35, null);
+			gameMenu.draw(g, getWidth(), logo.getHeight(null) + 75);
 		}
 		
 		if(dialogue != null){

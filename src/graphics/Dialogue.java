@@ -2,6 +2,7 @@ package graphics;
 
 import java.awt.Graphics;
 import java.awt.Image;
+import java.awt.Point;
 import java.awt.event.MouseEvent;
 import java.util.List;
 
@@ -36,12 +37,12 @@ public abstract class Dialogue{
 	 * mouse has moved over the menu, update menu accordingly
 	 * @param e
 	 */
-	public void mouseMoved(MouseEvent e){
+	public void mouseMoved(Point p){
 		for(GameButton gb: gameButtons){
 			gb.select(false);
 		}
 		for(GameButton gb: gameButtons){
-			if(gb.contains(e)){
+			if(gb.contains(p)){
 				gb.select(true);
 				return;
 			}
@@ -54,8 +55,9 @@ public abstract class Dialogue{
 	 * @return
 	 */
 	public String onClick(MouseEvent e){
+		Point p = new Point(e.getX(), e.getY());
 		for(GameButton gb: gameButtons){
-			if(gb.contains(e) && gb.selected()) return gb.getName();
+			if(gb.contains(p) && gb.selected()) return gb.getName();
 		}
 		return null;
 	}

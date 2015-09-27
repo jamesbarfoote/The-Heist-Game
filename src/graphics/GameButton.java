@@ -1,7 +1,7 @@
 package graphics;
 
 import java.awt.Image;
-import java.awt.event.MouseEvent;
+import java.awt.Point;
 
 /**
  * represents an option on the menu
@@ -39,6 +39,14 @@ public class GameButton{
 		startY = y;
 	}
 	
+	public int getX(){
+		return startX;
+	}
+	
+	public int getY(){
+		return startY;
+	}
+	
 	//set button select status
 	public void select(boolean b){
 		selected = b;
@@ -49,8 +57,8 @@ public class GameButton{
 	 * @param e
 	 * @return
 	 */
-	public boolean contains(MouseEvent e){
-		return e.getX() >= startX && e.getX() <= startX + getImage().getWidth(null) &&
-				e.getY() >= startY && e.getY() <= startY + getImage().getHeight(null);
+	public boolean contains(Point p){
+		return p.getX() >= startX && p.getX() <= startX + getImage().getWidth(null) &&
+				p.getY() >= startY && p.getY() <= startY + getImage().getHeight(null);
 	}
 }

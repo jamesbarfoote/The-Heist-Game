@@ -1,6 +1,7 @@
 package graphics;
 
 import java.awt.Graphics;
+import java.awt.Point;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 
@@ -25,7 +26,7 @@ public class GameMenu extends Menu{
 	public Choice mouseReleased(MouseEvent e) {
 		String button = onClick(e);
 		if(button == null) {
-			mouseMoved(e);
+			canvas.simulateMouseMove();
 			return Choice.VOID;
 		}
 		switch(button){
