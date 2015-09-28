@@ -11,8 +11,8 @@ public class Robber extends Character{
 	private int player; //The Player controlling this Robber
 	private int numDollars; //Current amount of Money the player has picked up
 	
-	public Robber(int player, Weapon currentWeapon){
-		super(currentWeapon);
+	public Robber(int player, Weapon currentWeapon, Room currentRoom, RoomPosition currentPosition){
+		super(currentWeapon, currentRoom, currentPosition);
 		this.player = player;
 		numDollars = 0;
 	}

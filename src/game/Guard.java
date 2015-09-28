@@ -9,8 +9,8 @@ public class Guard extends Character{
 
 	public String type; //The type of guard this guard is
 	
-	public Guard(String type, Weapon currentWeapon){
-		super(currentWeapon);
+	public Guard(String type, Weapon currentWeapon, Room currentRoom, RoomPosition currentPosition){
+		super(currentWeapon, currentRoom, currentPosition);
 		this.type = type;
 	}
 	
