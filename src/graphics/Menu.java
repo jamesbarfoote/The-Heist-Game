@@ -14,5 +14,10 @@ public abstract class Menu extends Dialogue{
 	 * for confirmation dialogues to decline the proposed action
 	 */
 	public abstract void decline();
+	
+	/**
+	 * for setting the game button coordinates for drawing and selecting purposes
+	 */
+	protected abstract void setButtonCoordinates();
 
 }

@@ -20,16 +20,18 @@ import javax.imageio.ImageIO;
 public class GameCanvas extends Canvas{
 	public enum State{MENU, PLAYING}
 	
-	private static final String IMAGE_PATH = "images\\"; //path for locating images
+	private static final String IMAGE_PATH = "images\\menus\\"; //path for locating images
 	private boolean menuUp = false; //is the in game menu up?
 	private Image secondScreen;     //second image for use in double buffering
 	private Dialogue gameMenu; //the current game menu
 	private State gameState; //determines the status of the game client
 	private Confirmation dialogue; //current dialogue open, if any
+	private Image logo;
 	public static final Font textFont = new Font("TimesRoman", Font.PLAIN, 18); //font to be used for text in game
 	
 	public GameCanvas(){
 		setSize(new Dimension(900, 900)); //default size if program minimised
+		logo = loadImage("title.png");
 		setState(State.MENU);
 	}
 	
@@ -108,7 +110,6 @@ public class GameCanvas extends Canvas{
 			}
 		}
 		else if(gameState.equals(State.MENU)){
-			Image logo = loadImage("title.png");
 			g.drawImage(logo, getWidth()/2 - logo.getWidth(null)/2, 35, null);
 			gameMenu.draw(g, getWidth(), logo.getHeight(null) + 75);
 		}

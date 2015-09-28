@@ -11,17 +11,32 @@ import java.util.ArrayList;
  */
 public class MainMenu extends Menu{
 	private final int YSTART = 125; //how far down the buttons should appear on the menu
+	public enum MenuState{MAIN, NEW, LOAD} //determines whether main menu is in default state, starting
+	//new game or loading one
+	private MenuState state;
 	
 	public MainMenu(GameCanvas cv){
 		canvas = cv;
 		menuBack = GameCanvas.loadImage("main_menu.png");
+		state = MenuState.MAIN;
+		loadButtons();
+	}
+
+	//add buttons to the menu
+	private void loadButtons(){
 		gameButtons = new ArrayList<GameButton>();
-		
-		//add buttons to the menu
-		gameButtons.add(new GameButton("single"));
-		gameButtons.add(new GameButton("multi"));
-		gameButtons.add(new GameButton("options"));
-		gameButtons.add(new GameButton("quit"));
+		if(state.equals(MenuState.MAIN)){
+			gameButtons.add(new GameButton("new"));
+			gameButtons.add(new GameButton("load"));
+			gameButtons.add(new GameButton("options"));
+			gameButtons.add(new GameButton("quit"));
+		}
+		else if(state.equals(MenuState.NEW)){
+			gameButtons.add(new GameButton("single"));
+			gameButtons.add(new GameButton("multi"));
+			gameButtons.add(new GameButton("back"));
+		}
+		setButtonCoordinates();
 	}
 	
 	public Choice mouseReleased(MouseEvent e) {
@@ -41,6 +56,19 @@ public class MainMenu extends Menu{
 		case "single":
 			
 			return Choice.ACT;
+		case "new":
+			state = MenuState.NEW;
+			loadButtons();
+			canvas.simulateMouseMove();
+			return Choice.ACT;
+		case "load":
+			
+			return Choice.ACT;
+		case "back":
+			state = MenuState.MAIN;
+			loadButtons();
+			canvas.simulateMouseMove();
+			return Choice.ACT;
 		}
 		return Choice.VOID;
 	}
@@ -57,18 +85,23 @@ public class MainMenu extends Menu{
 		canvas.removeConfirmation();
 		canvas.simulateMouseMove();
 	}
+	
+	protected void setButtonCoordinates(){
+		int yDown = menuY + YSTART;
+		for(GameButton gb: gameButtons){
+			int x = menuX + (menuBack.getWidth(null)/2) - gb.getImage().getWidth(null)/2;
+			gb.setCoordinates(x, yDown);
+			yDown += 60;
+		}
+	}
 
 	public void draw(Graphics g, int width, int height){
 		menuX = (width/2) - (menuBack.getWidth(null)/2);
 		menuY = height + 15;
 		g.drawImage(menuBack, menuX, menuY, null);
-		
-		int yDown = menuY + YSTART;
+		setButtonCoordinates();
 		for(GameButton gb: gameButtons){
-			int x = menuX + (menuBack.getWidth(null)/2) - gb.getImage().getWidth(null)/2;
-			gb.setCoordinates(x, yDown);
-			g.drawImage(gb.getImage(), x, yDown, null);
-			yDown += 60;
+			g.drawImage(gb.getImage(), gb.getX(), gb.getY(), null);
 		}
 	}
 }

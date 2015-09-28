@@ -6,8 +6,6 @@ import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 
 public class Confirmation extends Dialogue{
-	private final int YSTART = 50; //how far down the buttons should appear on the menu
-	private final int XSTART = 75;
 	private Menu listener;
 	private String message;
 	

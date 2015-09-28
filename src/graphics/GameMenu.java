@@ -51,17 +51,22 @@ public class GameMenu extends Menu{
 		
 	}
 	
-	public void draw(Graphics g, int width, int height){
-		menuX = (width/2) - (menuBack.getWidth(null)/2);
-		menuY = (height/2) - (menuBack.getHeight(null)/2); 
-		g.drawImage(menuBack, menuX, menuY, null);
-		
+	protected void setButtonCoordinates(){
 		int yDown = menuY + YSTART;
 		for(GameButton gb: gameButtons){
 			int x = menuX + (menuBack.getWidth(null)/2) - gb.getImage().getWidth(null)/2;
 			gb.setCoordinates(x, yDown);
-			g.drawImage(gb.getImage(), x, yDown, null);
 			yDown += 50;
+		}
+	}
+	
+	public void draw(Graphics g, int width, int height){
+		menuX = (width/2) - (menuBack.getWidth(null)/2);
+		menuY = (height/2) - (menuBack.getHeight(null)/2); 
+		g.drawImage(menuBack, menuX, menuY, null);
+		setButtonCoordinates();
+		for(GameButton gb: gameButtons){
+			g.drawImage(gb.getImage(), gb.getX(), gb.getY(), null);
 		}
 	}
 }
