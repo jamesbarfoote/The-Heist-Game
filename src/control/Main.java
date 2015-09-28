@@ -10,6 +10,8 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 
+import game.Player;
+
 /**
  * Is the main class in the game. Acts as the controller, taking input, consulting the model
  * and updating the view accordingly.
@@ -64,5 +66,10 @@ public class Main implements KeyListener, MouseListener, MouseMotionListener{
 	//main method for starting program
 	public static void main(String[] args){
 		new Main();
+	}
+
+	public static Player getPlayer() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

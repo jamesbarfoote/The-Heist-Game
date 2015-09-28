@@ -9,7 +9,7 @@ public class Player implements Cloneable{
 	private int score;
 	private Point location;//Location(coords of the square with current room)
 	private Type t;
-	private Date date;
+	private int ID;
 	
 	//Robber or guard(can't pick up money, can open all doors) enum
 	public enum Type{
@@ -24,14 +24,14 @@ public class Player implements Cloneable{
 		this.t = t;
 	}
 	
-	public Date getDate()
+	public int getID()
 	{
-		return date;
+		return ID;
 	}
 	
-	public void setDate(Date d)
+	public void setID(int i)
 	{
-		this.date = d;
+		this.ID = i;
 	}
 	
 	public int getScore()

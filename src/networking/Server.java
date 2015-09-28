@@ -13,8 +13,7 @@ public class Server extends Thread{
 	//array of characters with their room
 
 	private ServerSocket sSocket;
-	private ArrayList<String> players;
-	private Date date;
+	private ArrayList<Player> players;
 	static OutputStream outputStream;
 	static InputStream inputStream;
 	
@@ -22,13 +21,11 @@ public class Server extends Thread{
 	{
 		sSocket = new ServerSocket(port);//Set the port
 		sSocket.setSoTimeout(100000);//Set how long to wait for a connection
-		this.players = new ArrayList<String>();
-		date  = new Date();
 	}
 	
 	//create players here
 	//when a client connects send out array
-	//should generate 1-4 players
+	//should generate 1-4 players11
 	
 	public void run()//Main thread
 	{
@@ -42,14 +39,32 @@ public class Server extends Thread{
 				
 				outputStream = new ObjectOutputStream(serv.getOutputStream());
 				inputStream = new ObjectInputStream(serv.getInputStream());
+				ArrayList<Player> temp = new ArrayList<Player>();
 				
 				try {
-					players = (ArrayList<String>) ((ObjectInputStream) inputStream).readObject();
+					
+					temp = (ArrayList<Player>) ((ObjectInputStream) inputStream).readObject();//get the arraylist for a single player
 					System.out.println(players.get(1));
 				} catch (ClassNotFoundException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
+				
+				if(players.contains(temp.get(0)))//If the player is already in then list then remove it and replace it
+				{
+					players.remove(temp.get(0));
+					players.add(temp.get(0));
+				}
+				else
+				{
+					players.add(temp.get(0));
+				}
+								
+				
+				//Send out the whole arraylist to the client
+				 ((ObjectOutputStream) outputStream).writeObject(players);
+				
+				
 				
 //				PrintWriter out = new PrintWriter(serv.getOutputStream(), true);//Create a stream so that we can send information to the server
 //				BufferedReader in = new BufferedReader(new InputStreamReader(serv.getInputStream()));//Create an input stream so that we can read any response from the server
