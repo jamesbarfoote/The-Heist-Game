@@ -1,9 +1,10 @@
 package game;
 
 import java.awt.Point;
+import java.io.Serializable;
 import java.util.Date;
 
-public class Player implements Cloneable{
+public class Player implements Serializable{
 	private Room room;
 	private Weapon weapon;
 	private int score;

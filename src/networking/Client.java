@@ -41,7 +41,8 @@ public class Client{
 		p.setLocation(0, 0);
 		Weapon w = new Weapon("gun", true);
 		game.Player.Type t = game.Player.Type.robber;
-		Player currentPlayer = new Player(w, id, p, t);
+		this.currentPlayer = new Player(w, id, p, t);
+		
 
 	}
 
@@ -58,56 +59,60 @@ public class Client{
 
 			Socket client = new Socket(host, port);//Connect to the specified computer
 			System.out.println("Client connected to " + client.getRemoteSocketAddress());
-
+			System.out.println("Done");
 			//Set date for the players before transmitting
 			outputStream = new ObjectOutputStream(client.getOutputStream());
-			inputStream = new ObjectInputStream(client.getInputStream());
-			ArrayList<Player> temp2 = new ArrayList<Player>();
+			System.out.println("Out");
+			
+			ArrayList<Player> temp2;
 			int currentNumPlayers = 0;
-
-			try {
-
-				temp2 = (ArrayList<Player>) ((ObjectInputStream) inputStream).readObject();//get the arraylist for a single player
-				currentNumPlayers = temp2.size();
-			} catch (ClassNotFoundException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-
+			System.out.println("About to get array");
+//			inputStream = new ObjectInputStream(client.getInputStream());
+//			System.out.println("in");
+//			try {
+//
+//				temp2 = (ArrayList<Player>) ((ObjectInputStream) inputStream).readObject();//get the arraylist for a single player
+//				System.out.println("Got players");
+//				currentNumPlayers = temp2.size();
+//			} catch (ClassNotFoundException e) {
+//				e.printStackTrace();
+//			}
+//			System.out.println("2");
 			createPlayer(currentNumPlayers);
+//
+//			boolean loop = true;
+			//while(loop)
+			//{
+			//send our player out
+			System.out.println("Main part");
+			ArrayList<Player> temp = new ArrayList<Player>();
+			temp.add(currentPlayer);
+			((ObjectOutputStream) outputStream).writeObject(temp);
 
-			boolean loop = true;
-			while(loop)
-			{
-				//send our player out
-				ArrayList<Player> temp = new ArrayList<Player>();
-				temp.add(currentPlayer);
-				((ObjectOutputStream) outputStream).writeObject(temp);
-				
-				
-				//Recieve the players
-				try {
 
-					players = (ArrayList<Player>) ((ObjectInputStream) inputStream).readObject();//get the arraylist for a single player
-					
-				} catch (ClassNotFoundException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-				
-				if(players.size() == 0)
-				{
-					loop = false;
-				}
-				
-				//Pause
-				try {
-					Thread.sleep(2000);
-				} catch (InterruptedException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-			}
+			//Recieve the players
+//			try {
+//
+//				players = (ArrayList<Player>) ((ObjectInputStream) inputStream).readObject();//get the arraylist for a single player
+//
+//			} catch (ClassNotFoundException e) {
+//				// TODO Auto-generated catch block
+//				e.printStackTrace();
+//			}
+
+//			if(players.size() == 0)
+//			{
+//				loop = false;
+//			}
+
+			//Pause
+//			try {
+//				Thread.sleep(2000);
+//			} catch (InterruptedException e) {
+//				// TODO Auto-generated catch block
+//				e.printStackTrace();
+//			}
+			//}
 
 
 			client.close(); //Close the TCP connection
@@ -117,7 +122,7 @@ public class Client{
 			e.printStackTrace();
 		}
 	}
-	
+
 	public ArrayList<Player> getPlayers()
 	{
 		return players;

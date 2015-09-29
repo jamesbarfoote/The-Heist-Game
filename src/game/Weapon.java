@@ -1,12 +1,14 @@
 package game;
 
+import java.io.Serializable;
+
 /**
  * Various weapons can be wielded and used by both the robbers and guards. Most of these will be projectile weapons,
  * but some will have to be used at melee range.
  * @author Lachlan
  *
  */
-public class Weapon {
+public class Weapon implements Serializable {
 
 	private String weaponType;
 	private Player carrier; //The wielder of the weapon
