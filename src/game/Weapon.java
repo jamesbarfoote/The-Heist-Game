@@ -9,20 +9,25 @@ package game;
 public class Weapon {
 
 	private String weaponType;
-	private Character carrier; //The wielder of the weapon
+	private Player carrier; //The wielder of the weapon
 	private boolean isGun; //If it is a projectile weapon or not
 	
-	public Weapon(String weaponType, Character carrier, boolean isGun){
+	public Weapon(String weaponType, boolean isGun){
 		this.weaponType = weaponType;
 		this.carrier = carrier;
 		this.isGun = isGun;
+	}
+	
+	public void setCarrier(Player p)
+	{
+		this.carrier = p;
 	}
 	
 	public String getWeaponType(){
 		return weaponType;
 	}
 	
-	public Character getCarrier(){
+	public Player getCarrier(){
 		return carrier;
 	}
 	
