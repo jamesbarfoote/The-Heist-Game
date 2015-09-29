@@ -23,5 +23,4 @@ public class GraphicUpdateThread extends Thread{
 			} catch(InterruptedException e) {}			
 		}
 	}
-	
 }

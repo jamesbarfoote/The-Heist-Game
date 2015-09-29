@@ -62,7 +62,7 @@ public class GameCanvas extends Canvas{
 	public void setDimension(int width, int height){
 		this.width = width;
 		this.height = height;
-		this.repaint();
+		initialTranslate();
 	}
 	
 	/** flips the menuUp selection**/
@@ -135,7 +135,6 @@ public class GameCanvas extends Canvas{
 		if(gameState.equals(State.PLAYING)){
 			Graphics2D g2;
 			g2 = (Graphics2D) g;
-			translateRoom();
 			try {
 				drawRoom(g2);
 			} catch (InterruptedException e) {
@@ -188,7 +187,7 @@ public class GameCanvas extends Canvas{
 	
 	//----------------------new//////////////////////////
 	
-	private void translateRoom(){
+	private void initialTranslate(){
 		//Translate room to centre of screen
 		this.translateX = this.width/2;
 		this.translateY = this.height/2 + (((columns-1)/2.0)*this.zoom/2);
@@ -196,7 +195,11 @@ public class GameCanvas extends Canvas{
 		Point location  = player.getLocation();
 		this.translateX = this.translateX - (location.getX() + location.getY()) * zoom/2;
 		this.translateY = this.translateY - (((columns-location.getX()-1) + location.getY()) * zoom/4);
+	}
+	
+	public void translateRoom(){
 		//Game is being zoomed in.
+		Point location  = player.getLocation();
 		if(this.zooming == 1){
 			this.translateX = this.translateX - ((location.getX() + location.getY()) * 5);	//5 because it's currently set to zoom/2 and the change is 10
 			if(location.getY() > location.getX()){
@@ -319,7 +322,13 @@ public class GameCanvas extends Canvas{
 	}
 	
 	public void setZoom(double zoom, int direction){
-		this.zoom = zoom;
-		this.zooming = direction;
+		if(direction == 1 && this.zoom < 500){
+			this.zoom = zoom;
+			this.zooming = direction;
+		}
+		else if(direction == 2 && this.zoom > 20){
+			this.zoom = zoom;
+			this.zooming = direction;
+		}
 	}
 }

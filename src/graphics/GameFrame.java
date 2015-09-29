@@ -13,6 +13,7 @@ import data.fileReader;
 import game.Character;
 import game.Robber;
 import control.moveAction;
+import control.gameAction;
 
 /**
  * Creates the game application window which displays the gui
@@ -78,13 +79,13 @@ public class GameFrame extends JFrame{
 			
 			add(movements);
 			/*-------------------Functionality----------------------------*/
-//			functionality.getInputMap(IFW).put(KeyStroke.getKeyStroke("EQUALS"), ZOOM_IN);
-//			functionality.getInputMap(IFW).put(KeyStroke.getKeyStroke("MINUS"), ZOOM_OUT);
-//			
-//			functionality.getActionMap().put(ZOOM_IN, new gameAction("=", player, canvas));
-//			functionality.getActionMap().put(ZOOM_OUT, new gameAction("Minus", player, canvas));
-//			
-//			add(functionality);
+			functionality.getInputMap(IFW).put(KeyStroke.getKeyStroke("EQUALS"), ZOOM_IN);
+			functionality.getInputMap(IFW).put(KeyStroke.getKeyStroke("MINUS"), ZOOM_OUT);
+			
+			functionality.getActionMap().put(ZOOM_IN, new gameAction("=", player, canvas));
+			functionality.getActionMap().put(ZOOM_OUT, new gameAction("Minus", player, canvas));
+			
+			add(functionality);
 		}
 	
 	public void repaint(){
