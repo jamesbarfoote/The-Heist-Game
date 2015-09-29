@@ -1,4 +1,5 @@
-package game;
+package game.items;
+
 
 /**
  * Abstraction of the Immovable objects in the bank. This encompasses all objects that cannot be interacted with

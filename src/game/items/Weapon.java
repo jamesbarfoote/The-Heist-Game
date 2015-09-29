@@ -1,4 +1,6 @@
-package game;
+package game.items;
+
+import game.Player;
 
 import java.io.Serializable;
 

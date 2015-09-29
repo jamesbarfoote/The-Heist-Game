@@ -1,7 +1,6 @@
 package graphics;
 
 import java.awt.Graphics;
-import java.awt.Point;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 
@@ -19,33 +18,38 @@ public class GameMenu extends Menu{
 		
 		//add buttons to the menu
 		gameButtons.add(new GameButton("resume"));
+		gameButtons.add(new GameButton("save"));
 		gameButtons.add(new GameButton("options"));
 		gameButtons.add(new GameButton("quit"));
 	}
 	
-	public Choice mouseReleased(MouseEvent e) {
+	//deal with mouse clicks
+	public void mouseReleased(MouseEvent e) {
 		String button = onClick(e);
 		if(button == null) {
 			canvas.simulateMouseMove();
-			return Choice.VOID;
+			return;
 		}
 		switch(button){
+		case "save":
+			
+			break;
 		case "options":
 		
-			return Choice.ACT;
+			break;
 		case "quit":
 			action = Action.QUIT;
-			canvas.showConfirmation(this, "Quit Game?");
+			canvas.showConfirmation(this, "Quit to main menu?");
 				
-			return Choice.ACT;
+			break;
 		case "resume":
 			canvas.gameMenuSelect();
 			
-			return Choice.ACT;
+			break;
 		}
-		return Choice.VOID;
 	}
 	
+	//confirm the current action
 	public void accept(){
 		switch(action){
 		case QUIT:
@@ -53,9 +57,9 @@ public class GameMenu extends Menu{
 			canvas.removeConfirmation();
 			canvas.simulateMouseMove();
 		}
-			
 	}
 	
+	//block the proposed action
 	public void decline(){
 		action = null;
 		canvas.removeConfirmation();

@@ -3,6 +3,7 @@ package graphics;
 public abstract class Menu extends Dialogue{
 	protected Action action;
 	
+	//possible actions to be taken that must be confirmed
 	public enum Action{QUIT}
 	
 	/**

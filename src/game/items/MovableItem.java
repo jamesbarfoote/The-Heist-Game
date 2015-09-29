@@ -1,4 +1,5 @@
-package game;
+package game.items;
+
 
 /**
  * Abstraction of the Movable items in the bank. This includes items that can be picked up/used for solving puzzles

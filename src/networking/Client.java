@@ -1,20 +1,16 @@
 package networking;
 
-import java.net.*;
-import java.util.ArrayList;
-import java.util.zip.GZIPOutputStream;
-
-import control.Main;
 import game.Player;
-import game.Room;
-import game.Weapon;
-import game.Player.Type;
-import graphics.MainMenu;
+import game.items.Weapon;
 
 import java.awt.Point;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
-import java.io.*;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.ObjectOutputStream;
+import java.io.OutputStream;
+import java.io.PrintWriter;
+import java.net.Socket;
+import java.util.ArrayList;
 
 public class Client{
 	//if player has moved then call an update

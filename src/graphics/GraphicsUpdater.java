@@ -1,16 +1,15 @@
-package control;
+package graphics;
 
-import graphics.GameFrame;
 
 /**
  * Thread for continually updating the graphics display
  * @author godfreya
  */
-public class GraphicUpdateThread extends Thread{
-	private GameFrame display;
+public class GraphicsUpdater extends Thread{
+	private Main display;
 	private final int DELAY = 33; //delay between updates, set to 33 to give roughly 30 frames per second
 	
-	public GraphicUpdateThread(GameFrame gf){
+	public GraphicsUpdater(Main gf){
 		display = gf;
 	}
 	

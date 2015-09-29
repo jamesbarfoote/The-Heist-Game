@@ -1,12 +1,11 @@
 package graphics;
 
+import graphics.GameCanvas.State;
+
 import java.awt.Graphics;
-import java.awt.Point;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 
-import game.Player;
-import graphics.GameCanvas.State;
 import networking.Client;
 
 /**
@@ -43,43 +42,42 @@ public class MainMenu extends Menu{
 		setButtonCoordinates();
 	}
 	
-	public Choice mouseReleased(MouseEvent e) {
+	public void mouseReleased(MouseEvent e) {
 		String button = onClick(e);
 		if(button == null) {
 			canvas.simulateMouseMove();
-			return Choice.VOID;
+			return;
 		}
 		switch(button){
 		case "options":
 		
-			return Choice.ACT;
+			break;
 		case "quit":
 			action = Action.QUIT;
 			canvas.showConfirmation(this, "Quit Game?");
-			return Choice.ACT;
+			break;
 		case "single":
 			canvas.setState(State.PLAYING);
 			Client cS = new Client(1234, "localhost");//Connect to a server on the same machine as the client
-			return Choice.ACT;
+			break;
 		case "multi":
 			setupMultiplayer();
-			return Choice.ACT;
+			break;
 		
 		case "new":
 			state = MenuState.NEW;
 			loadButtons();
 			canvas.simulateMouseMove();
-			return Choice.ACT;
+			break;
 		case "load":
 			
-			return Choice.ACT;
+			break;
 		case "back":
 			state = MenuState.MAIN;
 			loadButtons();
 			canvas.simulateMouseMove();
-			return Choice.ACT;
+			break;
 		}
-		return Choice.VOID;
 	}
 	
 	private void setupMultiplayer() {
@@ -88,6 +86,7 @@ public class MainMenu extends Menu{
 		canvas.setState(State.PLAYING);
 	}
 
+	//confirm proposed action
 	public void accept(){
 		switch(action){
 		case QUIT:
@@ -95,6 +94,7 @@ public class MainMenu extends Menu{
 		}
 	}
 	
+	//retract proposed action
 	public void decline(){
 		action = null;
 		canvas.removeConfirmation();
