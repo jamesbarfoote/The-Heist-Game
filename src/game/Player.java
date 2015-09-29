@@ -4,6 +4,8 @@ import java.awt.Point;
 import java.io.Serializable;
 import java.util.Date;
 
+import game.items.Weapon;
+
 public class Player implements Serializable{
 	private Room room;
 	private Weapon weapon;
