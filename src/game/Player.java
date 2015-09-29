@@ -16,12 +16,13 @@ public class Player implements Cloneable{
 		robber, guard
 	}
 	
-	public Player(Room r, Weapon w, Point p, Type t)
+	public Player(Room r, Weapon w, Point p, Type t, int id)
 	{
 		this.room = r;
 		this.weapon = w;
 		this.location = p;
 		this.t = t;
+		this.ID = id;
 	}
 	
 	public int getID()

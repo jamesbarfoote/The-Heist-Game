@@ -26,7 +26,7 @@ public class Client{
 	private static Player currentPlayer;
 	private int port;
 	private String host;
-	
+
 	public Client(int port, String host)
 	{
 		this.port = port;
@@ -34,16 +34,16 @@ public class Client{
 		players = new ArrayList<String>();
 		clientSyncing();
 	}
-	
-	
+
+
 	private void createPlayer(int id) {
 		Point p = new Point();
 		p.setLocation(0, 0);
 		Weapon w = new Weapon("gun", true);
 		Room r = new Room("Hall", 10, 10);
 		game.Player.Type t = game.Player.Type.robber;
-		Player currentPlayer = new Player(r, w, p, t);
-		
+		Player currentPlayer = new Player(r, w, p, t, id);
+
 	}
 
 
@@ -52,10 +52,7 @@ public class Client{
 	//then recieve an updated array of players
 	//public static void main(String [] args)
 	public void clientSyncing()
-	{
-		//String serverName = args[0];
-		//int port = Integer.parseInt(args[1]);
-		
+	{		
 		try
 		{
 			System.out.println("Connecting to " + host + " on port " + port);
@@ -68,9 +65,9 @@ public class Client{
 			inputStream = new ObjectInputStream(client.getInputStream());
 			ArrayList<Player> temp2 = new ArrayList<Player>();
 			int currentNumPlayers = 0;
-			
+
 			try {
-				
+
 				temp2 = (ArrayList<Player>) ((ObjectInputStream) inputStream).readObject();//get the arraylist for a single player
 				System.out.println(players.get(1));
 				currentNumPlayers = temp2.size();
@@ -78,15 +75,19 @@ public class Client{
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			
-			createPlayer(currentNumPlayers + 1);
-			
-			//send our player out
-			ArrayList<Player> temp = new ArrayList<Player>();
-			temp.add(currentPlayer);
-			 ((ObjectOutputStream) outputStream).writeObject(temp);
 
-			
+			createPlayer(currentNumPlayers);
+
+
+			while(true){
+				//send our player out
+				ArrayList<Player> temp = new ArrayList<Player>();
+				temp.add(currentPlayer);
+				((ObjectOutputStream) outputStream).writeObject(temp);
+
+			}
+
+
 			client.close(); //Close the TCP connection
 
 		}catch(IOException e)
@@ -94,6 +95,4 @@ public class Client{
 			e.printStackTrace();
 		}
 	}
-
-	
 }
