@@ -7,24 +7,22 @@ public class Player implements Cloneable{
 	private Room room;
 	private Weapon weapon;
 	private int score;
-	private Point currentPosition;//Location(coords of the square with current room)
 	private Type t;
-	private Point oldPosition;
-	
 	private int ID;
+	private Point currentPosition, oldPosition; //Location(coords of the square with current room)
 	
 	//Robber or guard(can't pick up money, can open all doors) enum
 	public enum Type{
 		robber, guard
 	}
 	
-	public Player(Room r, Weapon w, Point p, Type t, int id)
+	public Player(Room r, Weapon w, int PlayerNum, Point p, Type t)
 	{
 		this.room = r;
 		this.weapon = w;
 		this.currentPosition = p;
+		this.oldPosition  = p;
 		this.t = t;
-		this.ID = id;
 	}
 	
 	public int getID()
@@ -71,34 +69,42 @@ public class Player implements Cloneable{
 	{
 		weapon = w;
 	}
-		
+	
 	public void setgetPlayerType(Type t)
 	{
 		this.t = t;
 	}
 	
-	public Point getCurrentPosition() {
+	/**
+	 * @return the location
+	 */
+	public Point getLocation() {
 		return currentPosition;
 	}
 
-	public void setCurrentPosition(Point currentPosition) {
-		this.currentPosition = currentPosition;
+	/**
+	 * @param location the location to set
+	 */
+	public void setLocation(Point location) {
+		this.currentPosition = location;
 	}
-
-	public Point getOldPosition() {
+	
+	/**
+	 * @return the oldLocation
+	 */
+	public Point getOldLocation() {
 		return oldPosition;
 	}
 
-	public void setOldPosition(Point oldPosition) {
-		this.oldPosition = oldPosition;
+	/**
+	 * @param oldLocation the oldLocation to set
+	 */
+	public void setOldLocation(Point location) {
+		this.oldPosition = location;
 	}
-
-
-
 	
 	@Override
     protected Object clone() throws CloneNotSupportedException {
         return super.clone();
     }
-
 }
