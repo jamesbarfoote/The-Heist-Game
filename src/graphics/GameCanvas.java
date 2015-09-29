@@ -24,8 +24,8 @@ import game.Player;
 import game.Room;
 
 /**
- * Main canvas onto which gui components are drawn
- * @author Godfreya
+ * Main canvas onto which GUI components are drawn
+ * @author Godfreya, CombuskenKid
  */
 public class GameCanvas extends Canvas{
 	private static final long serialVersionUID = 1l;

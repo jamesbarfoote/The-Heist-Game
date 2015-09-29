@@ -9,7 +9,7 @@ import java.util.ArrayList;
  * @author godfreya
  */
 public class GameMenu extends Menu{
-	private final int YSTART = 200; //how far down the buttons should appear on the menu
+	private final int YSTART = 185; //how far down the buttons should appear on the menu
 	
 	public GameMenu(GameCanvas cv){
 		canvas = cv;
