@@ -15,9 +15,8 @@ import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-import game.Robber;
-import game.Character;
 import javax.imageio.ImageIO;
+import game.Player;
 
 /**
  * Main canvas onto which gui components are drawn
@@ -38,7 +37,7 @@ public class GameCanvas extends Canvas{
 	//-----------------------------new-------------------------------//
 	private AffineTransform at;
 	String[][] tiles;
-	Character player;
+	Player player;
 	int width, height, rows, columns;
 	
 	double translateX, translateY;
@@ -46,7 +45,7 @@ public class GameCanvas extends Canvas{
 	int zooming = 0;	//0 = Not zooming, 1 = zooming in, 2 = zooming out
 	//-------------------------------------------------------------------//
 	
-	public GameCanvas(String[][] tiles, Character player){
+	public GameCanvas(String[][] tiles, Player player){
 		setSize(new Dimension(900, 900)); //default size if program minimised
 		logo = loadImage("title.png");
 		setState(State.MENU);
@@ -325,10 +324,12 @@ public class GameCanvas extends Canvas{
 		if(direction == 1 && this.zoom < 500){
 			this.zoom = zoom;
 			this.zooming = direction;
+			translateRoom();
 		}
 		else if(direction == 2 && this.zoom > 20){
 			this.zoom = zoom;
 			this.zooming = direction;
+			translateRoom();
 		}
 	}
 }

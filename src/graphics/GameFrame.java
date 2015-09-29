@@ -2,18 +2,15 @@ package graphics;
 
 import java.awt.BorderLayout;
 import java.awt.Point;
-
 import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.KeyStroke;
-
 import control.GraphicUpdateThread;
 import data.fileReader;
-import game.Character;
-import game.Robber;
 import control.moveAction;
 import control.gameAction;
+import game.Player;
 
 /**
  * Creates the game application window which displays the gui
@@ -33,12 +30,12 @@ public class GameFrame extends JFrame{
 	private static final String ZOOM_IN = "zoom in";
 	private static final String ZOOM_OUT = "zoom out";
 	
-	Character player;
+	Player player;
 
 	public GameFrame(){
 		super("The Heist");
 		fileReader data = new fileReader();
-		player = new Robber(1, new Point(0,0));
+		player = new Player(1, new Point(0,0));
 		canvas = new GameCanvas(data.getTiles(), player);
 		setLayout(new BorderLayout());
 		add(canvas, BorderLayout.CENTER);

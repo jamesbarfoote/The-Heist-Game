@@ -3,16 +3,16 @@ package control;
 import java.awt.event.ActionEvent;
 import javax.swing.AbstractAction;
 import graphics.GameCanvas;
-import game.Character;
+import game.Player;
 
 public class gameAction extends AbstractAction {
 
 	private static final long serialVersionUID = 1L;
 	String action;
-	Character player;
+	Player player;
 	GameCanvas canvas;
 
-	public gameAction(String action, Character player, GameCanvas canvas) {
+	public gameAction(String action, Player player, GameCanvas canvas) {
 		this.action = action;
 		this.player = player;
 		this.canvas = canvas;
@@ -30,7 +30,6 @@ public class gameAction extends AbstractAction {
 		else if (action.equals("Minus")){
 			this.canvas.setZoom(zoom - 10, 2);
 		}
-		this.canvas.translateRoom();
 		this.canvas.repaint();
 	}
 }
