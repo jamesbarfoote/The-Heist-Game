@@ -22,8 +22,8 @@ public class Client{
 	public static PrintWriter out;
 	static OutputStream outputStream;
 	static InputStream inputStream;
-	private static ArrayList<Player> players;
-	private static Player currentPlayer;
+	public ArrayList<Player> players;
+	public Player currentPlayer;
 	private int port;
 	private String host;
 
@@ -69,7 +69,6 @@ public class Client{
 			try {
 
 				temp2 = (ArrayList<Player>) ((ObjectInputStream) inputStream).readObject();//get the arraylist for a single player
-				System.out.println(players.get(1));
 				currentNumPlayers = temp2.size();
 			} catch (ClassNotFoundException e) {
 				// TODO Auto-generated catch block
@@ -91,11 +90,15 @@ public class Client{
 				try {
 
 					players = (ArrayList<Player>) ((ObjectInputStream) inputStream).readObject();//get the arraylist for a single player
-					System.out.println(players.get(1));
-					currentNumPlayers = temp2.size();
+					
 				} catch (ClassNotFoundException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
+				}
+				
+				if(players.size() == 0)
+				{
+					loop = false;
 				}
 				
 				//Pause
