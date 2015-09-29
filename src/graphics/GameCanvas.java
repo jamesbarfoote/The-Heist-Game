@@ -300,20 +300,22 @@ public class GameCanvas extends Canvas{
 	 * calculate the difference in player locations and translate the other player by the calculated amount.
 	 */
 	private void drawIcons(Graphics2D g, Point point){		
-//		Draw the player(s)		
-		Point location = players.get(0).getLocation();
-		if(location.equals(point)){
-			try {
-				BufferedImage myPicture = ImageIO.read(new File("link.jpg"));
-				double width = zoom/2;
-				double height = zoom/2;
-				BufferedImage scaled = getScaledImage(myPicture, (int) width, (int) height);
-				AffineTransform at = new AffineTransform();
-				at.translate(this.width/2, this.height/2);
-				g.drawImage(scaled, at, getParent());
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+//		Draw the player(s)	
+		for(Player player : this.players){
+			Point location = player.getLocation();
+			if(location.equals(point)){
+				try {
+					BufferedImage myPicture = ImageIO.read(new File("link.jpg"));
+					double width = zoom/2;
+					double height = zoom/2;
+					BufferedImage scaled = getScaledImage(myPicture, (int) width, (int) height);
+					AffineTransform at = new AffineTransform();
+					at.translate(this.width/2, this.height/2);
+					g.drawImage(scaled, at, getParent());
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 			}
 		}
 	}
