@@ -25,6 +25,11 @@ public class Player implements Serializable{
 		this.t = t;
 	}
 	
+	public String getType()
+	{
+		return t.toString();
+	}
+	
 	public int getID()
 	{
 		return ID;

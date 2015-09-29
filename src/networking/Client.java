@@ -41,7 +41,7 @@ public class Client{
 		p.setLocation(0, 0);
 		Weapon w = new Weapon("gun", true);
 		game.Player.Type t = game.Player.Type.robber;
-		this.currentPlayer = new Player(w, id, p, t);
+		this.currentPlayer = new Player(w, 3, p, t);
 		
 
 	}
@@ -62,22 +62,22 @@ public class Client{
 			System.out.println("Done");
 			//Set date for the players before transmitting
 			outputStream = new ObjectOutputStream(client.getOutputStream());
-			System.out.println("Out");
+//			System.out.println("Out");
 			
 			ArrayList<Player> temp2;
 			int currentNumPlayers = 0;
 			System.out.println("About to get array");
-//			inputStream = new ObjectInputStream(client.getInputStream());
-//			System.out.println("in");
-//			try {
-//
-//				temp2 = (ArrayList<Player>) ((ObjectInputStream) inputStream).readObject();//get the arraylist for a single player
-//				System.out.println("Got players");
-//				currentNumPlayers = temp2.size();
-//			} catch (ClassNotFoundException e) {
-//				e.printStackTrace();
-//			}
-//			System.out.println("2");
+			inputStream = new ObjectInputStream(client.getInputStream());
+			System.out.println("in");
+			try {
+
+				temp2 = (ArrayList<Player>) ((ObjectInputStream) inputStream).readObject();//get the arraylist for a single player
+				System.out.println("Got players");
+				currentNumPlayers = temp2.size();
+			} catch (ClassNotFoundException e) {
+				e.printStackTrace();
+			}
+			System.out.println("2");
 			createPlayer(currentNumPlayers);
 //
 //			boolean loop = true;
