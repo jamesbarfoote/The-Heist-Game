@@ -79,7 +79,8 @@ public class Client{
 			createPlayer(currentNumPlayers);
 
 			boolean loop = true;
-			while(loop){
+			while(loop)
+			{
 				//send our player out
 				ArrayList<Player> temp = new ArrayList<Player>();
 				temp.add(currentPlayer);
@@ -96,6 +97,14 @@ public class Client{
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
+				
+				//Pause
+				try {
+					Thread.sleep(2000);
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 			}
 
 
@@ -105,5 +114,10 @@ public class Client{
 		{
 			e.printStackTrace();
 		}
+	}
+	
+	public ArrayList<Player> getPlayers()
+	{
+		return players;
 	}
 }
