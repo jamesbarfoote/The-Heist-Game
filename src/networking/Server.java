@@ -41,6 +41,10 @@ public class Server extends Thread{
 				inputStream = new ObjectInputStream(serv.getInputStream());
 				ArrayList<Player> temp = new ArrayList<Player>();
 				
+				
+				//Send out the whole arraylist to the client
+				 ((ObjectOutputStream) outputStream).writeObject(players);
+				
 				try {
 					
 					temp = (ArrayList<Player>) ((ObjectInputStream) inputStream).readObject();//get the arraylist for a single player
