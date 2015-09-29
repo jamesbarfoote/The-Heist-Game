@@ -82,8 +82,8 @@ public class Server extends Thread{
 				}
 
 				//
-				//				//Send out the whole arraylist to the client
-				//				((ObjectOutputStream) outputStream).writeObject(players);
+								//Send out the whole arraylist to the client
+								((ObjectOutputStream) outputStream).writeObject(players);
 
 				//Add pause in here
 			}
