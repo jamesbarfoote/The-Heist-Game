@@ -41,7 +41,7 @@ public class GameFrame extends JFrame{
 		super("The Heist");
 		fileReader data = new fileReader();
 		player = new Player(new Weapon("Badass", true), 1, new Point(0,0), game.Player.Type.robber);
-		Player player2 = new Player(new Weapon("Badass", true), 1, new Point(3,3), game.Player.Type.robber);
+		Player player2 = new Player(new Weapon("Badass", true), 1, new Point(8,1), game.Player.Type.robber);
 		ArrayList<Player> players = new ArrayList<Player>();
 		players.add(player);
 		players.add(player2);

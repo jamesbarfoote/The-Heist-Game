@@ -18,6 +18,9 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 import javax.imageio.ImageIO;
+
+import com.sun.javafx.geom.Point2D;
+
 import game.Player;
 import game.Room;
 
@@ -197,7 +200,7 @@ public class GameCanvas extends Canvas{
 		g.drawImage(secondScreen, 0, 0, null);
 	}
 	
-	//----------------------new//////////////////////////
+	//----------------------In-game rendering methods-----------------------------------------------------//
 	
 	private void initialTranslate(){
 		//Translate room to centre of screen
@@ -207,6 +210,8 @@ public class GameCanvas extends Canvas{
 		Point location  = players.get(0).getLocation();
 		this.translateX = this.translateX - (location.getX() + location.getY()) * zoom/2;
 		this.translateY = this.translateY - (((columns-location.getX()-1) + location.getY()) * zoom/4);
+		//Translate other players around the current player
+		
 	}
 	
 	public void translateRoom(){
@@ -279,7 +284,7 @@ public class GameCanvas extends Canvas{
 		}
 	}
 	
-	private void drawTile(Graphics2D g, Point p){	//Should pass width and height of image and string of image
+	private void drawTile(Graphics2D g, Point p){	//TODO Should pass width and height and string of image
 		try {
 			BufferedImage myPicture = ImageIO.read(new File("floor.jpg"));
 			double width = zoom/2;
@@ -294,11 +299,6 @@ public class GameCanvas extends Canvas{
 		}
 	}
 	
-	/*
-	 * When drawing other players, they will need to be drawn in relation to the current player.
-	 * The math translating based on location has already been done. So all I need to do is
-	 * calculate the difference in player locations and translate the other player by the calculated amount.
-	 */
 	private void drawIcons(Graphics2D g, Point point){		
 //		Draw the player(s)	
 		for(Player player : this.players){
@@ -310,7 +310,9 @@ public class GameCanvas extends Canvas{
 					double height = zoom/2;
 					BufferedImage scaled = getScaledImage(myPicture, (int) width, (int) height);
 					AffineTransform at = new AffineTransform();
-					at.translate(this.width/2, this.height/2);
+					double[] translation = calculatePlayerTranslate(players.get(0).getLocation(), player.getLocation());
+					System.out.println(translation[0] + " " + translation[1]);
+					at.translate(this.width/2 + translation[0], this.height/2 + translation[1]);
 					g.drawImage(scaled, at, getParent());
 				} catch (IOException e) {
 					// TODO Auto-generated catch block
@@ -318,6 +320,20 @@ public class GameCanvas extends Canvas{
 				}
 			}
 		}
+	}
+	
+	/*
+	 * TODO should only be called when player location or other player location changes
+	 * Also needs an initial call
+	 */
+	private double[] calculatePlayerTranslate(Point L1, Point L2){	//L1 = the player	L2 = other player
+		double[] returnTranslate = new double[2];
+		Point difference = new Point((int) (L2.getX() - L1.getX()), (int) (L2.getY() - L1.getY()));
+		double translateX = ((difference.getX() * (zoom/2)) + (difference.getY() * (zoom/2)));
+		double translateY = ((difference.getY() * (zoom/4)) + (difference.getX() * (-zoom/4)));
+		returnTranslate[0] = translateX;
+		returnTranslate[1] = translateY;
+		return returnTranslate;
 	}
 	
 	private BufferedImage getScaledImage(Image img, int w, int h){
