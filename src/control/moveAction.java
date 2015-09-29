@@ -24,22 +24,22 @@ public class moveAction extends AbstractAction {
 	 */
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		Point location = player.getLocation();
+		Point location = player.getCurrentPosition();
 		if (direction.equals("Left")){
-			player.setOldLocation(location);
-			player.setLocation(new Point(location.x, location.y-1));
+			player.setOldPosition(location);
+			player.setOldPosition(new Point(location.x, location.y-1));
 		}
 		else if (direction.equals("Up")){
-			player.setOldLocation(location);
-			player.setLocation(new Point(location.x+1, location.y));
+			player.setOldPosition(location);
+			player.setOldPosition(new Point(location.x+1, location.y));
 		}
 		else if (direction.equals("Right")){
-			player.setOldLocation(location);
-			player.setLocation(new Point(location.x, location.y+1));
+			player.setOldPosition(location);
+			player.setOldPosition(new Point(location.x, location.y+1));
 		}
 		else if (direction.equals("Down")){
-			player.setOldLocation(location);
-			player.setLocation(new Point(location.x-1, location.y));
+			player.setOldPosition(location);
+			player.setOldPosition(new Point(location.x-1, location.y));
 		}
 		this.canvas.translateRoom();
 		this.canvas.repaint();

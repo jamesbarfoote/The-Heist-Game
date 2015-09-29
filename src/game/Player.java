@@ -7,8 +7,10 @@ public class Player implements Cloneable{
 	private Room room;
 	private Weapon weapon;
 	private int score;
-	private Point location;//Location(coords of the square with current room)
+	private Point currentPosition;//Location(coords of the square with current room)
 	private Type t;
+	private Point oldPosition;
+	
 	private int ID;
 	
 	//Robber or guard(can't pick up money, can open all doors) enum
@@ -20,7 +22,7 @@ public class Player implements Cloneable{
 	{
 		this.room = r;
 		this.weapon = w;
-		this.location = p;
+		this.currentPosition = p;
 		this.t = t;
 		this.ID = id;
 	}
@@ -50,11 +52,6 @@ public class Player implements Cloneable{
 		return weapon;
 	}
 	
-	public Point getLocation()
-	{
-		return location;
-	}
-	
 	public Type getPlayerType()
 	{
 		return t;
@@ -74,16 +71,30 @@ public class Player implements Cloneable{
 	{
 		weapon = w;
 	}
-	
-	public void updateLocation(Point p)
-	{
-		location = p;
-	}
-	
+		
 	public void setgetPlayerType(Type t)
 	{
 		this.t = t;
 	}
+	
+	public Point getCurrentPosition() {
+		return currentPosition;
+	}
+
+	public void setCurrentPosition(Point currentPosition) {
+		this.currentPosition = currentPosition;
+	}
+
+	public Point getOldPosition() {
+		return oldPosition;
+	}
+
+	public void setOldPosition(Point oldPosition) {
+		this.oldPosition = oldPosition;
+	}
+
+
+
 	
 	@Override
     protected Object clone() throws CloneNotSupportedException {
