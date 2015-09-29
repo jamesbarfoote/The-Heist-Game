@@ -27,20 +27,20 @@ public abstract class Character {
 	 * @param direction
 	 */
 //	public void move(String direction){
-//		RoomPosition temp = currentPosition; //Temporary object to pass to the move method in Room
-//		if(direction == "left" && currentPosition.getXPos() > 0){
+//		Point temp = currentPosition; //Temporary object to pass to the move method in Room
+//		if(direction == "left" && currentPosition.getX() > 0){
 //			currentPosition.decX();
 //			currentRoom.moveCharacter(currentPosition, temp); //Updates the rooms records with the new position
 //		}
-//		else if(direction == "right" && currentPosition.getXPos() < currentRoom.getWidth()-1){
+//		else if(direction == "right" && currentPosition.getX() < currentRoom.getWidth()-1){
 //			currentPosition.incX();
 //			currentRoom.moveCharacter(currentPosition, temp); //Updates the rooms records with the new position
 //		}
-//		else if(direction == "up" && currentPosition.getYPos() > 0){
+//		else if(direction == "up" && currentPosition.getY() > 0){
 //			currentPosition.decY();
 //			currentRoom.moveCharacter(currentPosition, temp); //Updates the rooms records with the new position
 //		}
-//		else if(direction == "down" && currentPosition.getYPos() < currentRoom.getHeight()-1){
+//		else if(direction == "down" && currentPosition.getY() < currentRoom.getHeight()-1){
 //			currentPosition.incY();
 //			currentRoom.moveCharacter(currentPosition, temp); //Updates the rooms records with the new position
 //		}
