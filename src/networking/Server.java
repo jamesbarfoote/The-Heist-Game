@@ -40,40 +40,53 @@ public class Server extends Thread{
 				outputStream = new ObjectOutputStream(serv.getOutputStream());
 				inputStream = new ObjectInputStream(serv.getInputStream());
 				ArrayList<Player> temp = new ArrayList<Player>();
+				System.out.println("Created temp aray");
 
 
 				//Send out the whole arraylist to the client
-				((ObjectOutputStream) outputStream).writeObject(players);
+//				((ObjectOutputStream) outputStream).writeObject(players);
+//				System.out.println("Sent out players");
+//
+//				
+//				try {
+//					Thread.sleep(2000);
+//				} catch (InterruptedException e) {
+//					// TODO Auto-generated catch block
+//					e.printStackTrace();
+//				}
+				
+				//				while(true)
+				//				{
 
-				while(true)
-				{
+				try {
 
-					try {
-
-						temp = (ArrayList<Player>) ((ObjectInputStream) inputStream).readObject();//get the arraylist for a single player
-						System.out.println(players.get(1));
-					} catch (ClassNotFoundException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
-
-					if(players.contains(temp.get(0)))//If the player is already in then list then remove it and replace it
-					{
-						players.remove(temp.get(0));
-						players.add(temp.get(0));
-					}
-					else
-					{
-						players.add(temp.get(0));
-					}
-
-
-					//Send out the whole arraylist to the client
-					((ObjectOutputStream) outputStream).writeObject(players);
-					
-					//Add pause in here
+					temp = (ArrayList<Player>) ((ObjectInputStream) inputStream).readObject();//get the arraylist for a single player
+					System.out.println("Got player");
+					System.out.println(temp.get(0).getID());
+				} catch (ClassNotFoundException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
 				}
+
+				if(temp != null && players != null){
+				if(players.contains(temp.get(0)))//If the player is already in then list then remove it and replace it
+				{
+					players.remove(temp.get(0));
+					players.add(temp.get(0));
+				}
+				else
+				{
+					players.add(temp.get(0));
+				}
+				}
+
+//
+//				//Send out the whole arraylist to the client
+//				((ObjectOutputStream) outputStream).writeObject(players);
+
+				//Add pause in here
 			}
+			//}
 			catch(SocketTimeoutException s)
 			{
 				System.out.println("Socket timed out!");
