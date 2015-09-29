@@ -24,7 +24,6 @@ public class moveAction extends AbstractAction {
 	 */
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		System.out.println("moving");
 		Point location = player.getLocation();
 		if (direction.equals("Left")){
 			player.setOldLocation(location);
@@ -42,6 +41,7 @@ public class moveAction extends AbstractAction {
 			player.setOldLocation(location);
 			player.setLocation(new Point(location.x-1, location.y));
 		}
+		this.canvas.translateRoom();
 		this.canvas.repaint();
 	}
 

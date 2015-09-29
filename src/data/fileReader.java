@@ -6,7 +6,7 @@ import java.util.Scanner;
 
 public class fileReader {
 	
-	private String[][] tiles = new String[20][20];	//Fix this needs to update size of array if data is too large.
+	private String[][] tiles = new String[20][20];	//TODO Fix this needs to update size of array if data is too large.
 	private int width, height = 0;
 
 	public fileReader() {
