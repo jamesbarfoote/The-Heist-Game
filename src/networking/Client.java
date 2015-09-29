@@ -40,9 +40,8 @@ public class Client{
 		Point p = new Point();
 		p.setLocation(0, 0);
 		Weapon w = new Weapon("gun", true);
-		Room r = new Room("Hall", 10, 10);
 		game.Player.Type t = game.Player.Type.robber;
-		Player currentPlayer = new Player(r, w, id, p, t);
+		Player currentPlayer = new Player(w, id, p, t);
 
 	}
 
