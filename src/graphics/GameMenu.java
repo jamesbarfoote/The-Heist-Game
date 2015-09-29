@@ -34,9 +34,12 @@ public class GameMenu extends Menu{
 		
 			return Choice.ACT;
 		case "quit":
+			action = Action.QUIT;
+			canvas.showConfirmation(this, "Quit Game?");
 				
 			return Choice.ACT;
 		case "resume":
+			canvas.gameMenuSelect();
 			
 			return Choice.ACT;
 		}
@@ -44,11 +47,19 @@ public class GameMenu extends Menu{
 	}
 	
 	public void accept(){
-		
+		switch(action){
+		case QUIT:
+			canvas.setState(GameCanvas.State.MENU);
+			canvas.removeConfirmation();
+			canvas.simulateMouseMove();
+		}
+			
 	}
 	
 	public void decline(){
-		
+		action = null;
+		canvas.removeConfirmation();
+		canvas.simulateMouseMove();
 	}
 	
 	protected void setButtonCoordinates(){

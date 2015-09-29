@@ -1,10 +1,18 @@
 package graphics;
 
 import java.awt.BorderLayout;
+import java.awt.Point;
 
+import javax.swing.JComponent;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.KeyStroke;
 
 import control.GraphicUpdateThread;
+import data.fileReader;
+import game.Character;
+import game.Robber;
+import control.moveAction;
 
 /**
  * Creates the game application window which displays the gui
@@ -13,10 +21,24 @@ import control.GraphicUpdateThread;
 public class GameFrame extends JFrame{
 	private GraphicUpdateThread ck; //graphical update thread
 	private GameCanvas canvas;  //graphics canvas
+	static JLabel movements = new JLabel();
+	static JLabel functionality = new JLabel();
+	
+	private static final int IFW = JComponent.WHEN_IN_FOCUSED_WINDOW;
+	private static final String MOVE_UP = "move up";
+	private static final String MOVE_RIGHT = "move right";
+	private static final String MOVE_DOWN = "move down";
+	private static final String MOVE_LEFT = "move left";
+	private static final String ZOOM_IN = "zoom in";
+	private static final String ZOOM_OUT = "zoom out";
+	
+	Character player;
 
 	public GameFrame(){
 		super("The Heist");
-		canvas = new GameCanvas();
+		fileReader data = new fileReader();
+		player = new Robber(1, new Point(0,0));
+		canvas = new GameCanvas(data.getTiles(), player);
 		setLayout(new BorderLayout());
 		add(canvas, BorderLayout.CENTER);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -33,9 +55,38 @@ public class GameFrame extends JFrame{
 		
 		//make us visible
 		setVisible(true);
+		this.canvas.setDimension(getWidth(), getHeight());
 		canvas.requestFocus();
+		keyBindings();
 	}
 
+	 /**
+		 * Binds the given keyboard inputs to actions so pressing the key calls
+		 * a new move action.
+		 */
+		private void keyBindings() {
+			/*---------------------Movements------------------------------*/
+			movements.getInputMap(IFW).put(KeyStroke.getKeyStroke("UP"), MOVE_UP);
+			movements.getInputMap(IFW).put(KeyStroke.getKeyStroke("RIGHT"), MOVE_RIGHT);
+			movements.getInputMap(IFW).put(KeyStroke.getKeyStroke("DOWN"), MOVE_DOWN);
+			movements.getInputMap(IFW).put(KeyStroke.getKeyStroke("LEFT"), MOVE_LEFT);
+			
+			movements.getActionMap().put(MOVE_UP, new moveAction("Up", player, canvas));
+			movements.getActionMap().put(MOVE_RIGHT, new moveAction("Right", player, canvas));
+			movements.getActionMap().put(MOVE_DOWN, new moveAction("Down", player, canvas));
+			movements.getActionMap().put(MOVE_LEFT, new moveAction("Left", player, canvas));
+			
+			add(movements);
+			/*-------------------Functionality----------------------------*/
+//			functionality.getInputMap(IFW).put(KeyStroke.getKeyStroke("EQUALS"), ZOOM_IN);
+//			functionality.getInputMap(IFW).put(KeyStroke.getKeyStroke("MINUS"), ZOOM_OUT);
+//			
+//			functionality.getActionMap().put(ZOOM_IN, new gameAction("=", player, canvas));
+//			functionality.getActionMap().put(ZOOM_OUT, new gameAction("Minus", player, canvas));
+//			
+//			add(functionality);
+		}
+	
 	public void repaint(){
 		canvas.repaint();
 	}

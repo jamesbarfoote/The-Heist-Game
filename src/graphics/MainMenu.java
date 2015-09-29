@@ -5,6 +5,8 @@ import java.awt.Point;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 
+import graphics.GameCanvas.State;
+
 /**
  * Represents the main menu which the game opens up to. Used to start single player and multiplayer games
  * @author godfreya
@@ -54,7 +56,7 @@ public class MainMenu extends Menu{
 			canvas.showConfirmation(this, "Quit Game?");
 			return Choice.ACT;
 		case "single":
-			
+			canvas.setState(State.PLAYING);
 			return Choice.ACT;
 		case "new":
 			state = MenuState.NEW;
