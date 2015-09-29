@@ -2,7 +2,6 @@ package graphics;
 
 import java.awt.Canvas;
 import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -26,18 +25,19 @@ import game.Room;
 
 /**
  * Main canvas onto which gui components are drawn
- * @author godfreya
+ * @author Godfreya
  */
 public class GameCanvas extends Canvas{
+	private static final long serialVersionUID = 1l;
 	public enum State{MENU, PLAYING}
 	
 	private static final String IMAGE_PATH = "images\\menus\\"; //path for locating images
-	private boolean menuUp = false; //is the in game menu up?
-	private Image secondScreen;     //second image for use in double buffering
-	private Dialogue gameMenu; //the current game menu
-	private State gameState; //determines the status of the game client
-	private Confirmation dialogue; //current dialogue open, if any
-	private Image logo;
+	private boolean menuUp = false;	//is the in game menu up?
+	private Image secondScreen;    	//second image for use in double buffering
+	private Dialogue gameMenu; 		//the current game menu
+	private State gameState; 		//determines the status of the game client
+	private Confirmation dialogue; 	//current dialogue open, if any
+	private Image logo;	
 	public static final Font textFont = new Font("TimesRoman", Font.PLAIN, 18); //font to be used for text in game
 	
 	//-----------------------------new-------------------------------//
@@ -57,12 +57,9 @@ public class GameCanvas extends Canvas{
 	 * a room will have to be passed in. This will be based on whether or not they are a cop or robber. 
 	 */
 	
-	
-	
 	//-------------------------------------------------------------------//
 	
 	public GameCanvas(String[][] tiles, Room room){
-		setSize(new Dimension(900, 900)); //default size if program minimised
 		logo = loadImage("title.png");
 		setState(State.MENU);
 		this.tiles = tiles;
@@ -71,7 +68,6 @@ public class GameCanvas extends Canvas{
 		this.rows = tiles.length;
 		this.columns = tiles.length;
 		this.zoom = 70;
-		setBackground(Color.black);
 	}
 	
 	public void setDimension(int width, int height){
@@ -85,34 +81,27 @@ public class GameCanvas extends Canvas{
 		menuUp = !menuUp;
 	}
 	
-	public boolean menuUp(){
-		return menuUp;
-	}
-	
-	public Dialogue gameMenu(){
-		return gameMenu;
-	}
-	
+	/**open up a confirmation window**/
 	public void showConfirmation(Menu listener, String message){
 		dialogue = new Confirmation(listener, message);
 	}
 	
+	/**remove the confirmation window**/
 	public void removeConfirmation(){
 		dialogue = null;
 	}
 	
+	/**deal with mouse clicks**/
 	public void mouseReleased(MouseEvent e) {
 		if(dialogue != null){
 			dialogue.mouseReleased(e);
 		}
-		else if(gameState.equals(State.PLAYING) && menuUp){
+		else if(gameState.equals(State.PLAYING) && menuUp || gameState.equals(State.MENU)){
 			gameMenu.mouseReleased(e);				
-		}
-		else if(gameState.equals(State.MENU)){
-			gameMenu.mouseReleased(e);
 		}
 	}
 	
+	/**deal with mouse movements**/
 	public void mouseMoved(Point p){
 		if(dialogue != null){
 			dialogue.mouseMoved(p);
@@ -129,6 +118,7 @@ public class GameCanvas extends Canvas{
 		mouseMoved(new Point(MouseInfo.getPointerInfo().getLocation()));
 	}
 	
+	/**set the state of the game to playing or main menu**/
 	public void setState(State s){
 		gameState = s;
 		if(s.equals(State.MENU)){
@@ -141,7 +131,7 @@ public class GameCanvas extends Canvas{
 	}
 
 	/**
-	 * paint method for drawing the gui
+	 * paint method for drawing the GUI
 	 */
 	public void paint(Graphics g){
 		g.setColor(Color.BLACK);
@@ -172,6 +162,18 @@ public class GameCanvas extends Canvas{
 	}
 	
 	/**
+	 * uses double buffering to update the GUI then draw image to the screen
+	 */
+	public void update(Graphics g) {	
+		secondScreen = createImage(getWidth(), getHeight());
+		Graphics g2 = secondScreen.getGraphics();		
+		// do normal redraw on second screen
+		paint(g2);
+		// draw second screen on window
+		g.drawImage(secondScreen, 0, 0, null);
+	}
+	
+	/**
 	 * Load an image from the file system using a given filename.
 	 * @param filename
 	 * @return the image loaded
@@ -186,18 +188,6 @@ public class GameCanvas extends Canvas{
 			// we've encountered an error loading the image. unsure what to do now
 			throw new RuntimeException("Unable to load image: " + filename);
 		}
-	}
-	
-	/**
-	 * uses double buffering to update the gui then draw image to the screen
-	 */
-	public void update(Graphics g) {	
-		secondScreen = createImage(getWidth(), getHeight());
-		Graphics g2 = secondScreen.getGraphics();		
-		// do normal redraw on second screen
-		paint(g2);
-		// draw second screen on window
-		g.drawImage(secondScreen, 0, 0, null);
 	}
 	
 	//----------------------In-game rendering methods-----------------------------------------------------//

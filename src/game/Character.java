@@ -1,5 +1,7 @@
 package game;
 
+import game.items.Weapon;
+
 import java.awt.Point;
 
 /**
