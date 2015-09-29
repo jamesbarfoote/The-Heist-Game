@@ -11,6 +11,8 @@ import data.fileReader;
 import control.moveAction;
 import control.gameAction;
 import game.Player;
+import game.Room;
+import game.Weapon;
 
 /**
  * Creates the game application window which displays the gui
@@ -35,7 +37,7 @@ public class GameFrame extends JFrame{
 	public GameFrame(){
 		super("The Heist");
 		fileReader data = new fileReader();
-		player = new Player(1, new Point(0,0));
+		player = new Player(new Room("testRoom", 0, 0), new Weapon("Badass", true), 1, new Point(0,0), game.Player.Type.robber);
 		canvas = new GameCanvas(data.getTiles(), player);
 		setLayout(new BorderLayout());
 		add(canvas, BorderLayout.CENTER);
