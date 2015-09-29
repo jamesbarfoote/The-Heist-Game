@@ -1,5 +1,6 @@
 package game;
 
+import java.awt.Point;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -49,9 +50,9 @@ public class Room {
 	 * @param newPos
 	 * @param oldPos
 	 */
-	public void moveCharacter(RoomPosition newPos, RoomPosition oldPos){
-		tiles[newPos.getXPos()][newPos.getYPos()] = 'C';
-		tiles[oldPos.getXPos()][oldPos.getYPos()] = 'T';
+	public void moveCharacter(Point newPos, Point oldPos){
+		tiles[(int) newPos.getX()][(int) newPos.getY()] = 'C';
+		tiles[(int) oldPos.getX()][(int) oldPos.getY()] = 'T';
 	}
 
 	public String getRoomName(){
@@ -71,8 +72,8 @@ public class Room {
 	 * and empty tile
 	 * @param room1Entry
 	 */
-	public void removeCharacter(RoomPosition roomEntry) {
-		tiles[roomEntry.getXPos()][roomEntry.getYPos()] = 'T';
+	public void removeCharacter(Point roomEntry) {
+		tiles[(int) roomEntry.getX()][(int) roomEntry.getY()] = 'T';
 	}
 
 	/**
@@ -80,7 +81,7 @@ public class Room {
 	 * point to a character.
 	 * @param roomEntry
 	 */
-	public void addCharacter(RoomPosition roomEntry) {
-		tiles[roomEntry.getXPos()][roomEntry.getYPos()] = 'C';
+	public void addCharacter(Point roomEntry) {
+		tiles[(int) roomEntry.getX()][(int) roomEntry.getY()] = 'C';
 	}
 }

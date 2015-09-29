@@ -27,8 +27,8 @@ public abstract class Character {
 	 * @param direction
 	 */
 //	public void move(String direction){
-//		RoomPosition temp = currentPosition; //Temporary object to pass to the move method in Room
-//		if(direction == "left" && currentPosition.getXPos() > 0){
+//		Point temp = currentPosition; //Temporary object to pass to the move method in Room
+//		if(direction == "left" && currentPosition.getXS() > 0){
 //			currentPosition.decX();
 //			currentRoom.moveCharacter(currentPosition, temp); //Updates the rooms records with the new position
 //		}
