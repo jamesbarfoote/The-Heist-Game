@@ -13,7 +13,7 @@ import networking.Client;
  * @author godfreya
  */
 public class MainMenu extends Menu{
-	private final int YSTART = 125; //how far down the buttons should appear on the menu
+	private final int YSTART = 130; //how far down the buttons should appear on the menu
 	public enum MenuState{MAIN, NEW, LOAD} //determines whether main menu is in default state, starting
 	//new game or loading one
 	private MenuState state;
