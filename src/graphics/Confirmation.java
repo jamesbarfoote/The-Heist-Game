@@ -6,8 +6,6 @@ import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 
 public class Confirmation extends Dialogue{
-	private final int YSTART = 50; //how far down the buttons should appear on the menu
-	private final int XSTART = 75;
 	private Menu listener;
 	private String message;
 	
@@ -22,18 +20,18 @@ public class Confirmation extends Dialogue{
 		gameButtons.add(new GameButton("no"));
 	}
 	
-	public Choice mouseReleased(MouseEvent e){
+	//deal with mouse clicks
+	public void mouseReleased(MouseEvent e){
 		String button = onClick(e);
 		if(button == null) {
-			canvas.simulateMouseMove();
-			return Choice.VOID; //no button was selected
+			canvas.simulateMouseMove(); //no button was selected
+			return;
 		}
 		if(button.equals("yes")){
-			listener.accept();
-			return Choice.YES; //action confirmed
+			listener.accept(); //action confirmed
+			return;
 		}
-		listener.decline();
-		return Choice.NO; //only other alternative is action declined
+		listener.decline(); //only other alternative is action declined
 	}
 	
 	

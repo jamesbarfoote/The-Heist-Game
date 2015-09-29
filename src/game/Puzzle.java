@@ -7,4 +7,8 @@ package game;
  */
 public abstract class Puzzle {
 
+	private PuzzleSolution solution;
+	
+	
+	public abstract void attemptSolution();
 }

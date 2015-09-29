@@ -12,13 +12,6 @@ public abstract class Dialogue{
 	protected int menuX; //start x position for drawing menu, helpful for drawing buttons on later
 	protected int menuY; //same for y position
 	protected GameCanvas canvas;
- 	
-	//possible outcomes of a mouse click action. 
-	//yes == action confirmed
-	//no == action declined
-	//void == no button was clicked
-	//act == mouse click performed a setup action, no response yet
-	public enum Choice{YES, NO, VOID, ACT}
 	
 	/**
 	 * draw the menu centred on screen
@@ -31,7 +24,7 @@ public abstract class Dialogue{
 	/**
 	 * for dealing with mouse clicks on the menu. returns true if button correctly selected
 	 */
-	public abstract Choice mouseReleased(MouseEvent e);
+	public abstract void mouseReleased(MouseEvent e);
 	
 	/**
 	 * mouse has moved over the menu, update menu accordingly

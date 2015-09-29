@@ -1,37 +1,45 @@
 package game;
 
 import java.awt.Point;
+import java.io.Serializable;
 import java.util.Date;
 
-public class Player implements Cloneable{
+import game.items.Weapon;
+
+public class Player implements Serializable{
 	private Room room;
 	private Weapon weapon;
 	private int score;
-	private Point location;//Location(coords of the square with current room)
 	private Type t;
-	private Date date;
+	private int ID;
+	private Point currentPosition, oldPosition; //Location(coords of the square with current room)
 	
 	//Robber or guard(can't pick up money, can open all doors) enum
 	public enum Type{
 		robber, guard
 	}
 	
-	public Player(Room r, Weapon w, Point p, Type t)
+	public Player(Weapon w, int PlayerNum, Point p, Type t)
 	{
-		this.room = r;
 		this.weapon = w;
-		this.location = p;
+		this.currentPosition = p;
+		this.oldPosition  = p;
 		this.t = t;
 	}
 	
-	public Date getDate()
+	public String getType()
 	{
-		return date;
+		return t.toString();
 	}
 	
-	public void setDate(Date d)
+	public int getID()
 	{
-		this.date = d;
+		return ID;
+	}
+	
+	public void setID(int i)
+	{
+		this.ID = i;
 	}
 	
 	public int getScore()
@@ -47,11 +55,6 @@ public class Player implements Cloneable{
 	public Weapon getWeapon()
 	{
 		return weapon;
-	}
-	
-	public Point getLocation()
-	{
-		return location;
 	}
 	
 	public Type getPlayerType()
@@ -74,19 +77,41 @@ public class Player implements Cloneable{
 		weapon = w;
 	}
 	
-	public void updateLocation(Point p)
-	{
-		location = p;
-	}
-	
 	public void setgetPlayerType(Type t)
 	{
 		this.t = t;
+	}
+	
+	/**
+	 * @return the location
+	 */
+	public Point getLocation() {
+		return currentPosition;
+	}
+
+	/**
+	 * @param location the location to set
+	 */
+	public void setLocation(Point location) {
+		this.currentPosition = location;
+	}
+	
+	/**
+	 * @return the oldLocation
+	 */
+	public Point getOldLocation() {
+		return oldPosition;
+	}
+
+	/**
+	 * @param oldLocation the oldLocation to set
+	 */
+	public void setOldLocation(Point location) {
+		this.oldPosition = location;
 	}
 	
 	@Override
     protected Object clone() throws CloneNotSupportedException {
         return super.clone();
     }
-
 }

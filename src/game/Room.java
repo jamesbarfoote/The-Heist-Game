@@ -1,5 +1,8 @@
 package game;
 
+import game.items.Item;
+
+import java.awt.Point;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,16 +19,77 @@ public class Room {
 	private String roomName;
 	private List<Item> itemsInRoom;
 	private List<Money> moneyInRoom;
-	private List<Guard> guardsInRoom;
+	private List<Door> roomDoors;
+	private ArrayList<Player> players = new ArrayList<Player>();
+	private char[][] tiles; //The floorspace of the room
+	private int width;
+	private int height;
 	
-	public Room(String roomName){
+	public Room(String roomName, int width, int height, ArrayList<Player> players){
 		this.roomName = roomName;
+		this.players = players;
 		itemsInRoom = new ArrayList<Item>();
 		moneyInRoom = new ArrayList<Money>();
-		guardsInRoom = new ArrayList<Guard>();
+		roomDoors = new ArrayList<Door>();
+		this.width = width;
+		this.height = height;
+		tiles = new char[width][height];
+		setUpFloorspace();
+	}
+
+	/**
+	 * Sets the room to an empty space, with empty tiles denoted as 'T'.
+	 */
+	private void setUpFloorspace() {
+		for(int i = 0; i < width; i++){
+			for(int j = 0; j < height; j++){
+				tiles[i][j] = 'T';
+			}
+		}
+		
 	}
 	
+	/**
+	 * Updates the character array with the characters new position, setting the old position to an empty tile
+	 * @param newPos
+	 * @param oldPos
+	 */
+	public void moveCharacter(Point newPos, Point oldPos){
+		tiles[(int) newPos.getX()][(int) newPos.getY()] = 'C';
+		tiles[(int) oldPos.getX()][(int) oldPos.getY()] = 'T';
+	}
+
 	public String getRoomName(){
 		return roomName;
+	}
+	
+	public int getWidth(){
+		return width;
+	}
+	
+	public int getHeight(){
+		return height;
+	}
+
+	/**
+	 * Updates the char array to reflect a character moving into a different room by setting its current position to
+	 * and empty tile
+	 * @param room1Entry
+	 */
+	public void removeCharacter(Point roomEntry) {
+		tiles[(int) roomEntry.getX()][(int) roomEntry.getY()] = 'T';
+	}
+
+	/**
+	 * Updates the char array to reflect a character moving into this room from another by setting the doors entry
+	 * point to a character.
+	 * @param roomEntry
+	 */
+	public void addCharacter(Point roomEntry) {
+		tiles[(int) roomEntry.getX()][(int) roomEntry.getY()] = 'C';
+	}
+	
+	public ArrayList<Player> getPlayers(){
+		return this.players;
 	}
 }

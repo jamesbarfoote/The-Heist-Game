@@ -3,6 +3,7 @@ package graphics;
 public abstract class Menu extends Dialogue{
 	protected Action action;
 	
+	//possible actions to be taken that must be confirmed
 	public enum Action{QUIT}
 	
 	/**
@@ -14,5 +15,10 @@ public abstract class Menu extends Dialogue{
 	 * for confirmation dialogues to decline the proposed action
 	 */
 	public abstract void decline();
+	
+	/**
+	 * for setting the game button coordinates for drawing and selecting purposes
+	 */
+	protected abstract void setButtonCoordinates();
 
 }

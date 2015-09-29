@@ -54,7 +54,7 @@ public class GameButton{
 	
 	/**
 	 * did the mouse event occur on this button?
-	 * @param e
+	 * @param p Is this point on the button?
 	 * @return
 	 */
 	public boolean contains(Point p){

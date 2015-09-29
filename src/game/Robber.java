@@ -1,5 +1,7 @@
 package game;
 
+import java.awt.Point;
+
 /**
  * A representation of a players Character and its associated abilities. Keeps track of a given players money count, as
  * well as their current weapon.
@@ -11,8 +13,8 @@ public class Robber extends Character{
 	private int player; //The Player controlling this Robber
 	private int numDollars; //Current amount of Money the player has picked up
 	
-	public Robber(int player, Weapon currentWeapon){
-		super(currentWeapon);
+	public Robber(int player, /*Weapon currentWeapon, Room currentRoom,*/ Point currentPosition){
+		super(/*currentWeapon, currentRoom,*/ currentPosition);
 		this.player = player;
 		numDollars = 0;
 	}
