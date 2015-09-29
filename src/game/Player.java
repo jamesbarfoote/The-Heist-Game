@@ -16,9 +16,8 @@ public class Player implements Cloneable{
 		robber, guard
 	}
 	
-	public Player(Room r, Weapon w, int PlayerNum, Point p, Type t)
+	public Player(Weapon w, int PlayerNum, Point p, Type t)
 	{
-		this.room = r;
 		this.weapon = w;
 		this.currentPosition = p;
 		this.oldPosition  = p;

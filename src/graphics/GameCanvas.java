@@ -15,8 +15,11 @@ import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+
 import javax.imageio.ImageIO;
 import game.Player;
+import game.Room;
 
 /**
  * Main canvas onto which gui components are drawn
@@ -37,21 +40,31 @@ public class GameCanvas extends Canvas{
 	//-----------------------------new-------------------------------//
 	private AffineTransform at;
 	String[][] tiles;
-	Player player;
+	Room room;
+	ArrayList<Player> players = new ArrayList<Player>();
 	int width, height, rows, columns;
 	
 	double translateX, translateY;
 	double zoom;
 	int zooming = 0;	//0 = Not zooming, 1 = zooming in, 2 = zooming out
+	
+	/*
+	 * Everything is held within the rooms. The canvas needs a current room to draw. This room will hold an
+	 * arraylist of players, these are the players that the canvas will draw. When the canvas is initialized (only happens once)
+	 * a room will have to be passed in. This will be based on whether or not they are a cop or robber. 
+	 */
+	
+	
+	
 	//-------------------------------------------------------------------//
 	
-	public GameCanvas(String[][] tiles, Player player){
+	public GameCanvas(String[][] tiles, Room room){
 		setSize(new Dimension(900, 900)); //default size if program minimised
 		logo = loadImage("title.png");
 		setState(State.MENU);
-		
 		this.tiles = tiles;
-		this.player = player;
+		this.room = room;
+		this.players = room.getPlayers();
 		this.rows = tiles.length;
 		this.columns = tiles.length;
 		this.zoom = 70;
@@ -191,14 +204,14 @@ public class GameCanvas extends Canvas{
 		this.translateX = this.width/2;
 		this.translateY = this.height/2 + (((columns-1)/2.0)*this.zoom/2);
 		//Translate room around initial player location
-		Point location  = player.getLocation();
+		Point location  = players.get(0).getLocation();
 		this.translateX = this.translateX - (location.getX() + location.getY()) * zoom/2;
 		this.translateY = this.translateY - (((columns-location.getX()-1) + location.getY()) * zoom/4);
 	}
 	
 	public void translateRoom(){
 		//Game is being zoomed in.
-		Point location  = player.getLocation();
+		Point location  = players.get(0).getLocation();
 		if(this.zooming == 1){
 			this.translateX = this.translateX - ((location.getX() + location.getY()) * 5);	//5 because it's currently set to zoom/2 and the change is 10
 			if(location.getY() > location.getX()){
@@ -224,7 +237,7 @@ public class GameCanvas extends Canvas{
 		}
 		
 		//Player is moving
-		Point oldLocation = player.getOldLocation();
+		Point oldLocation = players.get(0).getOldLocation();
 		//If moving north
 		if(oldLocation.getX() < location.getX() && oldLocation.getY() == location.getY()){
 			this.translateX = this.translateX - zoom/2;
@@ -281,9 +294,14 @@ public class GameCanvas extends Canvas{
 		}
 	}
 	
+	/*
+	 * When drawing other players, they will need to be drawn in relation to the current player.
+	 * The math translating based on location has already been done. So all I need to do is
+	 * calculate the difference in player locations and translate the other player by the calculated amount.
+	 */
 	private void drawIcons(Graphics2D g, Point point){		
 //		Draw the player(s)		
-		Point location = player.getLocation();
+		Point location = players.get(0).getLocation();
 		if(location.equals(point)){
 			try {
 				BufferedImage myPicture = ImageIO.read(new File("link.jpg"));

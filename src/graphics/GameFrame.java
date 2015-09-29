@@ -2,6 +2,8 @@ package graphics;
 
 import java.awt.BorderLayout;
 import java.awt.Point;
+import java.util.ArrayList;
+
 import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -32,13 +34,17 @@ public class GameFrame extends JFrame{
 	private static final String ZOOM_IN = "zoom in";
 	private static final String ZOOM_OUT = "zoom out";
 	
+	Room currentRoom;
 	Player player;
 
 	public GameFrame(){
 		super("The Heist");
 		fileReader data = new fileReader();
-		player = new Player(new Room("testRoom", 0, 0), new Weapon("Badass", true), 1, new Point(0,0), game.Player.Type.robber);
-		canvas = new GameCanvas(data.getTiles(), player);
+		player = new Player(new Weapon("Badass", true), 1, new Point(0,0), game.Player.Type.robber);
+		ArrayList<Player> players = new ArrayList<Player>();
+		players.add(player);
+		currentRoom = new Room("testRoom", data.getWidth(), data.getHeight(), players);
+		canvas = new GameCanvas(data.getTiles(), currentRoom);
 		setLayout(new BorderLayout());
 		add(canvas, BorderLayout.CENTER);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

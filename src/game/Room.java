@@ -18,12 +18,14 @@ public class Room {
 	private List<Item> itemsInRoom;
 	private List<Money> moneyInRoom;
 	private List<Door> roomDoors;
+	private ArrayList<Player> players = new ArrayList<Player>();
 	private char[][] tiles; //The floorspace of the room
 	private int width;
 	private int height;
 	
-	public Room(String roomName, int width, int height){
+	public Room(String roomName, int width, int height, ArrayList<Player> players){
 		this.roomName = roomName;
+		this.players = players;
 		itemsInRoom = new ArrayList<Item>();
 		moneyInRoom = new ArrayList<Money>();
 		roomDoors = new ArrayList<Door>();
@@ -83,5 +85,9 @@ public class Room {
 	 */
 	public void addCharacter(Point roomEntry) {
 		tiles[(int) roomEntry.getX()][(int) roomEntry.getY()] = 'C';
+	}
+	
+	public ArrayList<Player> getPlayers(){
+		return this.players;
 	}
 }
