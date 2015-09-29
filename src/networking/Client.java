@@ -42,7 +42,7 @@ public class Client{
 		Weapon w = new Weapon("gun", true);
 		Room r = new Room("Hall", 10, 10);
 		game.Player.Type t = game.Player.Type.robber;
-		Player currentPlayer = new Player(r, w, p, t, id);
+		Player currentPlayer = new Player(r, w, id, p, t);
 
 	}
 
