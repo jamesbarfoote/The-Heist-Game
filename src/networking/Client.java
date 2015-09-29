@@ -22,7 +22,7 @@ public class Client{
 	public static PrintWriter out;
 	static OutputStream outputStream;
 	static InputStream inputStream;
-	private static ArrayList<String> players;
+	private static ArrayList<Player> players;
 	private static Player currentPlayer;
 	private int port;
 	private String host;
@@ -31,7 +31,7 @@ public class Client{
 	{
 		this.port = port;
 		this.host = host;
-		players = new ArrayList<String>();
+		players = new ArrayList<Player>();
 		clientSyncing();
 	}
 
@@ -78,13 +78,24 @@ public class Client{
 
 			createPlayer(currentNumPlayers);
 
-
-			while(true){
+			boolean loop = true;
+			while(loop){
 				//send our player out
 				ArrayList<Player> temp = new ArrayList<Player>();
 				temp.add(currentPlayer);
 				((ObjectOutputStream) outputStream).writeObject(temp);
+				
+				
+				//Recieve the players
+				try {
 
+					players = (ArrayList<Player>) ((ObjectInputStream) inputStream).readObject();//get the arraylist for a single player
+					System.out.println(players.get(1));
+					currentNumPlayers = temp2.size();
+				} catch (ClassNotFoundException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 			}
 
 
