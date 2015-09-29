@@ -6,7 +6,6 @@ import java.util.Date;
 import java.util.zip.GZIPInputStream;
 
 import game.Player;
-import game.Weapon;
 
 import java.awt.Point;
 import java.io.*;
@@ -106,7 +105,7 @@ public class Server extends Thread{
 	private Player createPlayer(int id) {
 		Point p = new Point();
 		p.setLocation(0, 0);
-		Weapon w = new Weapon("gun", true);
+		game.items.Weapon w = new game.items.Weapon("gun", true);
 		game.Player.Type t = game.Player.Type.robber;
 		Player currentPlayer = new Player(w, id, p, t);
 		return currentPlayer;
