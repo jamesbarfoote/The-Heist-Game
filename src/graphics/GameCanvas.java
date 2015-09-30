@@ -83,7 +83,7 @@ public class GameCanvas extends Canvas{
 	
 	/**open up a confirmation window**/
 	public void showConfirmation(Menu listener, String message){
-		dialogue = new Confirmation(listener, message);
+		dialogue = new Confirmation(listener, message, this);
 	}
 	
 	/**remove the confirmation window**/

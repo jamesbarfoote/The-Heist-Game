@@ -9,7 +9,8 @@ public class Confirmation extends Dialogue{
 	private Menu listener;
 	private String message;
 	
-	public Confirmation(Menu m, String message){
+	public Confirmation(Menu m, String message, GameCanvas cv){
+		canvas = cv;
 		listener = m;
 		this.message = message;
 		menuBack = GameCanvas.loadImage("popup.png");
