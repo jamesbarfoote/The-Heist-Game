@@ -1,10 +1,10 @@
 package game;
 
+import game.items.Weapon;
+
 import java.awt.Point;
 import java.io.Serializable;
 import java.util.Date;
-
-import game.items.Weapon;
 
 public class Player implements Serializable{
 	private Room room;
@@ -25,11 +25,6 @@ public class Player implements Serializable{
 		this.currentPosition = p;
 		this.oldPosition  = p;
 		this.t = t;
-	}
-	
-	public String getType()
-	{
-		return t.toString();
 	}
 	
 	public int getID()

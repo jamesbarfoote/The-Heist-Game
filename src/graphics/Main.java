@@ -79,7 +79,7 @@ public class Main extends JFrame implements KeyListener, MouseListener, MouseMot
 		
 		//make us visible
 		setVisible(true);
-		canvas.setDimension(getWidth(), getHeight());
+		this.canvas.setDimension(getWidth(), getHeight());
 		keyBindings();
 		canvas.requestFocus();
 	}
