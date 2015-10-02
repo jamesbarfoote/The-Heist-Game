@@ -1,7 +1,11 @@
 package graphics;
 
+import game.Player;
+import game.Room;
+
 import java.awt.Canvas;
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -17,11 +21,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 import javax.imageio.ImageIO;
-
-import com.sun.javafx.geom.Point2D;
-
-import game.Player;
-import game.Room;
 
 /**
  * Main canvas onto which GUI components are drawn
@@ -59,7 +58,8 @@ public class GameCanvas extends Canvas{
 	
 	//-------------------------------------------------------------------//
 	
-	public GameCanvas(String[][] tiles, Room room){
+	public GameCanvas(Dimension d, String[][] tiles, Room room){
+		setSize(d);
 		logo = loadImage("title.png");
 		setState(State.MENU);
 		this.tiles = tiles;
@@ -68,11 +68,6 @@ public class GameCanvas extends Canvas{
 		this.rows = tiles.length;
 		this.columns = tiles.length;
 		this.zoom = 70;
-	}
-	
-	public void setDimension(int width, int height){
-		this.width = width;
-		this.height = height;
 		initialTranslate();
 	}
 	

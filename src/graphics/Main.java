@@ -7,6 +7,7 @@ import game.control.moveAction;
 import game.items.Weapon;
 
 import java.awt.BorderLayout;
+import java.awt.Dimension;
 import java.awt.Point;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
@@ -59,29 +60,25 @@ public class Main extends JFrame implements KeyListener, MouseListener, MouseMot
 		currentRoom = new Room("testRoom", data.getWidth(), data.getHeight(), players);
 		
 		//Create canvas
-		canvas = new GameCanvas(data.getTiles(), currentRoom);
+		setSize(getToolkit().getScreenSize());
+		canvas = new GameCanvas(getSize(), data.getTiles(), currentRoom);
 		canvas.addKeyListener(this);
 		canvas.addMouseListener(this);
 		canvas.addMouseMotionListener(this);
-		setLayout(new BorderLayout());
-		add(canvas, BorderLayout.CENTER);
+		add(canvas);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setIconImage(GameCanvas.loadImage("money_bag_icon.png"));
 		
 		//go full screen
 		setUndecorated(true); 
 		pack();
-		setExtendedState(MAXIMIZED_BOTH); 
+		setVisible(true);
+		canvas.requestFocus();
 		
 		//start graphics thread running
-		graphicsUpdater = new GraphicsUpdater(this);
+		graphicsUpdater = new GraphicsUpdater(canvas);
 		graphicsUpdater.start();
-		
-		//make us visible
-		setVisible(true);
-		this.canvas.setDimension(getWidth(), getHeight());
 		keyBindings();
-		canvas.requestFocus();
 	}
 
 	 /**
@@ -140,10 +137,6 @@ public class Main extends JFrame implements KeyListener, MouseListener, MouseMot
 	}
 		
 	public void mouseDragged(MouseEvent e){}
-	
-	public void repaint(){
-		canvas.repaint();
-	}
 	
 	public GameCanvas getCanvas(){
 		return canvas;
