@@ -2,18 +2,26 @@ package graphics;
 
 import java.awt.Graphics;
 import java.awt.event.MouseEvent;
+import java.awt.event.MouseWheelEvent;
 import java.util.ArrayList;
+import java.util.List;
 
 public class Inventory extends Dialogue{
 	private final String message;
 	private final int BUTTONSPACE = 35;
+	private final int listX = 60;
+	private final int listY = 95;
+	private final int MAXDISPLAY = 6; //max number of items the inventory list can display at a time
+	private int startList;
+	
+	private List<String> items;
 	
 	public Inventory(GameCanvas cv){
+		message = "Inventory";
 		canvas = cv;
 		menuBack = GameCanvas.loadImage("inventory.png");
 		menuX = (canvas.getWidth()/2) - (menuBack.getWidth(null)/2);
 		menuY = (canvas.getHeight()/2) - (menuBack.getHeight(null)/2);
-		message = "Inventory";
 		
 		//add close button
 		gameButtons = new ArrayList<GameButton>();
@@ -22,6 +30,16 @@ public class Inventory extends Dialogue{
 		int yDown = (canvas.getHeight()/2) + (menuBack.getHeight(null)/2) - close.getImage().getHeight(null) - BUTTONSPACE;
 		close.setCoordinates(xAcross, yDown);
 		gameButtons.add(close);
+		
+		startList = 0;
+		items = new ArrayList<String>();
+		items.add("Gun");
+		items.add("cheese");
+		items.add("100 Gold");
+		items.add("chips");
+		items.add("tomato");
+		items.add("donuts");
+		items.add("bullets");
 	}
 	
 	public void mouseReleased(MouseEvent e){
@@ -35,12 +53,34 @@ public class Inventory extends Dialogue{
 		}
 	}
 	
+	/**mouse wheel can be used to scroll through list of items**/
+	public void mouseWheelMoved(MouseWheelEvent e){
+		if(e.getWheelRotation() < 0){
+			if(startList > 0){
+				startList--;
+			}
+		}
+		if(e.getWheelRotation() > 0){
+			if(startList + MAXDISPLAY < items.size()){
+				startList++;
+			}
+		}
+	}
+	
 	public void draw(Graphics g){
 		g.drawImage(menuBack, menuX, menuY, null);	
 		g.setFont(GameCanvas.textFont);
 		g.drawString(message, menuX + (menuBack.getWidth(null)/2) - (message.length()*4), menuY + 65);
 		GameButton gb = gameButtons.get(0);
 		g.drawImage(gb.getImage(), gb.getX(), gb.getY(), null);
+		
+		//draw list of items
+		int x = listX + menuX;
+		int y = listY + menuY;
+		for(int z = 0; z < MAXDISPLAY; z++){  
+			g.drawString(items.get(startList + z), x, y);
+			y += 25;
+		}
 	}
 
 }

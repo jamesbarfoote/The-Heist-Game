@@ -60,7 +60,7 @@ public class MainMenu extends Menu{
 			break;
 		case "single":
 			canvas.setState(State.PLAYING);
-			Client cS = new Client(1234, "localhost");//Connect to a server on the same machine as the client
+			//Client cS = new Client(1234, "localhost");//Connect to a server on the same machine as the client
 			break;
 		case "multi":
 			setupMultiplayer();

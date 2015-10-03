@@ -6,14 +6,14 @@ import game.control.gameAction;
 import game.control.moveAction;
 import game.items.Weapon;
 
-import java.awt.BorderLayout;
-import java.awt.Dimension;
 import java.awt.Point;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
+import java.awt.event.MouseWheelEvent;
+import java.awt.event.MouseWheelListener;
 import java.util.ArrayList;
 
 import javax.swing.JComponent;
@@ -28,7 +28,7 @@ import data.fileReader;
  * and updating the view accordingly. Holds the canvas which constructs the GUI.
  * @author Godfreya, CombuskenKid
  */
-public class Main extends JFrame implements KeyListener, MouseListener, MouseMotionListener{
+public class Main extends JFrame implements KeyListener, MouseListener, MouseMotionListener, MouseWheelListener{
 	private GraphicsUpdater graphicsUpdater;	//graphical update thread
 	private GameCanvas canvas;  	//graphics canvas
 	static JLabel movements = new JLabel();
@@ -65,6 +65,7 @@ public class Main extends JFrame implements KeyListener, MouseListener, MouseMot
 		canvas.addKeyListener(this);
 		canvas.addMouseListener(this);
 		canvas.addMouseMotionListener(this);
+		canvas.addMouseWheelListener(this);
 		add(canvas);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setIconImage(GameCanvas.loadImage("money_bag_icon.png"));
@@ -127,6 +128,10 @@ public class Main extends JFrame implements KeyListener, MouseListener, MouseMot
 	public void keyReleased(KeyEvent e) {}
 	public void keyTyped(KeyEvent e) {}
 	public void mousePressed(MouseEvent e) {}
+
+	public void mouseWheelMoved(MouseWheelEvent e){
+		canvas.mouseWheelMoved(e);
+	}
 
 	public void mouseReleased(MouseEvent e) {
 		canvas.mouseReleased(e);

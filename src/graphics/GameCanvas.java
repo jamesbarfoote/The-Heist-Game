@@ -14,6 +14,7 @@ import java.awt.MouseInfo;
 import java.awt.Point;
 import java.awt.RenderingHints;
 import java.awt.event.MouseEvent;
+import java.awt.event.MouseWheelEvent;
 import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -97,6 +98,13 @@ public class GameCanvas extends Canvas{
 		}
 	}
 	
+	/**for dealing with mouse wheel movements**/
+	public void mouseWheelMoved(MouseWheelEvent e){
+		if(inventory != null){
+			inventory.mouseWheelMoved(e);
+		}
+	}
+	
 	/**deal with mouse clicks**/
 	public void mouseReleased(MouseEvent e) {
 		if(dialogue != null){
@@ -138,6 +146,7 @@ public class GameCanvas extends Canvas{
 		}
 		else if(s.equals(State.PLAYING)){
 			menuUp = false;
+			inventory = null;
 			gameMenu = new GameMenu(this);
 		}
 	}
