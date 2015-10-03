@@ -110,11 +110,11 @@ public class GameCanvas extends Canvas{
 		if(dialogue != null){
 			dialogue.mouseReleased(e);
 		}
-		else if(inventory != null){
-			inventory.mouseReleased(e);
-		}
 		else if(gameState.equals(State.PLAYING) && menuUp || gameState.equals(State.MENU)){
 			gameMenu.mouseReleased(e);				
+		}
+		else if(inventory != null){
+			inventory.mouseReleased(e);
 		}
 	}
 	
@@ -123,11 +123,11 @@ public class GameCanvas extends Canvas{
 		if(dialogue != null){
 			dialogue.mouseMoved(p);
 		}
-		else if(inventory != null){
-			inventory.mouseMoved(p);
-		}
 		else if(gameState.equals(State.MENU) || gameState.equals(State.PLAYING) && menuUp){
 			gameMenu.mouseMoved(p);
+		}
+		else if(inventory != null){
+			inventory.mouseMoved(p);
 		}
 	}
 	

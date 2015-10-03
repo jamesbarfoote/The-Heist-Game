@@ -4,7 +4,9 @@ import java.awt.Graphics;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseWheelEvent;
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 public class Inventory extends Dialogue{
 	private final String message;
@@ -14,7 +16,7 @@ public class Inventory extends Dialogue{
 	private final int MAXDISPLAY = 6; //max number of items the inventory list can display at a time
 	private int startList;
 	
-	private List<String> items;
+	private Map<String, Integer> items;
 	
 	public Inventory(GameCanvas cv){
 		message = "Inventory";
@@ -32,14 +34,14 @@ public class Inventory extends Dialogue{
 		gameButtons.add(close);
 		
 		startList = 0;
-		items = new ArrayList<String>();
-		items.add("Gun");
-		items.add("cheese");
-		items.add("100 Gold");
-		items.add("chips");
-		items.add("tomato");
-		items.add("donuts");
-		items.add("bullets");
+		items = new LinkedHashMap<String, Integer>();
+		items.put("Gun", 1);
+		items.put("cheese", 1);
+		items.put("Gold", 100);
+		items.put("chips", 5);
+		items.put("tomato", 2);
+		items.put("donut", 1);
+		items.put("bullets", 10);
 	}
 	
 	public void mouseReleased(MouseEvent e){
@@ -75,10 +77,12 @@ public class Inventory extends Dialogue{
 		g.drawImage(gb.getImage(), gb.getX(), gb.getY(), null);
 		
 		//draw list of items
-		int x = listX + menuX;
+		int x = menuX + listX;
 		int y = listY + menuY;
+		List<String> itemNames = new ArrayList<String>(items.keySet());
 		for(int z = 0; z < MAXDISPLAY; z++){  
-			g.drawString(items.get(startList + z), x, y);
+			g.drawString("" + items.get(itemNames.get(startList + z)), x, y);
+			g.drawString(itemNames.get(startList + z), x + 40, y);
 			y += 25;
 		}
 	}
