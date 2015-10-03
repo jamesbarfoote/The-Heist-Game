@@ -113,14 +113,7 @@ public class Main extends JFrame implements KeyListener, MouseListener, MouseMot
 	 * Method for handling keyboard input
 	 */
 	public void keyPressed(KeyEvent e) {
-		int code = e.getKeyCode();
-		if(code == KeyEvent.VK_ESCAPE) {			
-			canvas.gameMenuSelect();
-		}
-		if(code == KeyEvent.VK_I){
-			canvas.showInventory();
-		}
-		canvas.simulateMouseMove();
+		canvas.keyPressed(e);
 	}
 		
 	//------below are various methods for handling mouse input-------

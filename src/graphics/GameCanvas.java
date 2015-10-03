@@ -13,6 +13,7 @@ import java.awt.Image;
 import java.awt.MouseInfo;
 import java.awt.Point;
 import java.awt.RenderingHints;
+import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseWheelEvent;
 import java.awt.geom.AffineTransform;
@@ -70,6 +71,20 @@ public class GameCanvas extends Canvas{
 		this.columns = tiles.length;
 		this.zoom = 70;
 		initialTranslate();
+	}
+	
+	/**for handling keyboard input**/
+	public void keyPressed(KeyEvent e){
+		int code = e.getKeyCode();
+		if(code == KeyEvent.VK_ESCAPE) {			
+			if(dialogue == null){
+				gameMenuSelect();
+			}
+		}
+		if(code == KeyEvent.VK_I){
+			showInventory();
+		}
+		simulateMouseMove();
 	}
 	
 	/** flips the menuUp selection**/
