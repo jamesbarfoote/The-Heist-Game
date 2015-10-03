@@ -14,6 +14,8 @@ public class GameMenu extends Menu{
 	public GameMenu(GameCanvas cv){
 		canvas = cv;
 		menuBack = GameCanvas.loadImage("menu.png");
+		menuX = (canvas.getWidth()/2) - (menuBack.getWidth(null)/2);
+		menuY = (canvas.getHeight()/2) - (menuBack.getHeight(null)/2); 
 		gameButtons = new ArrayList<GameButton>();
 		
 		//add buttons to the menu
@@ -21,6 +23,7 @@ public class GameMenu extends Menu{
 		gameButtons.add(new GameButton("save"));
 		gameButtons.add(new GameButton("options"));
 		gameButtons.add(new GameButton("quit"));
+		setButtonCoordinates();
 	}
 	
 	//deal with mouse clicks
@@ -39,7 +42,7 @@ public class GameMenu extends Menu{
 			break;
 		case "quit":
 			action = Action.QUIT;
-			canvas.showConfirmation(this, "Quit to main menu?");
+			canvas.showConfirmation(this, "Exit to main menu?");
 				
 			break;
 		case "resume":
@@ -75,11 +78,8 @@ public class GameMenu extends Menu{
 		}
 	}
 	
-	public void draw(Graphics g, int width, int height){
-		menuX = (width/2) - (menuBack.getWidth(null)/2);
-		menuY = (height/2) - (menuBack.getHeight(null)/2); 
+	public void draw(Graphics g){
 		g.drawImage(menuBack, menuX, menuY, null);
-		setButtonCoordinates();
 		for(GameButton gb: gameButtons){
 			g.drawImage(gb.getImage(), gb.getX(), gb.getY(), null);
 		}

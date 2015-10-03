@@ -19,7 +19,7 @@ public abstract class Dialogue{
 	 * @param width The width of the entire game screen
 	 * @param height The height of the entire game screen
 	 */
-	public abstract void draw(Graphics g, int width, int height);
+	public abstract void draw(Graphics g);
 	
 	/**
 	 * for dealing with mouse clicks on the menu. returns true if button correctly selected

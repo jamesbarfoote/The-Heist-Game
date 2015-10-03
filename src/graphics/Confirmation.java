@@ -11,9 +11,11 @@ public class Confirmation extends Dialogue{
 	
 	public Confirmation(Menu m, String message, GameCanvas cv){
 		canvas = cv;
+		menuBack = GameCanvas.loadImage("popup.png");
+		menuX = (canvas.getWidth()/2) - (menuBack.getWidth(null)/2);
+		menuY = (canvas.getHeight()/2) - (menuBack.getHeight(null)/2);
 		listener = m;
 		this.message = message;
-		menuBack = GameCanvas.loadImage("popup.png");
 		gameButtons = new ArrayList<GameButton>();
 		
 		//add buttons to the menu
@@ -36,11 +38,8 @@ public class Confirmation extends Dialogue{
 	}
 	
 	
-	public void draw(Graphics g, int width, int height){
-		menuX = (width/2) - (menuBack.getWidth(null)/2);
-		menuY = (height/2) - (menuBack.getHeight(null)/2);
+	public void draw(Graphics g){
 		g.drawImage(menuBack, menuX, menuY, null);
-		
 		g.setFont(GameCanvas.textFont);
 		g.drawString(message, menuX + (menuBack.getWidth(null)/2) - (message.length()*4), menuY + 65);
 		

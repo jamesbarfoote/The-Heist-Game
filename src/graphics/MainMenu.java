@@ -22,6 +22,8 @@ public class MainMenu extends Menu{
 		canvas = cv;
 		menuBack = GameCanvas.loadImage("main_menu.png");
 		state = MenuState.MAIN;
+		menuX = (canvas.getWidth()/2) - (menuBack.getWidth(null)/2);
+		menuY = GameCanvas.logo.getHeight(null) + 90;
 		loadButtons();
 	}
 
@@ -34,7 +36,7 @@ public class MainMenu extends Menu{
 			gameButtons.add(new GameButton("options"));
 			gameButtons.add(new GameButton("quit"));
 		}
-		else if(state.equals(MenuState.NEW)){
+		else if(state.equals(MenuState.NEW) || state.equals(MenuState.LOAD)){
 			gameButtons.add(new GameButton("single"));
 			gameButtons.add(new GameButton("multi"));
 			gameButtons.add(new GameButton("back"));
@@ -67,17 +69,17 @@ public class MainMenu extends Menu{
 		case "new":
 			state = MenuState.NEW;
 			loadButtons();
-			canvas.simulateMouseMove();
 			break;
 		case "load":
-			
+			state = MenuState.LOAD;
+			loadButtons();
 			break;
 		case "back":
 			state = MenuState.MAIN;
 			loadButtons();
-			canvas.simulateMouseMove();
 			break;
 		}
+		canvas.simulateMouseMove();
 	}
 	
 	private void setupMultiplayer() {
@@ -110,11 +112,8 @@ public class MainMenu extends Menu{
 		}
 	}
 
-	public void draw(Graphics g, int width, int height){
-		menuX = (width/2) - (menuBack.getWidth(null)/2);
-		menuY = height + 15;
+	public void draw(Graphics g){
 		g.drawImage(menuBack, menuX, menuY, null);
-		setButtonCoordinates();
 		for(GameButton gb: gameButtons){
 			g.drawImage(gb.getImage(), gb.getX(), gb.getY(), null);
 		}

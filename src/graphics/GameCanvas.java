@@ -30,13 +30,14 @@ public class GameCanvas extends Canvas{
 	private static final long serialVersionUID = 1l;
 	public enum State{MENU, PLAYING}
 	
-	private static final String IMAGE_PATH = "images\\menus\\"; //path for locating images
+	private static final String IMAGE_PATH = "images" + File.separator + "menus" + File.separator; //path for locating images
 	private boolean menuUp = false;	//is the in game menu up?
 	private Image secondScreen;    	//second image for use in double buffering
 	private Dialogue gameMenu; 		//the current game menu
 	private State gameState; 		//determines the status of the game client
 	private Confirmation dialogue; 	//current dialogue open, if any
-	private Image logo;	
+	private Inventory inventory;	//window for observing player inventory
+	public static final Image logo = loadImage("title.png");
 	public static final Font textFont = new Font("TimesRoman", Font.PLAIN, 18); //font to be used for text in game
 	
 	//-----------------------------new-------------------------------//
@@ -60,7 +61,6 @@ public class GameCanvas extends Canvas{
 	
 	public GameCanvas(Dimension d, String[][] tiles, Room room){
 		setSize(d);
-		logo = loadImage("title.png");
 		setState(State.MENU);
 		this.tiles = tiles;
 		this.room = room;
@@ -86,10 +86,24 @@ public class GameCanvas extends Canvas{
 		dialogue = null;
 	}
 	
+	public void showInventory(){
+		if(gameState.equals(State.PLAYING) && !menuUp){
+			if(inventory == null){
+				inventory = new Inventory(this);
+			}
+			else{
+				inventory = null;
+			}
+		}
+	}
+	
 	/**deal with mouse clicks**/
 	public void mouseReleased(MouseEvent e) {
 		if(dialogue != null){
 			dialogue.mouseReleased(e);
+		}
+		else if(inventory != null){
+			inventory.mouseReleased(e);
 		}
 		else if(gameState.equals(State.PLAYING) && menuUp || gameState.equals(State.MENU)){
 			gameMenu.mouseReleased(e);				
@@ -100,6 +114,9 @@ public class GameCanvas extends Canvas{
 	public void mouseMoved(Point p){
 		if(dialogue != null){
 			dialogue.mouseMoved(p);
+		}
+		else if(inventory != null){
+			inventory.mouseMoved(p);
 		}
 		else if(gameState.equals(State.MENU) || gameState.equals(State.PLAYING) && menuUp){
 			gameMenu.mouseMoved(p);
@@ -133,26 +150,26 @@ public class GameCanvas extends Canvas{
 		g.fillRect(0, 0, getWidth(), getHeight());
 		
 		if(gameState.equals(State.PLAYING)){
-			Graphics2D g2;
-			g2 = (Graphics2D) g;
+			Graphics2D g2 = (Graphics2D)g;
 			try {
 				drawRoom(g2);
 			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			
+			if(inventory != null){
+				inventory.draw(g);
+			}
 			if(menuUp){
-				gameMenu.draw(g, getWidth(), getHeight());
+				gameMenu.draw(g);
 			}
 		}
 		else if(gameState.equals(State.MENU)){
 			g.drawImage(logo, getWidth()/2 - logo.getWidth(null)/2, 35, null);
-			gameMenu.draw(g, getWidth(), logo.getHeight(null) + 75);
+			gameMenu.draw(g);
 		}
 		
 		if(dialogue != null){
-			dialogue.draw(g, getWidth(), getHeight());
+			dialogue.draw(g);
 		}
 	}
 	
@@ -296,7 +313,7 @@ public class GameCanvas extends Canvas{
 					BufferedImage scaled = getScaledImage(myPicture, (int) width, (int) height);
 					AffineTransform at = new AffineTransform();
 					double[] translation = calculatePlayerTranslate(players.get(0).getLocation(), player.getLocation());
-					System.out.println(translation[0] + " " + translation[1]);
+					//System.out.println(translation[0] + " " + translation[1]);
 					at.translate(this.width/2 + translation[0], this.height/2 + translation[1]);
 					g.drawImage(scaled, at, getParent());
 				} catch (IOException e) {
