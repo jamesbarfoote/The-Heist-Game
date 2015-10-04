@@ -3,6 +3,7 @@ package graphics;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Image;
+import java.awt.Rectangle;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseWheelEvent;
 import java.util.ArrayList;
@@ -11,14 +12,16 @@ import java.util.List;
 import java.util.Map;
 
 public class Inventory extends Dialogue{
-	private final String message;
-	private final int BUTTONSPACE = 35;
-	private final int listX = 60;
-	private final int listY = 95;
-	private final int MAXDISPLAY = 6; //max number of items the inventory list can display at a time
+	public final String message;
+	public final int BUTTONSPACE = 35;
+	public final int listX = 60;
+	public final int listY = 95;
+	public final int MAXDISPLAY = 6; //max number of items the inventory list can display at a time
 	private int startList;
-	private Image scrollBar = GameCanvas.loadImage("scroll_bar.png");
-	private Map<String, Integer> items;
+	protected Image scrollBar = GameCanvas.loadImage("scroll_bar.png");
+	protected Rectangle box1; //area in which inventory items are drawn
+	
+	private Map<String, Integer> items; //for testing
 	
 	public Inventory(GameCanvas cv){
 		message = "Inventory";
@@ -26,6 +29,7 @@ public class Inventory extends Dialogue{
 		menuBack = GameCanvas.loadImage("inventory.png");
 		menuX = (canvas.getWidth()/2) - (menuBack.getWidth(null)/2);
 		menuY = (canvas.getHeight()/2) - (menuBack.getHeight(null)/2);
+		box1 = new Rectangle(menuX + listX - 20, listY + menuY - 10, menuBack.getWidth(null)/2 - (listX - 10), menuBack.getHeight(null)/2 - 10);
 		
 		//add close button
 		gameButtons = new ArrayList<GameButton>();
@@ -44,6 +48,8 @@ public class Inventory extends Dialogue{
 		items.put("tomato", 2);
 		items.put("donut", 1);
 		items.put("bullets", 10);
+		items.put("gum", 2);
+		items.put("bacon", 5);
 	}
 	
 	public void mouseReleased(MouseEvent e){
@@ -59,6 +65,7 @@ public class Inventory extends Dialogue{
 	
 	/**mouse wheel can be used to scroll through list of items**/
 	public void mouseWheelMoved(MouseWheelEvent e){
+		if(contains(e) == null) return;
 		if(e.getWheelRotation() < 0){
 			if(startList > 0){
 				startList--;
@@ -71,6 +78,13 @@ public class Inventory extends Dialogue{
 		}
 	}
 	
+	private Rectangle contains(MouseWheelEvent e){
+		if(box1.contains(e.getPoint())){
+			return box1;
+		}
+		return null;
+	}
+	
 	public void draw(Graphics g){
 		g.drawImage(menuBack, menuX, menuY, null);	
 		g.setFont(GameCanvas.textFont);
@@ -79,20 +93,22 @@ public class Inventory extends Dialogue{
 		g.drawImage(gb.getImage(), gb.getX(), gb.getY(), null);
 		
 		//draw list of items
-		int x = menuX + listX - 10;
-		int y = listY + menuY;
+		int x = box1.x;
+		int y = box1.y + 12;
 		List<String> itemNames = new ArrayList<String>(items.keySet());
-		for(int z = 0; z < MAXDISPLAY; z++){  
+		for(int z = 0; z < (MAXDISPLAY < items.size() ? MAXDISPLAY : items.size()); z++){  
 			g.drawString("" + items.get(itemNames.get(startList + z)), x, y);
 			g.drawString(itemNames.get(startList + z), x + 40, y);
 			y += 25;
 		}
+		
 		//now add scroll bar
+		if(items.size() <= MAXDISPLAY) return; //no need to add scroll bar if too few items
 		//spacedist is distance scrollbar moves between positions
-		int spaceDist = menuBack.getHeight(null)/2 - 10 - scrollBar.getHeight(null)/(items.keySet().size() - MAXDISPLAY);
+		int spaceDist = (menuBack.getHeight(null)/2 - scrollBar.getHeight(null) - 10)/(items.size() - MAXDISPLAY);
 		g.setColor(Color.BLACK);
-		g.fillRect(menuX + menuBack.getWidth(null)/2, menuY + listY - 10, 2, menuBack.getHeight(null)/2 - 10);
-		g.drawImage(scrollBar, menuX + menuBack.getWidth(null)/2 - scrollBar.getWidth(null)/2, (menuY + listY - 10) + startList*spaceDist, null);
+		g.fillRect((int)box1.getMaxX(), box1.y, 2, box1.height);
+		g.drawImage(scrollBar, (int)box1.getMaxX() - scrollBar.getWidth(null)/2, (menuY + listY - 10) + startList*spaceDist, null);
 	}
 
 }
