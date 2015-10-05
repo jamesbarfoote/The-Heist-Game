@@ -46,17 +46,6 @@ public class Server extends Thread{
 				//Send out the whole arraylist to the client
 				((ObjectOutputStream) outputStream).writeObject(players);
 				System.out.println("Sent out players");
-				//
-				//				
-				//				try {
-				//					Thread.sleep(2000);
-				//				} catch (InterruptedException e) {
-				//					// TODO Auto-generated catch block
-				//					e.printStackTrace();
-				//				}
-
-				//				while(true)
-				//				{
 
 				try {
 
@@ -96,8 +85,6 @@ public class Server extends Thread{
 				((ObjectOutputStream) outputStream).writeObject(temp);
 				System.out.println("Sent players");
 				System.out.println("Size = " + players.size());
-
-				//Add pause in here
 			}
 			//}
 			catch(SocketTimeoutException s)
@@ -114,14 +101,6 @@ public class Server extends Thread{
 
 	}
 
-	private Player createPlayer(int id) {
-		Point p = new Point();
-		p.setLocation(0, 0);
-		game.items.Weapon w = new game.items.Weapon("gun", true);
-		game.Player.Type t = game.Player.Type.robber;
-		Player currentPlayer = new Player(w, id, p, t);
-		return currentPlayer;
-	}
 
 	public static void main(String[] args) {
 		int port = Integer.parseInt(args[0]); //Get our port number from the command line

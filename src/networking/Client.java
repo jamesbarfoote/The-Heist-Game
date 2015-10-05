@@ -25,6 +25,7 @@ public class Client{
 	private int port;
 	private String host;
 	private Socket client;
+	private int ID;
 
 	public Client(int port, String host, Player p)
 	{
@@ -53,6 +54,7 @@ public class Client{
 	//the main class should determine what player u are
 	//then recieve an updated array of players
 	//public static void main(String [] args)
+	@SuppressWarnings("unchecked")
 	public void clientSyncing()
 	{		
 		try
@@ -64,7 +66,6 @@ public class Client{
 			System.out.println("Done");
 
 			ArrayList<Player> temp2;
-			int currentNumPlayers = 0;
 			System.out.println("About to get array");
 
 			System.out.println("in");
@@ -72,12 +73,13 @@ public class Client{
 
 				temp2 = (ArrayList<Player>) ((ObjectInputStream) inputStream).readObject();//get the arraylist for a single player
 				System.out.println("Got players");
-				currentNumPlayers = temp2.size();
+				ID = temp2.size();
+				currentPlayer.setID(ID);
 			} catch (ClassNotFoundException e) {
 				e.printStackTrace();
 			}
 			System.out.println("2");
-			
+
 			//send our player out
 			System.out.println("Main part");
 			ArrayList<Player> temp = new ArrayList<Player>();
@@ -97,24 +99,13 @@ public class Client{
 			System.out.println("Recieved players");
 			System.out.println("Client player size = " + players.size());
 
-			//Pause
-			//			try {
-			//				Thread.sleep(2000);
-			//			} catch (InterruptedException e) {
-			//				// TODO Auto-generated catch block
-			//				e.printStackTrace();
-			//			}
-			//}
-
-
-			
 
 		}catch(IOException e)
 		{
 			e.printStackTrace();
 		}
 	}
-	
+
 	public void closeConnection()
 	{
 		try {
@@ -129,27 +120,28 @@ public class Client{
 	{
 		return players;
 	}
-	
+
 	public void updatePlayer(Player p)
 	{
 		this.currentPlayer = p;
 	}
 
 	public void update()
-	{
+	{		
 		//send our player out
-		System.out.println("Main part");
+		System.out.println("Updating The server with the new player info");
 		ArrayList<Player> temp = new ArrayList<Player>();
 		temp.add(currentPlayer);
 		try{
-			((ObjectOutputStream) outputStream).writeObject(temp);
+			((ObjectOutputStream) outputStream).writeObject(temp);//Send out our player
+			System.out.println("Sent player");
 
 
 			//Recieve the players
 			try {
 
 				players = (ArrayList<Player>) ((ObjectInputStream) inputStream).readObject();//get the arraylist for a single player
-
+				System.out.println("Got players");
 			} catch (ClassNotFoundException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -160,5 +152,16 @@ public class Client{
 		{
 			e.printStackTrace();
 		}
+	}
+
+
+	public int getID() {
+		return ID;
+	}
+
+
+	public void setPlayer(Player p) {
+		currentPlayer = p;
+		
 	}
 }
