@@ -127,11 +127,6 @@ public class GameCanvas extends Canvas{
 		
 	}
 	
-	/**for closing a trade window**/
-	public void closeTrade(){
-		inventory = null;
-	}
-	
 	/**for dealing with mouse wheel movements**/
 	public void mouseWheelMoved(MouseWheelEvent e){
 		if(inventory != null){

@@ -4,6 +4,7 @@ import game.items.Weapon;
 
 import java.awt.Point;
 import java.io.Serializable;
+import java.util.Map;
 
 public class Player implements Serializable{
 	private Room room;
@@ -12,6 +13,7 @@ public class Player implements Serializable{
 	private Type t;
 	private int ID;
 	private Point currentPosition, oldPosition; //Location(coords of the square with current room)
+	private Map<String, Integer> inventory;	//contains player items
 	
 	//Robber or guard(can't pick up money, can open all doors) enum
 	public enum Type{
