@@ -346,6 +346,7 @@ public class GameCanvas extends Canvas{
 			if(p.getID() == cm.getID())//Get the current player
 			{
 				cm.setPlayer(p);//update the current plater in the client
+		//		System.out.println(p.getLocation().x);
 			}
 		}
 		cm.update(); //Tell the server the player has changed and to send it out
@@ -353,6 +354,7 @@ public class GameCanvas extends Canvas{
 		
 		players = cm.getPlayers();
 		for(Player player : this.players){
+			System.out.println("Drawing player at: " + player.getLocation().x);
 			Point location = player.getLocation();
 			if(location.equals(point)){
 				try {
