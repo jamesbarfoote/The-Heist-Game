@@ -6,7 +6,7 @@ import java.util.Scanner;
 
 public class fileReader {
 	
-	private String[][] tiles = new String[20][20];	//TODO Fix this needs to update size of array if data is too large.
+	private String[][] tiles = new String[10][10];	//TODO Fix this needs to update size of array if data is too large.
 	private int width, height = 0;
 
 	public fileReader() {
@@ -18,7 +18,7 @@ public class fileReader {
 	 */
 	@SuppressWarnings("resource")
 	private void readFile(){
-		File roomFile = new File("TestRoom.txt");
+		File roomFile = new File("TestRoom4.txt");
 		try {
 			Scanner scan = new Scanner(roomFile);
 			int lineNum = 0;

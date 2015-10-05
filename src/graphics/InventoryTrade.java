@@ -49,6 +49,7 @@ public class InventoryTrade extends Inventory{
 	}
 	
 	public void mouseReleased(MouseEvent e){
+		if(selectSwap(e)) return;
 		String button = onClick(e);
 		if(button == null) {
 			canvas.simulateMouseMove(); //no button was selected
@@ -56,6 +57,69 @@ public class InventoryTrade extends Inventory{
 		}
 		if(button.equals("close")){
 			canvas.showInventory();
+		}
+	}
+	
+	private boolean selectSwap(MouseEvent e){
+		if(e.getX() > box1.x && e.getX() < box1.getMaxX()){
+			int y = box1.y + 12;
+			for(int i = 0; i < (MAXDISPLAY < items1.size() ? MAXDISPLAY : items1.size()); i++){
+				if(e.getY() >= y && e.getY() < y + 25){
+					makeSwap(i, 1);
+					return true;
+				}
+				y += 25;
+			}
+		}
+		if(e.getX() > box2.x && e.getX() < box2.getMaxX()){
+			int y = box2.y + 12;
+			for(int i = 0; i < (MAXDISPLAY < items2.size() ? MAXDISPLAY : items2.size()); i++){
+				if(e.getY() >= y && e.getY() < y + 25){
+					makeSwap(i, 1);
+					return true;
+				}
+				y += 25;
+			}
+		}
+		return false;
+	}
+	
+	private void makeSwap(int i, int takenFrom){
+		if(takenFrom == 1){
+			List<String> itemNames = new ArrayList<String>(items1.keySet());
+			String item = itemNames.get(i + startList1);
+			//remove from first map
+			if(items1.get(item) == 1){
+				items1.remove(item);
+			}
+			else{
+				items1.put(item, items1.get(item) - 1);
+			}
+			//add to second map
+			if(items2.containsKey(item)){
+				items2.put(item, items2.get(item) + 1);
+			}
+			else{
+				items2.put(item, 1);
+			}
+		}
+		else {
+			List<String> itemNames = new ArrayList<String>(items2.keySet());
+			String item = itemNames.get(i + startList2);
+			//remove from second map
+			if(items2.get(item) == 1){
+				items2.remove(item);
+			}
+			else{
+				items2.put(item, items2.get(item) - 1);
+			}
+			//add to first map
+			if(items1.containsKey(item)){
+				items1.put(item, items1.get(item) + 1);
+			}
+			else{
+				items1.put(item, 1);
+			}
 		}
 	}
 	
