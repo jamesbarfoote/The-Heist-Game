@@ -43,6 +43,8 @@ public class Main extends JFrame implements KeyListener, MouseListener, MouseMot
 	private static final String MOVE_LEFT = "move left";
 	private static final String ZOOM_IN = "zoom in";
 	private static final String ZOOM_OUT = "zoom out";
+	private static final String ROTATE_CLOCKWISE = "rotate clockwise";
+	private static final String ROTATE_ANTICLOCKWISE = "rotate anticlockwise";
 	
 	Room currentRoom;
 	Player player;
@@ -103,9 +105,13 @@ public class Main extends JFrame implements KeyListener, MouseListener, MouseMot
 		/*-------------------Functionality----------------------------*/
 		functionality.getInputMap(IFW).put(KeyStroke.getKeyStroke("EQUALS"), ZOOM_IN);
 		functionality.getInputMap(IFW).put(KeyStroke.getKeyStroke("MINUS"), ZOOM_OUT);
+		functionality.getInputMap(IFW).put(KeyStroke.getKeyStroke("E"), ROTATE_CLOCKWISE);
+		functionality.getInputMap(IFW).put(KeyStroke.getKeyStroke("Q"), ROTATE_ANTICLOCKWISE);
 			
 		functionality.getActionMap().put(ZOOM_IN, new gameAction("=", player, canvas));
 		functionality.getActionMap().put(ZOOM_OUT, new gameAction("Minus", player, canvas));
+		functionality.getActionMap().put(ROTATE_CLOCKWISE, new gameAction("E", player, canvas));
+		functionality.getActionMap().put(ROTATE_ANTICLOCKWISE, new gameAction("Q", player, canvas));
 		
 		add(functionality);
 	}
