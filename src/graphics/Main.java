@@ -5,11 +5,8 @@ import game.Room;
 import game.control.gameAction;
 import game.control.moveAction;
 import game.items.Weapon;
-<<<<<<< HEAD
 import networking.Client;
 import networking.Server;
-=======
->>>>>>> 2326e1921a4e1f8e81c1d473e585e9b11bb0ca07
 
 import java.awt.Point;
 import java.awt.event.KeyEvent;
@@ -52,6 +49,7 @@ public class Main extends JFrame implements KeyListener, MouseListener, MouseMot
 	private static final String ROTATE_CLOCKWISE = "rotate clockwise";
 	private static final String ROTATE_ANTICLOCKWISE = "rotate anticlockwise";
 	
+	private Client cM;
 	Room currentRoom;
 	Player player;
 
@@ -67,15 +65,9 @@ public class Main extends JFrame implements KeyListener, MouseListener, MouseMot
 		players.add(player2);
 		cM = new Client(1234, "localhost", player);//Connect to the server. Change localhost to the actual host computer
 		//players = cM.getPlayers();
-		currentRoom = new Room("testRoom", data.getWidth(), data.getHeight(), players);
+		currentRoom = new Room("testRoom", data.getWidth(), data.getHeight(), players);	
 		
-<<<<<<< HEAD
 
-
-		
-		
-=======
->>>>>>> 2326e1921a4e1f8e81c1d473e585e9b11bb0ca07
 		//Create canvas
 		setSize(getToolkit().getScreenSize());
 		canvas = new GameCanvas(getSize(), data.getTiles(), currentRoom);
