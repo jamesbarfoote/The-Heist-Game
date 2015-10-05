@@ -2,6 +2,7 @@ package graphics;
 
 import game.Player;
 import game.Room;
+import networking.Client;
 
 import java.awt.Canvas;
 import java.awt.Color;
@@ -48,6 +49,7 @@ public class GameCanvas extends Canvas{
 	Room room;
 	ArrayList<Player> players = new ArrayList<Player>();
 	int width, height, rows, columns;
+	Client cm;
 	
 	double translateX, translateY;
 	double zoom;
@@ -61,7 +63,7 @@ public class GameCanvas extends Canvas{
 	
 	//-------------------------------------------------------------------//
 	
-	public GameCanvas(Dimension d, String[][] tiles, Room room){
+	public GameCanvas(Dimension d, String[][] tiles, Room room, Client cm){
 		setSize(d);
 		setState(State.MENU);
 		this.tiles = tiles;
@@ -70,6 +72,7 @@ public class GameCanvas extends Canvas{
 		this.rows = tiles.length;
 		this.columns = tiles.length;
 		this.zoom = 70;
+		this.cm = cm;
 		initialTranslate();
 	}
 	
@@ -343,6 +346,17 @@ public class GameCanvas extends Canvas{
 	
 	private void drawIcons(Graphics2D g, Point point){		
 //		Draw the player(s)	
+		for(Player p: players)
+		{
+			if(p.getID() == cm.getID())//Get the current player
+			{
+				cm.setPlayer(p);//update the current plater in the client
+			}
+		}
+		cm.update(); //Tell the server the player has changed and to send it out
+		
+		
+		players = cm.getPlayers();
 		for(Player player : this.players){
 			Point location = player.getLocation();
 			if(location.equals(point)){

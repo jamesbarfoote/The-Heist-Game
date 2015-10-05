@@ -64,13 +64,15 @@ public class Main extends JFrame implements KeyListener, MouseListener, MouseMot
 		players.add(player);
 		players.add(player2);
 		cM = new Client(1234, "localhost", player);//Connect to the server. Change localhost to the actual host computer
-		//players = cM.getPlayers();
+		players = cM.getPlayers();
+		player = players.get(0);
+		System.out.println("Number of players = " + players.size());
 		currentRoom = new Room("testRoom", data.getWidth(), data.getHeight(), players);	
 		
 
 		//Create canvas
 		setSize(getToolkit().getScreenSize());
-		canvas = new GameCanvas(getSize(), data.getTiles(), currentRoom);
+		canvas = new GameCanvas(getSize(), data.getTiles(), currentRoom, cM);
 		canvas.addKeyListener(this);
 		canvas.addMouseListener(this);
 		canvas.addMouseMotionListener(this);

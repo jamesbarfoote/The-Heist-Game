@@ -14,7 +14,7 @@ public class Server extends Thread{
 	//array of characters with their room
 
 	private ServerSocket sSocket;
-	private ArrayList<Player> players;
+	private ArrayList<Player> players = new ArrayList<Player>();;
 	static OutputStream outputStream;
 	static InputStream inputStream;
 
@@ -42,52 +42,49 @@ public class Server extends Thread{
 				inputStream = new ObjectInputStream(serv.getInputStream());
 				ArrayList<Player> temp = new ArrayList<Player>();
 				System.out.println("Created temp aray");
-				players = new ArrayList<Player>();
-				players.add(createPlayer(2));
+				
 				//Send out the whole arraylist to the client
 				((ObjectOutputStream) outputStream).writeObject(players);
 				System.out.println("Sent out players");
-				//
-				//				
-				//				try {
-				//					Thread.sleep(2000);
-				//				} catch (InterruptedException e) {
-				//					// TODO Auto-generated catch block
-				//					e.printStackTrace();
-				//				}
-
-				//				while(true)
-				//				{
 
 				try {
 
 					temp = (ArrayList<Player>) ((ObjectInputStream) inputStream).readObject();//get the arraylist for a single player
 					System.out.println("Got player");
-					System.out.println("ID = " + temp.get(0).getID());
+					System.out.println("ID = " + temp.get(0).getWeapon().getWeaponType());
 				} catch (ClassNotFoundException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-				//
-				if(temp != null && players != null){
-					if(players.contains(temp.get(0)))//If the player is already in then list then remove it and replace it
-					{
-						players.remove(temp.get(0));
-						players.add(temp.get(0));
-					}
-					else
-					{
-						players.add(temp.get(0));
-					}
-				}
 
 				//
-								//Send out the whole arraylist to the client
+//				if(temp != null && players != null){
+//					if(players.contains(temp.get(0)))//If the player is already in then list then remove it and replace it
+//					{
+//						players.remove(temp.get(0));
+//						players.add(temp.get(0));
+//					}
+//					else
+//					{
+//						players.add(temp.get(0));
+//					}
+//				}
+//				else if(temp != null && players == null)
+//				{
+				System.out.println("Temp size = " + temp.size());
+					players.add(temp.get(0));
+					for(Player p: players)
+					{
+						temp.add(p);
+					}
+				//}
+
+				//
+				//Send out the whole arraylist to the client
 				System.out.println("About to send players");
-								((ObjectOutputStream) outputStream).writeObject(players);
-								System.out.println("Sent players");
-
-				//Add pause in here
+				((ObjectOutputStream) outputStream).writeObject(temp);
+				System.out.println("Sent players");
+				System.out.println("Size = " + players.size());
 			}
 			//}
 			catch(SocketTimeoutException s)
@@ -104,14 +101,6 @@ public class Server extends Thread{
 
 	}
 
-	private Player createPlayer(int id) {
-		Point p = new Point();
-		p.setLocation(0, 0);
-		game.items.Weapon w = new game.items.Weapon("gun", true);
-		game.Player.Type t = game.Player.Type.robber;
-		Player currentPlayer = new Player(w, id, p, t);
-		return currentPlayer;
-	}
 
 	public static void main(String[] args) {
 		int port = Integer.parseInt(args[0]); //Get our port number from the command line
