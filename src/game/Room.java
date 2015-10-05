@@ -59,18 +59,6 @@ public class Room {
 		tiles[(int) oldPos.getX()][(int) oldPos.getY()] = 'T';
 	}
 
-	public String getRoomName(){
-		return roomName;
-	}
-	
-	public int getWidth(){
-		return width;
-	}
-	
-	public int getHeight(){
-		return height;
-	}
-
 	/**
 	 * Updates the char array to reflect a character moving into a different room by setting its current position to
 	 * and empty tile
@@ -89,7 +77,31 @@ public class Room {
 		tiles[(int) roomEntry.getX()][(int) roomEntry.getY()] = 'C';
 	}
 	
+	public String getRoomName(){
+		return roomName;
+	}
+	
+	public int getWidth(){
+		return width;
+	}
+	
+	public int getHeight(){
+		return height;
+	}
+	
 	public ArrayList<Player> getPlayers(){
 		return this.players;
+	}
+	
+	public List<Item> getItems(){
+		return itemsInRoom;
+	}
+	
+	public List<Money> getMoney(){
+		return moneyInRoom;
+	}
+	
+	public List<Door> getDoors(){
+		return roomDoors;
 	}
 }

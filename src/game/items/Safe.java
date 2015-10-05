@@ -6,16 +6,13 @@ import java.util.Random;
 import game.Money;
 import game.Room;
 
-public class Safe extends InteractableItem{
+public class Safe extends Container{
 	
 	private int[] combination;
-	private Room room;
-	private Point position; //Position in the room
 	private Money cashInSafe;
 	
 	public Safe(Room room, Point position, Money cashInSafe){
-		this.room = room;
-		this.position = position;
+		super(room, position);
 		this.cashInSafe = cashInSafe;
 		combination = new int[4];
 		generateCombination();
@@ -42,13 +39,5 @@ public class Safe extends InteractableItem{
 	 */
 	public int getMoney(){
 		return cashInSafe.getAmount();
-	}
-	
-	public Room getRoom(){
-		return room;
-	}
-	
-	public Point getPosition(){
-		return position;
 	}
 }

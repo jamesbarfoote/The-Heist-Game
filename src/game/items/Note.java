@@ -7,7 +7,6 @@ public class Note extends InteractableItem{
 	private String name; //Name of the note in inventory and game dialog
 	private String text; //The message written on the note
 	private Safe safeForCombo; //The safe the combination refers to, if applicable
-	private Room room;
 	private Container containedIn; //Container this object is in/on
 	
 	/**
@@ -18,9 +17,9 @@ public class Note extends InteractableItem{
 	 * @param containedIn
 	 */
 	public Note(String name, String text, Room room, Container containedIn){
+		super(room);
 		this.name = name;
 		this.text = text;
-		this.room = room;
 		this.containedIn = containedIn;
 	}
 	
@@ -32,10 +31,10 @@ public class Note extends InteractableItem{
 	 * @param containedIn
 	 */
 	public Note(String name, Safe safeForCombo, Room room, Container containedIn){
+		super(room);
 		this.name = name;
 		this.text = "";
 		this.safeForCombo = safeForCombo;
-		this.room = room;
 		this.containedIn = containedIn;
 		setTextAsSafeCombination();
 	}
@@ -60,10 +59,6 @@ public class Note extends InteractableItem{
 	
 	public Safe getSafeForCombo(){
 		return safeForCombo;
-	}
-	
-	public Room getRoom(){
-		return room;
 	}
 	
 	public Container getContainedIn(){
