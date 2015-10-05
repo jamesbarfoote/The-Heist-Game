@@ -26,10 +26,11 @@ public class Client{
 	private String host;
 	private Socket client;
 
-	public Client(int port, String host)
+	public Client(int port, String host, Player p)
 	{
 		this.port = port;
 		this.host = host;
+		this.currentPlayer = p;
 		players = new ArrayList<Player>();
 
 		try {
@@ -45,17 +46,6 @@ public class Client{
 		}//Connect to the specified computer
 
 		clientSyncing();
-	}
-
-
-	private void createPlayer(int id) {
-		Point p = new Point();
-		p.setLocation(0, 0);
-		Weapon w = new Weapon("gun", true);
-		game.Player.Type t = game.Player.Type.robber;
-		this.currentPlayer = new Player(w, 3, p, t);
-
-
 	}
 
 
@@ -87,7 +77,6 @@ public class Client{
 				e.printStackTrace();
 			}
 			System.out.println("2");
-			createPlayer(currentNumPlayers);
 			
 			//send our player out
 			System.out.println("Main part");

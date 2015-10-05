@@ -84,7 +84,7 @@ public class MainMenu extends Menu{
 	
 	private void setupMultiplayer() {
 		
-		Client cM = new Client(1234, "localhost");//Connect to the server. Change localhost to the actual host computer
+		//Client cM = new Client(1234, "localhost");//Connect to the server. Change localhost to the actual host computer
 		canvas.setState(State.PLAYING);
 	}
 
