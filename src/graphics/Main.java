@@ -5,6 +5,7 @@ import game.Room;
 import game.control.gameAction;
 import game.control.moveAction;
 import game.items.Weapon;
+import networking.Client;
 
 import java.awt.Point;
 import java.awt.event.KeyEvent;
@@ -43,21 +44,28 @@ public class Main extends JFrame implements KeyListener, MouseListener, MouseMot
 	private static final String MOVE_LEFT = "move left";
 	private static final String ZOOM_IN = "zoom in";
 	private static final String ZOOM_OUT = "zoom out";
+	private Client cM;
+	private ArrayList<Player> players;
 	
 	Room currentRoom;
 	Player player;
 
 	public Main(){
 		super("The Heist");
+
 		fileReader data = new fileReader();
 		
 		//Create player
 		player = new Player(new Weapon("Badass", true), 1, new Point(0,0), game.Player.Type.robber);
 		Player player2 = new Player(new Weapon("Badass", true), 1, new Point(8,1), game.Player.Type.robber);
-		ArrayList<Player> players = new ArrayList<Player>();
+		players = new ArrayList<Player>();
 		players.add(player);
 		players.add(player2);
 		currentRoom = new Room("testRoom", data.getWidth(), data.getHeight(), players);
+		
+		cM = new Client(1234, "localhost", player);//Connect to the server. Change localhost to the actual host computer
+
+		
 		
 		//Create canvas
 		setSize(getToolkit().getScreenSize());
