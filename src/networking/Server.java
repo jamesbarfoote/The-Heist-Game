@@ -17,10 +17,11 @@ public class Server extends Thread{
 	private ArrayList<Player> players = new ArrayList<Player>();;
 	static OutputStream outputStream;
 	static InputStream inputStream;
+	ArrayList<Socket> connections = new ArrayList<Socket>();
 
 	public Server(int port) throws IOException
 	{
-		sSocket = new ServerSocket(port);//Set the port
+		sSocket = new ServerSocket(1234);//Set the port
 		sSocket.setSoTimeout(100000);//Set how long to wait for a connection
 	}
 
@@ -34,24 +35,34 @@ public class Server extends Thread{
 		{
 			try
 			{
+				for(Socket s : connections)
+				{
+					if(s.isClosed())
+					{
+						connections.remove(s);
+					}
+				}
+
 				System.out.println("Waiting for client on port " + sSocket.getLocalPort() + "...");
 				Socket serv = sSocket.accept(); //Wait for a client to connect to us on this port
 				System.out.println("Server connected to " + serv.getRemoteSocketAddress());
 
+				connections.add(serv);
+
 				outputStream = new ObjectOutputStream(serv.getOutputStream());
 				inputStream = new ObjectInputStream(serv.getInputStream());
 				ArrayList<Player> temp = new ArrayList<Player>();
-				System.out.println("Created temp aray");
+			//	System.out.println("Created temp aray");
 
 				//Send out the whole arraylist to the client
 				((ObjectOutputStream) outputStream).writeObject(players);
-				System.out.println("Sent out players");
+				//System.out.println("Sent out players");
 
 				try {
 
 					temp = (ArrayList<Player>) ((ObjectInputStream) inputStream).readObject();//get the arraylist for a single player
-					System.out.println("Got player");
-					System.out.println("ID = " + temp.get(0).getWeapon().getWeaponType());
+//					System.out.println("Got player");
+//					System.out.println("ID = " + temp.get(0).getWeapon().getWeaponType());
 				} catch (ClassNotFoundException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -71,7 +82,7 @@ public class Server extends Thread{
 				//				}
 				//				else if(temp != null && players == null)
 				//				{
-				System.out.println("Temp size = " + temp.size());
+				//System.out.println("Temp size = " + temp.size());
 				players.add(temp.get(0));
 				for(Player p: players)
 				{
@@ -81,11 +92,18 @@ public class Server extends Thread{
 
 				//
 				//Send out the whole arraylist to the client
-				System.out.println("About to send players");
+			//	System.out.println("About to send players");
 				((ObjectOutputStream) outputStream).writeObject(temp);
-				System.out.println("Sent players");
-				System.out.println("Size = " + players.size());
-
+//				System.out.println("Sent players");
+//				System.out.println("Size = " + players.size());
+//
+//				System.out.println("LOOPED");
+				try {
+					Thread.sleep(2000);
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 				updateInfo();
 
 			}
@@ -105,33 +123,63 @@ public class Server extends Thread{
 	}
 
 
-	private void updateInfo() {
-		ArrayList<Player> temp = new ArrayList<Player>();
+	private void updateInfo()  {
+
 		while(true){
+			ArrayList<Player> temp = new ArrayList<Player>();
+			Player playerToRemove = null;
 			try{
 				//Recieve
 				try {
 
 					temp = (ArrayList<Player>) ((ObjectInputStream) inputStream).readObject();//get the arraylist for a single player
-					System.out.println("Got player");
-					System.out.println("ID = " + temp.get(0).getWeapon().getWeaponType());
+				//	System.out.println("Got player");
+					//System.out.println("ID = " + temp.get(0).getWeapon().getWeaponType());
 				} catch (ClassNotFoundException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-				players.add(temp.get(0));
-				for(Player p: players)
-				{
-					if(!temp.contains(p))
+				if(temp != null){
+
+					for(Player p: players)//Find and remove the player before updating it in the players array
 					{
-						temp.add(p);
+						if(p.getID() != temp.get(0).getID())
+						{
+							temp.add(p);
+						}
+						else
+						{
+							playerToRemove = p;
+						}
 					}
+					//players.add(temp.get(0));
+					//				for(Player p: players)
+					//				{
+					//					if(!temp.contains(p))
+					//					{
+					//						temp.add(p);
+					//					}
+					//				}
+
+
+					//Send out the whole arraylist to the client
+					((ObjectOutputStream) outputStream).writeObject(temp);
+					//System.out.println("Sent out players " + players.size());
+					if(playerToRemove != null) 
+					{
+						players.remove(playerToRemove);
+					//	System.out.println("Player removed!");
+					}
+					players.add(temp.get(0));
+				//	System.out.println("Player updated");
+					
+//					try {
+//						Thread.sleep(2000);
+//					} catch (InterruptedException e) {
+//						// TODO Auto-generated catch block
+//						e.printStackTrace();
+//					}
 				}
-
-
-				//Send out the whole arraylist to the client
-				((ObjectOutputStream) outputStream).writeObject(players);
-				System.out.println("Sent out players");
 			}
 			catch(SocketTimeoutException s)
 			{

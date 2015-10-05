@@ -24,7 +24,7 @@ public class moveAction extends AbstractAction {
 	 */
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		System.out.println("Action");
+		System.err.println("Action x =" + player.getLocation().x);
 		Point location = player.getLocation();
 		if (direction.equals("Left")){
 			player.setOldLocation(location);
