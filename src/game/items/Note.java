@@ -49,4 +49,24 @@ public class Note extends InteractableItem{
 		text += " " + safeForCombo.getCombination()[2];
 		text += " " + safeForCombo.getCombination()[3];
 	}
+	
+	public String getName(){
+		return name;
+	}
+	
+	public String getText(){
+		return text;
+	}
+	
+	public Safe getSafeForCombo(){
+		return safeForCombo;
+	}
+	
+	public Room getRoom(){
+		return room;
+	}
+	
+	public Container getContainedIn(){
+		return containedIn;
+	}
 }
