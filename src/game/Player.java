@@ -87,6 +87,7 @@ public class Player implements Serializable{
 	 * @param location the location to set
 	 */
 	public void setLocation(Point location) {
+		System.out.println("Player location set. X: " + location.x + "y: " + location.y);
 		this.currentPosition = location;
 	}
 	

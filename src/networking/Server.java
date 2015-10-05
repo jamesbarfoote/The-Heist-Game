@@ -14,7 +14,7 @@ public class Server extends Thread{
 	//array of characters with their room
 
 	private ServerSocket sSocket;
-	private ArrayList<Player> players;
+	private ArrayList<Player> players = new ArrayList<Player>();;
 	static OutputStream outputStream;
 	static InputStream inputStream;
 
@@ -42,8 +42,7 @@ public class Server extends Thread{
 				inputStream = new ObjectInputStream(serv.getInputStream());
 				ArrayList<Player> temp = new ArrayList<Player>();
 				System.out.println("Created temp aray");
-				players = new ArrayList<Player>();
-				players.add(createPlayer(2));
+				
 				//Send out the whole arraylist to the client
 				((ObjectOutputStream) outputStream).writeObject(players);
 				System.out.println("Sent out players");
@@ -63,29 +62,40 @@ public class Server extends Thread{
 
 					temp = (ArrayList<Player>) ((ObjectInputStream) inputStream).readObject();//get the arraylist for a single player
 					System.out.println("Got player");
-					System.out.println("ID = " + temp.get(0).getID());
+					System.out.println("ID = " + temp.get(0).getWeapon().getWeaponType());
 				} catch (ClassNotFoundException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-				//
-				if(temp != null && players != null){
-					if(players.contains(temp.get(0)))//If the player is already in then list then remove it and replace it
-					{
-						players.remove(temp.get(0));
-						players.add(temp.get(0));
-					}
-					else
-					{
-						players.add(temp.get(0));
-					}
-				}
 
 				//
-								//Send out the whole arraylist to the client
+//				if(temp != null && players != null){
+//					if(players.contains(temp.get(0)))//If the player is already in then list then remove it and replace it
+//					{
+//						players.remove(temp.get(0));
+//						players.add(temp.get(0));
+//					}
+//					else
+//					{
+//						players.add(temp.get(0));
+//					}
+//				}
+//				else if(temp != null && players == null)
+//				{
+				System.out.println("Temp size = " + temp.size());
+					players.add(temp.get(0));
+					for(Player p: players)
+					{
+						temp.add(p);
+					}
+				//}
+
+				//
+				//Send out the whole arraylist to the client
 				System.out.println("About to send players");
-								((ObjectOutputStream) outputStream).writeObject(players);
-								System.out.println("Sent players");
+				((ObjectOutputStream) outputStream).writeObject(temp);
+				System.out.println("Sent players");
+				System.out.println("Size = " + players.size());
 
 				//Add pause in here
 			}

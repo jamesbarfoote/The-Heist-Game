@@ -95,6 +95,7 @@ public class Client{
 				e.printStackTrace();
 			}
 			System.out.println("Recieved players");
+			System.out.println("Client player size = " + players.size());
 
 			//Pause
 			//			try {
@@ -106,12 +107,22 @@ public class Client{
 			//}
 
 
-			client.close(); //Close the TCP connection
+			
 
 		}catch(IOException e)
 		{
 			e.printStackTrace();
 		}
+	}
+	
+	public void closeConnection()
+	{
+		try {
+			client.close();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} //Close the TCP connection
 	}
 
 	public ArrayList<Player> getPlayers()

@@ -64,7 +64,9 @@ public class Main extends JFrame implements KeyListener, MouseListener, MouseMot
 		players.add(player);
 		players.add(player2);
 		cM = new Client(1234, "localhost", player);//Connect to the server. Change localhost to the actual host computer
-		//players = cM.getPlayers();
+		players = cM.getPlayers();
+		player = players.get(0);
+		System.out.println("Number of players = " + players.size());
 		currentRoom = new Room("testRoom", data.getWidth(), data.getHeight(), players);	
 		
 
