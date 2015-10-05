@@ -82,6 +82,7 @@ public class Main extends JFrame implements KeyListener, MouseListener, MouseMot
 		setUndecorated(true); 
 		pack();
 		setVisible(true);
+		this.canvas.setDimension(getWidth(), getHeight());
 		canvas.requestFocus();
 		
 		//start graphics thread running

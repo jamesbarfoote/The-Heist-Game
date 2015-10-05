@@ -73,6 +73,12 @@ public class GameCanvas extends Canvas{
 		initialTranslate();
 	}
 	
+	public void setDimension(int width, int height){
+		this.width = width;
+		this.height = height;
+		initialTranslate();
+	}
+	
 	/**for handling keyboard input**/
 	public void keyPressed(KeyEvent e){
 		int code = e.getKeyCode();
