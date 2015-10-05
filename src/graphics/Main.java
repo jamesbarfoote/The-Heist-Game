@@ -5,8 +5,11 @@ import game.Room;
 import game.control.gameAction;
 import game.control.moveAction;
 import game.items.Weapon;
+<<<<<<< HEAD
 import networking.Client;
 import networking.Server;
+=======
+>>>>>>> 2326e1921a4e1f8e81c1d473e585e9b11bb0ca07
 
 import java.awt.Point;
 import java.awt.event.KeyEvent;
@@ -46,31 +49,33 @@ public class Main extends JFrame implements KeyListener, MouseListener, MouseMot
 	private static final String MOVE_LEFT = "move left";
 	private static final String ZOOM_IN = "zoom in";
 	private static final String ZOOM_OUT = "zoom out";
-	private Client cM;
-	private ArrayList<Player> players;
+	private static final String ROTATE_CLOCKWISE = "rotate clockwise";
+	private static final String ROTATE_ANTICLOCKWISE = "rotate anticlockwise";
 	
 	Room currentRoom;
 	Player player;
 
 	public Main(){
 		super("The Heist");
-
 		fileReader data = new fileReader();
 		
 		//Create player
 		player = new Player(new Weapon("Badass", true), 1, new Point(0,0), game.Player.Type.robber);
 		Player player2 = new Player(new Weapon("Badass", true), 1, new Point(8,1), game.Player.Type.robber);
-		players = new ArrayList<Player>();
+		ArrayList<Player> players = new ArrayList<Player>();
 		players.add(player);
 		players.add(player2);
 		cM = new Client(1234, "localhost", player);//Connect to the server. Change localhost to the actual host computer
 		//players = cM.getPlayers();
 		currentRoom = new Room("testRoom", data.getWidth(), data.getHeight(), players);
 		
+<<<<<<< HEAD
 
 
 		
 		
+=======
+>>>>>>> 2326e1921a4e1f8e81c1d473e585e9b11bb0ca07
 		//Create canvas
 		setSize(getToolkit().getScreenSize());
 		canvas = new GameCanvas(getSize(), data.getTiles(), currentRoom);
@@ -115,9 +120,13 @@ public class Main extends JFrame implements KeyListener, MouseListener, MouseMot
 		/*-------------------Functionality----------------------------*/
 		functionality.getInputMap(IFW).put(KeyStroke.getKeyStroke("EQUALS"), ZOOM_IN);
 		functionality.getInputMap(IFW).put(KeyStroke.getKeyStroke("MINUS"), ZOOM_OUT);
+		functionality.getInputMap(IFW).put(KeyStroke.getKeyStroke("E"), ROTATE_CLOCKWISE);
+		functionality.getInputMap(IFW).put(KeyStroke.getKeyStroke("Q"), ROTATE_ANTICLOCKWISE);
 			
 		functionality.getActionMap().put(ZOOM_IN, new gameAction("=", player, canvas));
 		functionality.getActionMap().put(ZOOM_OUT, new gameAction("Minus", player, canvas));
+		functionality.getActionMap().put(ROTATE_CLOCKWISE, new gameAction("E", player, canvas));
+		functionality.getActionMap().put(ROTATE_ANTICLOCKWISE, new gameAction("Q", player, canvas));
 		
 		add(functionality);
 	}

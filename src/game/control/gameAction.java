@@ -30,6 +30,12 @@ public class gameAction extends AbstractAction {
 		else if (action.equals("Minus")){
 			this.canvas.setZoom(zoom - 10, 2);
 		}
+		else if(action.equals("E")){
+			this.canvas.rotate("clockwise");
+		}
+		else if(action.equals("Q")){
+			this.canvas.rotate("anti-clockwise");
+		}
 		this.canvas.repaint();
 	}
 }

@@ -378,6 +378,13 @@ public class GameCanvas extends Canvas{
 		return returnTranslate;
 	}
 	
+	/*
+	 * 
+	 */
+	public void rotate(String direction){
+		
+	}
+	
 	private BufferedImage getScaledImage(Image img, int w, int h){
 	    BufferedImage resized = new BufferedImage(w, h, BufferedImage.TRANSLUCENT);
 	    Graphics2D g2 = resized.createGraphics();
