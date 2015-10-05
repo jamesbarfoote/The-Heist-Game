@@ -6,6 +6,7 @@ import game.control.gameAction;
 import game.control.moveAction;
 import game.items.Weapon;
 import networking.Client;
+import networking.Server;
 
 import java.awt.Point;
 import java.awt.event.KeyEvent;
@@ -15,6 +16,7 @@ import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.awt.event.MouseWheelEvent;
 import java.awt.event.MouseWheelListener;
+import java.io.IOException;
 import java.util.ArrayList;
 
 import javax.swing.JComponent;
@@ -61,9 +63,11 @@ public class Main extends JFrame implements KeyListener, MouseListener, MouseMot
 		players = new ArrayList<Player>();
 		players.add(player);
 		players.add(player2);
+		cM = new Client(1234, "localhost", player);//Connect to the server. Change localhost to the actual host computer
+		//players = cM.getPlayers();
 		currentRoom = new Room("testRoom", data.getWidth(), data.getHeight(), players);
 		
-		cM = new Client(1234, "localhost", player);//Connect to the server. Change localhost to the actual host computer
+
 
 		
 		
