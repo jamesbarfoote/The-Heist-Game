@@ -36,17 +36,21 @@ public class Save {
 	 *            - The list of rooms in the current game.
 	 */
 	public static void saveToXML(ArrayList<Room> rooms) {
-		DocumentBuilderFactory icFactory = DocumentBuilderFactory.newInstance();
-		DocumentBuilder icBuilder;
-		try {
-			icBuilder = icFactory.newDocumentBuilder();
-			Document doc = icBuilder.newDocument();
-			Element mainRootElement = doc.createElementNS(null, "Room");
-			doc.appendChild(mainRootElement);
+		DocumentBuilderFactory docFactory = DocumentBuilderFactory
+				.newInstance();
+		DocumentBuilder docBuilder;
 
-			// append child elements to root element
+		try {
+			docBuilder = docFactory.newDocumentBuilder();
+
+			// root elements
+			Document doc = docBuilder.newDocument();
+			Element rootElement = doc.createElement("game");
+			doc.appendChild(rootElement);
+
+			// append rooms to root element
 			for (Room r : rooms) {
-				mainRootElement.appendChild(getRoom(doc, r));
+				rootElement.appendChild(getRoom(doc, r));
 			}
 
 			// output DOM XML to console
@@ -62,70 +66,122 @@ public class Save {
 		}
 	}
 
-// Template for xml
-//
-//	<room name="hall">
-//
-//		<item type="ImmovableItem">
-//			<name>Desk</name>
-//			<pos>x,y</pos>
-//		</item>
-//
-//		<item type="MovableItem">
-//		<name>chest</name>
-//		<pos>x,y</pos>
-//		</item>
-//
-//		<money>
-//			<amount>1200</amount>
-//			<pickedUp>false</pickedUp>
-//			TODO: need a position of money
-//		</money>
-//
-//		<door>
-//			<room1>roomName</room1>
-//			<room2>roomName</room2>
-//			<room1Entry>4,5</room1Entry>
-//			<room2Entry>4,5</room2Entry>
-//		</door>
-//
-//		<door>
-//			<room1>roomName</room1>
-//			<room2>roomName</room2>
-//			<room1Entry>4,5</room1Entry>
-//			<room2Entry>4,5</room2Entry>
-//		</door>
-//
-//	</room>
+	// Template for xml
+	//
+	// <room name="hall">
+	//
+	// <item type="ImmovableItem">
+	// <name>Desk</name>
+	// <pos>x,y</pos>
+	// </item>
+	//
+	// <item type="MovableItem">
+	// <name>chest</name>
+	// <pos>x,y</pos>
+	// </item>
+	//
+	// <money>
+	// <amount>1200</amount>
+	// <pickedUp>false</pickedUp>
+	// </money>
+	//
+	// <door>
+	// <room1>roomName</room1>
+	// <room2>roomName</room2>
+	// <room1Entry>4,5</room1Entry>
+	// <room2Entry>4,5</room2Entry>
+	// </door>
+	//
+	// <door>
+	// <room1>roomName</room1>
+	// <room2>roomName</room2>
+	// <room1Entry>4,5</room1Entry>
+	// <room2Entry>4,5</room2Entry>
+	// </door>
+	//
+	// </room>
 
 	private static Node getRoom(Document doc, Room r) {
+		// <room name="hall>
 		Element room = doc.createElement("room");
 		room.setAttribute("name", r.getRoomName());
-		for(Item i : r.getItems())
-			room.appendChild(getRoomItems(doc, name, value));
-		for(Money m : r.getMoney())
-			room.appendChild(getRoomMoney(doc, r));
-		for(Door d : r.getDoors())
-			room.appendChild(getRoomDoors(doc, r));
+
+		for (Item i : r.getItems())
+			room.appendChild(addItems(doc, i));
+
+		for (Money m : r.getMoney())
+			room.appendChild(addMoney(doc, m));
+
+		for (Door d : r.getDoors())
+			room.appendChild(addDoors(doc, d));
+
 		return room;
 	}
 
-	private static Node getRoomItems(Document doc, String name, String value) {
+	private static Node addItems(Document doc, Item i) {
+		// <item type=MoveableItem>
+		Element itemNode = doc.createElement("item");
+		itemNode.setAttribute("type", i.getClass().getName());
+
+		// add item name?
+		itemNode.appendChild(node(doc, "name", i.toString()));
+		// add item position
+		itemNode.appendChild(node(doc, "pos", i.getPosition().toString()));
+
+		return itemNode;
+	}
+
+	private static Node addMoney(Document doc, Money m) {
+		// <money>
+		Element moneyNode = doc.createElement("money");
+
+		moneyNode.appendChild(node(doc, "amount",
+				Integer.toString(m.getAmount())));
+		moneyNode.appendChild(node(doc, "pickedUp",
+				Boolean.toString(m.getPickedUp())));
+		moneyNode.appendChild(node(doc, "pos", m.getPosition().toString()));
+		
+		return moneyNode;
+	}
+
+	private static Node addDoors(Document doc, Door d) {
+		// <door>
+		Element doorNode = doc.createElement("door");
+
+		doorNode.appendChild(node(doc, "roor1", d.getRoom1().toString()));
+		doorNode.appendChild(node(doc, "roor2", d.getRoom2().toString()));
+		doorNode.appendChild(node(doc, "room1Entry", d.getRoom1Entry()
+				.toString()));
+		doorNode.appendChild(node(doc, "room2Entry", d.getRoom2Entry()
+				.toString()));
+
+		return doorNode;
+	}
+
+	/**
+	 * Helper method, create a new node in form <name>value</name>
+	 * 
+	 * @param doc
+	 *            - Document
+	 * @param name
+	 *            - Name of node
+	 * @param value
+	 *            - Value of node
+	 * @return Child node to be appended
+	 */
+	private static Node node(Document doc, String name, String value) {
 		Element node = doc.createElement(name);
 		node.appendChild(doc.createTextNode(value));
 		return node;
 	}
 
-	private static Node getRoomMoney(Document doc, String name, String value) {
-		Element node = doc.createElement(name);
-		node.appendChild(doc.createTextNode(value));
-		return node;
-	}
+	/**
+	 * Test for xml
+	 * 
+	 * @param args
+	 */
+	public static void main(String[] args) {
+		saveToXML(null);
 
-	private static Node getRoomDoor(Document doc, String name, String value) {
-		Element node = doc.createElement(name);
-		node.appendChild(doc.createTextNode(value));
-		return node;
 	}
-
 }
