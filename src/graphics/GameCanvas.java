@@ -319,7 +319,7 @@ public class GameCanvas extends Canvas{
 		    		drawIcons(g, point);
 		    	}
 		    	else if(tiles[i][j] == "wall"){
-		    		drawTile(g, p);
+		    		//drawTile(g, p);
 		    		drawIcons(g, point);
 		    	}
 		    }
@@ -379,10 +379,29 @@ public class GameCanvas extends Canvas{
 	}
 	
 	/*
-	 * 
+	 * Tile rotation works by reversing the elements in a row before doing a
+	 * transpose. This way a transpose of a transpose isn't the original but
+	 * instead a 180 degree rotation. (Each transpose rotates by 90 degrees this way).
 	 */
 	public void rotate(String direction){
+		String[][] reverse = new String[10][10];
+		//Reverse the elements of each row.
+		for(int col = 0; col < this.tiles.length; col++){
+			for(int row = 0; row < this.tiles[col].length; row++){
+				int index = this.tiles[col].length - row - 1;
+				reverse[col][row] = this.tiles[col][index];
+			}
+		}
 		
+		//Transpose the new array for rotation.
+		String[][] transpose = new String[reverse[0].length][reverse.length];
+        for (int i = 0; i < reverse.length; i++){
+            for (int j = 0; j < reverse[0].length; j++){
+            	transpose[j][i] = reverse[i][j];
+            }
+        }
+		
+		this.tiles = transpose;
 	}
 	
 	private BufferedImage getScaledImage(Image img, int w, int h){
