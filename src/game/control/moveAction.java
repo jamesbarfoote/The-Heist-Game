@@ -27,24 +27,40 @@ public class moveAction extends AbstractAction {
 		System.err.println("Action x =" + player.getLocation().x);
 		Point location = player.getLocation();
 		if (direction.equals("Left")){
-			player.setOldLocation(location);
-			player.setLocation(new Point(location.x, location.y-1));
+			Point newLocation = new Point(location.x, location.y-1);
 			this.player.setDirection("S");
+			if(isValidMove(newLocation) == false){
+				return;
+			}
+			player.setOldLocation(location);
+			player.setLocation(newLocation);
 		}
 		else if (direction.equals("Up")){
-			player.setOldLocation(location);
-			player.setLocation(new Point(location.x+1, location.y));
+			Point newLocation = new Point(location.x+1, location.y);
 			this.player.setDirection("E");
+			if(isValidMove(newLocation) == false){
+				return;
+			}
+			player.setOldLocation(location);
+			player.setLocation(newLocation);
 		}
 		else if (direction.equals("Right")){
-			player.setOldLocation(location);
-			player.setLocation(new Point(location.x, location.y+1));
+			Point newLocation = new Point(location.x, location.y+1);
 			this.player.setDirection("N");
+			if(isValidMove(newLocation) == false){
+				return;
+			}
+			player.setOldLocation(location);
+			player.setLocation(newLocation);
 		}
 		else if (direction.equals("Down")){
-			player.setOldLocation(location);
-			player.setLocation(new Point(location.x-1, location.y));
+			Point newLocation = new Point(location.x-1, location.y);
 			this.player.setDirection("W");
+			if(isValidMove(newLocation) == false){
+				return;
+			}
+			player.setOldLocation(location);
+			player.setLocation(newLocation);
 		}
 		this.canvas.translateRoom();
 		this.canvas.repaint();
@@ -55,7 +71,10 @@ public class moveAction extends AbstractAction {
 	 * @param newLocation - The location the player is trying to move
 	 * @return boolean - whether the new location goes through a wall
 	 */
-//	private boolean isValidMove(Point newLocation){
-//		return true;
-//	}
+	private boolean isValidMove(Point newLocation){
+		if(this.canvas.getTiles()[(int) newLocation.getX()][(int) newLocation.getY()].equals("floor")){
+			return true;
+		}
+		return false;
+	}
 }

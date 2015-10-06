@@ -58,7 +58,7 @@ public class Main extends JFrame implements KeyListener, MouseListener, MouseMot
 		fileReader data = new fileReader();
 		
 		//Create player
-		Player currentPlayer = new Player(new Weapon("Badass", true), 1, new Point(0,0), game.Player.Type.robber);
+		Player currentPlayer = new Player(new Weapon("Badass", true), 1, new Point(1,0), game.Player.Type.robber);
 		Player player2 = new Player(new Weapon("Badass", true), 1, new Point(8,1), game.Player.Type.robber);
 		ArrayList<Player> players = new ArrayList<Player>();
 		players.add(currentPlayer);

@@ -480,4 +480,8 @@ public class GameCanvas extends Canvas{
 			translateRoom();
 		}
 	}
+	
+	public String[][] getTiles(){
+		return this.tiles;
+	}
 }
