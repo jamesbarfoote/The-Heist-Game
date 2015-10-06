@@ -58,13 +58,13 @@ public class Main extends JFrame implements KeyListener, MouseListener, MouseMot
 		fileReader data = new fileReader();
 		
 		//Create player
-		player = new Player(new Weapon("Badass", true), 1, new Point(0,0), game.Player.Type.robber);
-		//Player player2 = new Player(new Weapon("Badass", true), 1, new Point(8,1), game.Player.Type.robber);
+		this.player = new Player(new Weapon("Badass", true), 1, new Point(0,0), game.Player.Type.robber);
+		Player player2 = new Player(new Weapon("Badass", true), 1, new Point(8,1), game.Player.Type.robber);
 		ArrayList<Player> players = new ArrayList<Player>();
-		players.add(player);
-		//players.add(player2);
+		players.add(this.player);
+		players.add(player2);
 		cM = new Client(1234, "localhost", player);//Connect to the server. Change localhost to the actual host computer
-		players = cM.getPlayers();
+		//players = cM.getPlayers();
 		for(Player p: players)
 		{
 			if(p.getID() == cM.getID())
@@ -74,7 +74,7 @@ public class Main extends JFrame implements KeyListener, MouseListener, MouseMot
 		}
 		
 		System.out.println("Number of players = " + players.size());
-		currentRoom = new Room("testRoom", data.getWidth(), data.getHeight(), players);	
+		this.currentRoom = new Room("testRoom", data.getWidth(), data.getHeight(), players);	
 		
 
 		//Create canvas

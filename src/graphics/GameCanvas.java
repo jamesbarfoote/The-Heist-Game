@@ -373,7 +373,7 @@ public class GameCanvas extends Canvas{
 		
 		//players = cm.getPlayers();
 		for(Player player : this.players){
-			System.out.println("Drawing player at: " + player.getLocation().x);
+		//	System.out.println("Drawing player at: " + player.getLocation().x);
 			Point location = player.getLocation();
 			if(location.equals(point)){
 				try {
@@ -431,10 +431,13 @@ public class GameCanvas extends Canvas{
 		    }
 			this.tiles = newArray;
 		}
-		//For rotating icons. Y becomes x, x becomes size - 1 - y.
-		Point location = players.get(0).getLocation();
-		this.translateX = this.translateX - ((zoom/2)*this.tiles[(int) location.getY()].length - 1 - (int) location.getY());
-		this.translateY = this.translateY + (zoom/4)*location.getX();
+		Point oldLocation = players.get(0).getLocation();
+		Point newLocation = new Point((this.tiles[(int) oldLocation.getY()].length - 1 - (int) oldLocation.getY()), (int) oldLocation.getX());
+		this.players.get(0).setOldLocation(oldLocation);
+		this.players.get(0).setLocation(newLocation);
+		double[] translation = calculatePlayerTranslate(players.get(0).getLocation(), players.get(0).getOldLocation());
+		this.translateX = this.translateX + translation[0];
+		this.translateY = this.translateY + translation[1];
 	}
 	
 	private BufferedImage getScaledImage(Image img, int w, int h){
