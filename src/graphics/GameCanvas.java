@@ -484,4 +484,8 @@ public class GameCanvas extends Canvas{
 	public String[][] getTiles(){
 		return this.tiles;
 	}
+	
+	public ArrayList<Player> getPlayers(){
+		return this.players;
+	}
 }
