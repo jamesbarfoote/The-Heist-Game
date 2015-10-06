@@ -34,6 +34,7 @@ public class GameCanvas extends Canvas{
 	public enum State{MENU, PLAYING}
 	
 	private static final String IMAGE_PATH = "images" + File.separator + "menus" + File.separator; //path for locating images
+	private static final String ASSET_PATH = "res" + File.separator; //path for locating assets.
 	private boolean menuUp = false;	//is the in game menu up?
 	private Image secondScreen;    	//second image for use in double buffering
 	private Dialogue gameMenu; 		//the current game menu
@@ -42,6 +43,7 @@ public class GameCanvas extends Canvas{
 	private Inventory inventory;	//window for observing player inventory
 	public static final Image logo = loadImage("title.png");
 	public static final Font textFont = new Font("TimesRoman", Font.PLAIN, 18); //font to be used for text in game
+	private static final int PI = 0;
 	
 	//-----------------------------new-------------------------------//
 	private AffineTransform at;
@@ -312,22 +314,23 @@ public class GameCanvas extends Canvas{
 		    	Point p = twoDToIso(point);
 		    	if(tiles[i][j] == "floor"){
 		    		//Thread.sleep(300);
-		    		drawTile(g, p);
+		    		drawTile(g, p, "floor_marble2_E.png");
 		    		//Thread.sleep(800);
 		    		drawIcons(g, point);
 		    	}
 		    	else if(tiles[i][j] == "wall"){
-		    		//drawTile(g, p);
+		    		drawTile(g, p, "floor_marble1_E.png");
 		    		drawIcons(g, point);
 		    	}
 		    }
 		}
 	}
 	
-	private void drawTile(Graphics2D g, Point p){	//TODO Should pass width and height and string of image
+	private void drawTile(Graphics2D g, Point p, String filename){	//TODO Should pass width and height and string of image
 		try {
-			BufferedImage myPicture = ImageIO.read(new File("floor.jpg"));
-			double width = zoom/2;
+			java.net.URL imageURL = GameCanvas.class.getResource(IMAGE_PATH + filename);
+			BufferedImage myPicture = ImageIO.read(new File(ASSET_PATH + filename));
+			double width = zoom;
 			double height = zoom/2;
 			BufferedImage scaled = getScaledImage(myPicture, (int) width, (int) height);
 			this.at = new AffineTransform();
@@ -352,19 +355,20 @@ public class GameCanvas extends Canvas{
 		cm.update(); //Tell the server the player has changed and to send it out
 		
 		
-		players = cm.getPlayers();
+		//players = cm.getPlayers();
 		for(Player player : this.players){
 			System.out.println("Drawing player at: " + player.getLocation().x);
 			Point location = player.getLocation();
 			if(location.equals(point)){
 				try {
 					BufferedImage myPicture = ImageIO.read(new File("link.jpg"));
-					double width = zoom/2;
+					double width = zoom/3;
 					double height = zoom/2;
 					BufferedImage scaled = getScaledImage(myPicture, (int) width, (int) height);
 					AffineTransform at = new AffineTransform();
 					double[] translation = calculatePlayerTranslate(players.get(0).getLocation(), player.getLocation());
 					//System.out.println(translation[0] + " " + translation[1]);
+					at.translate(this.zoom/3, this.zoom/-4);
 					at.translate(this.width/2 + translation[0], this.height/2 + translation[1]);
 					g.drawImage(scaled, at, getParent());
 				} catch (IOException e) {
@@ -395,24 +399,24 @@ public class GameCanvas extends Canvas{
 	 * instead a 180 degree rotation. (Each transpose rotates by 90 degrees this way).
 	 */
 	public void rotate(String direction){
-		String[][] reverse = new String[10][10];
-		//Reverse the elements of each row.
-		for(int col = 0; col < this.tiles.length; col++){
-			for(int row = 0; row < this.tiles[col].length; row++){
-				int index = this.tiles[col].length - row - 1;
-				reverse[col][row] = this.tiles[col][index];
-			}
+		String[][] newArray = new String[10][10];
+		if(direction.equals("anti-clockwise")){
+			for(int i=0; i<this.tiles[0].length; i++){
+		        for(int j=this.tiles.length-1; j>=0; j--){
+		            newArray[i][this.tiles.length-1-j] = this.tiles[j][i];
+		        }
+		    }
+			this.tiles = newArray;
 		}
-		
-		//Transpose the new array for rotation.
-		String[][] transpose = new String[reverse[0].length][reverse.length];
-        for (int i = 0; i < reverse.length; i++){
-            for (int j = 0; j < reverse[0].length; j++){
-            	transpose[j][i] = reverse[i][j];
-            }
-        }
-		
-		this.tiles = transpose;
+		else{
+			for(int i=this.tiles.length-1; i>=0; i--){
+		        for(int j=0; j<this.tiles[0].length; j++){
+		            newArray[this.tiles.length-1-i][j] = this.tiles[j][i];
+		        }
+		    }
+			this.tiles = newArray;
+		}
+		//For rotating icons. Y becomes x, x becomes:...
 	}
 	
 	private BufferedImage getScaledImage(Image img, int w, int h){
