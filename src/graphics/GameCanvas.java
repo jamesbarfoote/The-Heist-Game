@@ -341,20 +341,21 @@ public class GameCanvas extends Canvas{
 	
 	private void drawIcons(Graphics2D g, Point point){		
 //		Draw the player(s)	
+		System.out.println("x = " + players.get(0).getLocation().x);
 		for(Player p: players)
 		{
 			if(p.getID() == cm.getID())//Get the current player
 			{
-				cm.setPlayer(p);//update the current plater in the client
-		//		System.out.println(p.getLocation().x);
+				cm.setPlayer(players.get(1));//update the current plater in the client
+			//	System.err.println(p.getLocation().x);
 			}
 		}
 		cm.update(); //Tell the server the player has changed and to send it out
 		
 		
-		players = cm.getPlayers();
+		//players = cm.getPlayers();
 		for(Player player : this.players){
-			System.out.println("Drawing player at: " + player.getLocation().x);
+			//System.out.println("Drawing player at: " + player.getLocation().x);
 			Point location = player.getLocation();
 			if(location.equals(point)){
 				try {

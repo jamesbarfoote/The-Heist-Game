@@ -131,6 +131,8 @@ public class Client{
 	//	System.out.println("Updating The server with the new player info");
 		ArrayList<Player> temp = new ArrayList<Player>();
 		temp.add(currentPlayer);
+		
+		//currentPlayer.setLocation(new Point(10,0));
 		try{
 			((ObjectOutputStream) outputStream).writeObject(temp);//Send out our player
 	//		System.out.println("Sent player");
@@ -140,7 +142,7 @@ public class Client{
 			try {
 
 				players = (ArrayList<Player>) ((ObjectInputStream) inputStream).readObject();//get the arraylist for a single player
-				//System.out.println("Got players");
+				
 			} catch (ClassNotFoundException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
