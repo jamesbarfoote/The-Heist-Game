@@ -25,8 +25,11 @@ public class Door {
 	 * Unlocks the door if they player has provided the required key
 	 * Should only be called by methods handling door unlocking
 	 */
-	public void unlockDoor(){
-		locked = false;
+	public boolean unlockDoor(Key k){
+		if(isCorrectKey(k)){
+			locked = false;
+		}
+		return locked;
 	}
 	
 	/**
