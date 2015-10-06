@@ -11,10 +11,12 @@ import java.awt.Point;
  * @author Lachlan
  *
  */
-public abstract class NonInteractableItem implements Item{
+public class NonInteractableItem implements Item{
 
 	private Room room;
 	private Point position;
+	
+	//Add enum for types of Non-interactive items
 	
 	public NonInteractableItem(Room room, Point point){
 		this.room = room;
