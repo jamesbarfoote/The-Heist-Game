@@ -28,6 +28,10 @@ public class Container extends InteractableItem{
 		return item;
 	}
 	
+	/**
+	 * Removes the money/item from the container when a player picks it up
+	 * Should only be called by the methods that handle players picking up items
+	 */
 	public void itemRemovedFromContainer(){
 		money = null;
 		item = null;
