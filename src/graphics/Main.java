@@ -58,11 +58,12 @@ public class Main extends JFrame implements KeyListener, MouseListener, MouseMot
 		fileReader data = new fileReader();
 		
 		//Create player
-		this.player = new Player(new Weapon("Badass", true), 1, new Point(0,0), game.Player.Type.robber);
+		Player currentPlayer = new Player(new Weapon("Badass", true), 1, new Point(0,0), game.Player.Type.robber);
 		Player player2 = new Player(new Weapon("Badass", true), 1, new Point(8,1), game.Player.Type.robber);
 		ArrayList<Player> players = new ArrayList<Player>();
-		players.add(this.player);
+		players.add(currentPlayer);
 		players.add(player2);
+		this.player = currentPlayer;
 		cM = new Client(1234, "localhost", player);//Connect to the server. Change localhost to the actual host computer
 		//players = cM.getPlayers();
 		for(Player p: players)

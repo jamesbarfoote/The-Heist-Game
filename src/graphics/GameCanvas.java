@@ -435,9 +435,17 @@ public class GameCanvas extends Canvas{
 		Point newLocation = new Point((this.tiles[(int) oldLocation.getY()].length - 1 - (int) oldLocation.getY()), (int) oldLocation.getX());
 		this.players.get(0).setOldLocation(oldLocation);
 		this.players.get(0).setLocation(newLocation);
+		
+		oldLocation = players.get(1).getLocation();
+		newLocation = new Point((this.tiles[(int) oldLocation.getY()].length - 1 - (int) oldLocation.getY()), (int) oldLocation.getX());
+		this.players.get(1).setOldLocation(oldLocation);
+		this.players.get(1).setLocation(newLocation);
+		
 		double[] translation = calculatePlayerTranslate(players.get(0).getLocation(), players.get(0).getOldLocation());
 		this.translateX = this.translateX + translation[0];
 		this.translateY = this.translateY + translation[1];
+		
+		
 	}
 	
 	private BufferedImage getScaledImage(Image img, int w, int h){
