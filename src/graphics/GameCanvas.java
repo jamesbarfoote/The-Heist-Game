@@ -285,6 +285,8 @@ public class GameCanvas extends Canvas{
 		
 		//Player is moving
 		Point oldLocation = players.get(0).getOldLocation();
+		System.out.println(" x:" + oldLocation.x + " y: " + oldLocation.y);
+
 		//If moving north
 		if(oldLocation.getX() < location.getX() && oldLocation.getY() == location.getY()){
 			this.translateX = this.translateX - zoom/2;
@@ -344,7 +346,7 @@ public class GameCanvas extends Canvas{
 	private void drawIcons(Graphics2D g, Point point){		
 //		Draw the player(s)	
 		//System.out.println("x = " + players.get(0).getLocation().x);
-		System.out.println("Canvas. Current Player x: " + players.get(0).getLocation().x + " Y: " + players.get(0).getLocation().y);
+		//System.out.println("Canvas. Current Player x: " + players.get(0).getLocation().x + " Y: " + players.get(0).getLocation().y);
 
 		for(Player p: players)
 		{
@@ -360,16 +362,17 @@ public class GameCanvas extends Canvas{
 		players2 = cm.getPlayers();
 		for(Player p: players2)
 		{
+			System.out.println(p.getID() + " x:" + p.getLocation().x + " y: " + p.getLocation().y);
 			if(p.getID() == cm.getID())
 			{
 				currPlayer = p;
-				currPlayer.setLocation(new Point(8, 1));
+				//currPlayer.setLocation(new Point(8, 1));
 			}
 		}
 		
-		players2.get(0).setLocation(new Point(8,8));
+		//players2.get(0).setLocation(new Point(0,0));
 		for(Player player : this.players2){
-			player.setLocation(new Point(8, 1));
+			//player.setLocation(new Point(0, 0));
 			
 			//System.out.println("Drawing player at: " + player.getLocation().x);
 			Point location = player.getLocation();
