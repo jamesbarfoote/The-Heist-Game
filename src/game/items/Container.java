@@ -8,12 +8,14 @@ import game.Room;
 public class Container extends InteractableItem{
 
 	private Point position;
-	private Money money; //Null if no money in container
+	protected Money money; //Null if no money in container
 	private InteractableItem item; //Null if no item in container
 	
-	public Container(Room room, Point position) {
+	public Container(Room room, Point position, InteractableItem item, Money money) {
 		super(room);
 		this.position = position;
+		this.item = item;
+		this.money = money;
 	}
 	
 	public Point getPosition(){
@@ -32,7 +34,7 @@ public class Container extends InteractableItem{
 	 * Removes the money/item from the container when a player picks it up
 	 * Should only be called by the methods that handle players picking up items
 	 */
-	public void itemRemovedFromContainer(){
+	public void containerLooted(){
 		money = null;
 		item = null;
 	}

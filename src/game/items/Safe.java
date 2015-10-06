@@ -9,12 +9,10 @@ import game.Room;
 public class Safe extends Container{
 	
 	private int[] combination;
-	private Money cashInSafe;
 	private boolean locked;
 	
 	public Safe(Room room, Point position, Money cashInSafe){
-		super(room, position);
-		this.cashInSafe = cashInSafe;
+		super(room, position, null, cashInSafe);
 		locked = true;
 		combination = new int[4];
 		generateCombination();
@@ -42,15 +40,7 @@ public class Safe extends Container{
 	public int[] getCombination(){
 		return combination;
 	}
-	
-	/**
-	 * Returns the integer value of the Money object contained in the safe
-	 * @return
-	 */
-	public int getMoney(){
-		return cashInSafe.getAmount();
-	}
-	
+
 	public boolean isLocked(){
 		return locked;
 	}
