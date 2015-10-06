@@ -131,7 +131,7 @@ public class Client{
 	//	System.out.println("Updating The server with the new player info");
 		ArrayList<Player> temp = new ArrayList<Player>();
 		temp.add(currentPlayer);
-		
+		System.out.println("Current Player x: " + currentPlayer.getLocation().x + " Y: " + currentPlayer.getLocation().y);
 		//currentPlayer.setLocation(new Point(10,0));
 		try{
 			((ObjectOutputStream) outputStream).writeObject(temp);//Send out our player
@@ -148,6 +148,8 @@ public class Client{
 				e.printStackTrace();
 			}
 		//	System.out.println("Recieved players");
+			System.out.println("After Player x: " + currentPlayer.getLocation().x + " Y: " + currentPlayer.getLocation().y);
+
 		}
 		catch(IOException e)
 		{

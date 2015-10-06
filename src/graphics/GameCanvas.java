@@ -48,6 +48,8 @@ public class GameCanvas extends Canvas{
 	String[][] tiles;
 	Room room;
 	ArrayList<Player> players = new ArrayList<Player>();
+	ArrayList<Player> players2 = new ArrayList<Player>();
+
 	int width, height, rows, columns;
 	Client cm;
 	
@@ -341,30 +343,45 @@ public class GameCanvas extends Canvas{
 	
 	private void drawIcons(Graphics2D g, Point point){		
 //		Draw the player(s)	
-		System.out.println("x = " + players.get(0).getLocation().x);
+		//System.out.println("x = " + players.get(0).getLocation().x);
+		System.out.println("Canvas. Current Player x: " + players.get(0).getLocation().x + " Y: " + players.get(0).getLocation().y);
+
 		for(Player p: players)
 		{
 			if(p.getID() == cm.getID())//Get the current player
 			{
-				cm.setPlayer(players.get(1));//update the current plater in the client
+				cm.setPlayer(p);//update the current plater in the client
 			//	System.err.println(p.getLocation().x);
 			}
 		}
 		cm.update(); //Tell the server the player has changed and to send it out
 		
+		Player currPlayer = null;
+		players2 = cm.getPlayers();
+		for(Player p: players2)
+		{
+			if(p.getID() == cm.getID())
+			{
+				currPlayer = p;
+				currPlayer.setLocation(new Point(8, 1));
+			}
+		}
 		
-		//players = cm.getPlayers();
-		for(Player player : this.players){
+		players2.get(0).setLocation(new Point(8,8));
+		for(Player player : this.players2){
+			player.setLocation(new Point(8, 1));
+			
 			//System.out.println("Drawing player at: " + player.getLocation().x);
 			Point location = player.getLocation();
 			if(location.equals(point)){
 				try {
+					System.out.println("Entered");
 					BufferedImage myPicture = ImageIO.read(new File("link.jpg"));
 					double width = zoom/2;
 					double height = zoom/2;
 					BufferedImage scaled = getScaledImage(myPicture, (int) width, (int) height);
 					AffineTransform at = new AffineTransform();
-					double[] translation = calculatePlayerTranslate(players.get(0).getLocation(), player.getLocation());
+					double[] translation = calculatePlayerTranslate(currPlayer.getLocation(), player.getLocation());
 					//System.out.println(translation[0] + " " + translation[1]);
 					at.translate(this.width/2 + translation[0], this.height/2 + translation[1]);
 					g.drawImage(scaled, at, getParent());
