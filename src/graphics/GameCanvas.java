@@ -34,6 +34,7 @@ public class GameCanvas extends Canvas{
 	public enum State{MENU, PLAYING}
 	
 	private static final String IMAGE_PATH = "images" + File.separator + "menus" + File.separator; //path for locating images
+	private static final String ASSET_PATH = "res" + File.separator; //path for locating assets.
 	private boolean menuUp = false;	//is the in game menu up?
 	private Image secondScreen;    	//second image for use in double buffering
 	private Dialogue gameMenu; 		//the current game menu
@@ -42,14 +43,13 @@ public class GameCanvas extends Canvas{
 	private Inventory inventory;	//window for observing player inventory
 	public static final Image logo = loadImage("title.png");
 	public static final Font textFont = new Font("TimesRoman", Font.PLAIN, 18); //font to be used for text in game
+	private static final int PI = 0;
 	
 	//-----------------------------new-------------------------------//
 	private AffineTransform at;
 	String[][] tiles;
 	Room room;
 	ArrayList<Player> players = new ArrayList<Player>();
-	ArrayList<Player> players2 = new ArrayList<Player>();
-
 	int width, height, rows, columns;
 	Client cm;
 	
@@ -316,22 +316,39 @@ public class GameCanvas extends Canvas{
 		    	Point p = twoDToIso(point);
 		    	if(tiles[i][j] == "floor"){
 		    		//Thread.sleep(300);
-		    		drawTile(g, p);
+		    		drawTile(g, p, "floor_marble2_E.png");
 		    		//Thread.sleep(800);
 		    		drawIcons(g, point);
 		    	}
 		    	else if(tiles[i][j] == "wall"){
-		    		//drawTile(g, p);
+		    		//drawWall(g, p, "wall_block1_E.png");
+		    		drawTile(g, p, "floor_marble1_E.png");
 		    		drawIcons(g, point);
 		    	}
 		    }
 		}
 	}
 	
-	private void drawTile(Graphics2D g, Point p){	//TODO Should pass width and height and string of image
+//	private void drawWall(Graphics2D g, Point p, String filename){	//TODO Should pass width and height and string of image
+//		try {
+//			BufferedImage myPicture = ImageIO.read(new File(ASSET_PATH + filename));
+//			double width = zoom;
+//			double height = zoom*(3/2);
+//			BufferedImage scaled = getScaledImage(myPicture, (int) width, (int) height);
+//			this.at = new AffineTransform();
+//			this.at.translate(p.x + this.translateX, p.y + this.translateY);
+//			this.at.translate(0, this.zoom*(-3/2));
+//			g.drawImage(scaled, this.at, getParent());
+//		} catch (IOException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
+//	}
+	
+	private void drawTile(Graphics2D g, Point p, String filename){	//TODO Should pass width and height and string of image
 		try {
-			BufferedImage myPicture = ImageIO.read(new File("floor.jpg"));
-			double width = zoom/2;
+			BufferedImage myPicture = ImageIO.read(new File(ASSET_PATH + filename));
+			double width = zoom;
 			double height = zoom/2;
 			BufferedImage scaled = getScaledImage(myPicture, (int) width, (int) height);
 			this.at = new AffineTransform();
@@ -345,19 +362,23 @@ public class GameCanvas extends Canvas{
 	
 	private void drawIcons(Graphics2D g, Point point){		
 //		Draw the player(s)	
+<<<<<<< HEAD
 		//System.out.println("x = " + players.get(0).getLocation().x);
 		//System.out.println("Canvas. Current Player x: " + players.get(0).getLocation().x + " Y: " + players.get(0).getLocation().y);
 
+=======
+>>>>>>> cdbf81ae34285a0020fb77ccfa88c5230bea87c6
 		for(Player p: players)
 		{
 			if(p.getID() == cm.getID())//Get the current player
 			{
 				cm.setPlayer(p);//update the current plater in the client
-			//	System.err.println(p.getLocation().x);
+		//		System.out.println(p.getLocation().x);
 			}
 		}
 		cm.update(); //Tell the server the player has changed and to send it out
 		
+<<<<<<< HEAD
 		Player currPlayer = null;
 		players2 = cm.getPlayers();
 		for(Player p: players2)
@@ -375,17 +396,22 @@ public class GameCanvas extends Canvas{
 			//player.setLocation(new Point(0, 0));
 			
 			//System.out.println("Drawing player at: " + player.getLocation().x);
+=======
+		
+		//players = cm.getPlayers();
+		for(Player player : this.players){
+			System.out.println("Drawing player at: " + player.getLocation().x);
+>>>>>>> cdbf81ae34285a0020fb77ccfa88c5230bea87c6
 			Point location = player.getLocation();
 			if(location.equals(point)){
 				try {
-					System.out.println("Entered");
 					BufferedImage myPicture = ImageIO.read(new File("link.jpg"));
-					double width = zoom/2;
+					double width = zoom/3;
 					double height = zoom/2;
 					BufferedImage scaled = getScaledImage(myPicture, (int) width, (int) height);
 					AffineTransform at = new AffineTransform();
-					double[] translation = calculatePlayerTranslate(currPlayer.getLocation(), player.getLocation());
-					//System.out.println(translation[0] + " " + translation[1]);
+					double[] translation = calculatePlayerTranslate(players.get(0).getLocation(), player.getLocation());
+					at.translate(this.zoom/3, this.zoom/-4);
 					at.translate(this.width/2 + translation[0], this.height/2 + translation[1]);
 					g.drawImage(scaled, at, getParent());
 				} catch (IOException e) {
@@ -416,24 +442,27 @@ public class GameCanvas extends Canvas{
 	 * instead a 180 degree rotation. (Each transpose rotates by 90 degrees this way).
 	 */
 	public void rotate(String direction){
-		String[][] reverse = new String[10][10];
-		//Reverse the elements of each row.
-		for(int col = 0; col < this.tiles.length; col++){
-			for(int row = 0; row < this.tiles[col].length; row++){
-				int index = this.tiles[col].length - row - 1;
-				reverse[col][row] = this.tiles[col][index];
-			}
+		String[][] newArray = new String[10][10];
+		if(direction.equals("anti-clockwise")){
+			for(int i=0; i<this.tiles[0].length; i++){
+		        for(int j=this.tiles.length-1; j>=0; j--){
+		            newArray[i][this.tiles.length-1-j] = this.tiles[j][i];
+		        }
+		    }
+			this.tiles = newArray;
 		}
-		
-		//Transpose the new array for rotation.
-		String[][] transpose = new String[reverse[0].length][reverse.length];
-        for (int i = 0; i < reverse.length; i++){
-            for (int j = 0; j < reverse[0].length; j++){
-            	transpose[j][i] = reverse[i][j];
-            }
-        }
-		
-		this.tiles = transpose;
+		else{
+			for(int i=this.tiles.length-1; i>=0; i--){
+		        for(int j=0; j<this.tiles[0].length; j++){
+		            newArray[this.tiles.length-1-i][j] = this.tiles[j][i];
+		        }
+		    }
+			this.tiles = newArray;
+		}
+		//For rotating icons. Y becomes x, x becomes size - 1 - y.
+		Point location = players.get(0).getLocation();
+		this.translateX = this.translateX - ((zoom/2)*this.tiles[(int) location.getY()].length - 1 - (int) location.getY());
+		this.translateY = this.translateY + (zoom/4)*location.getX();
 	}
 	
 	private BufferedImage getScaledImage(Image img, int w, int h){

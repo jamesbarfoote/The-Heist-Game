@@ -126,7 +126,7 @@ public class Save {
 		// add item name?
 		itemNode.appendChild(node(doc, "name", i.toString()));
 		// add item position
-		itemNode.appendChild(node(doc, "pos", i.getPosition().toString()));
+//		itemNode.appendChild(node(doc, "pos", i.getPosition().toString()));
 
 		return itemNode;
 	}

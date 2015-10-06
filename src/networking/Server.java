@@ -195,10 +195,10 @@ public class Server extends Thread{
 	}
 
 	public static void main(String[] args) {
-		int port = Integer.parseInt(args[0]); //Get our port number from the command line
+	//	int port = Integer.parseInt(args[0]); //Get our port number from the command line
 		try
 		{
-			Thread t = new Server(port);
+			Thread t = new Server(1234);
 			t.start();//Start the thread and wait for connection
 		}
 		catch(IOException e)
