@@ -377,13 +377,13 @@ public class GameCanvas extends Canvas{
 			Point location = player.getLocation();
 			if(location.equals(point)){
 				try {
-					BufferedImage myPicture = ImageIO.read(new File(ASSET_PATH + filename + "_player_1"));
-					double width = zoom/3;
-					double height = zoom/2;
+					BufferedImage myPicture = ImageIO.read(new File(ASSET_PATH + filename + "_player_1.png"));
+					double width = zoom;
+					double height = zoom*1.5;
 					BufferedImage scaled = getScaledImage(myPicture, (int) width, (int) height);
 					AffineTransform at = new AffineTransform();
 					double[] translation = calculatePlayerTranslate(players.get(0).getLocation(), player.getLocation());
-					at.translate(this.zoom/3, this.zoom/-4);
+					at.translate(0, -this.zoom/1.2);
 					at.translate(this.width/2 + translation[0], this.height/2 + translation[1]);
 					g.drawImage(scaled, at, getParent());
 				} catch (IOException e) {
