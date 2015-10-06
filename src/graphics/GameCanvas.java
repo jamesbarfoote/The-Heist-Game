@@ -50,6 +50,7 @@ public class GameCanvas extends Canvas{
 	String[][] tiles;
 	Room room;
 	ArrayList<Player> players = new ArrayList<Player>();
+	ArrayList<Player> players2 = new ArrayList<Player>();
 	int width, height, rows, columns;
 	Client cm;
 	
@@ -362,12 +363,11 @@ public class GameCanvas extends Canvas{
 	
 	private void drawIcons(Graphics2D g, Point point){		
 //		Draw the player(s)	
-<<<<<<< HEAD
+
 		//System.out.println("x = " + players.get(0).getLocation().x);
 		//System.out.println("Canvas. Current Player x: " + players.get(0).getLocation().x + " Y: " + players.get(0).getLocation().y);
 
-=======
->>>>>>> cdbf81ae34285a0020fb77ccfa88c5230bea87c6
+
 		for(Player p: players)
 		{
 			if(p.getID() == cm.getID())//Get the current player
@@ -378,7 +378,7 @@ public class GameCanvas extends Canvas{
 		}
 		cm.update(); //Tell the server the player has changed and to send it out
 		
-<<<<<<< HEAD
+
 		Player currPlayer = null;
 		players2 = cm.getPlayers();
 		for(Player p: players2)
@@ -392,16 +392,15 @@ public class GameCanvas extends Canvas{
 		}
 		
 		//players2.get(0).setLocation(new Point(0,0));
-		for(Player player : this.players2){
 			//player.setLocation(new Point(0, 0));
 			
 			//System.out.println("Drawing player at: " + player.getLocation().x);
-=======
+
 		
 		//players = cm.getPlayers();
 		for(Player player : this.players){
 			System.out.println("Drawing player at: " + player.getLocation().x);
->>>>>>> cdbf81ae34285a0020fb77ccfa88c5230bea87c6
+
 			Point location = player.getLocation();
 			if(location.equals(point)){
 				try {
