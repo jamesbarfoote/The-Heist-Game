@@ -4,6 +4,7 @@ package game;
 
 import game.items.InteractableItem;
 import game.items.Key;
+import game.items.Safe;
 import game.items.Weapon;
 
 import java.awt.Point;
@@ -114,6 +115,18 @@ public abstract class Character {
 			}
 		}
 		return false; //A correct key was not found therefore the door is still locked
+	}
+	
+	/**
+	 * Attempts to unlock the given safe with the given combination attempt.
+	 * Combinations are stored as integer arrays of length 4
+	 * @param combinatAttempt
+	 * @param s
+	 * @return true if safe was unlocked, false if safe still locked
+	 */
+	public boolean attemptSafeCrack(int[] combinatAttempt, Safe s){
+		if(combinatAttempt.length != 4){ } //throw an exception here (need to make exception)
+		return s.unlockSafe(combinatAttempt);
 	}
 	
 	/**

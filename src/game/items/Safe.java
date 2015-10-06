@@ -10,10 +10,12 @@ public class Safe extends Container{
 	
 	private int[] combination;
 	private Money cashInSafe;
+	private boolean locked;
 	
 	public Safe(Room room, Point position, Money cashInSafe){
 		super(room, position);
 		this.cashInSafe = cashInSafe;
+		locked = true;
 		combination = new int[4];
 		generateCombination();
 	}
@@ -29,6 +31,14 @@ public class Safe extends Container{
 		}
 	}
 	
+	public boolean unlockSafe(int[] comboAttempt){
+		for(int i = 0; i < combination.length; i++){
+			if(comboAttempt[i] != combination[i]){ return false; } //A wrong number was entered
+		}
+		locked = false; //The attempted combo must be correct, so unlocks the safe
+		return true;
+	}
+	
 	public int[] getCombination(){
 		return combination;
 	}
@@ -39,5 +49,9 @@ public class Safe extends Container{
 	 */
 	public int getMoney(){
 		return cashInSafe.getAmount();
+	}
+	
+	public boolean isLocked(){
+		return locked;
 	}
 }
