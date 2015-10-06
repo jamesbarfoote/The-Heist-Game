@@ -29,22 +29,22 @@ public class moveAction extends AbstractAction {
 		if (direction.equals("Left")){
 			player.setOldLocation(location);
 			player.setLocation(new Point(location.x, location.y-1));
-			this.canvas.setPlayerDirection("S");
+			this.player.setDirection("S");
 		}
 		else if (direction.equals("Up")){
 			player.setOldLocation(location);
 			player.setLocation(new Point(location.x+1, location.y));
-			this.canvas.setPlayerDirection("E");
+			this.player.setDirection("E");
 		}
 		else if (direction.equals("Right")){
 			player.setOldLocation(location);
 			player.setLocation(new Point(location.x, location.y+1));
-			this.canvas.setPlayerDirection("N");
+			this.player.setDirection("N");
 		}
 		else if (direction.equals("Down")){
 			player.setOldLocation(location);
 			player.setLocation(new Point(location.x-1, location.y));
-			this.canvas.setPlayerDirection("W");
+			this.player.setDirection("W");
 		}
 		this.canvas.translateRoom();
 		this.canvas.repaint();

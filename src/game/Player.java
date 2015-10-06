@@ -14,7 +14,22 @@ public class Player implements Serializable{
 	private int ID;
 	private Point currentPosition, oldPosition; //Location(coords of the square with current room)
 	private Map<String, Integer> inventory;	//contains player items
+	private String direction = "N";
 	
+	/**
+	 * @return the direction
+	 */
+	public String getDirection() {
+		return direction;
+	}
+
+	/**
+	 * @param direction the direction to set
+	 */
+	public void setDirection(String direction) {
+		this.direction = direction;
+	}
+
 	//Robber or guard(can't pick up money, can open all doors) enum
 	public enum Type{
 		robber, guard

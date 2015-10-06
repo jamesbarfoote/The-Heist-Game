@@ -56,7 +56,6 @@ public class GameCanvas extends Canvas{
 	double translateX, translateY;
 	double zoom;
 	int zooming = 0;	//0 = Not zooming, 1 = zooming in, 2 = zooming out
-	String playerDirection = "N";
 	
 	/*
 	 * Everything is held within the rooms. The canvas needs a current room to draw. This room will hold an
@@ -317,12 +316,12 @@ public class GameCanvas extends Canvas{
 		    		//Thread.sleep(300);
 		    		drawTile(g, p, "floor_marble2_E.png");
 		    		//Thread.sleep(800);
-		    		drawIcons(g, point, this.playerDirection);
+		    		drawIcons(g, point);
 		    	}
 		    	else if(tiles[i][j] == "wall"){
 		    		//drawWall(g, p, "wall_block1_E.png");
 		    		drawTile(g, p, "floor_marble1_E.png");
-		    		drawIcons(g, point, this.playerDirection);
+		    		drawIcons(g, point);
 		    	}
 		    }
 		}
@@ -359,7 +358,7 @@ public class GameCanvas extends Canvas{
 		}
 	}
 	
-	private void drawIcons(Graphics2D g, Point point, String filename){		
+	private void drawIcons(Graphics2D g, Point point){		
 //		Draw the player(s)	
 		for(Player p: players)
 		{
@@ -378,7 +377,7 @@ public class GameCanvas extends Canvas{
 			Point location = player.getLocation();
 			if(location.equals(point)){
 				try {
-					BufferedImage myPicture = ImageIO.read(new File(ASSET_PATH + filename + "_player_1.png"));
+					BufferedImage myPicture = ImageIO.read(new File(ASSET_PATH + player.getDirection() + "_player_1.png"));
 					double width = zoom;
 					double height = zoom*1.5;
 					BufferedImage scaled = getScaledImage(myPicture, (int) width, (int) height);
@@ -480,9 +479,5 @@ public class GameCanvas extends Canvas{
 			this.zooming = direction;
 			translateRoom();
 		}
-	}
-	
-	public void setPlayerDirection(String direction){
-		this.playerDirection = direction;
 	}
 }
