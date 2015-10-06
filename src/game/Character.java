@@ -2,6 +2,7 @@ package game;
 
 //import game.items.Weapon;
 
+import game.items.Container;
 import game.items.InteractableItem;
 import game.items.Key;
 import game.items.Safe;
@@ -21,12 +22,14 @@ public abstract class Character {
 	private Room currentRoom;
 	private Point currentPosition, oldPosition;
 	private List<InteractableItem> items;
+	private int moneyHeld;
 	
 	public Character(/*Weapon currentWeapon, Room currentRoom,*/ Point currentPosition){
 		this.currentWeapon = currentWeapon;
 		this.currentRoom = currentRoom;
 		this.currentPosition = currentPosition;
 		this.oldPosition  = currentPosition;
+		moneyHeld = 0;
 	}
 	
 	/**
@@ -130,6 +133,17 @@ public abstract class Character {
 	}
 	
 	/**
+	 * Loots the given container by adding the item/money in it to the characters items array/money integer
+	 * Removes the items from the container
+	 * @param c
+	 */
+	public void lootContainer(Container c){
+		if(c.getItem() != null){ items.add(c.getItem()); }
+		if(c.getMoney() != 0){ moneyHeld += c.getMoney(); }
+		c.containerLooted();
+	}
+	
+	/**
 	 * @return the location
 	 */
 	public Point getLocation() {
@@ -155,5 +169,9 @@ public abstract class Character {
 	 */
 	public void setOldLocation(Point location) {
 		this.oldPosition = location;
+	}
+	
+	public int getMoneyHeld(){
+		return moneyHeld;
 	}
 }
