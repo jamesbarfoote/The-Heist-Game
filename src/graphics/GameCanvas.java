@@ -316,12 +316,12 @@ public class GameCanvas extends Canvas{
 		    		//Thread.sleep(300);
 		    		drawTile(g, p, "floor_marble2_E.png");
 		    		//Thread.sleep(800);
-		    		drawIcons(g, point);
+		    		drawIcons(g, point, "N");
 		    	}
 		    	else if(tiles[i][j] == "wall"){
 		    		//drawWall(g, p, "wall_block1_E.png");
 		    		drawTile(g, p, "floor_marble1_E.png");
-		    		drawIcons(g, point);
+		    		drawIcons(g, point, "N");
 		    	}
 		    }
 		}
@@ -358,7 +358,7 @@ public class GameCanvas extends Canvas{
 		}
 	}
 	
-	private void drawIcons(Graphics2D g, Point point){		
+	private void drawIcons(Graphics2D g, Point point, String filename){		
 //		Draw the player(s)	
 		for(Player p: players)
 		{
@@ -377,7 +377,7 @@ public class GameCanvas extends Canvas{
 			Point location = player.getLocation();
 			if(location.equals(point)){
 				try {
-					BufferedImage myPicture = ImageIO.read(new File("link.jpg"));
+					BufferedImage myPicture = ImageIO.read(new File(ASSET_PATH + filename + "_player_1"));
 					double width = zoom/3;
 					double height = zoom/2;
 					BufferedImage scaled = getScaledImage(myPicture, (int) width, (int) height);

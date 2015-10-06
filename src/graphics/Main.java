@@ -70,7 +70,7 @@ public class Main extends JFrame implements KeyListener, MouseListener, MouseMot
 		{
 			if(p.getID() == cM.getID())
 			{
-				player = p;
+				//player = p;
 			}
 		}
 		
