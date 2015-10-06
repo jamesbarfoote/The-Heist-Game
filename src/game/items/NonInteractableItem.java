@@ -11,16 +11,33 @@ import java.awt.Point;
  * @author Lachlan
  *
  */
-public abstract class NonInteractableItem implements Item{
+public class NonInteractableItem implements Item{
 
 	private Room room;
 	private Point position;
+	private itemType itemType;
 	
-	public NonInteractableItem(Room room, Point point){
-		this.room = room;
-		this.position = position;
+	public enum itemType{
+		PLANT, COUCH, LAMP
 	}
 	
+	public NonInteractableItem(Room room, Point point, String type){
+		this.room = room;
+		this.position = position;
+		setType(type);
+	}
+	
+	private void setType(String type) {
+		switch(type){
+			case "plant":
+				itemType = itemType.PLANT;
+			case "couch":
+				itemType = itemType.COUCH;
+			case "lamp":
+				itemType = itemType.LAMP;
+		}
+	}
+
 	public Room getRoom(){
 		return room;
 	}
