@@ -319,6 +319,7 @@ public class GameCanvas extends Canvas{
 		    		drawIcons(g, point);
 		    	}
 		    	else if(tiles[i][j] == "wall"){
+		    		//drawWall(g, p, "wall_block1_E.png");
 		    		drawTile(g, p, "floor_marble1_E.png");
 		    		drawIcons(g, point);
 		    	}
@@ -326,9 +327,24 @@ public class GameCanvas extends Canvas{
 		}
 	}
 	
+//	private void drawWall(Graphics2D g, Point p, String filename){	//TODO Should pass width and height and string of image
+//		try {
+//			BufferedImage myPicture = ImageIO.read(new File(ASSET_PATH + filename));
+//			double width = zoom;
+//			double height = zoom*(3/2);
+//			BufferedImage scaled = getScaledImage(myPicture, (int) width, (int) height);
+//			this.at = new AffineTransform();
+//			this.at.translate(p.x + this.translateX, p.y + this.translateY);
+//			this.at.translate(0, this.zoom*(-3/2));
+//			g.drawImage(scaled, this.at, getParent());
+//		} catch (IOException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
+//	}
+	
 	private void drawTile(Graphics2D g, Point p, String filename){	//TODO Should pass width and height and string of image
 		try {
-			java.net.URL imageURL = GameCanvas.class.getResource(IMAGE_PATH + filename);
 			BufferedImage myPicture = ImageIO.read(new File(ASSET_PATH + filename));
 			double width = zoom;
 			double height = zoom/2;
@@ -367,7 +383,6 @@ public class GameCanvas extends Canvas{
 					BufferedImage scaled = getScaledImage(myPicture, (int) width, (int) height);
 					AffineTransform at = new AffineTransform();
 					double[] translation = calculatePlayerTranslate(players.get(0).getLocation(), player.getLocation());
-					//System.out.println(translation[0] + " " + translation[1]);
 					at.translate(this.zoom/3, this.zoom/-4);
 					at.translate(this.width/2 + translation[0], this.height/2 + translation[1]);
 					g.drawImage(scaled, at, getParent());
@@ -416,7 +431,10 @@ public class GameCanvas extends Canvas{
 		    }
 			this.tiles = newArray;
 		}
-		//For rotating icons. Y becomes x, x becomes:...
+		//For rotating icons. Y becomes x, x becomes size - 1 - y.
+		Point location = players.get(0).getLocation();
+		this.translateX = this.translateX - ((zoom/2)*this.tiles[(int) location.getY()].length - 1 - (int) location.getY());
+		this.translateY = this.translateY + (zoom/4)*location.getX();
 	}
 	
 	private BufferedImage getScaledImage(Image img, int w, int h){
