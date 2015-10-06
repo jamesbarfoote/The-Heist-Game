@@ -112,10 +112,10 @@ public class Main extends JFrame implements KeyListener, MouseListener, MouseMot
 		movements.getInputMap(IFW).put(KeyStroke.getKeyStroke("DOWN"), MOVE_DOWN);
 		movements.getInputMap(IFW).put(KeyStroke.getKeyStroke("LEFT"), MOVE_LEFT);
 			
-		movements.getActionMap().put(MOVE_UP, new moveAction("Up", player, canvas));
-		movements.getActionMap().put(MOVE_RIGHT, new moveAction("Right", player, canvas));
-		movements.getActionMap().put(MOVE_DOWN, new moveAction("Down", player, canvas));
-		movements.getActionMap().put(MOVE_LEFT, new moveAction("Left", player, canvas));
+		movements.getActionMap().put(MOVE_UP, new moveAction("Up", this.player, canvas));
+		movements.getActionMap().put(MOVE_RIGHT, new moveAction("Right", this.player, canvas));
+		movements.getActionMap().put(MOVE_DOWN, new moveAction("Down", this.player, canvas));
+		movements.getActionMap().put(MOVE_LEFT, new moveAction("Left", this.player, canvas));
 			
 		add(movements);
 		/*-------------------Functionality----------------------------*/
@@ -124,10 +124,10 @@ public class Main extends JFrame implements KeyListener, MouseListener, MouseMot
 		functionality.getInputMap(IFW).put(KeyStroke.getKeyStroke("E"), ROTATE_CLOCKWISE);
 		functionality.getInputMap(IFW).put(KeyStroke.getKeyStroke("Q"), ROTATE_ANTICLOCKWISE);
 			
-		functionality.getActionMap().put(ZOOM_IN, new gameAction("=", player, canvas));
-		functionality.getActionMap().put(ZOOM_OUT, new gameAction("Minus", player, canvas));
-		functionality.getActionMap().put(ROTATE_CLOCKWISE, new gameAction("E", player, canvas));
-		functionality.getActionMap().put(ROTATE_ANTICLOCKWISE, new gameAction("Q", player, canvas));
+		functionality.getActionMap().put(ZOOM_IN, new gameAction("=", this.player, canvas));
+		functionality.getActionMap().put(ZOOM_OUT, new gameAction("Minus", this.player, canvas));
+		functionality.getActionMap().put(ROTATE_CLOCKWISE, new gameAction("E", this.player, canvas));
+		functionality.getActionMap().put(ROTATE_ANTICLOCKWISE, new gameAction("Q", this.player, canvas));
 		
 		add(functionality);
 	}
