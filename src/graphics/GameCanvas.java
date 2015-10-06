@@ -408,13 +408,10 @@ public class GameCanvas extends Canvas{
 		return returnTranslate;
 	}
 	
-	/*
-	 * Tile rotation works by reversing the elements in a row before doing a
-	 * transpose. This way a transpose of a transpose isn't the original but
-	 * instead a 180 degree rotation. (Each transpose rotates by 90 degrees this way).
-	 */
 	public void rotate(String direction){
 		String[][] newArray = new String[10][10];
+		Point oldLocation = players.get(0).getLocation();
+		Point newLocation;
 		if(direction.equals("anti-clockwise")){
 			for(int i=0; i<this.tiles[0].length; i++){
 		        for(int j=this.tiles.length-1; j>=0; j--){
@@ -424,6 +421,7 @@ public class GameCanvas extends Canvas{
 			for(Player player : this.players){
 				player.rotatePlayer("anti-clockwise");
 			}
+			newLocation = new Point((int) oldLocation.getY(), this.tiles[(int) oldLocation.getX()].length - 1 - (int) oldLocation.getX());
 			this.tiles = newArray;
 		}
 		else{
@@ -435,21 +433,27 @@ public class GameCanvas extends Canvas{
 			for(Player player : this.players){
 				player.rotatePlayer("clockwise");
 			}
+			newLocation = new Point((this.tiles[(int) oldLocation.getY()].length - 1 - (int) oldLocation.getY()), (int) oldLocation.getX());
 			this.tiles = newArray;
 		}
-		Point oldLocation = players.get(0).getLocation();
-		Point newLocation = new Point((this.tiles[(int) oldLocation.getY()].length - 1 - (int) oldLocation.getY()), (int) oldLocation.getX());
 		this.players.get(0).setOldLocation(oldLocation);
 		this.players.get(0).setLocation(newLocation);
-		
-		oldLocation = players.get(1).getLocation();
-		newLocation = new Point((this.tiles[(int) oldLocation.getY()].length - 1 - (int) oldLocation.getY()), (int) oldLocation.getX());
-		this.players.get(1).setOldLocation(oldLocation);
-		this.players.get(1).setLocation(newLocation);
 		
 		double[] translation = calculatePlayerTranslate(players.get(0).getLocation(), players.get(0).getOldLocation());
 		this.translateX = this.translateX + translation[0];
 		this.translateY = this.translateY + translation[1];
+		
+		for(int i = 1; i < this.players.size(); i++){
+			oldLocation = players.get(i).getLocation();
+			if(direction.equals("clockwise")){
+				newLocation = new Point((this.tiles[(int) oldLocation.getY()].length - 1 - (int) oldLocation.getY()), (int) oldLocation.getX());
+			}
+			else{
+				newLocation = new Point((int) oldLocation.getY(), this.tiles[(int) oldLocation.getX()].length - 1 - (int) oldLocation.getX());
+			}
+			this.players.get(i).setOldLocation(oldLocation);
+			this.players.get(i).setLocation(newLocation);
+		}
 	}
 	
 	private BufferedImage getScaledImage(Image img, int w, int h){
