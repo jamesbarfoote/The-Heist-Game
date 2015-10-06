@@ -6,6 +6,8 @@ import java.util.ArrayList;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.transform.OutputKeys;
+import javax.xml.transform.Result;
+import javax.xml.transform.Source;
 import javax.xml.transform.Transformer;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
@@ -53,13 +55,18 @@ public class Save {
 				rootElement.appendChild(getRoom(doc, r));
 			}
 
-			// output DOM XML to console
+			// output XML to file
 			Transformer transformer = TransformerFactory.newInstance()
 					.newTransformer();
 			transformer.setOutputProperty(OutputKeys.INDENT, "yes");
-			DOMSource source = new DOMSource(doc);
-			StreamResult console = new StreamResult(System.out);
-			transformer.transform(source, console);
+			//DOMSource source = new DOMSource(doc);
+			//StreamResult console = new StreamResult(System.out);
+			//transformer.transform(source, console);
+
+			Result output = new StreamResult(new File("output.xml"));
+			Source input = new DOMSource(doc);
+
+			transformer.transform(input, output);
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -68,17 +75,18 @@ public class Save {
 
 	// Template for xml
 	//
-	// <room name="hall">
+	//	<room name="hall">
 	//
-	// <item type="ImmovableItem">
-	// <name>Desk</name>
-	// <pos>x,y</pos>
-	// </item>
+	//		<item type="ImmovableItem">
+	//			<name>Desk</name>
+	//			<pos>x,y</pos>
+	//	 	</item>
 	//
-	// <item type="MovableItem">
-	// <name>chest</name>
-	// <pos>x,y</pos>
-	// </item>
+	//
+	//		<item type="MovableItem">
+	// 			<name>chest</name>
+	//			 <pos>x,y</pos>
+	//		</item>
 	//
 	// <money>
 	// <amount>1200</amount>
@@ -126,9 +134,7 @@ public class Save {
 		// add item name?
 		itemNode.appendChild(node(doc, "name", i.toString()));
 		// add item position
-//		itemNode.appendChild(node(doc, "pos", i.getPosition().toString()));
-
-		return itemNode;
+		//itemNode.appendChild(node(doc, "pos", i.getPosition().toString()));
 	}
 
 	private static Node addMoney(Document doc, Money m) {
@@ -140,7 +146,7 @@ public class Save {
 		moneyNode.appendChild(node(doc, "pickedUp",
 				Boolean.toString(m.getPickedUp())));
 		moneyNode.appendChild(node(doc, "pos", m.getPosition().toString()));
-		
+
 		return moneyNode;
 	}
 
@@ -160,7 +166,7 @@ public class Save {
 
 	/**
 	 * Helper method, create a new node in form <name>value</name>
-	 * 
+	 *
 	 * @param doc
 	 *            - Document
 	 * @param name
@@ -177,7 +183,7 @@ public class Save {
 
 	/**
 	 * Test for xml
-	 * 
+	 *
 	 * @param args
 	 */
 	public static void main(String[] args) {
