@@ -14,19 +14,35 @@ public class Player implements Serializable{
 	private int ID;
 	private Point currentPosition, oldPosition; //Location(coords of the square with current room)
 	private Map<String, Integer> inventory;	//contains player items
-	private String direction = "N";
+	private String[] directions = {"N", "E", "S", "W"};
+	int direction = 0;
 	
 	/**
 	 * @return the direction
 	 */
 	public String getDirection() {
-		return direction;
+		return this.directions[this.direction];
 	}
 
 	/**
 	 * @param direction the direction to set
 	 */
-	public void setDirection(String direction) {
+	public void rotatePlayer(String direction) {
+		if(direction.equals("clockwise")){
+			this.direction--;
+			if(this.direction == -1){
+				this.direction = 3;
+			}
+		}
+		else if(direction.equals("anti-clockwise")){
+			this.direction++;
+			if(this.direction == 4){
+				this.direction = 0;
+			}
+		}
+	}
+	
+	public void setDirection(int direction){
 		this.direction = direction;
 	}
 

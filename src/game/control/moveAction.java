@@ -28,7 +28,7 @@ public class moveAction extends AbstractAction {
 		Point location = player.getLocation();
 		if (direction.equals("Left")){
 			Point newLocation = new Point(location.x, location.y-1);
-			this.player.setDirection("S");
+			this.player.setDirection(2);
 			if(isValidMove(newLocation) == false){
 				return;
 			}
@@ -37,7 +37,7 @@ public class moveAction extends AbstractAction {
 		}
 		else if (direction.equals("Up")){
 			Point newLocation = new Point(location.x+1, location.y);
-			this.player.setDirection("E");
+			this.player.setDirection(1);
 			if(isValidMove(newLocation) == false){
 				return;
 			}
@@ -46,7 +46,7 @@ public class moveAction extends AbstractAction {
 		}
 		else if (direction.equals("Right")){
 			Point newLocation = new Point(location.x, location.y+1);
-			this.player.setDirection("N");
+			this.player.setDirection(0);
 			if(isValidMove(newLocation) == false){
 				return;
 			}
@@ -55,7 +55,7 @@ public class moveAction extends AbstractAction {
 		}
 		else if (direction.equals("Down")){
 			Point newLocation = new Point(location.x-1, location.y);
-			this.player.setDirection("W");
+			this.player.setDirection(3);
 			if(isValidMove(newLocation) == false){
 				return;
 			}
