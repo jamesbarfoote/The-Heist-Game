@@ -56,6 +56,7 @@ public class GameCanvas extends Canvas{
 	double translateX, translateY;
 	double zoom;
 	int zooming = 0;	//0 = Not zooming, 1 = zooming in, 2 = zooming out
+	String playerDirection = "N";
 	
 	/*
 	 * Everything is held within the rooms. The canvas needs a current room to draw. This room will hold an
@@ -73,7 +74,7 @@ public class GameCanvas extends Canvas{
 		this.players = room.getPlayers();
 		this.rows = tiles.length;
 		this.columns = tiles.length;
-		this.zoom = 70;
+		this.zoom = 100;
 		this.cm = cm;
 		initialTranslate();
 	}
@@ -316,12 +317,12 @@ public class GameCanvas extends Canvas{
 		    		//Thread.sleep(300);
 		    		drawTile(g, p, "floor_marble2_E.png");
 		    		//Thread.sleep(800);
-		    		drawIcons(g, point, "N");
+		    		drawIcons(g, point, this.playerDirection);
 		    	}
 		    	else if(tiles[i][j] == "wall"){
 		    		//drawWall(g, p, "wall_block1_E.png");
 		    		drawTile(g, p, "floor_marble1_E.png");
-		    		drawIcons(g, point, "N");
+		    		drawIcons(g, point, this.playerDirection);
 		    	}
 		    }
 		}
@@ -479,5 +480,9 @@ public class GameCanvas extends Canvas{
 			this.zooming = direction;
 			translateRoom();
 		}
+	}
+	
+	public void setPlayerDirection(String direction){
+		this.playerDirection = direction;
 	}
 }
