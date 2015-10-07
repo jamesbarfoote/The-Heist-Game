@@ -11,6 +11,7 @@ public class Container extends InteractableItem{
 	private Point position;
 	protected int money; //Null if no money in container
 	private ArrayList<InteractableItem> items; //Null if no item in container
+	private Point oldPosition;
 	
 	public Container(Room room, Point position, ArrayList<InteractableItem> items) {
 		super(room, position);
@@ -20,10 +21,6 @@ public class Container extends InteractableItem{
 	
 	public Point getPosition(){
 		return this.position;
-	}
-	
-	public void setPosition(Point p){
-		this.position = p;
 	}
 	
 	public int getMoney(){
@@ -59,6 +56,15 @@ public class Container extends InteractableItem{
 	public double[] getSize() {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	public void setPosition(Point p){
+		this.position = p;
+	}
+	
+	@Override
+	public void setOldPosition(Point oldLocation) {
+		this.oldPosition = oldLocation;
 	}
 
 }

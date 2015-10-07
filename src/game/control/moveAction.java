@@ -85,6 +85,9 @@ public class moveAction extends AbstractAction {
 			if(!item.getFilename().equals("_obj_cashStack.png") && item.getPosition().equals(newLocation)){
 				return false;
 			}
+			else if(item.getFilename().equals("_obj_desk.png") && newLocation.equals(new Point((int) item.getPosition().getX(), (int) item.getPosition().getY()-1))){
+				return false;
+			}
 		}
 		return true;
 	}

@@ -84,4 +84,14 @@ public class Note extends InteractableItem{
 		// TODO Auto-generated method stub
 		return null;
 	}
+
+	@Override
+	public void setOldPosition(Point oldLocation) {
+		
+	}
+	
+	@Override
+	public void setPosition(Point newLocation){
+		
+	}
 }

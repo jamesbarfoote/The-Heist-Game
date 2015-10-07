@@ -12,7 +12,7 @@ import game.Room;
  */
 public abstract class InteractableItem implements Item{
 	
-	Point position;
+	Point position, oldPosition;
 	private Room room;
 
 	public InteractableItem(Room room, Point p){
@@ -36,5 +36,9 @@ public abstract class InteractableItem implements Item{
 	 */
 	public void setPosition(Point location) {
 		this.position = location;
+	}
+	
+	public void setOldPosition(Point oldLocation){
+		this.oldPosition = oldLocation;
 	}
 }

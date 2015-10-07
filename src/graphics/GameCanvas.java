@@ -58,6 +58,8 @@ public class GameCanvas extends Canvas{
 	double translateX, translateY;
 	double zoom;
 	int zooming = 0;	//0 = Not zooming, 1 = zooming in, 2 = zooming out
+	private String[] directions = {"N", "E", "S", "W"};
+	int direction = 0;
 	
 	/*
 	 * Everything is held within the rooms. The canvas needs a current room to draw. This room will hold an
@@ -317,13 +319,13 @@ public class GameCanvas extends Canvas{
 		    	Point p = twoDToIso(point);
 		    	if(tiles[i][j] == "floor"){
 		    		//Thread.sleep(300);
-		    		drawTile(g, p, "floor_marble2_E.png");
+		    		drawTile(g, p, this.directions[direction] + "_floor_marble2.png");
 		    		//Thread.sleep(800);
 		    		drawIcons(g, point);
 		    	}
 		    	else if(tiles[i][j] == "wall"){
 		    		//drawWall(g, p, "wall_block1_E.png");
-		    		drawTile(g, p, "floor_marble1_E.png");
+		    		drawTile(g, p, this.directions[direction] + "_floor_marble1.png");
 		    		drawIcons(g, point);
 		    	}
 		    }
@@ -399,19 +401,33 @@ public class GameCanvas extends Canvas{
 		drawItems(g, point);
 	}
 	
+	/*
+	 * TODO optimize the game by storing the images in memory. So players store their own assets as do desks etc.
+	 */
 	private void drawItems(Graphics2D g, Point point){
 		for(Item item : this.items){
 			Point location = item.getPosition();
 			if(location.equals(point)){
 				try {
-					BufferedImage myPicture = ImageIO.read(new File(ASSET_PATH + item.getDirection() + item.getFilename()));
+					BufferedImage myPicture = ImageIO.read(new File(ASSET_PATH + this.directions[direction] + item.getFilename()));
 					double width = zoom / item.getSize()[0];
 					double height = zoom / item.getSize()[1];
 					BufferedImage scaled = getScaledImage(myPicture, (int) width, (int) height);
 					AffineTransform at = new AffineTransform();
 					double[] translation = calculatePlayerTranslate(players.get(0).getLocation(), item.getPosition());
 					if(item.getFilename().equals("_obj_desk.png")){
-						at.translate(-this.zoom/1.7, -this.zoom/1.35);
+						if(this.direction == 0){
+							at.translate(-this.zoom/1.7, -this.zoom/1.35);
+						}
+						else if(this.direction == 1){
+							at.translate(0, 0);
+						}
+						else if(this.direction == 2){
+							at.translate(0, 0);
+						}
+						else if(this.direction == 3){
+							at.translate(0, 0);
+						}
 					}
 					else if(item.getFilename().equals("_obj_floorSafe.png")){
 						at.translate(this.zoom/8, -this.zoom/14);
@@ -458,6 +474,7 @@ public class GameCanvas extends Canvas{
 			}
 			newLocation = new Point((int) oldLocation.getY(), this.tiles[(int) oldLocation.getX()].length - 1 - (int) oldLocation.getX());
 			this.tiles = newArray;
+			rotateAssets(direction);
 		}
 		else{
 			for(int i=this.tiles.length-1; i>=0; i--){
@@ -470,6 +487,7 @@ public class GameCanvas extends Canvas{
 			}
 			newLocation = new Point((this.tiles[(int) oldLocation.getY()].length - 1 - (int) oldLocation.getY()), (int) oldLocation.getX());
 			this.tiles = newArray;
+			rotateAssets(direction);
 		}
 		this.players.get(0).setOldLocation(oldLocation);
 		this.players.get(0).setLocation(newLocation);
@@ -488,6 +506,18 @@ public class GameCanvas extends Canvas{
 			}
 			this.players.get(i).setOldLocation(oldLocation);
 			this.players.get(i).setLocation(newLocation);
+		}
+		
+		for(Item item : this.items){
+			oldLocation = item.getPosition();
+			if(direction.equals("clockwise")){
+				newLocation = new Point((this.tiles[(int) oldLocation.getY()].length - 1 - (int) oldLocation.getY()), (int) oldLocation.getX());
+			}
+			else{
+				newLocation = new Point((int) oldLocation.getY(), this.tiles[(int) oldLocation.getX()].length - 1 - (int) oldLocation.getX());
+			}
+			item.setOldPosition(oldLocation);
+			item.setPosition(newLocation);
 		}
 	}
 	
@@ -521,6 +551,21 @@ public class GameCanvas extends Canvas{
 			this.zoom = zoom;
 			this.zooming = direction;
 			translateRoom();
+		}
+	}
+	
+	private void rotateAssets(String direction) {
+		if(direction.equals("clockwise")){
+			this.direction--;
+			if(this.direction == -1){
+				this.direction = 3;
+			}
+		}
+		else if(direction.equals("anti-clockwise")){
+			this.direction++;
+			if(this.direction == 4){
+				this.direction = 0;
+			}
 		}
 	}
 	

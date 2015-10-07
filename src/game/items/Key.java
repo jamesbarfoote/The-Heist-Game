@@ -12,19 +12,13 @@ public class Key extends InteractableItem{
 	private Point position;
 	private String filename = "";	//TODO add the filename when asset is made.
 	private String direction = "N";
+	private Point oldPosition;
 	
 	/**
 	 * @return the position
 	 */
 	public Point getPosition() {
 		return position;
-	}
-
-	/**
-	 * @param position the position to set
-	 */
-	public void setPosition(Point position) {
-		this.position = position;
 	}
 
 	public Key(Door opens, Container containedIn, Room room, Point position){
@@ -64,6 +58,18 @@ public class Key extends InteractableItem{
 	public double[] getSize() {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	@Override
+	public void setOldPosition(Point oldLocation) {
+		this.oldPosition = oldLocation;
+	}
+	
+	/**
+	 * @param position the position to set
+	 */
+	public void setPosition(Point position) {
+		this.position = position;
 	}
 
 }

@@ -14,7 +14,7 @@ import java.awt.Point;
 public class NonInteractableItem implements Item{
 
 	private Room room;
-	private Point position;
+	private Point position, oldPosition;
 	private itemType itemType;
 	
 	public enum itemType{
@@ -62,5 +62,15 @@ public class NonInteractableItem implements Item{
 	public double[] getSize() {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	@Override
+	public void setOldPosition(Point oldLocation) {
+		this.oldPosition = oldLocation;
+	}
+
+	@Override
+	public void setPosition(Point newLocation) {
+		this.position = newLocation;
 	}
 }

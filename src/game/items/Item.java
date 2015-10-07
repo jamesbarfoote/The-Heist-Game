@@ -17,4 +17,8 @@ public interface Item {
 
 	double[] getSize();
 
+	void setOldPosition(Point oldLocation);
+
+	void setPosition(Point newLocation);
+
 }
