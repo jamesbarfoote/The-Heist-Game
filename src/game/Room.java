@@ -18,7 +18,6 @@ public class Room {
 	
 	private String roomName;
 	private ArrayList<Item> itemsInRoom;
-	private List<Money> moneyInRoom;
 	private List<Door> roomDoors;
 	private ArrayList<Player> players = new ArrayList<Player>();
 	private char[][] tiles; //The floorspace of the room
@@ -29,7 +28,6 @@ public class Room {
 		this.roomName = roomName;
 		this.players = players;
 		itemsInRoom = new ArrayList<Item>();
-		moneyInRoom = new ArrayList<Money>();
 		roomDoors = new ArrayList<Door>();
 		this.width = width;
 		this.height = height;
@@ -99,10 +97,6 @@ public class Room {
 	
 	public ArrayList<Item> getItems(){
 		return itemsInRoom;
-	}
-	
-	public List<Money> getMoney(){
-		return moneyInRoom;
 	}
 	
 	public List<Door> getDoors(){
