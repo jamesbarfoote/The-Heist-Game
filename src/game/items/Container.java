@@ -1,6 +1,7 @@
 package game.items;
 
 import java.awt.Point;
+import java.util.ArrayList;
 
 import game.Money;
 import game.Room;
@@ -8,14 +9,13 @@ import game.Room;
 public class Container extends InteractableItem{
 
 	private Point position;
-	protected Money money; //Null if no money in container
-	private InteractableItem item; //Null if no item in container
+	protected int money; //Null if no money in container
+	private ArrayList<InteractableItem> items; //Null if no item in container
 	
-	public Container(Room room, Point position, InteractableItem item, Money money) {
+	public Container(Room room, Point position, ArrayList<InteractableItem> items) {
 		super(room, position);
 		this.position = position;
-		this.item = item;
-		this.money = money;
+		this.items = items;
 	}
 	
 	public Point getPosition(){
@@ -27,11 +27,11 @@ public class Container extends InteractableItem{
 	}
 	
 	public int getMoney(){
-		return money.getAmount();
+		return this.money;
 	}
 	
-	public InteractableItem getItem(){
-		return item;
+	public ArrayList<InteractableItem> getItem(){
+		return this.items;
 	}
 	
 	/**
@@ -39,8 +39,8 @@ public class Container extends InteractableItem{
 	 * Should only be called by the methods that handle players picking up items
 	 */
 	public void containerLooted(){
-		money = null;
-		item = null;
+		money = 0;
+		this.items = null;
 	}
 
 	@Override

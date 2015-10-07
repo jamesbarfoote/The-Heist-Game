@@ -1,6 +1,7 @@
 package game.items;
 
 import java.awt.Point;
+import java.util.ArrayList;
 import java.util.Random;
 
 import game.Money;
@@ -13,8 +14,8 @@ public class Safe extends Container{
 	String filename = "_obj_floorSafe.png";
 	String direction = "N";
 	
-	public Safe(Room room, Point position, Money cashInSafe){
-		super(room, position, null, cashInSafe);
+	public Safe(Room room, Point position, ArrayList<InteractableItem> items){
+		super(room, position, items);
 		locked = true;
 		combination = new int[4];
 		generateCombination();

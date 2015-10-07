@@ -1,9 +1,14 @@
 package graphics;
 
+import game.Money;
 import game.Player;
 import game.Room;
 import game.control.gameAction;
 import game.control.moveAction;
+import game.items.Desk;
+import game.items.InteractableItem;
+import game.items.Item;
+import game.items.Safe;
 import game.items.Weapon;
 import networking.Client;
 import networking.Server;
@@ -75,9 +80,15 @@ public class Main extends JFrame implements KeyListener, MouseListener, MouseMot
 		}
 		
 		System.out.println("Number of players = " + players.size());
-		this.currentRoom = new Room("testRoom", data.getWidth(), data.getHeight(), players);	
+		this.currentRoom = new Room("testRoom", data.getWidth(), data.getHeight(), players);
 		
-
+		Money money = new Money(1000000, currentRoom, new Point(2, 4));
+		ArrayList<InteractableItem> deskItems = new ArrayList<InteractableItem>();
+		deskItems.add(money);
+		currentRoom.addItem(money);
+		currentRoom.addItem(new Safe(currentRoom, new Point(4, 7), deskItems));
+		currentRoom.addItem(new Desk(currentRoom, new Point(8, 8), deskItems));
+		
 		//Create canvas
 		setSize(getToolkit().getScreenSize());
 		canvas = new GameCanvas(getSize(), data.getTiles(), currentRoom, cM);

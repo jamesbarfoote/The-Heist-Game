@@ -1,17 +1,17 @@
 package game.items;
 
-import game.Money;
 import game.Room;
 
 import java.awt.Point;
+import java.util.ArrayList;
 
 public class Desk extends Container {
 	
 	String filename = "_obj_desk.png";
 	String direction = "N";
 
-	public Desk(Room room, Point position, InteractableItem item, Money money) {
-		super(room, position, item, money);
+	public Desk(Room room, Point position, ArrayList<InteractableItem> items) {
+		super(room, position, items);
 	}
 
 	@Override

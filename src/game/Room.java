@@ -77,6 +77,10 @@ public class Room {
 		tiles[(int) roomEntry.getX()][(int) roomEntry.getY()] = 'C';
 	}
 	
+	public void addItem(Item item){
+		this.itemsInRoom.add(item);
+	}
+	
 	public String getRoomName(){
 		return roomName;
 	}
