@@ -16,6 +16,8 @@ public class Money extends InteractableItem {
 	private Room location;
 	private Point position; //Position in room, if it is not in a container, null if it is
 	private boolean pickedUp; //Whether or not this object is picked up or not.
+	String filename = "_obj_cashStack.png";
+	String direction = "N";
 	
 	public Money(int amount, Room location, Point position){
 		super(location, position);
@@ -48,5 +50,15 @@ public class Money extends InteractableItem {
 	public void pickUpCash(Robber r){
 		location = null;
 		pickedUp = true;
+	}
+
+	@Override
+	public String getFilename() {
+		return this.filename;
+	}
+
+	@Override
+	public String getDirection() {
+		return this.direction;
 	}
 }

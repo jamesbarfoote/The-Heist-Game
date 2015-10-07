@@ -10,6 +10,8 @@ public class Key extends InteractableItem{
 	private Door opens;
 	private Container containedIn;
 	private Point position;
+	private String filename = "";	//TODO add the filename when asset is made.
+	private String direction = "N";
 	
 	/**
 	 * @return the position
@@ -46,6 +48,16 @@ public class Key extends InteractableItem{
 	
 	public Container getContainedIn(){
 		return containedIn;
+	}
+
+	@Override
+	public String getFilename() {
+		return this.filename;
+	}
+
+	@Override
+	public String getDirection() {
+		return this.direction;
 	}
 
 }

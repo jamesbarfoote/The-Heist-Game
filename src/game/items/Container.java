@@ -43,4 +43,16 @@ public class Container extends InteractableItem{
 		item = null;
 	}
 
+	@Override
+	public String getFilename() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public String getDirection() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }

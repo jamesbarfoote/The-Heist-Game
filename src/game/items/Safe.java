@@ -10,6 +10,8 @@ public class Safe extends Container{
 	
 	private int[] combination;
 	private boolean locked;
+	String filename = "_obj_floorSafe.png";
+	String direction = "N";
 	
 	public Safe(Room room, Point position, Money cashInSafe){
 		super(room, position, null, cashInSafe);
@@ -43,5 +45,15 @@ public class Safe extends Container{
 
 	public boolean isLocked(){
 		return locked;
+	}
+	
+	@Override
+	public String getFilename() {
+		return this.filename;
+	}
+
+	@Override
+	public String getDirection() {
+		return this.direction;
 	}
 }

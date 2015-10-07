@@ -17,7 +17,7 @@ public class Room {
 //Canvas calls this class and asks it to draw itself
 	
 	private String roomName;
-	private List<Item> itemsInRoom;
+	private ArrayList<Item> itemsInRoom;
 	private List<Money> moneyInRoom;
 	private List<Door> roomDoors;
 	private ArrayList<Player> players = new ArrayList<Player>();
@@ -93,7 +93,7 @@ public class Room {
 		return this.players;
 	}
 	
-	public List<Item> getItems(){
+	public ArrayList<Item> getItems(){
 		return itemsInRoom;
 	}
 	

@@ -66,4 +66,16 @@ public class Note extends InteractableItem{
 	public Container getContainedIn(){
 		return containedIn;
 	}
+
+	@Override
+	public String getFilename() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public String getDirection() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }

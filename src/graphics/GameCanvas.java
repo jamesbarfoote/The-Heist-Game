@@ -2,6 +2,7 @@ package graphics;
 
 import game.Player;
 import game.Room;
+import game.items.Item;
 import networking.Client;
 
 import java.awt.Canvas;
@@ -50,6 +51,7 @@ public class GameCanvas extends Canvas{
 	String[][] tiles;
 	Room room;
 	ArrayList<Player> players = new ArrayList<Player>();
+	ArrayList<Item> items = new ArrayList<Item>();
 	int width, height, rows, columns;
 	Client cm;
 	
@@ -74,6 +76,7 @@ public class GameCanvas extends Canvas{
 		this.rows = tiles.length;
 		this.columns = tiles.length;
 		this.zoom = 100;
+		this.items = room.getItems();
 		this.cm = cm;
 		initialTranslate();
 	}
@@ -383,6 +386,30 @@ public class GameCanvas extends Canvas{
 					BufferedImage scaled = getScaledImage(myPicture, (int) width, (int) height);
 					AffineTransform at = new AffineTransform();
 					double[] translation = calculatePlayerTranslate(players.get(0).getLocation(), player.getLocation());
+					at.translate(0, -this.zoom/1.2);
+					at.translate(this.width/2 + translation[0], this.height/2 + translation[1]);
+					g.drawImage(scaled, at, getParent());
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+		}
+		
+		drawItems(g, point);
+	}
+	
+	private void drawItems(Graphics2D g, Point point){
+		for(Item item : this.items){
+			Point location = item.getPosition();
+			if(location.equals(point)){
+				try {
+					BufferedImage myPicture = ImageIO.read(new File(ASSET_PATH + item.getDirection() + item.getFilename()));
+					double width = zoom;
+					double height = zoom*1.5;
+					BufferedImage scaled = getScaledImage(myPicture, (int) width, (int) height);
+					AffineTransform at = new AffineTransform();
+					double[] translation = calculatePlayerTranslate(players.get(0).getLocation(), item.getPosition());
 					at.translate(0, -this.zoom/1.2);
 					at.translate(this.width/2 + translation[0], this.height/2 + translation[1]);
 					g.drawImage(scaled, at, getParent());

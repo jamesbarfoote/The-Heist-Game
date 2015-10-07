@@ -23,7 +23,7 @@ public class NonInteractableItem implements Item{
 	
 	public NonInteractableItem(Room room, Point point, String type){
 		this.room = room;
-		this.position = position;
+		this.position = point;
 		setType(type);
 	}
 	
@@ -44,5 +44,17 @@ public class NonInteractableItem implements Item{
 	
 	public Point getPosition(){
 		return position;
+	}
+
+	@Override
+	public String getFilename() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public String getDirection() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }
