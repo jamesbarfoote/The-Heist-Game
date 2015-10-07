@@ -531,4 +531,8 @@ public class GameCanvas extends Canvas{
 	public ArrayList<Player> getPlayers(){
 		return this.players;
 	}
+	
+	public ArrayList<Item> getItems(){
+		return items;
+	}
 }

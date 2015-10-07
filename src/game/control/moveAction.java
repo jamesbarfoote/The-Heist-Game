@@ -5,6 +5,7 @@ import java.awt.event.ActionEvent;
 import javax.swing.AbstractAction;
 import graphics.GameCanvas;
 import game.Player;
+import game.items.Item;
 
 public class moveAction extends AbstractAction {
 
@@ -77,6 +78,11 @@ public class moveAction extends AbstractAction {
 		}
 		for(Player player : this.canvas.getPlayers()){
 			if(player.getLocation().equals(newLocation)){
+				return false;
+			}
+		}
+		for(Item item : this.canvas.getItems()){
+			if(!item.getFilename().equals("_obj_cashStack.png") && item.getPosition().equals(newLocation)){
 				return false;
 			}
 		}
