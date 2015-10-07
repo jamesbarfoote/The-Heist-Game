@@ -405,12 +405,20 @@ public class GameCanvas extends Canvas{
 			if(location.equals(point)){
 				try {
 					BufferedImage myPicture = ImageIO.read(new File(ASSET_PATH + item.getDirection() + item.getFilename()));
-					double width = zoom;
-					double height = zoom*1.5;
+					double width = zoom / item.getSize()[0];
+					double height = zoom / item.getSize()[1];
 					BufferedImage scaled = getScaledImage(myPicture, (int) width, (int) height);
 					AffineTransform at = new AffineTransform();
 					double[] translation = calculatePlayerTranslate(players.get(0).getLocation(), item.getPosition());
-					at.translate(0, -this.zoom/1.2);
+					if(item.getFilename().equals("_obj_desk.png")){
+						at.translate(-this.zoom/1.7, -this.zoom/1.35);
+					}
+					else if(item.getFilename().equals("_obj_floorSafe.png")){
+						at.translate(this.zoom/8, -this.zoom/14);
+					}
+					else if(item.getFilename().equals("_obj_cashStack.png")){
+						at.translate(this.zoom/3.8, this.zoom/4.3);
+					}
 					at.translate(this.width/2 + translation[0], this.height/2 + translation[1]);
 					g.drawImage(scaled, at, getParent());
 				} catch (IOException e) {
