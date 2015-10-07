@@ -1,5 +1,7 @@
 package game.items;
 
+import java.awt.Point;
+
 import game.Door;
 import game.Room;
 
@@ -7,9 +9,24 @@ public class Key extends InteractableItem{
 	
 	private Door opens;
 	private Container containedIn;
+	private Point position;
 	
-	public Key(Door opens, Container containedIn, Room room){
-		super(room);
+	/**
+	 * @return the position
+	 */
+	public Point getPosition() {
+		return position;
+	}
+
+	/**
+	 * @param position the position to set
+	 */
+	public void setPosition(Point position) {
+		this.position = position;
+	}
+
+	public Key(Door opens, Container containedIn, Room room, Point position){
+		super(room, position);
 		this.opens = opens;
 		this.containedIn = containedIn;
 	}

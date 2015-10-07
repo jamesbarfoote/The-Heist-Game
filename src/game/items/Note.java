@@ -1,5 +1,7 @@
 package game.items;
 
+import java.awt.Point;
+
 import game.Room;
 
 public class Note extends InteractableItem{
@@ -16,8 +18,8 @@ public class Note extends InteractableItem{
 	 * @param room
 	 * @param containedIn
 	 */
-	public Note(String name, String text, Room room, Container containedIn){
-		super(room);
+	public Note(String name, String text, Room room, Container containedIn, Point position){
+		super(room, position);
 		this.name = name;
 		this.text = text;
 		this.containedIn = containedIn;
@@ -30,8 +32,8 @@ public class Note extends InteractableItem{
 	 * @param room
 	 * @param containedIn
 	 */
-	public Note(String name, Safe safeForCombo, Room room, Container containedIn){
-		super(room);
+	public Note(String name, Safe safeForCombo, Room room, Container containedIn, Point position){
+		super(room, position);
 		this.name = name;
 		this.text = "";
 		this.safeForCombo = safeForCombo;

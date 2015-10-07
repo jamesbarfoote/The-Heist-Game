@@ -12,14 +12,18 @@ public class Container extends InteractableItem{
 	private InteractableItem item; //Null if no item in container
 	
 	public Container(Room room, Point position, InteractableItem item, Money money) {
-		super(room);
+		super(room, position);
 		this.position = position;
 		this.item = item;
 		this.money = money;
 	}
 	
 	public Point getPosition(){
-		return position;
+		return this.position;
+	}
+	
+	public void setPosition(Point p){
+		this.position = p;
 	}
 	
 	public int getMoney(){

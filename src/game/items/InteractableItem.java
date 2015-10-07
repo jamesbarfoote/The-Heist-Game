@@ -11,14 +11,30 @@ import game.Room;
  *
  */
 public abstract class InteractableItem implements Item{
-
-	private Room room;
 	
-	public InteractableItem(Room room){
+	Point position;
+	private Room room;
+
+	public InteractableItem(Room room, Point p){
 		this.room = room;
+		this.position = p;
 	}
 	
 	public Room getRoom(){
 		return room;
+	}
+	
+	/**
+	 * @return the location
+	 */
+	public Point getPosition() {
+		return position;
+	}
+
+	/**
+	 * @param location the location to set
+	 */
+	public void setPosition(Point location) {
+		this.position = location;
 	}
 }
