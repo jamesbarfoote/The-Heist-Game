@@ -404,7 +404,6 @@ public class GameCanvas extends Canvas{
 			Point location = item.getPosition();
 			if(location.equals(point)){
 				try {
-					System.out.println(item.getDirection() + item.getFilename());
 					BufferedImage myPicture = ImageIO.read(new File(ASSET_PATH + item.getDirection() + item.getFilename()));
 					double width = zoom;
 					double height = zoom*1.5;

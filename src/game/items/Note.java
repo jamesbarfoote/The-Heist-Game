@@ -78,4 +78,10 @@ public class Note extends InteractableItem{
 		// TODO Auto-generated method stub
 		return null;
 	}
+
+	@Override
+	public double[] getSize() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }

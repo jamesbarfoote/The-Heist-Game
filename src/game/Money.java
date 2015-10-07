@@ -18,6 +18,7 @@ public class Money extends InteractableItem {
 	private boolean pickedUp; //Whether or not this object is picked up or not.
 	String filename = "_obj_cashStack.png";
 	String direction = "N";
+	double[] size = {2, 3};
 	
 	public Money(int amount, Room location, Point position){
 		super(location, position);
@@ -60,5 +61,10 @@ public class Money extends InteractableItem {
 	@Override
 	public String getDirection() {
 		return this.direction;
+	}
+
+	@Override
+	public double[] getSize() {
+		return this.size;
 	}
 }

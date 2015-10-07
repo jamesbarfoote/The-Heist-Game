@@ -9,6 +9,7 @@ import game.items.Safe;
 import game.items.Weapon;
 
 import java.awt.Point;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -21,7 +22,7 @@ public abstract class Character {
 	private Weapon currentWeapon;
 	private Room currentRoom;
 	private Point currentPosition, oldPosition;
-	private List<InteractableItem> items;
+	private ArrayList<InteractableItem> items;
 	private int moneyHeld;
 	
 	public Character(/*Weapon currentWeapon, Room currentRoom,*/ Point currentPosition){
@@ -138,7 +139,10 @@ public abstract class Character {
 	 * @param c
 	 */
 	public void lootContainer(Container c){
-		if(c.getItem() != null){ items.add(c.getItem()); }
+		if(c.getItems() != null){ 
+			for(InteractableItem item : c.getItems()){
+				items.add(item); }
+			}
 		if(c.getMoney() != 0){ moneyHeld += c.getMoney(); }
 		c.containerLooted();
 	}

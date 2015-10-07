@@ -9,6 +9,7 @@ public class Desk extends Container {
 	
 	String filename = "_obj_desk.png";
 	String direction = "N";
+	double[] size = {1.3, 2};
 
 	public Desk(Room room, Point position, ArrayList<InteractableItem> items) {
 		super(room, position, items);
@@ -22,5 +23,10 @@ public class Desk extends Container {
 	@Override
 	public String getDirection() {
 		return this.direction;
+	}
+	
+	@Override
+	public double[] getSize(){
+		return this.size;
 	}
 }

@@ -57,4 +57,10 @@ public class NonInteractableItem implements Item{
 		// TODO Auto-generated method stub
 		return null;
 	}
+
+	@Override
+	public double[] getSize() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }

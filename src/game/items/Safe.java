@@ -3,8 +3,6 @@ package game.items;
 import java.awt.Point;
 import java.util.ArrayList;
 import java.util.Random;
-
-import game.Money;
 import game.Room;
 
 public class Safe extends Container{
@@ -13,6 +11,7 @@ public class Safe extends Container{
 	private boolean locked;
 	String filename = "_obj_floorSafe.png";
 	String direction = "N";
+	double[] size = {1.3, 2};
 	
 	public Safe(Room room, Point position, ArrayList<InteractableItem> items){
 		super(room, position, items);
@@ -56,5 +55,10 @@ public class Safe extends Container{
 	@Override
 	public String getDirection() {
 		return this.direction;
+	}
+	
+	@Override
+	public double[] getSize(){
+		return size;
 	}
 }

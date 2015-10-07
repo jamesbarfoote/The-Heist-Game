@@ -30,7 +30,7 @@ public class Container extends InteractableItem{
 		return this.money;
 	}
 	
-	public ArrayList<InteractableItem> getItem(){
+	public ArrayList<InteractableItem> getItems(){
 		return this.items;
 	}
 	
@@ -51,6 +51,12 @@ public class Container extends InteractableItem{
 
 	@Override
 	public String getDirection() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public double[] getSize() {
 		// TODO Auto-generated method stub
 		return null;
 	}

@@ -60,4 +60,10 @@ public class Key extends InteractableItem{
 		return this.direction;
 	}
 
+	@Override
+	public double[] getSize() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }

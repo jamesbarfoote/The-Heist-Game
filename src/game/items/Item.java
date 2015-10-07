@@ -15,4 +15,6 @@ public interface Item {
 
 	String getDirection();
 
+	double[] getSize();
+
 }
