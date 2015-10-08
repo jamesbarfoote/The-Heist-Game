@@ -23,6 +23,7 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.imageio.ImageIO;
 
@@ -50,7 +51,7 @@ public class GameCanvas extends Canvas{
 	private AffineTransform at;
 	String[][] tiles;
 	Room room;
-	ArrayList<Player> players = new ArrayList<Player>();
+	List<Player> players = new ArrayList<Player>();
 	ArrayList<Item> items = new ArrayList<Item>();
 	int width, height, rows, columns;
 	Client cm;
@@ -376,7 +377,7 @@ public class GameCanvas extends Canvas{
 		cm.update(); //Tell the server the player has changed and to send it out
 		
 		
-		//players = cm.getPlayers();
+		players = cm.getPlayers();
 		for(Player player : this.players){
 		//	System.out.println("Drawing player at: " + player.getLocation().x);
 			Point location = player.getLocation();
@@ -573,7 +574,7 @@ public class GameCanvas extends Canvas{
 		return this.tiles;
 	}
 	
-	public ArrayList<Player> getPlayers(){
+	public List<Player> getPlayers(){
 		return this.players;
 	}
 	

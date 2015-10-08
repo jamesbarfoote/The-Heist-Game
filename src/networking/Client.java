@@ -14,6 +14,8 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 public class Client{
 	//if player has moved then call an update
@@ -21,7 +23,7 @@ public class Client{
 	public static PrintWriter out;
 	static ObjectOutputStream outputStream;
 	static ObjectInputStream inputStream;
-	public ArrayList<Player> players;
+	public List<Player> players;
 	public Player currentPlayer;
 	private int port;
 	private String host;
@@ -62,12 +64,12 @@ public class Client{
 		try
 		{
 
-			ArrayList<Player> temp2;
+			List<Player> temp2;
 
 			System.out.println("in");
 			try {
 
-				temp2 = (ArrayList<Player>) inputStream.readObject();//get the arraylist for a single player
+				temp2 = (List<Player>) inputStream.readObject();//get the arraylist for a single player
 				System.out.println("Got initial array. size = " + temp2.size());
 				ID = temp2.size();
 				currentPlayer.setID(ID);
@@ -84,12 +86,12 @@ public class Client{
 			System.out.println("Sent players to server. Size = " + players.size());
 
 			Thread.sleep(200);
-			ArrayList<Player> temp3 = new ArrayList<Player>();
+			List<Player> temp3 = new CopyOnWriteArrayList<Player>();
 
 			//Recieve the players
 			try {
 				//inputStream.reset();
-				temp3 = (ArrayList<Player>) inputStream.readObject();//get the arraylist for a single player
+				temp3 = (List<Player>) inputStream.readObject();//get the arraylist for a single player
 				System.out.println("Got players from server. Size = " + temp3.size());
 			} catch (ClassNotFoundException e) {
 				// TODO Auto-generated catch block
@@ -125,7 +127,7 @@ public class Client{
 		} //Close the TCP connection
 	}
 
-	public ArrayList<Player> getPlayers()
+	public List<Player> getPlayers()
 	{
 		return players;
 	}
@@ -155,7 +157,7 @@ public class Client{
 			//Recieve the players
 			try {
 				
-				players = (ArrayList<Player>) inputStream.readObject();//get the arraylist for a single player
+				players = (List<Player>) inputStream.readObject();//get the arraylist for a single player
 
 			} catch (ClassNotFoundException e) {
 				// TODO Auto-generated catch block

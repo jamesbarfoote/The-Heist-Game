@@ -14,6 +14,7 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 import game.Player;
 import game.items.Weapon;
@@ -31,7 +32,7 @@ public class Server {
 	/**
 	 * The set of all players 
 	 */
-	private static ArrayList<Player> players = new ArrayList<Player>();
+	private static CopyOnWriteArrayList<Player> players = new CopyOnWriteArrayList<Player>();
 
 	/**
 	 * The set of all the output streams(clients).  This
@@ -70,8 +71,8 @@ public class Server {
 		 * */
 		public Handler(Socket socket) {
 			this.socket = socket;
-			//            Player player2 = new Player(new Weapon("Laser", true), 2, new Point(8,1), game.Player.Type.robber);
-			//            players.add(player2);
+			            Player player2 = new Player(new Weapon("Laser", true), 2, new Point(8,1), game.Player.Type.robber);
+			            players.add(player2);
 		}
 
 
@@ -120,7 +121,7 @@ public class Server {
 					System.out.println("Player " + i + " has weapon " + p.getWeapon().getWeaponType());
 					i++;
 				}
-				ArrayList<Player> temp3 = new ArrayList<Player>();
+				CopyOnWriteArrayList<Player> temp3 = new CopyOnWriteArrayList<Player>();
 				temp3 = players;
 				out.reset();
 				out.writeObject(temp3);
@@ -136,14 +137,19 @@ public class Server {
 					System.out.println(temp2.get(0).getLocation().x);
 
 					//Find player is the list of player and add them
-					for(Player p: players)
-					{
-						if(p.getID() == temp2.get(0).getID())
+					//Player playerToRemove = null;
+					synchronized (players) {
+						for(Player p: players)
 						{
-							players.remove(p);//Remove player
-							players.add(temp2.get(0));//Replace player
+							if(p.getID() == temp2.get(0).getID())
+							{
+								//playerToRemove = p;
+								players.remove(p);//Remove player
+								players.add(temp2.get(0));//Replace player
+							}
 						}
 					}
+					//players.remove(playerToRemove);
 
 					for(Player p: players)
 					{
