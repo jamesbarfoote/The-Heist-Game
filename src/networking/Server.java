@@ -1,209 +1,180 @@
 package networking;
 
-import java.net.*;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.zip.GZIPInputStream;
-
-import game.Player;
 
 import java.awt.Point;
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.OutputStream;
+import java.io.PrintWriter;
+import java.net.ServerSocket;
+import java.net.Socket;
+import java.util.ArrayList;
+import java.util.HashSet;
 
-public class Server extends Thread{
-	//array of characters with their room
+import game.Player;
+import game.items.Weapon;
 
-	private ServerSocket sSocket;
-	private ArrayList<Player> players = new ArrayList<Player>();;
-	static OutputStream outputStream;
-	static InputStream inputStream;
-	ArrayList<Socket> connections = new ArrayList<Socket>();
+/**
+ * 
+ */
+public class Server {
 
-	public Server(int port) throws IOException
-	{
-		sSocket = new ServerSocket(1234);//Set the port
-		sSocket.setSoTimeout(100000);//Set how long to wait for a connection
+	/**
+	 * The port that the server listens on.
+	 */
+	private static final int PORT = 9002;
+
+	/**
+	 * The set of all players 
+	 */
+	private static ArrayList<Player> players = new ArrayList<Player>();
+
+	/**
+	 * The set of all the output streams(clients).  This
+	 * set is kept so we can easily send out the updated players.
+	 */
+	private static HashSet<ObjectOutputStream> writers = new HashSet<ObjectOutputStream>();
+
+	/**
+	 * listens on a port and spawns handler threads.
+	 */
+	public static void main(String[] args) throws Exception {
+		System.out.println("Server is running.");
+		ServerSocket listener = new ServerSocket(PORT);
+		try {
+			while (true) {
+				new Handler(listener.accept()).start();
+			}
+		} finally {
+			listener.close();
+		}
 	}
 
-	//create players here
-	//when a client connects send out array
-	//should generate 1-4 players11
+	/**
+	 * A handler thread class.  Handlers are spawned from the listening
+	 * loop and are responsible for a dealing with a single client
+	 * and broadcasting its messages.
+	 */
+	private static class Handler extends Thread {
+		private Player player;
+		private Socket socket;
+		private ObjectInputStream in;
+		private ObjectOutputStream out;
 
-	public void run()//Main thread
-	{
-		while(true)
-		{
-			try
-			{
-				for(Socket s : connections)
-				{
-					if(s.isClosed())
-					{
-						connections.remove(s);
-					}
-				}
-
-				System.out.println("Waiting for client on port " + sSocket.getLocalPort() + "...");
-				Socket serv = sSocket.accept(); //Wait for a client to connect to us on this port
-				System.out.println("Server connected to " + serv.getRemoteSocketAddress());
-
-				connections.add(serv);
-
-				outputStream = new ObjectOutputStream(serv.getOutputStream());
-				inputStream = new ObjectInputStream(serv.getInputStream());
-				ArrayList<Player> temp = new ArrayList<Player>();
-			//	System.out.println("Created temp aray");
-
-				//Send out the whole arraylist to the client
-				((ObjectOutputStream) outputStream).writeObject(players);
-				//System.out.println("Sent out players");
-
-				try {
-
-					temp = (ArrayList<Player>) ((ObjectInputStream) inputStream).readObject();//get the arraylist for a single player
-//					System.out.println("Got player");
-//					System.out.println("ID = " + temp.get(0).getWeapon().getWeaponType());
-				} catch (ClassNotFoundException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-
-				//
-				//				if(temp != null && players != null){
-				//					if(players.contains(temp.get(0)))//If the player is already in then list then remove it and replace it
-				//					{
-				//						players.remove(temp.get(0));
-				//						players.add(temp.get(0));
-				//					}
-				//					else
-				//					{
-				//						players.add(temp.get(0));
-				//					}
-				//				}
-				//				else if(temp != null && players == null)
-				//				{
-				//System.out.println("Temp size = " + temp.size());
-				players.add(temp.get(0));
-				for(Player p: players)
-				{
-					temp.add(p);
-				}
-				//}
-
-				//
-				//Send out the whole arraylist to the client
-			//	System.out.println("About to send players");
-				((ObjectOutputStream) outputStream).writeObject(temp);
-//				System.out.println("Sent players");
-//				System.out.println("Size = " + players.size());
-//
-//				System.out.println("LOOPED");
-				try {
-					Thread.sleep(2000);
-				} catch (InterruptedException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-				updateInfo();
-
-			}
-			//}
-			catch(SocketTimeoutException s)
-			{
-				System.out.println("Socket timed out!");
-				break;
-			}catch(IOException e)
-			{
-				e.printStackTrace();
-				break;
-			}
+		/**
+		 * Constructs a handler thread,
+		 * */
+		public Handler(Socket socket) {
+			this.socket = socket;
+			//            Player player2 = new Player(new Weapon("Laser", true), 2, new Point(8,1), game.Player.Type.robber);
+			//            players.add(player2);
 		}
 
 
-	}
+		public void run() {
+			try {
 
+				// Create character streams for the socket.
+				in = new ObjectInputStream(socket.getInputStream());
+				out = new ObjectOutputStream(socket.getOutputStream());
+				ArrayList<Player> temp = new ArrayList<Player>();
 
-	private void updateInfo()  {
+				// Request a name from this client.  Keep requesting until
+				// a name is submitted that is not already used.  Note that
+				// checking for the existence of a name and adding the name
+				// must be done while locking the set of names.
+				while (true) {
+					//Send out the whole arraylist to the client
+					out.writeObject(players);
 
-		while(true){
-			ArrayList<Player> temp = new ArrayList<Player>();
-			Player playerToRemove = null;
-			try{
-				//Recieve
-				try {
+					//Get player
+					temp = (ArrayList<Player>) in.readObject();//get the arraylist for a single player
+					System.out.println("Got player from client. Weapon = " + temp.get(0).getWeapon().getWeaponType());
 
-					temp = (ArrayList<Player>) ((ObjectInputStream) inputStream).readObject();//get the arraylist for a single player
-				//	System.out.println("Got player");
-					//System.out.println("ID = " + temp.get(0).getWeapon().getWeaponType());
-				} catch (ClassNotFoundException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-				if(temp != null){
-
-					for(Player p: players)//Find and remove the player before updating it in the players array
-					{
-						if(p.getID() != temp.get(0).getID())
-						{
-							temp.add(p);
+					synchronized (players) {
+						if (players.contains(temp.get(0))) {
+							players.remove(temp.get(0));
+							players.add(temp.get(0));
+							player = temp.get(0);
+							break;
 						}
 						else
 						{
-							playerToRemove = p;
+							players.add(temp.get(0));
+							player = temp.get(0);
+							break;
 						}
 					}
-					//players.add(temp.get(0));
-					//				for(Player p: players)
-					//				{
-					//					if(!temp.contains(p))
-					//					{
-					//						temp.add(p);
-					//					}
-					//				}
+				}
 
+				// Now that a successful name has been chosen, add the
+				// socket's print writer to the set of all writers so
+				// this client can receive broadcast messages.
+				int i = 0;
+				for(Player p: players)
+				{
+					System.out.println("Player " + i + " has weapon " + p.getWeapon().getWeaponType());
+					i++;
+				}
+				ArrayList<Player> temp3 = new ArrayList<Player>();
+				temp3 = players;
+				out.reset();
+				out.writeObject(temp3);
+				writers.add(out);
 
-					//Send out the whole arraylist to the client
-					((ObjectOutputStream) outputStream).writeObject(temp);
-					//System.out.println("Sent out players " + players.size());
-					if(playerToRemove != null) 
+				// Accept messages from this client and broadcast them.
+				// Ignore other clients that cannot be broadcasted to.
+				while (true) {
+					ArrayList<Player> temp2 = new ArrayList<Player>();
+					//InputStream inputStream2 = new ObjectInputStream(socket.getInputStream());
+					//in.reset();
+					temp2 = (ArrayList<Player>) in.readObject();//get the arraylist for a single player
+					System.out.println(temp2.get(0).getLocation().x);
+
+					//Find player is the list of player and add them
+					for(Player p: players)
 					{
-						players.remove(playerToRemove);
-					//	System.out.println("Player removed!");
+						if(p.getID() == temp2.get(0).getID())
+						{
+							players.remove(p);//Remove player
+							players.add(temp2.get(0));//Replace player
+						}
 					}
-					players.add(temp.get(0));
-				//	System.out.println("Player updated");
-					
-//					try {
-//						Thread.sleep(2000);
-//					} catch (InterruptedException e) {
-//						// TODO Auto-generated catch block
-//						e.printStackTrace();
-//					}
+
+					for(Player p: players)
+					{
+						System.out.println("Player " + i + " has weapon " + p.getWeapon().getWeaponType() + " and is at " + p.getLocation().x);
+						i++;
+					}
+
+					out.reset();
+					for (ObjectOutputStream writer : writers) {//Send out the revised array list to all players
+						writer.writeObject(players);
+					}
+				}
+			} catch (IOException e) {
+				System.out.println(e);
+			} catch (ClassNotFoundException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} finally {
+				// This client is going down!  Remove its name and its print
+				// writer from the sets, and close its socket.
+				if (player != null) {
+					players.remove(player);
+				}
+				if (out != null) {
+					writers.remove(out);
+				}
+				try {
+					socket.close();
+				} catch (IOException e) {
 				}
 			}
-			catch(SocketTimeoutException s)
-			{
-				System.out.println("Socket timed out!");
-				break;
-			}catch(IOException e)
-			{
-				e.printStackTrace();
-				break;
-			}
-		}
-
-	}
-
-	public static void main(String[] args) {
-	//	int port = Integer.parseInt(args[0]); //Get our port number from the command line
-		try
-		{
-			Thread t = new Server(1234);
-			t.start();//Start the thread and wait for connection
-		}
-		catch(IOException e)
-		{
-			e.printStackTrace();
 		}
 	}
 }
