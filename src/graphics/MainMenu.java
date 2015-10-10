@@ -6,7 +6,7 @@ import java.awt.Graphics;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 
-import networking.Client;
+//import networking.Client;
 
 /**
  * Represents the main menu which the game opens up to. Used to start single player and multiplayer games

@@ -18,6 +18,7 @@ public abstract class InteractableItem implements Item{
 	public InteractableItem(Room room, Point p){
 		this.room = room;
 		this.position = p;
+		this.oldPosition = p;
 	}
 	
 	public Room getRoom(){
@@ -30,11 +31,16 @@ public abstract class InteractableItem implements Item{
 	public Point getPosition() {
 		return position;
 	}
+	
+	public Point getOldPosition(){
+		return oldPosition;
+	}
 
 	/**
 	 * @param location the location to set
 	 */
 	public void setPosition(Point location) {
+		this.oldPosition = this.position;
 		this.position = location;
 	}
 	

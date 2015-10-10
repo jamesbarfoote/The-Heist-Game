@@ -5,6 +5,7 @@ import java.awt.event.ActionEvent;
 import javax.swing.AbstractAction;
 import graphics.GameCanvas;
 import game.Player;
+import game.items.Desk;
 import game.items.Item;
 
 public class moveAction extends AbstractAction {
@@ -85,8 +86,11 @@ public class moveAction extends AbstractAction {
 			if(!item.getFilename().equals("_obj_cashStack.png") && item.getPosition().equals(newLocation)){
 				return false;
 			}
-			else if(item.getFilename().equals("_obj_desk.png") && newLocation.equals(new Point((int) item.getPosition().getX(), (int) item.getPosition().getY()-1))){
-				return false;
+			else if(item.getFilename().equals("_obj_desk.png")){
+				Desk desk = (Desk) item;
+				if(desk.getPositions().contains(newLocation)){
+					return false;
+				}
 			}
 		}
 		return true;

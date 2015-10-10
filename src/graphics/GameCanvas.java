@@ -2,8 +2,9 @@ package graphics;
 
 import game.Player;
 import game.Room;
+import game.items.Desk;
 import game.items.Item;
-import networking.Client;
+//import networking.Client;
 
 import java.awt.Canvas;
 import java.awt.Color;
@@ -54,7 +55,7 @@ public class GameCanvas extends Canvas{
 	List<Player> players = new ArrayList<Player>();
 	ArrayList<Item> items = new ArrayList<Item>();
 	int width, height, rows, columns;
-	Client cm;
+	//Client cm;
 	
 	double translateX, translateY;
 	double zoom;
@@ -70,7 +71,7 @@ public class GameCanvas extends Canvas{
 	
 	//-------------------------------------------------------------------//
 	
-	public GameCanvas(Dimension d, String[][] tiles, Room room, Client cm){
+	public GameCanvas(Dimension d, String[][] tiles, Room room){
 		setSize(d);
 		setState(State.MENU);
 		this.tiles = tiles;
@@ -80,7 +81,7 @@ public class GameCanvas extends Canvas{
 		this.columns = tiles.length;
 		this.zoom = 100;
 		this.items = room.getItems();
-		this.cm = cm;
+		//this.cm = cm;
 		initialTranslate();
 	}
 	
@@ -258,8 +259,6 @@ public class GameCanvas extends Canvas{
 		Point location  = players.get(0).getLocation();
 		this.translateX = this.translateX - (location.getX() + location.getY()) * zoom/2;
 		this.translateY = this.translateY - (((columns-location.getX()-1) + location.getY()) * zoom/4);
-		//Translate other players around the current player
-		
 	}
 	
 	public void translateRoom(){
@@ -313,43 +312,39 @@ public class GameCanvas extends Canvas{
 		}
 	}
 	
-	private void drawRoom(Graphics2D g) throws InterruptedException{		
+	private void drawRoom(Graphics2D g) throws InterruptedException{	
 		for (int i = tiles.length-1; i >= 0; i--){
 		    for (int j = 0; j < tiles[i].length; j++){
 		    	Point point = new Point(i, j);
 		    	Point p = twoDToIso(point);
 		    	if(tiles[i][j] == "floor"){
-		    		//Thread.sleep(300);
 		    		drawTile(g, p, this.directions[direction] + "_floor_marble2.png");
-		    		//Thread.sleep(800);
 		    		drawIcons(g, point);
 		    	}
 		    	else if(tiles[i][j] == "wall"){
-		    		//drawWall(g, p, "wall_block1_E.png");
-		    		drawTile(g, p, this.directions[direction] + "_floor_marble1.png");
-		    		drawIcons(g, point);
+		            drawWall(g, p, this.directions[direction] + "_wall_block1.png");
 		    	}
 		    }
 		}
 	}
 	
-//	private void drawWall(Graphics2D g, Point p, String filename){	//TODO Should pass width and height and string of image
-//		try {
-//			BufferedImage myPicture = ImageIO.read(new File(ASSET_PATH + filename));
-//			double width = zoom;
-//			double height = zoom*(3/2);
-//			BufferedImage scaled = getScaledImage(myPicture, (int) width, (int) height);
-//			this.at = new AffineTransform();
-//			this.at.translate(p.x + this.translateX, p.y + this.translateY);
-//			this.at.translate(0, this.zoom*(-3/2));
-//			g.drawImage(scaled, this.at, getParent());
-//		} catch (IOException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
-//	}
+	private void drawWall(Graphics2D g, Point p, String filename){
+		try {
+			BufferedImage myPicture = ImageIO.read(new File(ASSET_PATH + filename));
+			double width = this.zoom;
+			double height = this.zoom*(3.0/2.0);
+			BufferedImage scaled = getScaledImage(myPicture, (int) width, (int) height);
+			this.at = new AffineTransform();
+			this.at.translate(p.x + this.translateX, p.y + this.translateY);
+			this.at.translate(0, this.zoom*-1);
+			g.drawImage(scaled, this.at, getParent());
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
 	
-	private void drawTile(Graphics2D g, Point p, String filename){	//TODO Should pass width and height and string of image
+	private void drawTile(Graphics2D g, Point p, String filename){
 		try {
 			BufferedImage myPicture = ImageIO.read(new File(ASSET_PATH + filename));
 			double width = zoom;
@@ -366,18 +361,18 @@ public class GameCanvas extends Canvas{
 	
 	private void drawIcons(Graphics2D g, Point point){		
 //		Draw the player(s)	
-		for(Player p: players)
-		{
-			if(p.getID() == cm.getID())//Get the current player
-			{
-				cm.setPlayer(p);//update the current plater in the client
-		//		System.out.println(p.getLocation().x);
-			}
-		}
-		cm.update(); //Tell the server the player has changed and to send it out
+//		for(Player p: players)
+//		{
+//			if(p.getID() == cm.getID())//Get the current player
+//			{
+//				cm.setPlayer(p);//update the current plater in the client
+//		//		System.out.println(p.getLocation().x);
+//			}
+//		}
+//		cm.update(); //Tell the server the player has changed and to send it out
 		
 		
-		players = cm.getPlayers();
+		//players = cm.getPlayers();
 		for(Player player : this.players){
 		//	System.out.println("Drawing player at: " + player.getLocation().x);
 			Point location = player.getLocation();
@@ -407,42 +402,54 @@ public class GameCanvas extends Canvas{
 	 */
 	private void drawItems(Graphics2D g, Point point){
 		for(Item item : this.items){
-			Point location = item.getPosition();
-			if(location.equals(point)){
-				try {
-					BufferedImage myPicture = ImageIO.read(new File(ASSET_PATH + this.directions[direction] + item.getFilename()));
-					double width = zoom / item.getSize()[0];
-					double height = zoom / item.getSize()[1];
-					BufferedImage scaled = getScaledImage(myPicture, (int) width, (int) height);
-					AffineTransform at = new AffineTransform();
-					double[] translation = calculatePlayerTranslate(players.get(0).getLocation(), item.getPosition());
-					if(item.getFilename().equals("_obj_desk.png")){
-						if(this.direction == 0){
-							at.translate(-this.zoom/1.7, -this.zoom/1.35);
-						}
-						else if(this.direction == 1){
-							at.translate(0, 0);
-						}
-						else if(this.direction == 2){
-							at.translate(0, 0);
-						}
-						else if(this.direction == 3){
-							at.translate(0, 0);
-						}
+			if(item.getFilename().equals("_obj_desk.png")){
+				Desk desk = (Desk) item;
+				for(Point p : desk.getPositions()){
+					if(p.equals(point)){
+						drawItems2(g, item);
 					}
-					else if(item.getFilename().equals("_obj_floorSafe.png")){
-						at.translate(this.zoom/8, -this.zoom/14);
-					}
-					else if(item.getFilename().equals("_obj_cashStack.png")){
-						at.translate(this.zoom/3.8, this.zoom/4.3);
-					}
-					at.translate(this.width/2 + translation[0], this.height/2 + translation[1]);
-					g.drawImage(scaled, at, getParent());
-				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
 				}
 			}
+			Point location = item.getPosition();
+			if(location.equals(point)){
+				drawItems2(g, item);
+			}
+		}
+	}
+	
+	private void drawItems2(Graphics2D g, Item item){	//Yes this is horrible convention but I can't be bothered anymore.
+		try {
+			BufferedImage myPicture = ImageIO.read(new File(ASSET_PATH + this.directions[direction] + item.getFilename()));
+			double width = zoom / item.getSize()[0];
+			double height = zoom / item.getSize()[1];
+			BufferedImage scaled = getScaledImage(myPicture, (int) width, (int) height);
+			AffineTransform at = new AffineTransform();
+			double[] translation = calculatePlayerTranslate(players.get(0).getLocation(), item.getPosition());
+			if(item.getFilename().equals("_obj_desk.png")){
+				if(this.direction == 0){
+					at.translate(-this.zoom/1.7, -this.zoom/1.35);
+				}
+				else if(this.direction == 1){
+					at.translate(-this.zoom/1.8, -this.zoom/2.1);
+				}
+				else if(this.direction == 2){
+					at.translate(-this.zoom/15, -this.zoom/2.1);
+				}
+				else if(this.direction == 3){
+					at.translate(-this.zoom/19, -this.zoom/1.35);
+				}
+			}
+			else if(item.getFilename().equals("_obj_floorSafe.png")){
+				at.translate(this.zoom/8, -this.zoom/14);
+			}
+			else if(item.getFilename().equals("_obj_cashStack.png")){
+				at.translate(this.zoom/3.8, this.zoom/4.3);
+			}
+			at.translate(this.width/2 + translation[0], this.height/2 + translation[1]);
+			g.drawImage(scaled, at, getParent());
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 	}
 	
@@ -519,6 +526,10 @@ public class GameCanvas extends Canvas{
 			}
 			item.setOldPosition(oldLocation);
 			item.setPosition(newLocation);
+			if(item.getFilename().equals("_obj_desk.png")){
+				Desk desk = (Desk) item;
+				desk.setPositions(this.directions[this.direction]);
+			}
 		}
 	}
 	

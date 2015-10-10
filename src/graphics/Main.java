@@ -10,8 +10,8 @@ import game.items.InteractableItem;
 import game.items.Item;
 import game.items.Safe;
 import game.items.Weapon;
-import networking.Client;
-import networking.Server;
+//import networking.Client;
+//import networking.Server;
 
 import java.awt.Point;
 import java.awt.event.KeyEvent;
@@ -54,7 +54,7 @@ public class Main extends JFrame implements KeyListener, MouseListener, MouseMot
 	private static final String ROTATE_CLOCKWISE = "rotate clockwise";
 	private static final String ROTATE_ANTICLOCKWISE = "rotate anticlockwise";
 	
-	private Client cM;
+	//private Client cM;
 	Room currentRoom;
 	Player player;
 
@@ -69,15 +69,15 @@ public class Main extends JFrame implements KeyListener, MouseListener, MouseMot
 		players.add(currentPlayer);
 		players.add(player2);
 		this.player = currentPlayer;
-		cM = new Client(1234, "localhost", player);//Connect to the server. Change localhost to the actual host computer
+		//cM = new Client(1234, "localhost", player);//Connect to the server. Change localhost to the actual host computer
 		//players = cM.getPlayers();
-		for(Player p: players)
-		{
-			if(p.getID() == cM.getID())
-			{
-				//player = p;
-			}
-		}
+//		for(Player p: players)
+//		{
+//			if(p.getID() == cM.getID())
+//			{
+//				//player = p;
+//			}
+//		}
 		
 		System.out.println("Number of players = " + players.size());
 		this.currentRoom = new Room("testRoom", data.getWidth(), data.getHeight(), players);
@@ -91,7 +91,7 @@ public class Main extends JFrame implements KeyListener, MouseListener, MouseMot
 		
 		//Create canvas
 		setSize(getToolkit().getScreenSize());
-		canvas = new GameCanvas(getSize(), data.getTiles(), currentRoom, cM);
+		canvas = new GameCanvas(getSize(), data.getTiles(), currentRoom);
 		canvas.addKeyListener(this);
 		canvas.addMouseListener(this);
 		canvas.addMouseMotionListener(this);
