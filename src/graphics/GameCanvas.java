@@ -495,7 +495,7 @@ public class GameCanvas extends Canvas{
 	}
 	
 	public void rotate(String direction){
-		String[][] newArray = new String[10][10];
+		String[][] newArray = new String[this.tiles.length][this.tiles[0].length];
 		Point oldLocation = players.get(0).getLocation();
 		Point newLocation;
 		if(direction.equals("anti-clockwise")){
