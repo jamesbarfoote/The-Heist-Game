@@ -74,6 +74,7 @@ public class moveAction extends AbstractAction {
 	 * @return boolean - whether the new location goes through a wall
 	 */
 	private boolean isValidMove(Point newLocation){
+		System.out.println((int) newLocation.getX());
 		if(!this.canvas.getTiles()[(int) newLocation.getX()][(int) newLocation.getY()].equals("floor")){
 			return false;
 		}
