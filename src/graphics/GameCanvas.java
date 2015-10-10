@@ -317,12 +317,23 @@ public class GameCanvas extends Canvas{
 		    for (int j = 0; j < tiles[i].length; j++){
 		    	Point point = new Point(i, j);
 		    	Point p = twoDToIso(point);
-		    	if(tiles[i][j] == "floor"){
-		    		drawTile(g, p, this.directions[direction] + "_floor_marble2.png");
+		    	if(tiles[i][j] == "marble"){
+		    		drawTile(g, p, this.directions[direction] + "_floor_marble1.png");
 		    		drawIcons(g, point);
 		    	}
 		    	else if(tiles[i][j] == "wall"){
 		            drawWall(g, p, this.directions[direction] + "_wall_block1.png");
+		    	}
+		    	else if(tiles[i][j] == "marble2"){
+		    		drawTile(g, p, this.directions[direction] + "_floor_marble2.png");
+		    		drawIcons(g, point);
+		    	}
+		    	else if(tiles[i][j] == "carpet"){
+		    		drawTile(g, p, this.directions[direction] + "_floor_carpet1.png");
+		    		drawIcons(g, point);
+		    	}
+		    	else if(tiles[i][j] == "door"){
+		            drawWall(g, p, this.directions[direction] + "_door_woodenClosed.png");
 		    	}
 		    }
 		}

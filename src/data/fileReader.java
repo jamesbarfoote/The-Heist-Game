@@ -15,6 +15,14 @@ public class fileReader {
 		this.room = room;
 		readFile();
 	}
+	
+	/*
+	 * 0 = marble1
+	 * 1 = wall
+	 * 2 = marble2
+	 * 3 = carpet
+	 * 4 = door
+	 */
 
 	/**
 	 * read the board layout file for drawing the board.
@@ -35,10 +43,19 @@ public class fileReader {
 
 					String value = lineSc.next();
 					if(value.equals("0")){
-						tiles[lineNum][rowNum] = "floor";
+						tiles[lineNum][rowNum] = "marble";
 					}
 					else if(value.equals("1")){
 						tiles[lineNum][rowNum] = "wall";
+					}
+					else if(value.equals("2")){
+						tiles[lineNum][rowNum] = "marble2";
+					}
+					else if(value.equals("3")){
+						tiles[lineNum][rowNum] = "carpet";
+					}
+					else if(value.equals("4")){
+						tiles[lineNum][rowNum] = "door";
 					}
 					else{
 						throw new ArrayStoreException();

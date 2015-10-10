@@ -60,7 +60,7 @@ public class Main extends JFrame implements KeyListener, MouseListener, MouseMot
 
 	public Main(){
 		super("The Heist");
-		fileReader data = new fileReader("5");
+		fileReader data = new fileReader("6");
 		
 		//Create player
 		Player currentPlayer = new Player(new Weapon("Badass", true), 1, new Point(1,0), game.Player.Type.robber);
