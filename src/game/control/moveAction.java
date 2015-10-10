@@ -9,7 +9,7 @@ import game.items.Item;
 
 public class moveAction extends AbstractAction {
 
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 2L;
 	String direction;
 	Player player;
 	GameCanvas canvas;

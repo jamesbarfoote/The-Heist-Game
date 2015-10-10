@@ -23,6 +23,7 @@ import java.awt.event.MouseWheelEvent;
 import java.awt.event.MouseWheelListener;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.JComponent;
 import javax.swing.JFrame;
@@ -42,7 +43,7 @@ public class Main extends JFrame implements KeyListener, MouseListener, MouseMot
 	static JLabel movements = new JLabel();
 	static JLabel functionality = new JLabel();
 	
-	private static final long serialVersionUID = 1l;
+	private static final long serialVersionUID = 2l;
 	
 	private static final int IFW = JComponent.WHEN_IN_FOCUSED_WINDOW;
 	private static final String MOVE_UP = "move up";
@@ -63,23 +64,23 @@ public class Main extends JFrame implements KeyListener, MouseListener, MouseMot
 		fileReader data = new fileReader();
 		
 		//Create player
-		Player currentPlayer = new Player(new Weapon("Badass", true), 1, new Point(1,0), game.Player.Type.robber);
-		Player player2 = new Player(new Weapon("Badass", true), 1, new Point(6,2), game.Player.Type.robber);
-		ArrayList<Player> players = new ArrayList<Player>();
+		Player currentPlayer = new Player(new Weapon("Badass", true), 1, new Point(1,1), game.Player.Type.robber);
+		//Player player2 = new Player(new Weapon("Badass", true), 1, new Point(6,2), game.Player.Type.robber);
+		List<Player> players = new ArrayList<Player>();
 		players.add(currentPlayer);
-		players.add(player2);
+		//players.add(player2);
 		this.player = currentPlayer;
 		cM = new Client(1234, "localhost", player);//Connect to the server. Change localhost to the actual host computer
-		//players = cM.getPlayers();
+		players = cM.getPlayers();
 		for(Player p: players)
 		{
 			if(p.getID() == cM.getID())
 			{
-				//player = p;
+				player = p;
 			}
 		}
 		
-		System.out.println("Number of players = " + players.size());
+		//System.out.println("Number of players = " + players.size());
 		this.currentRoom = new Room("testRoom", data.getWidth(), data.getHeight(), players);
 		
 		Money money = new Money(1000000, currentRoom, new Point(2, 4));

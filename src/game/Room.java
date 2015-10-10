@@ -19,14 +19,14 @@ public class Room {
 	private String roomName;
 	private ArrayList<Item> itemsInRoom;
 	private List<Door> roomDoors;
-	private ArrayList<Player> players = new ArrayList<Player>();
+	private List<Player> players = new ArrayList<Player>();
 	private char[][] tiles; //The floorspace of the room
 	private int width;
 	private int height;
 	
-	public Room(String roomName, int width, int height, ArrayList<Player> players){
+	public Room(String roomName, int width, int height, List<Player> players2){
 		this.roomName = roomName;
-		this.players = players;
+		this.players = players2;
 		itemsInRoom = new ArrayList<Item>();
 		roomDoors = new ArrayList<Door>();
 		this.width = width;
@@ -91,7 +91,7 @@ public class Room {
 		return height;
 	}
 	
-	public ArrayList<Player> getPlayers(){
+	public List<Player> getPlayers(){
 		return this.players;
 	}
 	

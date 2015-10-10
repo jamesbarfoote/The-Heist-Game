@@ -14,6 +14,7 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 import game.Player;
@@ -71,8 +72,8 @@ public class Server {
 		 * */
 		public Handler(Socket socket) {
 			this.socket = socket;
-			            Player player2 = new Player(new Weapon("Laser", true), 2, new Point(8,1), game.Player.Type.robber);
-			            players.add(player2);
+			Player player2 = new Player(new Weapon("Laser", true), 2, new Point(8,2), game.Player.Type.robber);
+			players.add(player2);
 		}
 
 
@@ -82,7 +83,7 @@ public class Server {
 				// Create character streams for the socket.
 				in = new ObjectInputStream(socket.getInputStream());
 				out = new ObjectOutputStream(socket.getOutputStream());
-				ArrayList<Player> temp = new ArrayList<Player>();
+				List<Player> temp = new CopyOnWriteArrayList<Player>();
 
 				// Request a name from this client.  Keep requesting until
 				// a name is submitted that is not already used.  Note that
@@ -93,8 +94,8 @@ public class Server {
 					out.writeObject(players);
 
 					//Get player
-					temp = (ArrayList<Player>) in.readObject();//get the arraylist for a single player
-					System.out.println("Got player from client. Weapon = " + temp.get(0).getWeapon().getWeaponType());
+					temp = (List<Player>) in.readObject();//get the arraylist for a single player
+					//System.out.println("Got player from client. Weapon = " + temp.get(0).getWeapon().getWeaponType());
 
 					synchronized (players) {
 						if (players.contains(temp.get(0))) {
@@ -116,25 +117,25 @@ public class Server {
 				// socket's print writer to the set of all writers so
 				// this client can receive broadcast messages.
 				int i = 0;
-				for(Player p: players)
-				{
-					System.out.println("Player " + i + " has weapon " + p.getWeapon().getWeaponType());
-					i++;
-				}
-				CopyOnWriteArrayList<Player> temp3 = new CopyOnWriteArrayList<Player>();
+				//				for(Player p: players)
+				//				{
+				//					System.out.println("Player " + i + " has weapon " + p.getWeapon().getWeaponType());
+				//					i++;
+				//				}
+				List<Player> temp3 = new CopyOnWriteArrayList<Player>();
 				temp3 = players;
-				out.reset();
+			//	out.reset();
 				out.writeObject(temp3);
 				writers.add(out);
 
 				// Accept messages from this client and broadcast them.
 				// Ignore other clients that cannot be broadcasted to.
 				while (true) {
-					ArrayList<Player> temp2 = new ArrayList<Player>();
+					List<Player> temp2 = new CopyOnWriteArrayList<Player>();
 					//InputStream inputStream2 = new ObjectInputStream(socket.getInputStream());
 					//in.reset();
-					temp2 = (ArrayList<Player>) in.readObject();//get the arraylist for a single player
-					System.out.println(temp2.get(0).getLocation().x);
+					temp2 = (List<Player>) in.readObject();//get the arraylist for a single player
+					//System.out.println(temp2.get(0).getLocation().x);
 
 					//Find player is the list of player and add them
 					//Player playerToRemove = null;
@@ -151,15 +152,11 @@ public class Server {
 					}
 					//players.remove(playerToRemove);
 
-					for(Player p: players)
-					{
-						System.out.println("Player " + i + " has weapon " + p.getWeapon().getWeaponType() + " and is at " + p.getLocation().x);
-						i++;
-					}
-
-					out.reset();
+					
+					//	out.reset();
 					for (ObjectOutputStream writer : writers) {//Send out the revised array list to all players
 						writer.writeObject(players);
+						
 					}
 				}
 			} catch (IOException e) {

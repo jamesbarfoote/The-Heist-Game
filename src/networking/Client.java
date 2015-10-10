@@ -35,7 +35,7 @@ public class Client{
 		this.port = port;
 		this.host = host;
 		this.currentPlayer = p;
-		players = new ArrayList<Player>();
+		players = new CopyOnWriteArrayList<Player>();
 
 		try {
 			//client = new Socket(host, port);
@@ -66,7 +66,7 @@ public class Client{
 
 			List<Player> temp2;
 
-			System.out.println("in");
+			//System.out.println("in");
 			try {
 
 				temp2 = (List<Player>) inputStream.readObject();//get the arraylist for a single player
@@ -79,31 +79,31 @@ public class Client{
 			}
 
 			//send our player out
-			ArrayList<Player> temp = new ArrayList<Player>();
+			List<Player> temp = new CopyOnWriteArrayList<Player>();
 			temp.add(currentPlayer);
 			outputStream.writeObject(temp);
-			System.out.println("Sent!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-			System.out.println("Sent players to server. Size = " + players.size());
+			//System.out.println("Sent!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+			//System.out.println("Sent players to server. Size = " + players.size());
 
 			Thread.sleep(200);
-			List<Player> temp3 = new CopyOnWriteArrayList<Player>();
+			//List<Player> temp3 = new CopyOnWriteArrayList<Player>();
 
 			//Recieve the players
 			try {
 				//inputStream.reset();
-				temp3 = (List<Player>) inputStream.readObject();//get the arraylist for a single player
-				System.out.println("Got players from server. Size = " + temp3.size());
+				temp2 = (List<Player>) inputStream.readObject();//get the arraylist for a single player
+				//System.out.println("Got players from server. Size = " + temp3.size());
 			} catch (ClassNotFoundException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 
 			int i = 0;
-			for(Player p: temp3)
-			{
-				System.out.println("Player " + i + " has weapon " + p.getWeapon().getWeaponType());
-				i++;
-			}
+//			for(Player p: temp3)
+//			{
+//				System.out.println("Player " + i + " has weapon " + p.getWeapon().getWeaponType());
+//				i++;
+//			}
 			//			System.out.println("Recieved players");
 			//			System.out.println("Client player size = " + players.size());
 
@@ -134,6 +134,8 @@ public class Client{
 
 	public void updatePlayer(Player p)
 	{
+		System.out.println("x = " + p.getLocation().x);
+
 		this.currentPlayer = p;
 	}
 
@@ -141,7 +143,7 @@ public class Client{
 	{		
 		//send our player out
 		//	System.out.println("Updating The server with the new player info");
-		ArrayList<Player> temp = new ArrayList<Player>();
+		List<Player> temp = new CopyOnWriteArrayList<Player>();
 		temp.add(currentPlayer);
 
 		//System.out.println("Current Player x: " + currentPlayer.getLocation().x + " Y: " + currentPlayer.getLocation().y);
@@ -149,9 +151,10 @@ public class Client{
 		try{
 			int i = 0;
 			
-			outputStream.reset();
+			//outputStream.flush();
 			outputStream.writeObject(temp);//Send out our player
-			System.out.println("Sent player");
+			//outputStream.reset();
+			//System.out.println("Sent player");
 
 
 			//Recieve the players
@@ -164,11 +167,12 @@ public class Client{
 				e.printStackTrace();
 			}
 			
-			for(Player p: players)
-            {
-            	System.out.println("Player " + i + " has weapon " + p.getWeapon().getWeaponType() + " and is at " + p.getLocation().x);
-            	i++;
-            }
+			
+//			for(Player p: players)
+//            {
+//            	System.out.println("Player " + i + " has weapon " + p.getWeapon().getWeaponType() + " and is at " + p.getLocation().x);
+//            	i++;
+//            }
 			//	System.out.println("Recieved players");
 			//System.out.println("After Player x: " + currentPlayer.getLocation().x + " Y: " + currentPlayer.getLocation().y);
 
