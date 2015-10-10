@@ -1,8 +1,13 @@
 package data;
 
+import game.items.Item;
+
+import java.awt.Point;
 import java.io.File;
+
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
+
 import org.w3c.dom.Document;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
@@ -21,7 +26,7 @@ public class Load {
 
 			Document doc = docBuilder.parse(file);
 
-			//TODO: remove debugging printlns
+			// TODO: remove debugging printlns
 			System.out.println("Root element :"
 					+ doc.getDocumentElement().getNodeName());
 
@@ -33,7 +38,6 @@ public class Load {
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
 		}
-
 	}
 
 	private static void parseFile(NodeList nodeList) {
@@ -74,18 +78,49 @@ public class Load {
 		}
 	}
 
-	private static void itemNode(Node itemNode) {
+	/**
+	 * Parse item.
+	 *
+	 * @param itemNode
+	 * @return - Item from xml
+	 */
+	private static Item itemNode(Node itemNode) {
 
 		// get attributes names and values
 		NamedNodeMap nodeMap = itemNode.getAttributes();
+		itemNode
 
-		for (int i = 0; i < nodeMap.getLength(); i++) {
+		// 1st child node of item
+		// <name>
+		Node node = nodeMap.item(0);
+		String name = node.getNodeValue();
+		// <pos>
+		node = nodeMap.item(1);
+		String pos = node.getNodeValue();
+		Point point = stringToPoint(pos);
 
-			Node node = nodeMap.item(i);
+		
+		
+		
+		
 
-			System.out.println("attr name : " + node.getNodeName());
-			System.out.println("attr value : " + node.getNodeValue());
-
-		}
+		return item;
 	}
+
+	/**
+	 * Helper method, parse string to a point
+	 *
+	 * @param pos
+	 *            - In the form x,y
+	 * @return - Point
+	 */
+	private static Point stringToPoint(String pos) {
+
+		int x = Integer.parseInt(pos.split(",")[0]);
+		int y = Integer.parseInt(pos.split(",")[1]);
+
+		Point temp = new Point(x, y);
+		return temp;
+	}
+
 }

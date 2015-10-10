@@ -1,7 +1,9 @@
 package data;
 
+import java.awt.Point;
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Calendar;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -18,7 +20,11 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 
 import game.*;
+import game.items.Desk;
+import game.items.InteractableItem;
 import game.items.Item;
+import game.items.Safe;
+import game.items.Weapon;
 
 /**
  * @author boticanich
@@ -51,19 +57,21 @@ public class Save {
 			doc.appendChild(rootElement);
 
 			// append rooms to root element
-			for (Room r : rooms) {
-				rootElement.appendChild(getRoom(doc, r));
+			for (Room room : rooms) {
+				rootElement.appendChild(getRoom(doc, room));
 			}
 
 			// output XML to file
 			Transformer transformer = TransformerFactory.newInstance()
 					.newTransformer();
 			transformer.setOutputProperty(OutputKeys.INDENT, "yes");
-			//DOMSource source = new DOMSource(doc);
-			//StreamResult console = new StreamResult(System.out);
-			//transformer.transform(source, console);
+			// DOMSource source = new DOMSource(doc);
+			// StreamResult console = new StreamResult(System.out);
+			// transformer.transform(source, console);
 
-			Result output = new StreamResult(new File("output.xml"));
+			Calendar date = Calendar.getInstance();
+			//String filename = date.get(Calendar.YEAR) + "-" + date.get(Calendar.MONTH + "-" + date.get(Calendar.DATE) + "-" + date.get(Calendar.HOUR_OF_DAY) + ":" + date.get(Calendar.MINUTE) + ":" + date.get(Calendar.SECOND))))));
+			Result output = new StreamResult(new File("game_save_001.xml"));
 			Source input = new DOMSource(doc);
 
 			transformer.transform(input, output);
@@ -75,18 +83,18 @@ public class Save {
 
 	// Template for xml
 	//
-	//	<room name="hall">
+	// <room name="hall">
 	//
-	//		<item type="ImmovableItem">
-	//			<name>Desk</name>
-	//			<pos>x,y</pos>
-	//	 	</item>
+	// <item type="ImmovableItem">
+	// <name>Desk</name>
+	// <pos>x,y</pos>
+	// </item>
 	//
 	//
-	//		<item type="MovableItem">
-	// 			<name>chest</name>
-	//			 <pos>x,y</pos>
-	//		</item>
+	// <item type="MovableItem">
+	// <name>chest</name>
+	// <pos>x,y</pos>
+	// </item>
 	//
 	// <money>
 	// <amount>1200</amount>
@@ -117,9 +125,6 @@ public class Save {
 		for (Item i : r.getItems())
 			room.appendChild(addItems(doc, i));
 
-		for (Money m : r.getMoney())
-			room.appendChild(addMoney(doc, m));
-
 		for (Door d : r.getDoors())
 			room.appendChild(addDoors(doc, d));
 
@@ -129,12 +134,12 @@ public class Save {
 	private static Node addItems(Document doc, Item i) {
 		// <item type=MoveableItem>
 		Element itemNode = doc.createElement("item");
-		itemNode.setAttribute("type", i.getClass().getName());
+		itemNode.setAttribute("type", i.getClass().getSimpleName());
 
-		// add item name?
-		itemNode.appendChild(node(doc, "name", i.toString()));
 		// add item position
-		itemNode.appendChild(node(doc, "pos", i.getPosition().toString()));
+		itemNode.appendChild(node(doc, "pos", pointToString(i.getPosition())));
+
+		return itemNode;
 	}
 
 	private static Node addMoney(Document doc, Money m) {
@@ -145,7 +150,7 @@ public class Save {
 				Integer.toString(m.getAmount())));
 		moneyNode.appendChild(node(doc, "pickedUp",
 				Boolean.toString(m.getPickedUp())));
-		moneyNode.appendChild(node(doc, "pos", m.getPosition().toString()));
+		moneyNode.appendChild(node(doc, "pos", pointToString(m.getPosition())));
 
 		return moneyNode;
 	}
@@ -156,12 +161,22 @@ public class Save {
 
 		doorNode.appendChild(node(doc, "roor1", d.getRoom1().toString()));
 		doorNode.appendChild(node(doc, "roor2", d.getRoom2().toString()));
-		doorNode.appendChild(node(doc, "room1Entry", d.getRoom1Entry()
-				.toString()));
-		doorNode.appendChild(node(doc, "room2Entry", d.getRoom2Entry()
-				.toString()));
+		doorNode.appendChild(node(doc, "room1Entry",
+				pointToString(d.getRoom1Entry())));
+		doorNode.appendChild(node(doc, "room2Entry",
+				pointToString(d.getRoom1Entry())));
 
 		return doorNode;
+	}
+
+	/**
+	 * Helper method, point to string
+	 *
+	 * @param point
+	 * @return - String in the form x,y
+	 */
+	private static String pointToString(Point point) {
+		return point.getX() + "," + point.getY();
 	}
 
 	/**
@@ -187,7 +202,30 @@ public class Save {
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		saveToXML(null);
+		Room currentRoom;
+
+		Player currentPlayer = new Player(new Weapon("Badass", true), 1,
+				new Point(1, 0), game.Player.Type.robber);
+		Player player2 = new Player(new Weapon("Badass", true), 1, new Point(6,
+				2), game.Player.Type.robber);
+		ArrayList<Player> players = new ArrayList<Player>();
+		players.add(currentPlayer);
+		players.add(player2);
+
+		currentRoom = new Room("testRoom", 0, 0, players);
+
+		Money money = new Money(1000000, currentRoom, new Point(2, 4));
+		ArrayList<InteractableItem> deskItems = new ArrayList<InteractableItem>();
+		deskItems.add(money);
+		currentRoom.addItem(money);
+		currentRoom.addItem(new Safe(currentRoom, new Point(4, 7), deskItems));
+		currentRoom.addItem(new Desk(currentRoom, new Point(8, 8), deskItems));
+
+		ArrayList<Room> rooms = new ArrayList<>();
+		rooms.add(currentRoom);
+
+		saveToXML(rooms);
 
 	}
+
 }
