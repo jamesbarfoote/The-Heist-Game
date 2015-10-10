@@ -359,6 +359,7 @@ public class GameCanvas extends Canvas{
 		    	}
 		    	else if(tiles[i][j] == "wall"){
 		            drawWall(g, p, this.directions[direction] + "_wall_block1.png");
+		    		//drawTile(g, p, this.directions[direction] + "_floor_marble2.png");
 		    	}
 		    	else if(tiles[i][j] == "marble2"){
 		    		drawTile(g, p, this.directions[direction] + "_floor_marble2.png");
@@ -369,7 +370,14 @@ public class GameCanvas extends Canvas{
 		    		drawIcons(g, point);
 		    	}
 		    	else if(tiles[i][j] == "door"){
-		            drawWall(g, p, this.directions[direction] + "_door_woodenClosed.png");
+		    		 drawWall(g, p, this.directions[direction] + "_door_woodenClosed.png");
+		    	}
+		    	else if(tiles[i][j] == "door2"){
+		    		int direction = this.direction+1;
+		    		if(direction == 4){
+		    			direction = 0;
+		    		}
+		    		 drawWall(g, p, this.directions[direction] + "_door_woodenClosed.png");
 		    	}
 		    }
 		}
