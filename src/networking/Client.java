@@ -156,7 +156,7 @@ public class Client{
 			//outputStream.reset();
 			//System.out.println("Sent player");
 
-
+Thread.sleep(5);
 			//Recieve the players
 			try {
 				
@@ -187,6 +187,10 @@ public class Client{
 		//			// TODO Auto-generated catch block
 		//			e.printStackTrace();
 		//		}
+ catch (InterruptedException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
 	}
 
 

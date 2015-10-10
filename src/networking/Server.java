@@ -124,7 +124,7 @@ public class Server {
 				//				}
 				List<Player> temp3 = new CopyOnWriteArrayList<Player>();
 				temp3 = players;
-			//	out.reset();
+				//out.reset();
 				out.writeObject(temp3);
 				writers.add(out);
 
