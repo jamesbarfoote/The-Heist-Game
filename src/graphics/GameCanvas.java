@@ -5,6 +5,7 @@ import game.Room;
 import game.items.Desk;
 import game.items.Item;
 //import networking.Client;
+import networking.Client;
 
 import java.awt.Canvas;
 import java.awt.Color;
@@ -26,7 +27,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.concurrent.CopyOnWriteArrayList;
 
 import javax.imageio.ImageIO;
 
@@ -35,13 +35,8 @@ import javax.imageio.ImageIO;
  * @author Godfreya, CombuskenKid
  */
 public class GameCanvas extends Canvas{
-<<<<<<< HEAD
-	private static final long serialVersionUID = 2l;
-	public enum State{MENU, PLAYING}
-=======
 	private static final long serialVersionUID = 1l;
 	public enum State{MENU, PLAYING, MULTI}
->>>>>>> refs/remotes/origin/master
 	
 	private static final String IMAGE_PATH = "images" + File.separator + "menus" + File.separator; //path for locating images
 	private static final String ASSET_PATH = "res" + File.separator; //path for locating assets.
@@ -59,15 +54,10 @@ public class GameCanvas extends Canvas{
 	private AffineTransform at;
 	String[][] tiles;
 	Room room;
-	List<Player> players = new CopyOnWriteArrayList<Player>();
+	List<Player> players = new ArrayList<Player>();
 	ArrayList<Item> items = new ArrayList<Item>();
 	int width, height, rows, columns;
-<<<<<<< HEAD
-	Client cm;
-	Player currentPlayer = null;
-=======
 	//Client cm;
->>>>>>> refs/remotes/origin/master
 	
 	double translateX, translateY;
 	double zoom;
@@ -75,6 +65,8 @@ public class GameCanvas extends Canvas{
 	private String[] directions = {"N", "E", "S", "W"};
 	int direction = 0;
 	private HashMap<String, BufferedImage> images = new HashMap<String, BufferedImage>();
+	private Client cm;
+	private Player currentPlayer;
 	
 	/*
 	 * Everything is held within the rooms. The canvas needs a current room to draw. This room will hold an
@@ -84,7 +76,7 @@ public class GameCanvas extends Canvas{
 	
 	//-------------------------------------------------------------------//
 	
-	public GameCanvas(Dimension d, String[][] tiles, Room room){
+	public GameCanvas(Dimension d, String[][] tiles, Room room, Client cm){
 		setSize(d);
 		setState(State.MENU);
 		this.tiles = tiles;
@@ -94,21 +86,9 @@ public class GameCanvas extends Canvas{
 		this.columns = tiles.length;
 		this.zoom = 100;
 		this.items = room.getItems();
-<<<<<<< HEAD
 		this.cm = cm;
-		
-		for(Player p: players)//set the current player
-		{
-			if(p.getID() == cm.getID())
-			{
-				currentPlayer = p;
-			}
-		}
-		
-=======
 		addToImages();
-		//this.cm = cm;
->>>>>>> refs/remotes/origin/master
+		currentPlayer = cm.getPlayer();
 		initialTranslate();
 	}
 	
@@ -248,7 +228,7 @@ public class GameCanvas extends Canvas{
 			gameMenu = new GameMenu(this);
 		}
 		else if(s.equals(State.MULTI)){
-			gameMenu = new Lobby(this);
+			gameMenu = new Lobby(this, currentPlayer, players, cm);
 		}
 	}
 
@@ -433,81 +413,41 @@ public class GameCanvas extends Canvas{
 	
 	private void drawIcons(Graphics2D g, Point point){		
 //		Draw the player(s)	
-<<<<<<< HEAD
-		for(Player p: players)
-		{
-
-			if(p.getID() == cm.getID())//Get the current player
-			{
-				cm.setPlayer(p);//update the current plater in the client
-		//		System.out.println(p.getLocation().x);
-			}
-		}
-		cm.update(); //Tell the server the player has changed and to send it out
-		List<Player> temp4 = new CopyOnWriteArrayList<Player>();
-		temp4 = cm.getPlayers();
-		
-		for(Player p: players)
-		{
-			System.out.println("Player has weapon " + p.getWeapon().getWeaponType() + " and is at " + p.getLocation().x);
-			
-		}
-
-		//players = cm.getPlayers();
-=======
 //		for(Player p: players)
 //		{
 //			if(p.getID() == cm.getID())//Get the current player
 //			{
-//				cm.setPlayer(p);//update the current plater in the client
-//		//		System.out.println(p.getLocation().x);
+				cm.setPlayer(currentPlayer);//update the current plater in the client
+		//		System.out.println(p.getLocation().x);
 //			}
 //		}
-//		cm.update(); //Tell the server the player has changed and to send it out
->>>>>>> refs/remotes/origin/master
 		
-		for(Player p: players)//set the current player
-		{
-			if(p.getID() == cm.getID())
-			{
-				this.currentPlayer = p;
-			}
-		}
+		try {
+			cm.run();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} //Tell the server the player has changed and to send it out
 		
-<<<<<<< HEAD
-=======
+		currentPlayer = cm.getPlayer();
+		
 		//players = cm.getPlayers();
->>>>>>> refs/remotes/origin/master
 		for(Player player : this.players){
 		//	System.out.println("Drawing player at: " + player.getLocation().x);
 			Point location = player.getLocation();
 			if(location.equals(point)){
-<<<<<<< HEAD
-				try {
-					BufferedImage myPicture = ImageIO.read(new File(ASSET_PATH + player.getDirection() + "_player_1.png"));
-					double width = zoom;
-					double height = zoom*1.5;
-					BufferedImage scaled = getScaledImage(myPicture, (int) width, (int) height);
-					AffineTransform at = new AffineTransform();
-					double[] translation = calculatePlayerTranslate(currentPlayer.getLocation(), player.getLocation());
-					at.translate(0, -this.zoom/1.2);
-					at.translate(this.width/2 + translation[0], this.height/2 + translation[1]);
-					g.drawImage(scaled, at, getParent());
-				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-=======
 				BufferedImage asset = this.images.get(player.getDirection() + "_player_1.png");
 				double width = zoom;
 				double height = zoom*1.5;
 				BufferedImage scaled = getScaledImage(asset, (int) width, (int) height);
 				AffineTransform at = new AffineTransform();
-				double[] translation = calculatePlayerTranslate(players.get(0).getLocation(), player.getLocation());
+				double[] translation = calculatePlayerTranslate(currentPlayer.getLocation(), player.getLocation());
 				at.translate(0, -this.zoom/1.2);
 				at.translate(this.width/2 + translation[0], this.height/2 + translation[1]);
 				g.drawImage(scaled, at, getParent());
->>>>>>> refs/remotes/origin/master
 			}
 		}
 		
@@ -519,39 +459,11 @@ public class GameCanvas extends Canvas{
 	 */
 	private void drawItems(Graphics2D g, Point point){
 		for(Item item : this.items){
-<<<<<<< HEAD
-			Point location = item.getPosition();
-			if(location.equals(point)){
-				try {
-					BufferedImage myPicture = ImageIO.read(new File(ASSET_PATH + this.directions[direction] + item.getFilename()));
-					double width = zoom / item.getSize()[0];
-					double height = zoom / item.getSize()[1];
-					BufferedImage scaled = getScaledImage(myPicture, (int) width, (int) height);
-					AffineTransform at = new AffineTransform();
-					double[] translation = calculatePlayerTranslate(currentPlayer.getLocation(), item.getPosition());
-					if(item.getFilename().equals("_obj_desk.png")){
-						if(this.direction == 0){
-							at.translate(-this.zoom/1.7, -this.zoom/1.35);
-						}
-						else if(this.direction == 1){
-							at.translate(0, 0);
-						}
-						else if(this.direction == 2){
-							at.translate(0, 0);
-						}
-						else if(this.direction == 3){
-							at.translate(0, 0);
-						}
-					}
-					else if(item.getFilename().equals("_obj_floorSafe.png")){
-						at.translate(this.zoom/8, -this.zoom/14);
-=======
 			if(item.getFilename().equals("_obj_desk.png")){
 				Desk desk = (Desk) item;
 				for(Point p : desk.getPositions()){
 					if(p.equals(point)){
 						drawItems2(g, item);
->>>>>>> refs/remotes/origin/master
 					}
 				}
 			}
@@ -568,7 +480,7 @@ public class GameCanvas extends Canvas{
 		double height = zoom / item.getSize()[1];
 		BufferedImage scaled = getScaledImage(asset, (int) width, (int) height);
 		AffineTransform at = new AffineTransform();
-		double[] translation = calculatePlayerTranslate(players.get(0).getLocation(), item.getPosition());
+		double[] translation = calculatePlayerTranslate(currentPlayer.getLocation(), item.getPosition());
 		if(item.getFilename().equals("_obj_desk.png")){
 			if(this.direction == 0){
 				at.translate(-this.zoom/1.7, -this.zoom/1.35);
@@ -608,13 +520,8 @@ public class GameCanvas extends Canvas{
 	}
 	
 	public void rotate(String direction){
-<<<<<<< HEAD
-		String[][] newArray = new String[10][10];
-		Point oldLocation = currentPlayer.getLocation();
-=======
 		String[][] newArray = new String[this.tiles.length][this.tiles[0].length];
-		Point oldLocation = players.get(0).getLocation();
->>>>>>> refs/remotes/origin/master
+		Point oldLocation = currentPlayer.getLocation();
 		Point newLocation;
 		if(direction.equals("anti-clockwise")){
 			for(int i=0; i<this.tiles[0].length; i++){
@@ -642,8 +549,8 @@ public class GameCanvas extends Canvas{
 			this.tiles = newArray;
 			rotateAssets(direction);
 		}
-		currentPlayer.setOldLocation(oldLocation);
-		currentPlayer.setLocation(newLocation);
+		this.currentPlayer.setOldLocation(oldLocation);
+		this.currentPlayer.setLocation(newLocation);
 		
 		double[] translation = calculatePlayerTranslate(currentPlayer.getLocation(), currentPlayer.getOldLocation());
 		this.translateX = this.translateX + translation[0];

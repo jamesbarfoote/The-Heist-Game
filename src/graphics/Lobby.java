@@ -1,16 +1,26 @@
 package graphics;
 
 import graphics.GameCanvas.State;
-import graphics.Menu.Action;
+import networking.Client;
 
 import java.awt.Graphics;
 import java.awt.event.MouseEvent;
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
+
+import game.Player;
 
 public class Lobby extends Menu{
 	private final int YSTART = 70; //how far up the buttons should appear on the menu
+	private Player currentPlayer;
+	private List<Player> players = new CopyOnWriteArrayList<Player>();
+	private Client cm;
 	
-	public Lobby(GameCanvas cv){
+	
+	public Lobby(GameCanvas cv, Player currentPlayer, List<Player> players, Client cm){
+		this.cm = cm;
 		canvas = cv;
 		menuBack = GameCanvas.loadImage("lobby.png");
 		menuX = (canvas.getWidth()/2) - (menuBack.getWidth(null)/2);
@@ -19,8 +29,16 @@ public class Lobby extends Menu{
 		gameButtons.add(new GameButton("back"));
 		gameButtons.add(new GameButton("start"));
 		setButtonCoordinates();
+		displayConnected();
 	}
 	
+	private void displayConnected() {
+		players = cm.getPlayers();
+		//Loop until start is clicked
+		//loop through the players list and print them onto the canvas
+		
+	}
+
 	public void decline(){
 		
 	}
@@ -40,7 +58,7 @@ public class Lobby extends Menu{
 			canvas.setState(State.MENU);
 			break;
 		case "start":
-		
+			canvas.setState(State.PLAYING);
 			break;
 		}
 	}

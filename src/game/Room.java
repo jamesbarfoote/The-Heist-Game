@@ -5,6 +5,7 @@ import game.items.Item;
 import java.awt.Point;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 /**
  * Each room has a different name and contents. A room does not necessarily have to contain any money or guards. 
@@ -19,7 +20,7 @@ public class Room {
 	private String roomName;
 	private ArrayList<Item> itemsInRoom;
 	private List<Door> roomDoors;
-	private List<Player> players = new ArrayList<Player>();
+	private List<Player> players = new CopyOnWriteArrayList<Player>();
 	private char[][] tiles; //The floorspace of the room
 	private int width;
 	private int height;
