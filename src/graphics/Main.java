@@ -53,6 +53,7 @@ public class Main extends JFrame implements KeyListener, MouseListener, MouseMot
 	private static final String ZOOM_OUT = "zoom out";
 	private static final String ROTATE_CLOCKWISE = "rotate clockwise";
 	private static final String ROTATE_ANTICLOCKWISE = "rotate anticlockwise";
+	private static final String INTERACT_WITH_OBJECT = "interact with object";
 	
 	//private Client cM;
 	Room currentRoom;
@@ -130,11 +131,14 @@ public class Main extends JFrame implements KeyListener, MouseListener, MouseMot
 		movements.getInputMap(IFW).put(KeyStroke.getKeyStroke("RIGHT"), MOVE_RIGHT);
 		movements.getInputMap(IFW).put(KeyStroke.getKeyStroke("DOWN"), MOVE_DOWN);
 		movements.getInputMap(IFW).put(KeyStroke.getKeyStroke("LEFT"), MOVE_LEFT);
+		movements.getInputMap(IFW).put(KeyStroke.getKeyStroke("INTERACT"), INTERACT_WITH_OBJECT);
 			
 		movements.getActionMap().put(MOVE_UP, new moveAction("Up", this.player, canvas));
 		movements.getActionMap().put(MOVE_RIGHT, new moveAction("Right", this.player, canvas));
 		movements.getActionMap().put(MOVE_DOWN, new moveAction("Down", this.player, canvas));
 		movements.getActionMap().put(MOVE_LEFT, new moveAction("Left", this.player, canvas));
+		
+		movements.getActionMap().put(INTERACT_WITH_OBJECT, new gameAction("P", this.player, canvas));
 			
 		add(movements);
 		/*-------------------Functionality----------------------------*/
