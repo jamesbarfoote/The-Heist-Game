@@ -35,7 +35,7 @@ import javax.imageio.ImageIO;
  */
 public class GameCanvas extends Canvas{
 	private static final long serialVersionUID = 1l;
-	public enum State{MENU, PLAYING}
+	public enum State{MENU, PLAYING, MULTI}
 	
 	private static final String IMAGE_PATH = "images" + File.separator + "menus" + File.separator; //path for locating images
 	private static final String ASSET_PATH = "res" + File.separator; //path for locating assets.
@@ -184,7 +184,7 @@ public class GameCanvas extends Canvas{
 		if(dialogue != null){
 			dialogue.mouseReleased(e);
 		}
-		else if(gameState.equals(State.PLAYING) && menuUp || gameState.equals(State.MENU)){
+		else if(gameState.equals(State.PLAYING) && menuUp || gameState.equals(State.MENU) || gameState.equals(State.MULTI)){
 			gameMenu.mouseReleased(e);				
 		}
 		else if(inventory != null){
@@ -197,7 +197,7 @@ public class GameCanvas extends Canvas{
 		if(dialogue != null){
 			dialogue.mouseMoved(p);
 		}
-		else if(gameState.equals(State.MENU) || gameState.equals(State.PLAYING) && menuUp){
+		else if(gameState.equals(State.MENU) || gameState.equals(State.PLAYING) && menuUp || gameState.equals(State.MULTI)){
 			gameMenu.mouseMoved(p);
 		}
 		else if(inventory != null){
@@ -223,6 +223,9 @@ public class GameCanvas extends Canvas{
 			inventory = null;
 			gameMenu = new GameMenu(this);
 		}
+		else if(s.equals(State.MULTI)){
+			gameMenu = new Lobby(this);
+		}
 	}
 
 	/**
@@ -246,7 +249,7 @@ public class GameCanvas extends Canvas{
 				gameMenu.draw(g);
 			}
 		}
-		else if(gameState.equals(State.MENU)){
+		else if(gameState.equals(State.MENU) || gameState.equals(State.MULTI)){
 			g.drawImage(logo, getWidth()/2 - logo.getWidth(null)/2, 35, null);
 			gameMenu.draw(g);
 		}
