@@ -153,7 +153,8 @@ public class Client {
 		inputStream.readFully(bytes2);
 		Object plays = toObject(bytes2);
 		players = (List<Player>) plays;
-
+//		for(Player p: players){
+//System.out.println("Got array. X = " + p.getLocation().x);}
 		//Thread.sleep(2000);
 
 	}
