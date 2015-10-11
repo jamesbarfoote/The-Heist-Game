@@ -6,19 +6,30 @@ import java.util.Scanner;
 
 public class fileReader {
 	
-	private String[][] tiles = new String[10][10];	//TODO Fix this needs to update size of array if data is too large.
+	private String[][] tiles = new String[999][999];
+	private static final String ASSET_PATH = "res" + File.separator +  "Rooms" + File.separator; //path for locating room files
 	private int width, height = 0;
+	private String room;
 
-	public fileReader() {
+	public fileReader(String room) {
+		this.room = room;
 		readFile();
 	}
+	
+	/*
+	 * 0 = marble1
+	 * 1 = wall
+	 * 2 = marble2
+	 * 3 = carpet
+	 * 4 = door
+	 */
 
 	/**
 	 * read the board layout file for drawing the board.
 	 */
 	@SuppressWarnings("resource")
 	private void readFile(){
-		File roomFile = new File("TestRoom4.txt");
+		File roomFile = new File(ASSET_PATH + this.room + ".txt");
 		try {
 			Scanner scan = new Scanner(roomFile);
 			int lineNum = 0;
@@ -26,15 +37,28 @@ public class fileReader {
 				String line = scan.nextLine();
 				Scanner lineSc = new Scanner(line);
 				int rowNum = 0;
+				
 
 				while(lineSc.hasNext()){
 
 					String value = lineSc.next();
 					if(value.equals("0")){
-						tiles[lineNum][rowNum] = "floor";
+						tiles[lineNum][rowNum] = "marble";
 					}
 					else if(value.equals("1")){
 						tiles[lineNum][rowNum] = "wall";
+					}
+					else if(value.equals("2")){
+						tiles[lineNum][rowNum] = "marble2";
+					}
+					else if(value.equals("3")){
+						tiles[lineNum][rowNum] = "carpet";
+					}
+					else if(value.equals("4")){
+						tiles[lineNum][rowNum] = "door";
+					}
+					else if(value.equals("5")){
+						tiles[lineNum][rowNum] = "door2";
 					}
 					else{
 						throw new ArrayStoreException();
@@ -47,6 +71,21 @@ public class fileReader {
 				lineNum++;
 			}
 			height = lineNum;
+			String[][] newArray = new String[height][width];
+			for(int i = 0; i < 999; i++){
+				for(int j = 0; j < 999; j++){
+					if(this.tiles[i][j] == null){
+						break;
+					}
+					else{
+						newArray[i][j] = this.tiles[i][j];
+					}
+				}
+				if(this.tiles[i][0] == null){
+					break;
+				}
+			}
+			this.tiles = newArray;
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		}

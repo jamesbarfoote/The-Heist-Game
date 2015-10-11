@@ -6,7 +6,7 @@ import java.awt.Graphics;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 
-import networking.Client;
+//import networking.Client;
 
 /**
  * Represents the main menu which the game opens up to. Used to start single player and multiplayer games
@@ -65,7 +65,6 @@ public class MainMenu extends Menu{
 		case "multi":
 			setupMultiplayer();
 			break;
-		
 		case "new":
 			state = MenuState.NEW;
 			loadButtons();
@@ -83,9 +82,9 @@ public class MainMenu extends Menu{
 	}
 	
 	private void setupMultiplayer() {
+		canvas.setState(State.MULTI);
 		
 		//Client cM = new Client(1234, "localhost");//Connect to the server. Change localhost to the actual host computer
-		canvas.setState(State.PLAYING);
 	}
 
 	//confirm proposed action

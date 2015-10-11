@@ -10,8 +10,8 @@ import game.items.InteractableItem;
 import game.items.Item;
 import game.items.Safe;
 import game.items.Weapon;
-import networking.Client;
-import networking.Server;
+//import networking.Client;
+//import networking.Server;
 
 import java.awt.Point;
 import java.awt.event.KeyEvent;
@@ -55,21 +55,27 @@ public class Main extends JFrame implements KeyListener, MouseListener, MouseMot
 	private static final String ROTATE_CLOCKWISE = "rotate clockwise";
 	private static final String ROTATE_ANTICLOCKWISE = "rotate anticlockwise";
 	
-	private Client cM;
+	//private Client cM;
 	Room currentRoom;
 	Player player;
 
 	public Main(){
 		super("The Heist");
-		fileReader data = new fileReader();
+		fileReader data = new fileReader("6");
 		
 		//Create player
 		Player currentPlayer = new Player(new Weapon("Badass", true), 1, new Point(1,1), game.Player.Type.robber);
+<<<<<<< HEAD
 		//Player player2 = new Player(new Weapon("Badass", true), 1, new Point(6,2), game.Player.Type.robber);
 		List<Player> players = new ArrayList<Player>();
+=======
+		Player player2 = new Player(new Weapon("Badass", true), 1, new Point(6,2), game.Player.Type.robber);
+		ArrayList<Player> players = new ArrayList<Player>();
+>>>>>>> refs/remotes/origin/master
 		players.add(currentPlayer);
 		//players.add(player2);
 		this.player = currentPlayer;
+<<<<<<< HEAD
 		cM = new Client(1234, "localhost", player);//Connect to the server. Change localhost to the actual host computer
 		players = cM.getPlayers();
 		for(Player p: players)
@@ -79,20 +85,38 @@ public class Main extends JFrame implements KeyListener, MouseListener, MouseMot
 				player = p;
 			}
 		}
+=======
+		//cM = new Client(1234, "localhost", player);//Connect to the server. Change localhost to the actual host computer
+		//players = cM.getPlayers();
+//		for(Player p: players)
+//		{
+//			if(p.getID() == cM.getID())
+//			{
+//				//player = p;
+//			}
+//		}
+>>>>>>> refs/remotes/origin/master
 		
 		//System.out.println("Number of players = " + players.size());
 		this.currentRoom = new Room("testRoom", data.getWidth(), data.getHeight(), players);
 		
 		Money money = new Money(1000000, currentRoom, new Point(2, 4));
+		Money money2 = new Money(1000000, currentRoom, new Point(20, 5));
+		Money money3 = new Money(1000000, currentRoom, new Point(23, 6));
+		Money money4 = new Money(1000000, currentRoom, new Point(19, 3));
 		ArrayList<InteractableItem> deskItems = new ArrayList<InteractableItem>();
 		deskItems.add(money);
 		currentRoom.addItem(money);
+		currentRoom.addItem(money2);
+		currentRoom.addItem(money3);
+		currentRoom.addItem(money4);
 		currentRoom.addItem(new Safe(currentRoom, new Point(4, 7), deskItems));
-		currentRoom.addItem(new Desk(currentRoom, new Point(8, 8), deskItems));
+		currentRoom.addItem(new Desk(currentRoom, new Point(12, 10), deskItems));
+		currentRoom.addItem(new Desk(currentRoom, new Point(22, 22), deskItems));
 		
 		//Create canvas
 		setSize(getToolkit().getScreenSize());
-		canvas = new GameCanvas(getSize(), data.getTiles(), currentRoom, cM);
+		canvas = new GameCanvas(getSize(), data.getTiles(), currentRoom);
 		canvas.addKeyListener(this);
 		canvas.addMouseListener(this);
 		canvas.addMouseMotionListener(this);
