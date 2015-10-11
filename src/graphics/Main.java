@@ -54,6 +54,7 @@ public class Main extends JFrame implements KeyListener, MouseListener, MouseMot
 	private static final String ROTATE_CLOCKWISE = "rotate clockwise";
 	private static final String ROTATE_ANTICLOCKWISE = "rotate anticlockwise";
 	private static final String INTERACT_WITH_OBJECT = "interact with object";
+	private static final String DROP_MONEY = "drop money";
 	
 	//private Client cM;
 	Room currentRoom;
@@ -131,14 +132,11 @@ public class Main extends JFrame implements KeyListener, MouseListener, MouseMot
 		movements.getInputMap(IFW).put(KeyStroke.getKeyStroke("RIGHT"), MOVE_RIGHT);
 		movements.getInputMap(IFW).put(KeyStroke.getKeyStroke("DOWN"), MOVE_DOWN);
 		movements.getInputMap(IFW).put(KeyStroke.getKeyStroke("LEFT"), MOVE_LEFT);
-		movements.getInputMap(IFW).put(KeyStroke.getKeyStroke("INTERACT"), INTERACT_WITH_OBJECT);
 			
 		movements.getActionMap().put(MOVE_UP, new moveAction("Up", this.player, canvas));
 		movements.getActionMap().put(MOVE_RIGHT, new moveAction("Right", this.player, canvas));
 		movements.getActionMap().put(MOVE_DOWN, new moveAction("Down", this.player, canvas));
 		movements.getActionMap().put(MOVE_LEFT, new moveAction("Left", this.player, canvas));
-		
-		movements.getActionMap().put(INTERACT_WITH_OBJECT, new gameAction("P", this.player, canvas));
 			
 		add(movements);
 		/*-------------------Functionality----------------------------*/
@@ -146,11 +144,16 @@ public class Main extends JFrame implements KeyListener, MouseListener, MouseMot
 		functionality.getInputMap(IFW).put(KeyStroke.getKeyStroke("MINUS"), ZOOM_OUT);
 		functionality.getInputMap(IFW).put(KeyStroke.getKeyStroke("E"), ROTATE_CLOCKWISE);
 		functionality.getInputMap(IFW).put(KeyStroke.getKeyStroke("Q"), ROTATE_ANTICLOCKWISE);
+		functionality.getInputMap(IFW).put(KeyStroke.getKeyStroke("INTERACT"), INTERACT_WITH_OBJECT);
+		functionality.getInputMap(IFW).put(KeyStroke.getKeyStroke("B"), DROP_MONEY);
 			
 		functionality.getActionMap().put(ZOOM_IN, new gameAction("=", this.player, canvas));
 		functionality.getActionMap().put(ZOOM_OUT, new gameAction("Minus", this.player, canvas));
 		functionality.getActionMap().put(ROTATE_CLOCKWISE, new gameAction("E", this.player, canvas));
 		functionality.getActionMap().put(ROTATE_ANTICLOCKWISE, new gameAction("Q", this.player, canvas));
+		
+		functionality.getActionMap().put(INTERACT_WITH_OBJECT, new gameAction("P", this.player, canvas));
+		functionality.getActionMap().put(DROP_MONEY, new gameAction("B", this.player, canvas));
 		
 		add(functionality);
 	}

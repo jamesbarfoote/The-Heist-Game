@@ -170,6 +170,10 @@ public class Player implements Serializable{
 		return null;
 	}
 	
+	public void dropMoney(int d){
+		moneyHeld = moneyHeld - d;
+	}
+	
 	public int getID()
 	{
 		return ID;

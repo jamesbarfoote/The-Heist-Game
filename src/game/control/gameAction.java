@@ -5,6 +5,7 @@ import java.awt.event.ActionEvent;
 import javax.swing.AbstractAction;
 
 import graphics.GameCanvas;
+import game.Money;
 import game.Player;
 import game.items.Container;
 
@@ -39,10 +40,23 @@ public class gameAction extends AbstractAction {
 		else if(action.equals("Q")){
 			this.canvas.rotate("anti-clockwise");
 		}
-		else if(action.equalsIgnoreCase("P")){
+		else if(action.equals("P")){
 			if(player.checkforInteract() instanceof Container){
 				Container c = (Container) player.checkforInteract();
 				player.lootContainer(c);
+			}
+		}
+		else if(action.equals("B")){
+			if(player.getMoneyHeld() >= 500){
+				Money m = new Money(500, player.getRoom(), player.getLocation());
+				this.canvas.getItems().add(m); //Adds the money object to the canvas
+				player.dropMoney(500); //Decrements the players money count
+			}
+			//As long as you have money you can drop some
+			else if(player.getMoneyHeld() > 0){
+				Money m = new Money(player.getMoneyHeld(), player.getRoom(), player.getLocation());
+				this.canvas.getItems().add(m); //Adds the money object to the canvas
+				player.dropMoney(player.getMoneyHeld()); //Decrements the players money count
 			}
 		}
 		this.canvas.repaint();
