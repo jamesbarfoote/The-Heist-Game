@@ -110,17 +110,22 @@ public class Player implements Serializable{
 		if(c instanceof Safe){
 			Safe s = (Safe) c;
 			if(!s.isLocked()){
-				if(s.getMoney() != 0){ moneyHeld += s.getMoney(); }
-				c.containerLooted();
+				if(s.getMoney() != 0){ moneyHeld += s.getMoney(); } //Increments the players money by the amount in the safe
+				c.containerLooted(); //Sets the safe to empty
 			}
 		}
 		else{
 			if(c.getItems() != null){ 
 				for(InteractableItem item : c.getItems()){
-					items.add(item); }
+					//Adds the item to inventory
+					if(!inventory.containsKey(item.getFilename())){
+						inventory.put(item.getFilename(), 1); //Adds a new instance of quantity 1
+					}
+					else{ inventory.put(item.getFilename(), inventory.get(item.getFilename()));} //Increments the current quantity of the item by 1
 				}
+			}
 			if(c.getMoney() != 0){ moneyHeld += c.getMoney(); }
-			c.containerLooted();
+			c.containerLooted(); //Sets Container to empty
 		}
 	}
 	
