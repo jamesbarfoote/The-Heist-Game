@@ -135,16 +135,26 @@ public abstract class Character {
 	
 	/**
 	 * Loots the given container by adding the item/money in it to the characters items array/money integer
+	 * If the container is a safe, checks if it is unlocked first.
 	 * Removes the items from the container
 	 * @param c
 	 */
 	public void lootContainer(Container c){
-		if(c.getItems() != null){ 
-			for(InteractableItem item : c.getItems()){
-				items.add(item); }
+		if(c instanceof Safe){
+			Safe s = (Safe) c;
+			if(!s.isLocked()){
+				if(s.getMoney() != 0){ moneyHeld += s.getMoney(); }
+				c.containerLooted();
 			}
-		if(c.getMoney() != 0){ moneyHeld += c.getMoney(); }
-		c.containerLooted();
+		}
+		else{
+			if(c.getItems() != null){ 
+				for(InteractableItem item : c.getItems()){
+					items.add(item); }
+				}
+			if(c.getMoney() != 0){ moneyHeld += c.getMoney(); }
+			c.containerLooted();
+		}
 	}
 	
 	/**
