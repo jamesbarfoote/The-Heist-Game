@@ -1,7 +1,9 @@
 package game;
 
 import game.items.Container;
+import game.items.Desk;
 import game.items.InteractableItem;
+import game.items.Item;
 import game.items.Key;
 import game.items.Safe;
 import game.items.Weapon;
@@ -120,6 +122,47 @@ public class Player implements Serializable{
 			if(c.getMoney() != 0){ moneyHeld += c.getMoney(); }
 			c.containerLooted();
 		}
+	}
+	
+	/**
+	 * Checks one tile ahead in the players facing direction for an InteractableItem
+	 * @return
+	 */
+	public InteractableItem checkforInteract(){
+		//Player facing north
+		if(direction == 0){
+			Point oneInFront = new Point(getLocation().x+1, getLocation().y); //The point in front of the character
+			return findItem(oneInFront);
+		}
+		else if(direction == 1){
+			Point oneInFront = new Point(getLocation().x, getLocation().y-1); //The point in front of the character
+			return findItem(oneInFront);
+		}
+		else if(direction == 2){
+			Point oneInFront = new Point(getLocation().x-1, getLocation().y); //The point in front of the character
+			return findItem(oneInFront);
+		}
+		else{
+			Point oneInFront = new Point(getLocation().x, getLocation().y+1); //The point in front of the character
+			return findItem(oneInFront);
+		}
+	}
+	
+	/**
+	 * Checks if the given point in the room has an interactable item on it
+	 * @param oneInFront
+	 * @return
+	 */
+	private InteractableItem findItem(Point oneInFront){
+		for(Item item : room.getItems()){
+			if(item.getFilename().equals("_obj_desk.png")){
+				Desk d = (Desk) item;
+				if(d.getPositions().contains(oneInFront)){
+					return d;
+				}
+			}
+		}
+		return null;
 	}
 	
 	public int getID()
