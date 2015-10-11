@@ -144,7 +144,7 @@ public class Main extends JFrame implements KeyListener, MouseListener, MouseMot
 		functionality.getInputMap(IFW).put(KeyStroke.getKeyStroke("MINUS"), ZOOM_OUT);
 		functionality.getInputMap(IFW).put(KeyStroke.getKeyStroke("E"), ROTATE_CLOCKWISE);
 		functionality.getInputMap(IFW).put(KeyStroke.getKeyStroke("Q"), ROTATE_ANTICLOCKWISE);
-		functionality.getInputMap(IFW).put(KeyStroke.getKeyStroke("INTERACT"), INTERACT_WITH_OBJECT);
+		functionality.getInputMap(IFW).put(KeyStroke.getKeyStroke("P"), INTERACT_WITH_OBJECT);
 		functionality.getInputMap(IFW).put(KeyStroke.getKeyStroke("B"), DROP_MONEY);
 			
 		functionality.getActionMap().put(ZOOM_IN, new gameAction("=", this.player, canvas));

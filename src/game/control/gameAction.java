@@ -41,9 +41,16 @@ public class gameAction extends AbstractAction {
 			this.canvas.rotate("anti-clockwise");
 		}
 		else if(action.equals("P")){
-			if(player.checkforInteract() instanceof Container){
-				Container c = (Container) player.checkforInteract();
+			//If there is a container found
+			if(player.checkforInteract(this.canvas) instanceof Container){
+				Container c = (Container) player.checkforInteract(this.canvas);
 				player.lootContainer(c);
+			}
+			//If there is a cash stack found
+			else if(player.checkforInteract(this.canvas) instanceof Money){
+				Money m = (Money) player.checkforInteract(this.canvas);
+				player.pickUpMoney(m);
+				this.canvas.getItems().remove(m);
 			}
 		}
 		else if(action.equals("B")){

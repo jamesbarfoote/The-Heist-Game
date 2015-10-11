@@ -7,6 +7,7 @@ import game.items.Item;
 import game.items.Key;
 import game.items.Safe;
 import game.items.Weapon;
+import graphics.GameCanvas;
 
 import java.awt.Point;
 import java.io.Serializable;
@@ -133,23 +134,31 @@ public class Player implements Serializable{
 	 * Checks one tile ahead in the players facing direction for an InteractableItem
 	 * @return
 	 */
-	public InteractableItem checkforInteract(){
+	public InteractableItem checkforInteract(GameCanvas canvas){
+		//Checks for money at the players current position
+		if(findItem(this.getLocation(), canvas) != null){
+			return findItem(this.getLocation(), canvas);
+		}
+		
 		//Player facing north
-		if(direction == 0){
+		if(getDirection() == "N"){
 			Point oneInFront = new Point(getLocation().x+1, getLocation().y); //The point in front of the character
-			return findItem(oneInFront);
+			return findItem(oneInFront, canvas);
 		}
-		else if(direction == 1){
+		//Player facing East
+		else if(getDirection() == "E"){
 			Point oneInFront = new Point(getLocation().x, getLocation().y-1); //The point in front of the character
-			return findItem(oneInFront);
+			return findItem(oneInFront, canvas);
 		}
-		else if(direction == 2){
+		//Player facing South
+		else if(getDirection() == "S"){
 			Point oneInFront = new Point(getLocation().x-1, getLocation().y); //The point in front of the character
-			return findItem(oneInFront);
+			return findItem(oneInFront, canvas);
 		}
+		//Player facing West
 		else{
 			Point oneInFront = new Point(getLocation().x, getLocation().y+1); //The point in front of the character
-			return findItem(oneInFront);
+			return findItem(oneInFront, canvas);
 		}
 	}
 	
@@ -158,16 +167,26 @@ public class Player implements Serializable{
 	 * @param oneInFront
 	 * @return
 	 */
-	private InteractableItem findItem(Point oneInFront){
-		for(Item item : room.getItems()){
+	private InteractableItem findItem(Point pos, GameCanvas canvas){
+		for(Item item : canvas.getItems()){
 			if(item.getFilename().equals("_obj_desk.png")){
 				Desk d = (Desk) item;
-				if(d.getPositions().contains(oneInFront)){
+				if(d.getPositions().contains(pos)){
 					return d;
+				}
+			}
+			if(item.getFilename().equals("_obj_cashStack.png")){
+				Money m = (Money) item;
+				if(m.getPosition().equals(pos)){
+					return m;
 				}
 			}
 		}
 		return null;
+	}
+	
+	public void pickUpMoney(Money m){
+		moneyHeld += m.getAmount();
 	}
 	
 	public void dropMoney(int d){
