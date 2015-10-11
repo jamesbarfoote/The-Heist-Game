@@ -1,7 +1,6 @@
 package graphics;
 
 import graphics.GameCanvas.State;
-import graphics.Menu.Action;
 
 import java.awt.Graphics;
 import java.awt.event.MouseEvent;
