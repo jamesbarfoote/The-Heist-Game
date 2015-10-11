@@ -356,7 +356,62 @@ public class GameCanvas extends Canvas{
 		}
 	}
 	
-	private void drawRoom(Graphics2D g) throws InterruptedException{	
+	private void drawRoom(Graphics2D g) throws InterruptedException{
+		for(Player p: players)
+		{
+
+			if(p.getID() == cm.getID())//Get the current player
+			{
+				cm.setPlayer(p);//update the current plater in the client
+		//		System.out.println(p.getLocation().x);
+			}
+		}
+		//cm.update(); //Tell the server the player has changed and to send it out
+		try {
+			cm.run();
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		} catch (InterruptedException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		List<Player> temp4 = new CopyOnWriteArrayList<Player>();
+		temp4 = cm.getPlayers();
+		
+		for(Player p: players)
+		{
+			if(p.getID() != cm.getID())
+			{
+				players.remove(p);
+			}
+		}
+
+		for(Player p: temp4)
+		{
+			System.out.println("Player has weapon ID = " + p.getID() + p.getWeapon().getWeaponType() + " and is at " + p.getLocation().x);
+			if(p.getID() != cm.getID())
+			{
+				players.add(p);
+			}
+				
+		}
+
+		//System.out.println("Got updated players");
+		//players = cm.getPlayers();
+		
+		for(Player p: players)//set the current player
+		{
+			if(p.getID() == cm.getID())
+			{
+				this.currentPlayer = p;
+				System.out.println("Current player set");
+			}
+		}
+		
+		//players = temp4;
+		
+		
 		for (int i = tiles.length-1; i >= 0; i--){
 		    for (int j = 0; j < tiles[i].length; j++){
 		    	Point point = new Point(i, j);
@@ -413,48 +468,12 @@ public class GameCanvas extends Canvas{
 	}
 	
 	private void drawIcons(Graphics2D g, Point point){		
-		for(Player p: players)
-		{
-
-			if(p.getID() == cm.getID())//Get the current player
-			{
-				cm.setPlayer(p);//update the current plater in the client
-		//		System.out.println(p.getLocation().x);
-			}
-		}
-		//cm.update(); //Tell the server the player has changed and to send it out
-		try {
-			cm.run();
-		} catch (IOException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		} catch (InterruptedException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
-		List<Player> temp4 = new CopyOnWriteArrayList<Player>();
-		temp4 = cm.getPlayers();
-		
-		for(Player p: temp4)
-		{
-			System.out.println("Player has weapon " + p.getWeapon().getWeaponType() + " and is at " + p.getLocation().x);
-			
-		}
-
-		//players = cm.getPlayers();
-		
-		for(Player p: players)//set the current player
-		{
-			if(p.getID() == cm.getID())
-			{
-				this.currentPlayer = p;
-			}
-		}
+	
 		
 		
 		//players = cm.getPlayers();
 		for(Player player : this.players){
-		//	System.out.println("Drawing player at: " + player.getLocation().x);
+			System.out.println("Drawing player at: " + player.getLocation().x);
 			Point location = player.getLocation();
 			if(location.equals(point)){
 				BufferedImage asset = this.images.get(player.getDirection() + "_player_1.png");
@@ -470,6 +489,7 @@ public class GameCanvas extends Canvas{
 		}
 		
 		drawItems(g, point);
+		System.out.println("Finished drawing");
 	}
 	
 	/*
