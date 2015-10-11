@@ -1,9 +1,12 @@
 package game.control;
 
 import java.awt.event.ActionEvent;
+
 import javax.swing.AbstractAction;
+
 import graphics.GameCanvas;
 import game.Player;
+import game.items.Container;
 
 public class gameAction extends AbstractAction {
 
@@ -35,6 +38,12 @@ public class gameAction extends AbstractAction {
 		}
 		else if(action.equals("Q")){
 			this.canvas.rotate("anti-clockwise");
+		}
+		else if(action.equalsIgnoreCase("P")){
+			if(player.checkforInteract() instanceof Container){
+				Container c = (Container) player.checkforInteract();
+				player.lootContainer(c);
+			}
 		}
 		this.canvas.repaint();
 	}
