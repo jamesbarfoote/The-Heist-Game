@@ -1,6 +1,7 @@
 package graphics;
 
 import java.awt.Graphics;
+import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 
@@ -34,6 +35,10 @@ public class Confirmation extends Dialogue{
 			return;
 		}
 		listener.decline(); //only other alternative is action declined
+	}
+	
+	public void keyPressed(KeyEvent e){
+		
 	}
 	
 	

@@ -3,6 +3,7 @@ package graphics;
 import graphics.GameCanvas.State;
 
 import java.awt.Graphics;
+import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 
@@ -18,6 +19,10 @@ public class Lobby extends Menu{
 		gameButtons.add(new GameButton("back"));
 		gameButtons.add(new GameButton("start"));
 		setButtonCoordinates();
+	}
+	
+	public void keyPressed(KeyEvent e){
+		
 	}
 	
 	public void decline(){

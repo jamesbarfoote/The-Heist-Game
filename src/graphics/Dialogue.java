@@ -3,6 +3,7 @@ package graphics;
 import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.Point;
+import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.util.List;
 
@@ -20,6 +21,9 @@ public abstract class Dialogue{
 	 * @param height The height of the entire game screen
 	 */
 	public abstract void draw(Graphics g);
+	
+	/**for handling key presses. Only applicable to text box**/
+	public abstract void keyPressed(KeyEvent e);
 	
 	/**
 	 * for dealing with mouse clicks on the menu. returns true if button correctly selected

@@ -4,7 +4,7 @@ public abstract class Menu extends Dialogue{
 	protected Action action;
 	
 	//possible actions to be taken that must be confirmed
-	public enum Action{QUIT}
+	public enum Action{QUIT, TEXT, IP}
 	
 	/**
 	 * for confirmation dialogues to approve the proposed action

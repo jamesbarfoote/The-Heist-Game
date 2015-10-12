@@ -1,18 +1,10 @@
 package graphics;
 
-import game.Money;
 import game.Player;
 import game.Room;
 import game.control.gameAction;
 import game.control.moveAction;
-import game.items.Desk;
-import game.items.InteractableItem;
-import game.items.Item;
-import game.items.Safe;
 import game.items.Weapon;
-//import networking.Client;
-//import networking.Server;
-import networking.Client;
 
 import java.awt.Point;
 import java.awt.event.KeyEvent;
@@ -23,7 +15,6 @@ import java.awt.event.MouseMotionListener;
 import java.awt.event.MouseWheelEvent;
 import java.awt.event.MouseWheelListener;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
@@ -32,7 +23,9 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.KeyStroke;
 
-import data.fileReader;
+//import networking.Client;
+//import networking.Server;
+import networking.Client;
 
 /**
  * Is the main class in the game. Acts as the controller, taking input, consulting the model

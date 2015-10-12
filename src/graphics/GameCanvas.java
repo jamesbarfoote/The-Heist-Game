@@ -12,6 +12,8 @@ import game.items.Safe;
 import game.items.Weapon;
 import networking.Client;
 
+import graphics.Menu.Action;
+
 import java.awt.Canvas;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -52,7 +54,7 @@ public class GameCanvas extends Canvas{
 	private Image secondScreen;    	//second image for use in double buffering
 	private Dialogue gameMenu; 		//the current game menu
 	private State gameState; 		//determines the status of the game client
-	private Confirmation dialogue; 	//current dialogue open, if any
+	private Dialogue dialogue; 	//current dialogue open, if any
 	private Inventory inventory;	//window for observing player inventory
 	public static final Image logo = loadImage("title.png");
 	public static final Font textFont = new Font("TimesRoman", Font.PLAIN, 18); //font to be used for text in game
@@ -181,14 +183,19 @@ public class GameCanvas extends Canvas{
 	
 	/**for handling keyboard input**/
 	public void keyPressed(KeyEvent e){
-		int code = e.getKeyCode();
-		if(code == KeyEvent.VK_ESCAPE) {			
-			if(dialogue == null){
-				gameMenuSelect();
-			}
+		if(dialogue != null){
+			dialogue.keyPressed(e);
 		}
-		if(code == KeyEvent.VK_I){
-			showInventory();
+		else{
+			int code = e.getKeyCode();
+			if(code == KeyEvent.VK_ESCAPE) {			
+				if(dialogue == null){
+					gameMenuSelect();
+				}
+			}
+			if(code == KeyEvent.VK_I){
+				showInventory();
+			}
 		}
 		simulateMouseMove();
 	}
@@ -199,8 +206,13 @@ public class GameCanvas extends Canvas{
 	}
 	
 	/**open up a confirmation window**/
-	public void showConfirmation(Menu listener, String message){
-		dialogue = new Confirmation(listener, message, this);
+	public void showConfirmation(Menu listener, Menu.Action action, String message){
+		if(action.equals(Action.QUIT)){
+			dialogue = new Confirmation(listener, message, this);
+		}
+		else if(action.equals(Action.TEXT) || action.equals(Action.IP)){
+			dialogue = new TextDialogue(listener, message, this);
+		}
 	}
 	
 	/**remove the confirmation window**/

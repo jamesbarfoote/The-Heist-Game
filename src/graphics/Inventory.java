@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.Rectangle;
+import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseWheelEvent;
 import java.util.ArrayList;
@@ -61,6 +62,10 @@ public class Inventory extends Dialogue{
 		if(button.equals("close")){
 			canvas.showInventory();
 		}
+	}
+	
+	public void keyPressed(KeyEvent e){
+		
 	}
 	
 	/**mouse wheel can be used to scroll through list of items**/

@@ -3,6 +3,7 @@ package graphics;
 import graphics.GameCanvas.State;
 
 import java.awt.Graphics;
+import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 
@@ -44,6 +45,10 @@ public class MainMenu extends Menu{
 		setButtonCoordinates();
 	}
 	
+	public void keyPressed(KeyEvent e){
+		
+	}
+	
 	public void mouseReleased(MouseEvent e) {
 		String button = onClick(e);
 		if(button == null) {
@@ -56,15 +61,15 @@ public class MainMenu extends Menu{
 			break;
 		case "quit":
 			action = Action.QUIT;
-			canvas.showConfirmation(this, "Quit Game?");
+			canvas.showConfirmation(this, Action.QUIT, "Quit Game?");
 			break;
 		case "single":
 			canvas.setState(State.PLAYING);
-			//Client cS = new Client(1234, "localhost");//Connect to a server on the same machine as the client
 			canvas.initialize();
 			break;
 		case "multi":
-			setupMultiplayer();
+			action = Action.TEXT;
+			canvas.showConfirmation(this, Action.IP,  "Enter IP Address");
 			break;
 		case "new":
 			state = MenuState.NEW;
@@ -84,8 +89,6 @@ public class MainMenu extends Menu{
 	
 	private void setupMultiplayer() {
 		canvas.setState(State.MULTI);
-		
-		//Client cM = new Client(1234, "localhost");//Connect to the server. Change localhost to the actual host computer
 	}
 
 	//confirm proposed action
@@ -93,6 +96,12 @@ public class MainMenu extends Menu{
 		switch(action){
 		case QUIT:
 			System.exit(0);
+		case TEXT:
+			
+			break;
+		case IP:
+			
+			break;
 		}
 	}
 	

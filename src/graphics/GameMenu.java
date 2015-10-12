@@ -1,6 +1,7 @@
 package graphics;
 
 import java.awt.Graphics;
+import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 
@@ -42,7 +43,7 @@ public class GameMenu extends Menu{
 			break;
 		case "quit":
 			action = Action.QUIT;
-			canvas.showConfirmation(this, "Exit to main menu?");
+			canvas.showConfirmation(this, Action.QUIT, "Exit to main menu?");
 				
 			break;
 		case "resume":
@@ -50,6 +51,10 @@ public class GameMenu extends Menu{
 			
 			break;
 		}
+	}
+	
+	public void keyPressed(KeyEvent e){
+		
 	}
 	
 	//confirm the current action
