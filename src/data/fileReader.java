@@ -22,6 +22,7 @@ public class fileReader {
 	 * 2 = marble2
 	 * 3 = carpet
 	 * 4 = door
+	 * 5 = door2
 	 */
 
 	/**

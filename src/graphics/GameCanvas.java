@@ -1,11 +1,18 @@
 package graphics;
 
+import game.Money;
 import game.Player;
 import game.Room;
 import game.items.Desk;
+import game.items.InteractableItem;
 import game.items.Item;
+import game.items.Safe;
 //import networking.Client;
+<<<<<<< HEAD
 import networking.Client;
+=======
+import game.items.Weapon;
+>>>>>>> refs/remotes/origin/master
 
 import java.awt.Canvas;
 import java.awt.Color;
@@ -30,6 +37,8 @@ import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 import javax.imageio.ImageIO;
+
+import data.fileReader;
 
 /**
  * Main canvas onto which GUI components are drawn
@@ -77,21 +86,60 @@ public class GameCanvas extends Canvas{
 	
 	//-------------------------------------------------------------------//
 	
+<<<<<<< HEAD
 	public GameCanvas(Dimension d, String[][] tiles, Room room, Client cm){
+=======
+	public GameCanvas(Dimension d, String[][] tiles, Player player){
+>>>>>>> refs/remotes/origin/master
 		setSize(d);
 		setState(State.MENU);
-		this.tiles = tiles;
-		this.room = room;
-		this.players = room.getPlayers();
+		this.players.add(player);
 		this.rows = tiles.length;
 		this.columns = tiles.length;
+<<<<<<< HEAD
 		this.zoom = 100;
 		this.items = room.getItems();
 		this.cm = cm;
 		this.currentPlayer = cm.getPlayer();
+=======
+>>>>>>> refs/remotes/origin/master
 		addToImages();
 		//this.cm = cm;
+	}
+	
+	public void initialize(){
+		this.players.get(0).setLocation(new Point(1, 1));
+		Player player2 = new Player(new Weapon("Badass", true), 1, new Point(6,2), game.Player.Type.robber);
+		ArrayList<Player> players = new ArrayList<Player>();
+		players.add(this.players.get(0));
+		players.add(player2);
+		
+		fileReader data = new fileReader("6");
+		
+		Room currentRoom = new Room("testRoom", data.getWidth(), data.getHeight(), players);
+		
+		Money money = new Money(1000000, currentRoom, new Point(2, 4));
+		Money money2 = new Money(1000000, currentRoom, new Point(20, 5));
+		Money money3 = new Money(1000000, currentRoom, new Point(23, 6));
+		Money money4 = new Money(1000000, currentRoom, new Point(19, 3));
+		ArrayList<InteractableItem> deskItems = new ArrayList<InteractableItem>();
+		deskItems.add(money);
+		currentRoom.addItem(money);
+		currentRoom.addItem(money2);
+		currentRoom.addItem(money3);
+		currentRoom.addItem(money4);
+		currentRoom.addItem(new Safe(currentRoom, new Point(4, 7), deskItems, 500));
+		currentRoom.addItem(new Desk(currentRoom, new Point(12, 10), deskItems, 0));
+		currentRoom.addItem(new Desk(currentRoom, new Point(22, 22), deskItems, 0));
+		
+		this.tiles = data.getTiles();
+		this.room = currentRoom;
+		this.players = currentRoom.getPlayers();
+		this.zoom = 100;
+		this.items = currentRoom.getItems();
 		initialTranslate();
+		
+		this.repaint();
 	}
 	
 	private void addToImages(){
@@ -234,7 +282,11 @@ public class GameCanvas extends Canvas{
 			gameMenu = new GameMenu(this);
 		}
 		else if(s.equals(State.MULTI)){
+<<<<<<< HEAD
 			gameMenu = new Lobby(this, currentPlayer, players, cm);
+=======
+			//gameMenu = new Lobby(this);
+>>>>>>> refs/remotes/origin/master
 		}
 	}
 

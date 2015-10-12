@@ -13,10 +13,11 @@ public class Container extends InteractableItem{
 	private ArrayList<InteractableItem> items; //Null if no item in container
 	private Point oldPosition;
 	
-	public Container(Room room, Point position, ArrayList<InteractableItem> items) {
+	public Container(Room room, Point position, ArrayList<InteractableItem> items, int money) {
 		super(room, position);
 		this.position = position;
 		this.items = items;
+		this.money = money;
 	}
 	
 	public Point getPosition(){

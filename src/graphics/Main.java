@@ -69,6 +69,7 @@ public class Main extends JFrame implements KeyListener, MouseListener, MouseMot
 
 		//Create player
 		Player currentPlayer = new Player(new Weapon("Badass", true), 1, new Point(1,1), game.Player.Type.robber);
+<<<<<<< HEAD
 		//Player player2 = new Player(new Weapon("Badass", true), 1, new Point(6,2), game.Player.Type.robber);
 		List<Player> players = new CopyOnWriteArrayList<Player>();
 		players.add(currentPlayer);
@@ -114,6 +115,24 @@ public class Main extends JFrame implements KeyListener, MouseListener, MouseMot
 		//Create canvas
 		setSize(getToolkit().getScreenSize());
 		canvas = new GameCanvas(getSize(), data.getTiles(), currentRoom, cM);
+=======
+		this.player = currentPlayer;
+		//cM = new Client(1234, "localhost", player);//Connect to the server. Change localhost to the actual host computer
+		//players = cM.getPlayers();
+//		for(Player p: players)
+//		{
+//			if(p.getID() == cM.getID())
+//			{
+//				//player = p;
+//			}
+//		}
+		
+//		System.out.println("Number of players = " + players.size());
+		
+		//Create canvas
+		setSize(getToolkit().getScreenSize());
+		canvas = new GameCanvas(getSize(), data.getTiles(), this.player);
+>>>>>>> refs/remotes/origin/master
 		canvas.addKeyListener(this);
 		canvas.addMouseListener(this);
 		canvas.addMouseMotionListener(this);
