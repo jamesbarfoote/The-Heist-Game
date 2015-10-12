@@ -85,8 +85,9 @@ public class Player implements Serializable{
 					}
 				}
 			}
+			return false; //A correct key was not found therefore the door is still locked
 		}
-		return false; //A correct key was not found therefore the door is still locked
+		return true; //The door was unlocked to begin with
 	}
 	
 	/**
@@ -140,33 +141,24 @@ public class Player implements Serializable{
 		if(findItem(this.getLocation(), canvas) != null){
 			return findItem(this.getLocation(), canvas);
 		}
-		System.out.println(getDirection());
 		//Player facing north
 		if(getDirection() == "N"){
 			Point oneInFront = new Point(getLocation().x, getLocation().y+1); //The point in front of the character
-			System.out.println(getLocation());
-			System.out.println(oneInFront);
 			return findItem(oneInFront, canvas);
 		}
 		//Player facing East
 		else if(getDirection() == "E"){
 			Point oneInFront = new Point(getLocation().x+1, getLocation().y); //The point in front of the character
-			System.out.println(getLocation());
-			System.out.println(oneInFront);
 			return findItem(oneInFront, canvas);
 		}
 		//Player facing South
 		else if(getDirection() == "S"){
 			Point oneInFront = new Point(getLocation().x, getLocation().y-1); //The point in front of the character
-			System.out.println(getLocation());
-			System.out.println(oneInFront);
 			return findItem(oneInFront, canvas);
 		}
 		//Player facing West
 		else{
 			Point oneInFront = new Point(getLocation().x-1, getLocation().y); //The point in front of the character
-			System.out.println(getLocation());
-			System.out.println(oneInFront);
 			return findItem(oneInFront, canvas);
 		}
 	}
@@ -189,6 +181,49 @@ public class Player implements Serializable{
 				if(m.getPosition().equals(pos)){
 					return m;
 				}
+			}
+		}
+		return null;
+	}
+	
+	/**
+	 * Checks for a door in a given direction from the player
+	 * @param canvas
+	 * @return
+	 */
+	public Door checkForDoor(GameCanvas canvas){
+		//Player facing north
+				if(getDirection() == "N"){
+					Point oneInFront = new Point(getLocation().x, getLocation().y+1); //The point in front of the character
+					return findDoor(oneInFront, canvas);
+				}
+				//Player facing East
+				else if(getDirection() == "E"){
+					Point oneInFront = new Point(getLocation().x+1, getLocation().y); //The point in front of the character
+					return findDoor(oneInFront, canvas);
+				}
+				//Player facing South
+				else if(getDirection() == "S"){
+					Point oneInFront = new Point(getLocation().x, getLocation().y-1); //The point in front of the character
+					return findDoor(oneInFront, canvas);
+				}
+				//Player facing West
+				else{
+					Point oneInFront = new Point(getLocation().x-1, getLocation().y); //The point in front of the character
+					return findDoor(oneInFront, canvas);
+				}
+	}
+	
+	/**
+	 * Looks for a door at the given position and returns it
+	 * @param pos
+	 * @param canvas
+	 * @return
+	 */
+	private Door findDoor(Point pos, GameCanvas canvas){
+		for(Door d : canvas.getDoors()){
+			if(d.getPosition().equals(pos)){
+				return d;
 			}
 		}
 		return null;

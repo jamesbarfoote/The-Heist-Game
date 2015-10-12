@@ -1,5 +1,6 @@
 package graphics;
 
+import game.Door;
 import game.Money;
 import game.Player;
 import game.Room;
@@ -61,6 +62,7 @@ public class GameCanvas extends Canvas{
 	Room room;
 	List<Player> players = new ArrayList<Player>();
 	ArrayList<Item> items = new ArrayList<Item>();
+	ArrayList<Door> doors = new ArrayList<Door>();
 	int width, height, rows, columns;
 	//Client cm;
 	
@@ -113,12 +115,19 @@ public class GameCanvas extends Canvas{
 		currentRoom.addItem(new Safe(currentRoom, new Point(4, 7), deskItems, money.getAmount()));
 		currentRoom.addItem(new Desk(currentRoom, new Point(12, 10), deskItems, money.getAmount()));
 		currentRoom.addItem(new Desk(currentRoom, new Point(22, 22), deskItems, money.getAmount()));
+		currentRoom.addDoor(new Door(currentRoom, false, new Point(6,3), null));
+		currentRoom.addDoor(new Door(currentRoom, false, new Point(6,11), null));
+		currentRoom.addDoor(new Door(currentRoom, false, new Point(13,6), null));
+		currentRoom.addDoor(new Door(currentRoom, false, new Point(11,14), null));
+		currentRoom.addDoor(new Door(currentRoom, false, new Point(9,19), null));
+		currentRoom.addDoor(new Door(currentRoom, false, new Point(18,12), null));
 		
 		this.tiles = data.getTiles();
 		this.room = currentRoom;
 		this.players = currentRoom.getPlayers();
 		this.zoom = 100;
 		this.items = currentRoom.getItems();
+		this.doors = currentRoom.getDoors();
 		initialTranslate();
 		
 		this.repaint();
@@ -132,7 +141,6 @@ public class GameCanvas extends Canvas{
 					BufferedImage myPicture = ImageIO.read(new File(ASSET_PATH + this.directions[j] + filenames.get(i)));
 					this.images.put(this.directions[j] + filenames.get(i), myPicture);
 				} catch (IOException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 			}
@@ -685,5 +693,9 @@ public class GameCanvas extends Canvas{
 	
 	public ArrayList<Item> getItems(){
 		return items;
+	}
+	
+	public ArrayList<Door> getDoors(){
+		return doors;
 	}
 }
