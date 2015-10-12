@@ -84,8 +84,8 @@ public class GameCanvas extends Canvas{
 	public GameCanvas(Dimension d, Player player){
 		setSize(d);
 		setState(State.MENU);
-		this.players.add(player);
-		this.rows = tiles.length;
+		//this.players.add(player);
+		//this.rows = tiles.length;
 		this.columns = tiles.length;
 		addToImages();
 		//this.cm = cm;
