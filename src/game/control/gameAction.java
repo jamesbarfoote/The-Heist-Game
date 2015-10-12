@@ -27,6 +27,7 @@ public class gameAction extends AbstractAction {
 	 */
 	@Override
 	public void actionPerformed(ActionEvent e) {
+		if(canvas.getMenuSelect()) return;
 		double zoom = this.canvas.getZoom();
 		if (action.equals("=")){
 			this.canvas.setZoom(zoom + 10, 1);
