@@ -1,10 +1,14 @@
 package graphics;
 
+import game.Money;
 import game.Player;
 import game.Room;
 import game.items.Desk;
+import game.items.InteractableItem;
 import game.items.Item;
+import game.items.Safe;
 //import networking.Client;
+import game.items.Weapon;
 
 import java.awt.Canvas;
 import java.awt.Color;
@@ -28,6 +32,8 @@ import java.util.HashMap;
 import java.util.List;
 
 import javax.imageio.ImageIO;
+
+import data.fileReader;
 
 /**
  * Main canvas onto which GUI components are drawn
@@ -85,7 +91,41 @@ public class GameCanvas extends Canvas{
 		this.items = room.getItems();
 		addToImages();
 		//this.cm = cm;
+	}
+	
+	public void initialize(){
+		this.players.get(0).setLocation(new Point(1, 1));
+		Player player2 = new Player(new Weapon("Badass", true), 1, new Point(6,2), game.Player.Type.robber);
+		ArrayList<Player> players = new ArrayList<Player>();
+		players.add(this.players.get(0));
+		players.add(player2);
+		
+		fileReader data = new fileReader("6");
+		
+		Room currentRoom = new Room("testRoom", data.getWidth(), data.getHeight(), players);
+		
+		Money money = new Money(1000000, currentRoom, new Point(2, 4));
+		Money money2 = new Money(1000000, currentRoom, new Point(20, 5));
+		Money money3 = new Money(1000000, currentRoom, new Point(23, 6));
+		Money money4 = new Money(1000000, currentRoom, new Point(19, 3));
+		ArrayList<InteractableItem> deskItems = new ArrayList<InteractableItem>();
+		deskItems.add(money);
+		currentRoom.addItem(money);
+		currentRoom.addItem(money2);
+		currentRoom.addItem(money3);
+		currentRoom.addItem(money4);
+		currentRoom.addItem(new Safe(currentRoom, new Point(4, 7), deskItems));
+		currentRoom.addItem(new Desk(currentRoom, new Point(12, 10), deskItems));
+		currentRoom.addItem(new Desk(currentRoom, new Point(22, 22), deskItems));
+		
 		initialTranslate();
+		this.tiles = data.getTiles();
+		this.room = currentRoom;
+		this.players = currentRoom.getPlayers();
+		this.zoom = 100;
+		initialTranslate();
+		
+		this.repaint();
 	}
 	
 	private void addToImages(){
@@ -224,7 +264,7 @@ public class GameCanvas extends Canvas{
 			gameMenu = new GameMenu(this);
 		}
 		else if(s.equals(State.MULTI)){
-			gameMenu = new Lobby(this);
+			//gameMenu = new Lobby(this);
 		}
 	}
 
