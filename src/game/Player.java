@@ -116,8 +116,9 @@ public class Player implements Serializable{
 			}
 		}
 		else{
-			if(c.getItems() != null){ 
-				for(InteractableItem item : c.getItems()){
+			Desk d = (Desk) c;
+			if(d.getItems() != null){ 
+				for(InteractableItem item : d.getItems()){
 					//Adds the item to inventory
 					if(!inventory.containsKey(item.getFilename())){
 						inventory.put(item.getFilename(), 1); //Adds a new instance of quantity 1
@@ -125,7 +126,7 @@ public class Player implements Serializable{
 					else{ inventory.put(item.getFilename(), inventory.get(item.getFilename()));} //Increments the current quantity of the item by 1
 				}
 			}
-			if(c.getMoney() != 0){ moneyHeld += c.getMoney(); }
+			if(d.getMoney() != 0){ moneyHeld += d.getMoney(); }
 			c.containerLooted(); //Sets Container to empty
 		}
 	}
@@ -139,25 +140,33 @@ public class Player implements Serializable{
 		if(findItem(this.getLocation(), canvas) != null){
 			return findItem(this.getLocation(), canvas);
 		}
-		
+		System.out.println(getDirection());
 		//Player facing north
 		if(getDirection() == "N"){
-			Point oneInFront = new Point(getLocation().x+1, getLocation().y); //The point in front of the character
+			Point oneInFront = new Point(getLocation().x, getLocation().y+1); //The point in front of the character
+			System.out.println(getLocation());
+			System.out.println(oneInFront);
 			return findItem(oneInFront, canvas);
 		}
 		//Player facing East
 		else if(getDirection() == "E"){
-			Point oneInFront = new Point(getLocation().x, getLocation().y-1); //The point in front of the character
+			Point oneInFront = new Point(getLocation().x+1, getLocation().y-1); //The point in front of the character
+			System.out.println(getLocation());
+			System.out.println(oneInFront);
 			return findItem(oneInFront, canvas);
 		}
 		//Player facing South
 		else if(getDirection() == "S"){
-			Point oneInFront = new Point(getLocation().x-1, getLocation().y); //The point in front of the character
+			Point oneInFront = new Point(getLocation().x, getLocation().y-1); //The point in front of the character
+			System.out.println(getLocation());
+			System.out.println(oneInFront);
 			return findItem(oneInFront, canvas);
 		}
 		//Player facing West
 		else{
-			Point oneInFront = new Point(getLocation().x, getLocation().y+1); //The point in front of the character
+			Point oneInFront = new Point(getLocation().x-1, getLocation().y); //The point in front of the character
+			System.out.println(getLocation());
+			System.out.println(oneInFront);
 			return findItem(oneInFront, canvas);
 		}
 	}
