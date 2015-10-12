@@ -18,7 +18,7 @@ public class Room {
 	
 	private String roomName;
 	private ArrayList<Item> itemsInRoom;
-	private List<Door> roomDoors;
+	private ArrayList<Door> roomDoors;
 	private ArrayList<Player> players = new ArrayList<Player>();
 	private char[][] tiles; //The floorspace of the room
 	private int width;
@@ -99,7 +99,12 @@ public class Room {
 		return itemsInRoom;
 	}
 	
-	public List<Door> getDoors(){
+	public ArrayList<Door> getDoors(){
 		return roomDoors;
+	}
+
+	public void addDoor(Door door) {
+		roomDoors.add(door);
+		
 	}
 }

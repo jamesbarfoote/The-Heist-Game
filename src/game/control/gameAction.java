@@ -53,6 +53,9 @@ public class gameAction extends AbstractAction {
 				player.pickUpMoney(m);
 				this.canvas.getItems().remove(m);
 			}
+			else if(player.checkForDoor(canvas) != null){
+				player.unlockDoor(player.checkForDoor(canvas));
+			}
 		}
 		else if(action.equals("B")){
 			if(player.getMoneyHeld() >= 500){
