@@ -413,14 +413,30 @@ public class GameCanvas extends Canvas{
 		    		drawIcons(g, point);
 		    	}
 		    	else if(tiles[i][j] == "door"){
-		    		 drawWall(g, p, this.directions[direction] + "_door_woodenClosed.png");
+		    		for(Player player : this.players){
+		    			if(!player.getLocation().equals(point)){
+				    		 drawWall(g, p, this.directions[direction] + "_door_woodenClosed.png");
+		    			}
+		    			else{
+		    				drawWall(g, p, this.directions[direction] + "_door_woodenOpen.png");
+		    				break;
+		    			}
+		    		}
 		    	}
 		    	else if(tiles[i][j] == "door2"){
 		    		int direction = this.direction+1;
 		    		if(direction == 4){
 		    			direction = 0;
 		    		}
-		    		 drawWall(g, p, this.directions[direction] + "_door_woodenClosed.png");
+		    		for(Player player : this.players){
+		    			if(!player.getLocation().equals(point)){
+				    		 drawWall(g, p, this.directions[direction] + "_door_woodenClosed.png");
+		    			}
+		    			else{
+		    				drawWall(g, p, this.directions[direction] + "_door_woodenOpen.png");
+		    				break;
+		    			}
+		    		}
 		    	}
 		    }
 		}
