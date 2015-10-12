@@ -88,6 +88,7 @@ public class GameCanvas extends Canvas{
 		this.zoom = 100;
 		this.items = room.getItems();
 		this.cm = cm;
+		this.currentPlayer = cm.getPlayer();
 		addToImages();
 		//this.cm = cm;
 		initialTranslate();
@@ -229,7 +230,7 @@ public class GameCanvas extends Canvas{
 			gameMenu = new GameMenu(this);
 		}
 		else if(s.equals(State.MULTI)){
-			gameMenu = new Lobby(this, players.get(0), players, cm);
+			gameMenu = new Lobby(this, currentPlayer, players, cm);
 		}
 	}
 
@@ -300,14 +301,14 @@ public class GameCanvas extends Canvas{
 		this.translateX = this.width/2;
 		this.translateY = this.height/2 + (((columns-1)/2.0)*this.zoom/2);
 		//Translate room around initial player location
-		Point location  = players.get(0).getLocation();
+		Point location  = currentPlayer.getLocation();
 		this.translateX = this.translateX - (location.getX() + location.getY()) * zoom/2;
 		this.translateY = this.translateY - (((columns-location.getX()-1) + location.getY()) * zoom/4);
 	}
 	
 	public void translateRoom(){
 		//Game is being zoomed in.
-		Point location  = players.get(0).getLocation();
+		Point location  = currentPlayer.getLocation();
 		if(this.zooming == 1){
 			this.translateX = this.translateX - ((location.getX() + location.getY()) * 5);	//5 because it's currently set to zoom/2 and the change is 10
 			if(location.getY() > location.getX()){
@@ -333,7 +334,7 @@ public class GameCanvas extends Canvas{
 		}
 		
 		//Player is moving
-		Point oldLocation = players.get(0).getOldLocation();
+		Point oldLocation = currentPlayer.getOldLocation();
 		//If moving north
 		if(oldLocation.getX() < location.getX() && oldLocation.getY() == location.getY()){
 			this.translateX = this.translateX - zoom/2;
@@ -481,7 +482,7 @@ public class GameCanvas extends Canvas{
 				double height = zoom*1.5;
 				BufferedImage scaled = getScaledImage(asset, (int) width, (int) height);
 				AffineTransform at = new AffineTransform();
-				double[] translation = calculatePlayerTranslate(players.get(0).getLocation(), player.getLocation());
+				double[] translation = calculatePlayerTranslate(currentPlayer.getLocation(), player.getLocation());
 				at.translate(0, -this.zoom/1.2);
 				at.translate(this.width/2 + translation[0], this.height/2 + translation[1]);
 				g.drawImage(scaled, at, getParent());
@@ -518,7 +519,7 @@ public class GameCanvas extends Canvas{
 		double height = zoom / item.getSize()[1];
 		BufferedImage scaled = getScaledImage(asset, (int) width, (int) height);
 		AffineTransform at = new AffineTransform();
-		double[] translation = calculatePlayerTranslate(players.get(0).getLocation(), item.getPosition());
+		double[] translation = calculatePlayerTranslate(currentPlayer.getLocation(), item.getPosition());
 		if(item.getFilename().equals("_obj_desk.png")){
 			if(this.direction == 0){
 				at.translate(-this.zoom/1.7, -this.zoom/1.35);
@@ -559,7 +560,7 @@ public class GameCanvas extends Canvas{
 	
 	public void rotate(String direction){
 		String[][] newArray = new String[this.tiles.length][this.tiles[0].length];
-		Point oldLocation = players.get(0).getLocation();
+		Point oldLocation = currentPlayer.getLocation();
 		Point newLocation;
 		if(direction.equals("anti-clockwise")){
 			for(int i=0; i<this.tiles[0].length; i++){
@@ -587,10 +588,10 @@ public class GameCanvas extends Canvas{
 			this.tiles = newArray;
 			rotateAssets(direction);
 		}
-		this.players.get(0).setOldLocation(oldLocation);
-		this.players.get(0).setLocation(newLocation);
+		this.currentPlayer.setOldLocation(oldLocation);
+		this.currentPlayer.setLocation(newLocation);
 		
-		double[] translation = calculatePlayerTranslate(players.get(0).getLocation(), players.get(0).getOldLocation());
+		double[] translation = calculatePlayerTranslate(currentPlayer.getLocation(),currentPlayer.getOldLocation());
 		this.translateX = this.translateX + translation[0];
 		this.translateY = this.translateY + translation[1];
 		
