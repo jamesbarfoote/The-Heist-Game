@@ -179,6 +179,10 @@ public class GameCanvas extends Canvas{
 		}
 	}
 	
+	public boolean getMenuSelect(){
+		return menuUp;
+	}
+	
 	/**deal with mouse clicks**/
 	public void mouseReleased(MouseEvent e) {
 		if(dialogue != null){
