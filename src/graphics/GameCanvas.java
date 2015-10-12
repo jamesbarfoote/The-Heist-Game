@@ -1,5 +1,6 @@
 package graphics;
 
+import game.Door;
 import game.Money;
 import game.Player;
 import game.Room;
@@ -61,6 +62,7 @@ public class GameCanvas extends Canvas{
 	Room room;
 	List<Player> players = new ArrayList<Player>();
 	ArrayList<Item> items = new ArrayList<Item>();
+	ArrayList<Door> doors = new ArrayList<Door>();
 	int width, height, rows, columns;
 	//Client cm;
 	
@@ -111,6 +113,7 @@ public class GameCanvas extends Canvas{
 		currentRoom.addItem(new Safe(currentRoom, new Point(4, 7), deskItems, money.getAmount()));
 		currentRoom.addItem(new Desk(currentRoom, new Point(12, 10), deskItems, money.getAmount()));
 		currentRoom.addItem(new Desk(currentRoom, new Point(22, 22), deskItems, money.getAmount()));
+		
 		
 		this.tiles = data.getTiles();
 		this.rows = data.getWidth();

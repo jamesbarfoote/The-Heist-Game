@@ -28,7 +28,7 @@ public class moveAction extends AbstractAction {
 	public void actionPerformed(ActionEvent e) {
 		System.err.println("Action x =" + player.getLocation().x);
 		Point location = player.getLocation();
-		if (direction.equals("Left")){
+		if (direction.equals("Left") || direction.equals("A")){
 			Point newLocation = new Point(location.x, location.y-1);
 			this.player.setDirection(2);
 			if(isValidMove(newLocation) == false){
@@ -37,7 +37,7 @@ public class moveAction extends AbstractAction {
 			player.setOldLocation(location);
 			player.setLocation(newLocation);
 		}
-		else if (direction.equals("Up")){
+		else if (direction.equals("Up") || direction.equals("W")){
 			Point newLocation = new Point(location.x+1, location.y);
 			this.player.setDirection(1);
 			if(isValidMove(newLocation) == false){
@@ -46,7 +46,7 @@ public class moveAction extends AbstractAction {
 			player.setOldLocation(location);
 			player.setLocation(newLocation);
 		}
-		else if (direction.equals("Right")){
+		else if (direction.equals("Right") || direction.equals("D")){
 			Point newLocation = new Point(location.x, location.y+1);
 			this.player.setDirection(0);
 			if(isValidMove(newLocation) == false){
@@ -55,7 +55,7 @@ public class moveAction extends AbstractAction {
 			player.setOldLocation(location);
 			player.setLocation(newLocation);
 		}
-		else if (direction.equals("Down")){
+		else if (direction.equals("Down") || direction.equals("S")){
 			Point newLocation = new Point(location.x-1, location.y);
 			this.player.setDirection(3);
 			if(isValidMove(newLocation) == false){
