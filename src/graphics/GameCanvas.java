@@ -10,6 +10,7 @@ import game.items.Item;
 import game.items.Safe;
 //import networking.Client;
 import game.items.Weapon;
+import networking.Client;
 
 import java.awt.Canvas;
 import java.awt.Color;
@@ -31,6 +32,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 import javax.imageio.ImageIO;
 
@@ -38,7 +40,7 @@ import data.fileReader;
 
 /**
  * Main canvas onto which GUI components are drawn
- * @author Godfreya, CombuskenKid
+ * @author Godfreya, CombuskenKid, jimmy2174
  */
 public class GameCanvas extends Canvas{
 	private static final long serialVersionUID = 1l;
@@ -60,11 +62,12 @@ public class GameCanvas extends Canvas{
 	private AffineTransform at;
 	String[][] tiles;
 	Room room;
-	List<Player> players = new ArrayList<Player>();
+	List<Player> players = new CopyOnWriteArrayList<Player>();
 	ArrayList<Item> items = new ArrayList<Item>();
 	ArrayList<Door> doors = new ArrayList<Door>();
 	int width, height, rows, columns;
-	//Client cm;
+	Client cm;
+	Player currentPlayer;
 	
 	double translateX, translateY;
 	double zoom;
@@ -81,19 +84,20 @@ public class GameCanvas extends Canvas{
 	
 	//-------------------------------------------------------------------//
 	
-	public GameCanvas(Dimension d, Player player){
+	public GameCanvas(Dimension d, Player player, Client cm){
+		this.cm = cm;
 		setSize(d);
 		setState(State.MENU);
 		this.players.add(player);
 		addToImages();
-		//this.cm = cm;
+		this.currentPlayer = cm.getPlayer();
 	}
 	
 	public void initialize(){
-		this.players.get(0).setLocation(new Point(1, 1));
+		this.currentPlayer.setLocation(new Point(1, 1));
 		Player player2 = new Player(new Weapon("Badass", true), 1, new Point(6,2), game.Player.Type.robber);
 		ArrayList<Player> players = new ArrayList<Player>();
-		players.add(this.players.get(0));
+		players.add(this.currentPlayer);
 		players.add(player2);
 		
 		fileReader data = new fileReader("6");
@@ -275,6 +279,61 @@ public class GameCanvas extends Canvas{
 	 * paint method for drawing the GUI
 	 */
 	public void paint(Graphics g){
+		
+		for(Player p: players)
+		{
+
+			if(p.getID() == cm.getID())//Get the current player
+			{
+				cm.setPlayer(p);//update the current plater in the client
+		//		System.out.println(p.getLocation().x);
+			}
+		}
+		//cm.update(); //Tell the server the player has changed and to send it out
+		try {
+			cm.run();
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		} catch (InterruptedException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		List<Player> temp4 = new CopyOnWriteArrayList<Player>();
+		temp4 = cm.getPlayers();
+		
+		for(Player p: players)
+		{
+			if(p.getID() != cm.getID())
+			{
+				players.remove(p);
+			}
+		}
+
+		for(Player p: temp4)
+		{
+			//System.out.println("Player has weapon ID = " + p.getID() + p.getWeapon().getWeaponType() + " and is at " + p.getLocation().x);
+			if(p.getID() != cm.getID())
+			{
+				players.add(p);
+			}
+				
+		}
+
+		//System.out.println("Got updated players");
+		//players = cm.getPlayers();
+		
+		for(Player p: players)//set the current player
+		{
+			if(p.getID() == cm.getID())
+			{
+				this.currentPlayer = p;
+			//	System.out.println("Current player set");
+			}
+		}
+		
+		//players = temp4;
+		
 		g.setColor(Color.BLACK);
 		g.fillRect(0, 0, getWidth(), getHeight());
 		
@@ -338,14 +397,14 @@ public class GameCanvas extends Canvas{
 		this.translateX = this.width/2;
 		this.translateY = this.height/2 + (((columns-1)/2.0)*this.zoom/2);
 		//Translate room around initial player location
-		Point location  = players.get(0).getLocation();
+		Point location  = currentPlayer.getLocation();
 		this.translateX = this.translateX - (location.getX() + location.getY()) * zoom/2;
 		this.translateY = this.translateY - (((columns-location.getX()-1) + location.getY()) * zoom/4);
 	}
 	
 	public void translateRoom(){
 		//Game is being zoomed in.
-		Point location  = players.get(0).getLocation();
+		Point location  = currentPlayer.getLocation();
 		if(this.zooming == 1){
 			this.translateX = this.translateX - ((location.getX() + location.getY()) * 5);	//5 because it's currently set to zoom/2 and the change is 10
 			if(location.getY() > location.getX()){
@@ -371,7 +430,7 @@ public class GameCanvas extends Canvas{
 		}
 		
 		//Player is moving
-		Point oldLocation = players.get(0).getOldLocation();
+		Point oldLocation = currentPlayer.getOldLocation();
 		//If moving north
 		if(oldLocation.getX() < location.getX() && oldLocation.getY() == location.getY()){
 			this.translateX = this.translateX - zoom/2;
@@ -489,7 +548,7 @@ public class GameCanvas extends Canvas{
 				double height = zoom*1.5;
 				BufferedImage scaled = getScaledImage(asset, (int) width, (int) height);
 				AffineTransform at = new AffineTransform();
-				double[] translation = calculatePlayerTranslate(players.get(0).getLocation(), player.getLocation());
+				double[] translation = calculatePlayerTranslate(currentPlayer.getLocation(), player.getLocation());
 				at.translate(0, -this.zoom/1.2);
 				at.translate(this.width/2 + translation[0], this.height/2 + translation[1]);
 				g.drawImage(scaled, at, getParent());
@@ -525,7 +584,7 @@ public class GameCanvas extends Canvas{
 		double height = zoom / item.getSize()[1];
 		BufferedImage scaled = getScaledImage(asset, (int) width, (int) height);
 		AffineTransform at = new AffineTransform();
-		double[] translation = calculatePlayerTranslate(players.get(0).getLocation(), item.getPosition());
+		double[] translation = calculatePlayerTranslate(currentPlayer.getLocation(), item.getPosition());
 		if(item.getFilename().equals("_obj_desk.png")){
 			if(this.direction == 0){
 				at.translate(-this.zoom/1.7, -this.zoom/1.35);
@@ -566,7 +625,7 @@ public class GameCanvas extends Canvas{
 	
 	public void rotate(String direction){
 		String[][] newArray = new String[this.tiles.length][this.tiles[0].length];
-		Point oldLocation = players.get(0).getLocation();
+		Point oldLocation = currentPlayer.getLocation();
 		Point newLocation;
 		if(direction.equals("anti-clockwise")){
 			for(int i=0; i<this.tiles[0].length; i++){
@@ -594,10 +653,10 @@ public class GameCanvas extends Canvas{
 			this.tiles = newArray;
 			rotateAssets(direction);
 		}
-		this.players.get(0).setOldLocation(oldLocation);
-		this.players.get(0).setLocation(newLocation);
+		this.currentPlayer.setOldLocation(oldLocation);
+		this.currentPlayer.setLocation(newLocation);
 		
-		double[] translation = calculatePlayerTranslate(players.get(0).getLocation(), players.get(0).getOldLocation());
+		double[] translation = calculatePlayerTranslate(currentPlayer.getLocation(), currentPlayer.getOldLocation());
 		this.translateX = this.translateX + translation[0];
 		this.translateY = this.translateY + translation[1];
 		

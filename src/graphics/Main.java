@@ -12,6 +12,7 @@ import game.items.Safe;
 import game.items.Weapon;
 //import networking.Client;
 //import networking.Server;
+import networking.Client;
 
 import java.awt.Point;
 import java.awt.event.KeyEvent;
@@ -23,6 +24,8 @@ import java.awt.event.MouseWheelEvent;
 import java.awt.event.MouseWheelListener;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 import javax.swing.JComponent;
 import javax.swing.JFrame;
@@ -41,9 +44,9 @@ public class Main extends JFrame implements KeyListener, MouseListener, MouseMot
 	private GameCanvas canvas;  	//graphics canvas
 	static JLabel movements = new JLabel();
 	static JLabel functionality = new JLabel();
-	
+
 	private static final long serialVersionUID = 1l;
-	
+
 	private static final int IFW = JComponent.WHEN_IN_FOCUSED_WINDOW;
 	private static final String MOVE_UP = "move up";
 	private static final String MOVE_RIGHT = "move right";
@@ -59,32 +62,46 @@ public class Main extends JFrame implements KeyListener, MouseListener, MouseMot
 	private static final String ROTATE_ANTICLOCKWISE = "rotate anticlockwise";
 	private static final String INTERACT_WITH_OBJECT = "interact with object";
 	private static final String DROP_MONEY = "drop money";
-	
+
 	//private Client cM;
 	Room currentRoom;
 	Player player;
+	Client cM;
 
 	public Main(){
 		super("The Heist");
-		
+
 		//Create player
 		Player currentPlayer = new Player(new Weapon("Badass", true), 1, new Point(1,1), game.Player.Type.robber);
+		//Player player2 = new Player(new Weapon("Badass", true), 1, new Point(6,2), game.Player.Type.robber);
+		List<Player> players = new CopyOnWriteArrayList<Player>();
+		players.add(currentPlayer);
+		//players.add(player2);
 		this.player = currentPlayer;
-		//cM = new Client(1234, "localhost", player);//Connect to the server. Change localhost to the actual host computer
-		//players = cM.getPlayers();
-//		for(Player p: players)
-//		{
-//			if(p.getID() == cM.getID())
-//			{
-//				//player = p;
-//			}
-//		}
-		
-//		System.out.println("Number of players = " + players.size());
-		
+
+		try {
+			cM = new Client(43200, "localhost", currentPlayer);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}//Connect to the server. Change localhost to the actual host computer
+
+		players = cM.getPlayers();
+		for(Player p: players)
+		{
+			if(p.getID() == cM.getID())
+			{
+				player = p;
+			}
+		}
+
+		System.out.println("Number of players = " + players.size());
 		//Create canvas
 		setSize(getToolkit().getScreenSize());
-		canvas = new GameCanvas(getSize(), this.player);
+		canvas = new GameCanvas(getSize(), this.player, cM);
 		canvas.addKeyListener(this);
 		canvas.addMouseListener(this);
 		canvas.addMouseMotionListener(this);
@@ -92,21 +109,21 @@ public class Main extends JFrame implements KeyListener, MouseListener, MouseMot
 		add(canvas);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setIconImage(GameCanvas.loadImage("money_bag_icon.png"));
-		
+
 		//go full screen
 		setUndecorated(true); 
 		pack();
 		setVisible(true);
 		this.canvas.setDimension(getWidth(), getHeight());
 		canvas.requestFocus();
-		
+
 		//start graphics thread running
 		graphicsUpdater = new GraphicsUpdater(canvas);
 		graphicsUpdater.start();
 		keyBindings();
 	}
 
-	 /**
+	/**
 	 * Binds the given keyboard inputs to actions so pressing the key calls
 	 * a new move action.
 	 */
@@ -120,7 +137,7 @@ public class Main extends JFrame implements KeyListener, MouseListener, MouseMot
 		movements.getInputMap(IFW).put(KeyStroke.getKeyStroke("D"), MOVE_RIGHT2);
 		movements.getInputMap(IFW).put(KeyStroke.getKeyStroke("S"), MOVE_DOWN2);
 		movements.getInputMap(IFW).put(KeyStroke.getKeyStroke("A"), MOVE_LEFT2);
-			
+
 		movements.getActionMap().put(MOVE_UP, new moveAction("Up", this.player, canvas));
 		movements.getActionMap().put(MOVE_RIGHT, new moveAction("Right", this.player, canvas));
 		movements.getActionMap().put(MOVE_DOWN, new moveAction("Down", this.player, canvas));
@@ -129,7 +146,7 @@ public class Main extends JFrame implements KeyListener, MouseListener, MouseMot
 		movements.getActionMap().put(MOVE_RIGHT2, new moveAction("D", this.player, canvas));
 		movements.getActionMap().put(MOVE_DOWN2, new moveAction("S", this.player, canvas));
 		movements.getActionMap().put(MOVE_LEFT2, new moveAction("A", this.player, canvas));
-			
+
 		add(movements);
 		/*-------------------Functionality----------------------------*/
 		functionality.getInputMap(IFW).put(KeyStroke.getKeyStroke("EQUALS"), ZOOM_IN);
@@ -138,27 +155,27 @@ public class Main extends JFrame implements KeyListener, MouseListener, MouseMot
 		functionality.getInputMap(IFW).put(KeyStroke.getKeyStroke("Q"), ROTATE_ANTICLOCKWISE);
 		functionality.getInputMap(IFW).put(KeyStroke.getKeyStroke("P"), INTERACT_WITH_OBJECT);
 		functionality.getInputMap(IFW).put(KeyStroke.getKeyStroke("B"), DROP_MONEY);
-			
+
 		functionality.getActionMap().put(ZOOM_IN, new gameAction("=", this.player, canvas));
 		functionality.getActionMap().put(ZOOM_OUT, new gameAction("Minus", this.player, canvas));
 		functionality.getActionMap().put(ROTATE_CLOCKWISE, new gameAction("E", this.player, canvas));
 		functionality.getActionMap().put(ROTATE_ANTICLOCKWISE, new gameAction("Q", this.player, canvas));
-		
+
 		functionality.getActionMap().put(INTERACT_WITH_OBJECT, new gameAction("P", this.player, canvas));
 		functionality.getActionMap().put(DROP_MONEY, new gameAction("B", this.player, canvas));
-		
+
 		add(functionality);
 	}
-		
+
 	/**
 	 * Method for handling keyboard input
 	 */
 	public void keyPressed(KeyEvent e) {
 		canvas.keyPressed(e);
 	}
-		
+
 	//------below are various methods for handling mouse input-------
-		
+
 	public void keyReleased(KeyEvent e) {}
 	public void keyTyped(KeyEvent e) {}
 	public void mousePressed(MouseEvent e) {}
@@ -171,20 +188,20 @@ public class Main extends JFrame implements KeyListener, MouseListener, MouseMot
 		canvas.mouseReleased(e);
 	}
 
-    public void mouseEntered(MouseEvent e) {}
-    public void mouseExited(MouseEvent e) {}
+	public void mouseEntered(MouseEvent e) {}
+	public void mouseExited(MouseEvent e) {}
 	public void mouseClicked(MouseEvent e) {}
-		
+
 	public void mouseMoved(MouseEvent e){
 		canvas.mouseMoved(new Point(e.getX(), e.getY()));
 	}
-		
+
 	public void mouseDragged(MouseEvent e){}
-	
+
 	public GameCanvas getCanvas(){
 		return canvas;
 	}
-	
+
 	//main method for starting program
 	public static void main(String[] args){
 		new Main();
