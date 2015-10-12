@@ -105,14 +105,14 @@ public class GameCanvas extends Canvas{
 		Money money3 = new Money(1000000, currentRoom, new Point(23, 6));
 		Money money4 = new Money(1000000, currentRoom, new Point(19, 3));
 		ArrayList<InteractableItem> deskItems = new ArrayList<InteractableItem>();
-		deskItems.add(money);
+		//deskItems.add(money);
 		currentRoom.addItem(money);
 		currentRoom.addItem(money2);
 		currentRoom.addItem(money3);
 		currentRoom.addItem(money4);
-		currentRoom.addItem(new Safe(currentRoom, new Point(4, 7), deskItems, 500));
-		currentRoom.addItem(new Desk(currentRoom, new Point(12, 10), deskItems, 0));
-		currentRoom.addItem(new Desk(currentRoom, new Point(22, 22), deskItems, 0));
+		currentRoom.addItem(new Safe(currentRoom, new Point(4, 7), deskItems, money.getAmount()));
+		currentRoom.addItem(new Desk(currentRoom, new Point(12, 10), deskItems, money.getAmount()));
+		currentRoom.addItem(new Desk(currentRoom, new Point(22, 22), deskItems, money.getAmount()));
 		
 		this.tiles = data.getTiles();
 		this.room = currentRoom;
