@@ -89,18 +89,16 @@ public class GameCanvas extends Canvas{
 		setSize(d);
 		setState(State.MENU);
 		this.players.add(player);
-		this.rows = tiles.length;
-		this.columns = tiles.length;
 		addToImages();
 		this.currentPlayer = cm.getPlayer();
 	}
 	
 	public void initialize(){
 		this.currentPlayer.setLocation(new Point(1, 1));
-		Player player2 = new Player(new Weapon("Badass", true), 1, new Point(6,2), game.Player.Type.robber);
-		ArrayList<Player> players = new ArrayList<Player>();
-		players.add(this.currentPlayer);
-		players.add(player2);
+//		Player player2 = new Player(new Weapon("Badass", true), 1, new Point(6,2), game.Player.Type.robber);
+//		ArrayList<Player> players = new ArrayList<Player>();
+//		players.add(this.currentPlayer);
+//		players.add(player2);
 		
 		fileReader data = new fileReader("6");
 		
