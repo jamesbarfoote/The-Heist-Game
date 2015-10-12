@@ -79,16 +79,12 @@ public class GameCanvas extends Canvas{
 	
 	//-------------------------------------------------------------------//
 	
-	public GameCanvas(Dimension d, String[][] tiles, Room room){
+	public GameCanvas(Dimension d, String[][] tiles, Player player){
 		setSize(d);
 		setState(State.MENU);
-		this.tiles = tiles;
-		this.room = room;
-		this.players = room.getPlayers();
+		this.players.add(player);
 		this.rows = tiles.length;
 		this.columns = tiles.length;
-		this.zoom = 100;
-		this.items = room.getItems();
 		addToImages();
 		//this.cm = cm;
 	}
@@ -118,11 +114,11 @@ public class GameCanvas extends Canvas{
 		currentRoom.addItem(new Desk(currentRoom, new Point(12, 10), deskItems));
 		currentRoom.addItem(new Desk(currentRoom, new Point(22, 22), deskItems));
 		
-		initialTranslate();
 		this.tiles = data.getTiles();
 		this.room = currentRoom;
 		this.players = currentRoom.getPlayers();
 		this.zoom = 100;
+		this.items = currentRoom.getItems();
 		initialTranslate();
 		
 		this.repaint();

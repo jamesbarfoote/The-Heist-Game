@@ -66,10 +66,6 @@ public class Main extends JFrame implements KeyListener, MouseListener, MouseMot
 		
 		//Create player
 		Player currentPlayer = new Player(new Weapon("Badass", true), 1, new Point(1,1), game.Player.Type.robber);
-		Player player2 = new Player(new Weapon("Badass", true), 1, new Point(6,2), game.Player.Type.robber);
-		ArrayList<Player> players = new ArrayList<Player>();
-		players.add(currentPlayer);
-		players.add(player2);
 		this.player = currentPlayer;
 		//cM = new Client(1234, "localhost", player);//Connect to the server. Change localhost to the actual host computer
 		//players = cM.getPlayers();
@@ -81,26 +77,11 @@ public class Main extends JFrame implements KeyListener, MouseListener, MouseMot
 //			}
 //		}
 		
-		System.out.println("Number of players = " + players.size());
-		this.currentRoom = new Room("testRoom", data.getWidth(), data.getHeight(), players);
-		
-		Money money = new Money(1000000, currentRoom, new Point(2, 4));
-		Money money2 = new Money(1000000, currentRoom, new Point(20, 5));
-		Money money3 = new Money(1000000, currentRoom, new Point(23, 6));
-		Money money4 = new Money(1000000, currentRoom, new Point(19, 3));
-		ArrayList<InteractableItem> deskItems = new ArrayList<InteractableItem>();
-		deskItems.add(money);
-		currentRoom.addItem(money);
-		currentRoom.addItem(money2);
-		currentRoom.addItem(money3);
-		currentRoom.addItem(money4);
-		currentRoom.addItem(new Safe(currentRoom, new Point(4, 7), deskItems));
-		currentRoom.addItem(new Desk(currentRoom, new Point(12, 10), deskItems));
-		currentRoom.addItem(new Desk(currentRoom, new Point(22, 22), deskItems));
+//		System.out.println("Number of players = " + players.size());
 		
 		//Create canvas
 		setSize(getToolkit().getScreenSize());
-		canvas = new GameCanvas(getSize(), data.getTiles(), currentRoom);
+		canvas = new GameCanvas(getSize(), data.getTiles(), this.player);
 		canvas.addKeyListener(this);
 		canvas.addMouseListener(this);
 		canvas.addMouseMotionListener(this);
