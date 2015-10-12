@@ -288,6 +288,10 @@ public class Player implements Serializable{
 		return moneyHeld;
 	}
 	
+	public Map<String, Integer> getInventory(){
+		return inventory;
+	}
+	
 	@Override
     protected Object clone() throws CloneNotSupportedException {
         return super.clone();
