@@ -45,8 +45,8 @@ public class Client {
 		players = new CopyOnWriteArrayList<Player>();
 
 		try {
-			//client = new Socket(host, port);
-			client = new Socket("10.140.115.164", 43200);
+			//client = new Socket(host, port); 43200
+			client = new Socket(host, port);
 			outputStream = new DataOutputStream(client.getOutputStream());
 			inputStream = new DataInputStream(client.getInputStream());
 
