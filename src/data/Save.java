@@ -3,7 +3,6 @@ package data;
 import java.awt.Point;
 import java.io.File;
 import java.util.ArrayList;
-import java.util.Calendar;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -93,30 +92,16 @@ public class Save {
 	// <pos>x,y</pos>
 	// </item>
 	//
-	//
 	// <item type="MovableItem">
 	// <name>chest</name>
 	// <pos>x,y</pos>
 	// </item>
 	//
-	// <money>
+	// <item type="Money">
 	// <amount>1200</amount>
 	// <pickedUp>false</pickedUp>
 	// </money>
 	//
-	// <door>
-	// <room1>roomName</room1>
-	// <room2>roomName</room2>
-	// <room1Entry>4,5</room1Entry>
-	// <room2Entry>4,5</room2Entry>
-	// </door>
-	//
-	// <door>
-	// <room1>roomName</room1>
-	// <room2>roomName</room2>
-	// <room1Entry>4,5</room1Entry>
-	// <room2Entry>4,5</room2Entry>
-	// </door>
 	//
 	// </room>
 
@@ -128,16 +113,14 @@ public class Save {
 		for (Item i : r.getItems())
 			room.appendChild(addItems(doc, i));
 
-		for (Door d : r.getDoors())
-			room.appendChild(addDoors(doc, d));
-
 		return room;
 	}
 
 	private static Node addItems(Document doc, Item i) {
 		// <item type=MoveableItem>
 		Element itemNode = doc.createElement("item");
-		itemNode.setAttribute("type", i.getClass().getSimpleName());
+		String itemType = i.getClass().getSimpleName().toLowerCase();
+		itemNode.setAttribute("type", itemType);
 
 		// add item position
 		itemNode.appendChild(node(doc, "pos", pointToString(i.getPosition())));
@@ -149,35 +132,16 @@ public class Save {
 			}
 		}
 
+		// if money, add value
+		if (i instanceof game.Money) {
+			int amount = ((game.Money) i).getAmount();
+			String strAmount = Integer.toString(amount);
+			itemNode.appendChild(node(doc, "amount", strAmount));
+		}
+
 		return itemNode;
 	}
 
-	// private static Node addMoney(Document doc, Money m) {
-	// // <money>
-	// Element moneyNode = doc.createElement("money");
-	//
-	// moneyNode.appendChild(node(doc, "amount",
-	// Integer.toString(m.getAmount())));
-	// moneyNode.appendChild(node(doc, "pickedUp",
-	// Boolean.toString(m.getPickedUp())));
-	// moneyNode.appendChild(node(doc, "pos", pointToString(m.getPosition())));
-	//
-	// return moneyNode;
-	// }
-
-	private static Node addDoors(Document doc, Door d) {
-		// <door>
-		Element doorNode = doc.createElement("door");
-
-		doorNode.appendChild(node(doc, "roor1", d.getRoom1().toString()));
-		doorNode.appendChild(node(doc, "roor2", d.getRoom2().toString()));
-		doorNode.appendChild(node(doc, "room1Entry",
-				pointToString(d.getRoom1Entry())));
-		doorNode.appendChild(node(doc, "room2Entry",
-				pointToString(d.getRoom1Entry())));
-
-		return doorNode;
-	}
 
 	/**
 	 * Helper method, point to string
@@ -228,13 +192,13 @@ public class Save {
 		ArrayList<InteractableItem> deskItems = new ArrayList<InteractableItem>();
 		//deskItems.add(money);
 		//deskItems.add(money);
-		
-		
+
+
 		ArrayList<InteractableItem> safeItems = new ArrayList<InteractableItem>();
 		safeItems.add(money);
 		safeItems.add(money);
 
-		
+
 		currentRoom.addItem(money);
 		currentRoom.addItem(new Safe(currentRoom, new Point(4, 7), safeItems));
 		currentRoom.addItem(new Desk(currentRoom, new Point(8, 8), deskItems));
