@@ -140,7 +140,7 @@ public class Client {
 		outputStream.writeInt(bytes.length);
 		outputStream.write(bytes);
 		outputStream.flush();
-		//System.out.println("Sent players");
+		System.out.println("Sent players");
 		
 		//outputStream.writeObject(temp);
 //		System.out.println("Sent!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
@@ -154,8 +154,8 @@ public class Client {
 		inputStream.readFully(bytes2);
 		Object plays = toObject(bytes2);
 		players = (List<Player>) plays;
-	//	System.out.println("Got players");
-		//for(Player p: players){
+		System.out.println("Got players");
+//		for(Player p: players){
 //System.out.println("Got array. X = " + p.getLocation().x);}
 		//Thread.sleep(2000);
 
