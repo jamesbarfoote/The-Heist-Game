@@ -62,7 +62,6 @@ public class Main extends JFrame implements KeyListener, MouseListener, MouseMot
 
 	public Main(){
 		super("The Heist");
-		fileReader data = new fileReader("6");
 		
 		//Create player
 		Player currentPlayer = new Player(new Weapon("Badass", true), 1, new Point(1,1), game.Player.Type.robber);
@@ -81,7 +80,7 @@ public class Main extends JFrame implements KeyListener, MouseListener, MouseMot
 		
 		//Create canvas
 		setSize(getToolkit().getScreenSize());
-		canvas = new GameCanvas(getSize(), data.getTiles(), this.player);
+		canvas = new GameCanvas(getSize(), this.player);
 		canvas.addKeyListener(this);
 		canvas.addMouseListener(this);
 		canvas.addMouseMotionListener(this);
