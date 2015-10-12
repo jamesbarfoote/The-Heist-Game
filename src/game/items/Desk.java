@@ -15,7 +15,7 @@ public class Desk extends Container {
 
 	public Desk(Room room, Point position, ArrayList<InteractableItem> items, int money) {
 		super(room, position, items, money);
-		this.positions.add(new Point((int) position.getX(), (int) position.getY() - 1));
+		this.positions.add(new Point((int) position.getX(), (int) position.getY()-1));
 	}
 
 	@Override

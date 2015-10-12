@@ -150,7 +150,7 @@ public class Player implements Serializable{
 		}
 		//Player facing East
 		else if(getDirection() == "E"){
-			Point oneInFront = new Point(getLocation().x+1, getLocation().y-1); //The point in front of the character
+			Point oneInFront = new Point(getLocation().x+1, getLocation().y); //The point in front of the character
 			System.out.println(getLocation());
 			System.out.println(oneInFront);
 			return findItem(oneInFront, canvas);
@@ -180,7 +180,7 @@ public class Player implements Serializable{
 		for(Item item : canvas.getItems()){
 			if(item.getFilename().equals("_obj_desk.png")){
 				Desk d = (Desk) item;
-				if(d.getPositions().contains(pos)){
+				if(d.getPositions().contains(pos) || d.getPosition().equals(pos)){
 					return d;
 				}
 			}
