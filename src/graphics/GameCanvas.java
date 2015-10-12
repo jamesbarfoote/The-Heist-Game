@@ -81,7 +81,7 @@ public class GameCanvas extends Canvas{
 	
 	//-------------------------------------------------------------------//
 	
-	public GameCanvas(Dimension d, String[][] tiles, Player player){
+	public GameCanvas(Dimension d, Player player){
 		setSize(d);
 		setState(State.MENU);
 		this.players.add(player);
@@ -115,17 +115,14 @@ public class GameCanvas extends Canvas{
 		currentRoom.addItem(new Safe(currentRoom, new Point(4, 7), deskItems, money.getAmount()));
 		currentRoom.addItem(new Desk(currentRoom, new Point(12, 10), deskItems, money.getAmount()));
 		currentRoom.addItem(new Desk(currentRoom, new Point(22, 22), deskItems, money.getAmount()));
-		currentRoom.addDoor(new Door(currentRoom, false, new Point(6,3), null));
-		currentRoom.addDoor(new Door(currentRoom, false, new Point(6,11), null));
-		currentRoom.addDoor(new Door(currentRoom, false, new Point(13,6), null));
-		currentRoom.addDoor(new Door(currentRoom, false, new Point(11,14), null));
-		currentRoom.addDoor(new Door(currentRoom, false, new Point(9,19), null));
-		currentRoom.addDoor(new Door(currentRoom, false, new Point(18,12), null));
+		
 		
 		this.tiles = data.getTiles();
+		this.rows = data.getWidth();
+		this.columns = data.getHeight();
 		this.room = currentRoom;
 		this.players = currentRoom.getPlayers();
-		this.zoom = 100;
+		this.zoom = 80;
 		this.items = currentRoom.getItems();
 		this.doors = currentRoom.getDoors();
 		initialTranslate();

@@ -49,6 +49,10 @@ public class Main extends JFrame implements KeyListener, MouseListener, MouseMot
 	private static final String MOVE_RIGHT = "move right";
 	private static final String MOVE_DOWN = "move down";
 	private static final String MOVE_LEFT = "move left";
+	private static final String MOVE_UP2 = "move up";
+	private static final String MOVE_RIGHT2 = "move right";
+	private static final String MOVE_DOWN2 = "move down";
+	private static final String MOVE_LEFT2 = "move left";
 	private static final String ZOOM_IN = "zoom in";
 	private static final String ZOOM_OUT = "zoom out";
 	private static final String ROTATE_CLOCKWISE = "rotate clockwise";
@@ -62,7 +66,6 @@ public class Main extends JFrame implements KeyListener, MouseListener, MouseMot
 
 	public Main(){
 		super("The Heist");
-		fileReader data = new fileReader("6");
 		
 		//Create player
 		Player currentPlayer = new Player(new Weapon("Badass", true), 1, new Point(1,1), game.Player.Type.robber);
@@ -81,7 +84,7 @@ public class Main extends JFrame implements KeyListener, MouseListener, MouseMot
 		
 		//Create canvas
 		setSize(getToolkit().getScreenSize());
-		canvas = new GameCanvas(getSize(), data.getTiles(), this.player);
+		canvas = new GameCanvas(getSize(), this.player);
 		canvas.addKeyListener(this);
 		canvas.addMouseListener(this);
 		canvas.addMouseMotionListener(this);
@@ -113,11 +116,19 @@ public class Main extends JFrame implements KeyListener, MouseListener, MouseMot
 		movements.getInputMap(IFW).put(KeyStroke.getKeyStroke("RIGHT"), MOVE_RIGHT);
 		movements.getInputMap(IFW).put(KeyStroke.getKeyStroke("DOWN"), MOVE_DOWN);
 		movements.getInputMap(IFW).put(KeyStroke.getKeyStroke("LEFT"), MOVE_LEFT);
+		movements.getInputMap(IFW).put(KeyStroke.getKeyStroke("W"), MOVE_UP2);
+		movements.getInputMap(IFW).put(KeyStroke.getKeyStroke("D"), MOVE_RIGHT2);
+		movements.getInputMap(IFW).put(KeyStroke.getKeyStroke("S"), MOVE_DOWN2);
+		movements.getInputMap(IFW).put(KeyStroke.getKeyStroke("A"), MOVE_LEFT2);
 			
 		movements.getActionMap().put(MOVE_UP, new moveAction("Up", this.player, canvas));
 		movements.getActionMap().put(MOVE_RIGHT, new moveAction("Right", this.player, canvas));
 		movements.getActionMap().put(MOVE_DOWN, new moveAction("Down", this.player, canvas));
 		movements.getActionMap().put(MOVE_LEFT, new moveAction("Left", this.player, canvas));
+		movements.getActionMap().put(MOVE_UP2, new moveAction("W", this.player, canvas));
+		movements.getActionMap().put(MOVE_RIGHT2, new moveAction("D", this.player, canvas));
+		movements.getActionMap().put(MOVE_DOWN2, new moveAction("S", this.player, canvas));
+		movements.getActionMap().put(MOVE_LEFT2, new moveAction("A", this.player, canvas));
 			
 		add(movements);
 		/*-------------------Functionality----------------------------*/
