@@ -1,10 +1,7 @@
 package graphics;
 
 import graphics.GameCanvas.State;
-<<<<<<< HEAD
 import networking.Client;
-=======
->>>>>>> refs/remotes/origin/master
 
 import java.awt.Graphics;
 import java.awt.event.MouseEvent;

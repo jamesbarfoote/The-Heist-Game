@@ -58,12 +58,7 @@ public class Main extends JFrame implements KeyListener, MouseListener, MouseMot
 	private static final String ROTATE_ANTICLOCKWISE = "rotate anticlockwise";
 	private static final String INTERACT_WITH_OBJECT = "interact with object";
 	private static final String DROP_MONEY = "drop money";
-<<<<<<< HEAD
 	private Client cM;
-
-=======
-	
->>>>>>> refs/remotes/origin/master
 	//private Client cM;
 	Room currentRoom;
 	Player player;
@@ -164,26 +159,19 @@ public class Main extends JFrame implements KeyListener, MouseListener, MouseMot
 		functionality.getInputMap(IFW).put(KeyStroke.getKeyStroke("Q"), ROTATE_ANTICLOCKWISE);
 		functionality.getInputMap(IFW).put(KeyStroke.getKeyStroke("P"), INTERACT_WITH_OBJECT);
 		functionality.getInputMap(IFW).put(KeyStroke.getKeyStroke("B"), DROP_MONEY);
-<<<<<<< HEAD
-
-=======
-			
->>>>>>> refs/remotes/origin/master
 		functionality.getActionMap().put(ZOOM_IN, new gameAction("=", this.player, canvas));
 		functionality.getActionMap().put(ZOOM_OUT, new gameAction("Minus", this.player, canvas));
 		functionality.getActionMap().put(ROTATE_CLOCKWISE, new gameAction("E", this.player, canvas));
 		functionality.getActionMap().put(ROTATE_ANTICLOCKWISE, new gameAction("Q", this.player, canvas));
-<<<<<<< HEAD
 
 		functionality.getActionMap().put(INTERACT_WITH_OBJECT, new gameAction("P", this.player, canvas));
 		functionality.getActionMap().put(DROP_MONEY, new gameAction("B", this.player, canvas));
 
-=======
-		
+
 		functionality.getActionMap().put(INTERACT_WITH_OBJECT, new gameAction("P", this.player, canvas));
 		functionality.getActionMap().put(DROP_MONEY, new gameAction("B", this.player, canvas));
 		
->>>>>>> refs/remotes/origin/master
+
 		add(functionality);
 	}
 

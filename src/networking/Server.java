@@ -129,11 +129,7 @@ public class Server {
 				// socket's print writer to the set of all writers so
 				// this client can receive broadcast messages.
 				int i = 0;
-				//				for(Player p: players)
-				//				{
-				//					System.out.println("Player " + i + " has weapon " + p.getWeapon().getWeaponType());
-				//					i++;
-				//				}
+								
 				List<Player> temp3 = new CopyOnWriteArrayList<Player>();
 				temp3 = players;
 				//out.reset();
@@ -147,6 +143,12 @@ public class Server {
 				// Accept messages from this client and broadcast them.
 				// Ignore other clients that cannot be broadcasted to.
 				while (true) {
+					
+					for(Player p: players)
+					{
+						System.out.println("Player " + " is at " + p.getLocation().x);
+						//i++;
+					}
 					List<Player> temp2 = new CopyOnWriteArrayList<Player>();
 					//InputStream inputStream2 = new ObjectInputStream(socket.getInputStream());
 					//in.reset();
