@@ -1,17 +1,30 @@
 package graphics;
 
 import graphics.GameCanvas.State;
+import networking.Client;
 
 import java.awt.Graphics;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
+
+import game.Player;
 
 public class Lobby extends Menu{
 	private final int YSTART = 70; //how far up the buttons should appear on the menu
+	Player currentPlayer;
+	List<Player> players = new CopyOnWriteArrayList<Player>();
+	Client cm;
+	String host = "localhost";
 	
-	public Lobby(GameCanvas cv){
+	public Lobby(GameCanvas cv, Player player, List<Player> players, String host){
 		canvas = cv;
+		this.currentPlayer = player;
+		this.players = players;
+		this.host = host;
 		menuBack = GameCanvas.loadImage("lobby.png");
 		menuX = (canvas.getWidth()/2) - (menuBack.getWidth(null)/2);
 		menuY = (canvas.getHeight()/2) - (menuBack.getHeight(null)/2); 
@@ -19,6 +32,7 @@ public class Lobby extends Menu{
 		gameButtons.add(new GameButton("back"));
 		gameButtons.add(new GameButton("start"));
 		setButtonCoordinates();
+		startClient();
 	}
 	
 	public void keyPressed(KeyEvent e){
@@ -30,7 +44,7 @@ public class Lobby extends Menu{
 	}
 	
 	public void accept(){
-		
+		canvas.setState(State.PLAYING);
 	}
 	
 	public void mouseReleased(MouseEvent e){
@@ -44,9 +58,39 @@ public class Lobby extends Menu{
 			canvas.setState(State.MENU);
 			break;
 		case "start":
-		
+			
 			break;
 		}
+	}
+	
+	public void startClient()
+	{
+		try {
+			cm = new Client(43200, host, currentPlayer);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}//Connect to the server. Change localhost to the actual host computer
+
+		players = cm.getPlayers();
+		for(Player p: players)
+		{
+			if(p.getID() == cm.getID())
+			{
+				currentPlayer = p;
+			}
+		}
+
+		System.out.println("Number of players = " + players.size());
+	}
+	
+	
+	public Client getClient()
+	{
+		return cm;
 	}
 	
 	protected void setButtonCoordinates(){

@@ -7,6 +7,8 @@ import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.util.List;
 
+import networking.Client;
+
 public abstract class Dialogue{
 	protected List<GameButton> gameButtons;
 	protected Image menuBack; //menu image
@@ -29,6 +31,8 @@ public abstract class Dialogue{
 	 * for dealing with mouse clicks on the menu. returns true if button correctly selected
 	 */
 	public abstract void mouseReleased(MouseEvent e);
+	
+	public abstract Client getClient();
 	
 	/**
 	 * mouse has moved over the menu, update menu accordingly

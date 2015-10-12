@@ -86,16 +86,17 @@ public class GameCanvas extends Canvas{
 	
 	//-------------------------------------------------------------------//
 	
-	public GameCanvas(Dimension d, Player player, Client cm){
-		this.cm = cm;
+	public GameCanvas(Dimension d, Player player, List<Player> players){
+		//this.cm = cm;
 		setSize(d);
 		setState(State.MENU);
-		this.players.add(player);
+		this.players = players;
+		//this.players.add(player);
 		//this.rows = tiles.length;
 		//this.columns = tiles.length;
 		this.players.add(player);
 		addToImages();
-		this.currentPlayer = cm.getPlayer();
+		this.currentPlayer = player;
 	}
 	
 	public void initialize(){
@@ -284,12 +285,13 @@ public class GameCanvas extends Canvas{
 	public void setState(State s){
 		gameState = s;
 		if(s.equals(State.MENU)){
-			gameMenu = new MainMenu(this);
+			gameMenu = new MainMenu(this, currentPlayer, players);
 		}
 		else if(s.equals(State.PLAYING)){
 			menuUp = false;
 			inventory = null;
 			gameMenu = new GameMenu(this);
+			cm = gameMenu.getClient();
 		}
 		else if(s.equals(State.MULTI)){
 			//gameMenu = new Lobby(this);
@@ -301,59 +303,7 @@ public class GameCanvas extends Canvas{
 	 */
 	public void paint(Graphics g){
 		
-		for(Player p: players)
-		{
-
-			if(p.getID() == cm.getID())//Get the current player
-			{
-				cm.setPlayer(p);//update the current plater in the client
-		//		System.out.println(p.getLocation().x);
-			}
-		}
-		//cm.update(); //Tell the server the player has changed and to send it out
-		try {
-			cm.run();
-		} catch (IOException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		} catch (InterruptedException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
-		List<Player> temp4 = new CopyOnWriteArrayList<Player>();
-		temp4 = cm.getPlayers();
 		
-		for(Player p: players)
-		{
-			if(p.getID() != cm.getID())
-			{
-				players.remove(p);
-			}
-		}
-
-		for(Player p: temp4)
-		{
-			//System.out.println("Player has weapon ID = " + p.getID() + p.getWeapon().getWeaponType() + " and is at " + p.getLocation().x);
-			if(p.getID() != cm.getID())
-			{
-				players.add(p);
-			}
-				
-		}
-
-		//System.out.println("Got updated players");
-		//players = cm.getPlayers();
-		
-		for(Player p: players)//set the current player
-		{
-			if(p.getID() == cm.getID())
-			{
-				this.currentPlayer = p;
-			//	System.out.println("Current player set");
-			}
-		}
-		
-		//players = temp4;
 		
 		g.setColor(Color.BLACK);
 		g.fillRect(0, 0, getWidth(), getHeight());
@@ -557,6 +507,61 @@ public class GameCanvas extends Canvas{
 //			}
 //		}
 //		cm.update(); //Tell the server the player has changed and to send it out
+		
+		
+		for(Player p: players)
+		{
+
+			if(p.getID() == cm.getID())//Get the current player
+			{
+				cm.setPlayer(p);//update the current plater in the client
+		//		System.out.println(p.getLocation().x);
+			}
+		}
+		//cm.update(); //Tell the server the player has changed and to send it out
+		try {
+			cm.run();
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		} catch (InterruptedException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		List<Player> temp4 = new CopyOnWriteArrayList<Player>();
+		temp4 = cm.getPlayers();
+		
+		for(Player p: players)
+		{
+			if(p.getID() != cm.getID())
+			{
+				players.remove(p);
+			}
+		}
+
+		for(Player p: temp4)
+		{
+			//System.out.println("Player has weapon ID = " + p.getID() + p.getWeapon().getWeaponType() + " and is at " + p.getLocation().x);
+			if(p.getID() != cm.getID())
+			{
+				players.add(p);
+			}
+				
+		}
+
+		//System.out.println("Got updated players");
+		//players = cm.getPlayers();
+		
+		for(Player p: players)//set the current player
+		{
+			if(p.getID() == cm.getID())
+			{
+				this.currentPlayer = p;
+			//	System.out.println("Current player set");
+			}
+		}
+		
+		//players = temp4;
 		
 		
 		//players = cm.getPlayers();

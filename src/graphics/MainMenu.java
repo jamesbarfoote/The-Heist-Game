@@ -1,11 +1,18 @@
 package graphics;
 
 import graphics.GameCanvas.State;
+import networking.Client;
+import networking.Server;
 
 import java.awt.Graphics;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
+
+import game.Player;
 
 //import networking.Client;
 
@@ -18,9 +25,14 @@ public class MainMenu extends Menu{
 	public enum MenuState{MAIN, NEW, LOAD} //determines whether main menu is in default state, starting
 	//new game or loading one
 	private MenuState state;
+	Player player;
+	List<Player> players = new CopyOnWriteArrayList<Player>();
+	Client cm;
 	
-	public MainMenu(GameCanvas cv){
+	public MainMenu(GameCanvas cv, Player player, List<Player> players){
 		canvas = cv;
+		this.player = player;
+		this.players = players;
 		menuBack = GameCanvas.loadImage("main_menu.png");
 		state = MenuState.MAIN;
 		menuX = (canvas.getWidth()/2) - (menuBack.getWidth(null)/2);
@@ -65,11 +77,17 @@ public class MainMenu extends Menu{
 			break;
 		case "single":
 			canvas.setState(State.PLAYING);
+			Server s = new Server();
+			startClient();
 			canvas.initialize();
 			break;
 		case "multi":
 			action = Action.TEXT;
 			canvas.showConfirmation(this, Action.IP,  "Enter IP Address");
+			String host = "localhost";
+			Lobby l = new Lobby(canvas, player, players, host);
+			cm = l.getClient();
+			canvas.initialize();
 			break;
 		case "new":
 			state = MenuState.NEW;
@@ -87,6 +105,30 @@ public class MainMenu extends Menu{
 		canvas.simulateMouseMove();
 	}
 	
+	private void startClient() {
+		try {
+			cm = new Client(43200, "localhost", player);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}//Connect to the server. Change localhost to the actual host computer
+
+		players = cm.getPlayers();
+		for(Player p: players)
+		{
+			if(p.getID() == cm.getID())
+			{
+				player = p;
+			}
+		}
+
+		System.out.println("Number of players = " + players.size());
+		
+	}
+
 	private void setupMultiplayer() {
 		canvas.setState(State.MULTI);
 	}
@@ -126,5 +168,10 @@ public class MainMenu extends Menu{
 		for(GameButton gb: gameButtons){
 			g.drawImage(gb.getImage(), gb.getX(), gb.getY(), null);
 		}
+	}
+
+	@Override
+	public Client getClient() {
+		return cm;
 	}
 }
