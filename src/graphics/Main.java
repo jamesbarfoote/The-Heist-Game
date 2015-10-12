@@ -77,7 +77,7 @@ public class Main extends JFrame implements KeyListener, MouseListener, MouseMot
 		this.player = currentPlayer;
 
 		try {
-			cM = new Client(43200, "130.195.6.199", currentPlayer);
+			cM = new Client(43200, "localhost", currentPlayer);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
