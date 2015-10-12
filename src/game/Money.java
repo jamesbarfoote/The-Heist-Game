@@ -48,7 +48,7 @@ public class Money extends InteractableItem {
 		this.position = p;
 	}
 	
-	public void pickUpCash(Robber r){
+	public void pickUpCash(){
 		location = null;
 		pickedUp = true;
 	}
