@@ -30,7 +30,7 @@ import networking.Client;
 /**
  * Is the main class in the game. Acts as the controller, taking input, consulting the model
  * and updating the view accordingly. Holds the canvas which constructs the GUI.
- * @author Godfreya, CombuskenKid
+ * @author Godfreya, CombuskenKid, james.barfoote
  */
 public class Main extends JFrame implements KeyListener, MouseListener, MouseMotionListener, MouseWheelListener{
 	private GraphicsUpdater graphicsUpdater;	//graphical update thread

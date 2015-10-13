@@ -14,6 +14,12 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Map;
 
+/**
+ * 
+ * @author james.barfoote, 
+ * Represents everything that a player is. 
+ *
+ */
 public class Player implements Serializable{
 	private String name;
 	private Room room;
@@ -53,15 +59,26 @@ public class Player implements Serializable{
 		}
 	}
 	
+	/**
+	 * 
+	 * @param direction The current direction the player is facing
+	 */
 	public void setDirection(int direction){
 		this.direction = direction;
 	}
-
-	//Robber or guard(can't pick up money, can open all doors) enum
+	
 	public enum Type{
 		robber, guard
 	}
 	
+	/**
+	 * 
+	 * @param name The name of the player
+	 * @param w The players weapon
+	 * @param PlayerNum The players unique ID
+	 * @param p The players location represented as a point on the canvas
+	 * @param t The players type (robber or guard)
+	 */
 	public Player(String name, Weapon w, int PlayerNum, Point p, Type t)
 	{
 		this.name = name;
@@ -73,7 +90,7 @@ public class Player implements Serializable{
 	
 	/**
 	 * Checks to see if you have to appropriate key to unlock a door, if so, the door is unlocked
-	 * @param d
+	 * @param d The door they want to unlock
 	 */
 	public boolean unlockDoor(Door d){
 		//Safety check to ensure you aren't trying to unlock an unlocked door
@@ -136,7 +153,8 @@ public class Player implements Serializable{
 	
 	/**
 	 * Checks one tile ahead in the players facing direction for an InteractableItem
-	 * @return
+	 * @return an InteractableItem
+	 * @param The games canvas to draw onto
 	 */
 	public InteractableItem checkforInteract(GameCanvas canvas){
 		//Checks for money at the players current position
@@ -167,8 +185,8 @@ public class Player implements Serializable{
 	
 	/**
 	 * Checks if the given point in the room has an interactable item on it
-	 * @param oneInFront
-	 * @return
+	 * @param The position of the item, canvas to draw to
+	 * @return an InteractableItem if its present
 	 */
 	private InteractableItem findItem(Point pos, GameCanvas canvas){
 		for(Item item : canvas.getItems()){
@@ -191,7 +209,7 @@ public class Player implements Serializable{
 	/**
 	 * Checks for a door in a given direction from the player
 	 * @param canvas
-	 * @return
+	 * @return a door if its present
 	 */
 	public Door checkForDoor(GameCanvas canvas){
 		//Player facing north
@@ -220,7 +238,7 @@ public class Player implements Serializable{
 	 * Looks for a door at the given position and returns it
 	 * @param pos
 	 * @param canvas
-	 * @return
+	 * @return door
 	 */
 	private Door findDoor(Point pos, GameCanvas canvas){
 		for(Door d : canvas.getDoors()){
@@ -231,10 +249,18 @@ public class Player implements Serializable{
 		return null;
 	}
 	
+	/**
+	 * Adds the amount picked up to the money the player is holding
+	 * @param Money that is picked up
+	 */
 	public void pickUpMoney(Money m){
 		moneyHeld += m.getAmount();
 	}
 	
+	/**
+	 * Substracts the amount of money dropped from the money the player is holding
+	 * @param Dollars the player is dropping
+	 */
 	public void dropMoney(int d){
 		moneyHeld = moneyHeld - d;
 	}
@@ -264,26 +290,46 @@ public class Player implements Serializable{
 		return weapon;
 	}
 	
+	/**
+	 * @return the type this player is
+	 */
 	public Type getPlayerType()
 	{
 		return t;
 	}
 	
+	/**
+	 * @return 
+	 * @param takes an integer and sets the score to the new score
+	 */
 	public void updateScore(int s)
 	{
 		score = s;
 	}
 	
+	/**
+	 * @return 
+	 * @param takes a room object and changes the player to that room
+	 */
 	public void updateRoom(Room r)
 	{
 		room = r;
 	}
 	
+	/**
+	 * @return 
+	 * @param takes a weapon object and changes the current weapon to the new one
+	 */
 	public void changeWeapon(Weapon w)
 	{
 		weapon = w;
 	}
 	
+	/**
+	 * @return 
+	 * @param takes player type and sets it
+	 * @
+	 */
 	public void setgetPlayerType(Type t)
 	{
 		this.t = t;
@@ -317,18 +363,30 @@ public class Player implements Serializable{
 		this.oldPosition = location;
 	}
 	
+	/**
+	 * @return the items that are interactable
+	 */
 	public ArrayList<InteractableItem> getItems(){
 		return items;
 	}
 	
+	/**
+	 * @return the amount of money the player current has on them
+	 */
 	public int getMoneyHeld(){
 		return moneyHeld;
 	}
 	
+	/**
+	 * @return all the items the player is holding
+	 */
 	public Map<String, Integer> getInventory(){
 		return inventory;
 	}
 	
+	/**
+	 * @return the name of the player
+	 */
 	public String getName()
 	{
 		return this.name;

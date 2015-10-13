@@ -13,6 +13,10 @@ import java.util.concurrent.CopyOnWriteArrayList;
 
 import game.Player;
 
+/**
+ * Is the screen where each player can see the other players that are currently connected
+ * @author Godfreya, james.barfoote
+ */
 public class Lobby extends Menu{
 	private final int YSTART = 70; //how far up the buttons should appear on the menu
 	Player currentPlayer;
@@ -20,6 +24,13 @@ public class Lobby extends Menu{
 	Client cm;
 	String host = "localhost";
 	
+	/**
+	 * 
+	 * @param cv The main drawing area
+	 * @param player The current player
+	 * @param players The list of all players in the game
+	 * @param host The server address
+	 */
 	public Lobby(GameCanvas cv, Player player, List<Player> players, String host){
 		canvas = cv;
 		this.currentPlayer = player;
@@ -65,6 +76,10 @@ public class Lobby extends Menu{
 		}
 	}
 	
+	/**
+	 * Creates a new client and connects to the server.
+	 * Updates the current player and list of players
+	 */
 	public void startClient()
 	{
 		try {
@@ -90,6 +105,9 @@ public class Lobby extends Menu{
 	}
 	
 	
+	/**
+	 * Returns the client for use in other classes
+	 */
 	public Client getClient()
 	{
 		return cm;
