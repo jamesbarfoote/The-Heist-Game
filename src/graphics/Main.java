@@ -72,27 +72,7 @@ public class Main extends JFrame implements KeyListener, MouseListener, MouseMot
 		//players.add(player2);
 		this.player = currentPlayer;
 
-//		try {
-//			cM = new Client(43200, "localhost", currentPlayer);
-//		} catch (IOException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		} catch (InterruptedException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}//Connect to the server. Change localhost to the actual host computer
-//
-//		players = cM.getPlayers();
-//		for(Player p: players)
-//		{
-//			if(p.getID() == cM.getID())
-//			{
-//				player = p;
-//			}
-//		}
-//
-//		System.out.println("Number of players = " + players.size());
-		
+	
 		//Create canvas
 		setSize(getToolkit().getScreenSize());
 		canvas = new GameCanvas(getSize(), currentPlayer, players);
