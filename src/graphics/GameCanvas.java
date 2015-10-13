@@ -129,12 +129,12 @@ public class GameCanvas extends Canvas{
 		currentRoom.addItem(new Safe(new Point(4, 7), deskItems, money.getAmount()));
 		currentRoom.addItem(new Desk(new Point(12, 10), deskItems, money.getAmount()));
 		currentRoom.addItem(new Desk(new Point(22, 22), deskItems, money.getAmount()));
-		currentRoom.addDoor(new Door(currentRoom, false, new Point(6,3), null));
-		currentRoom.addDoor(new Door(currentRoom, false, new Point(6,11), null));
-		currentRoom.addDoor(new Door(currentRoom, false, new Point(13,6), null));
-		currentRoom.addDoor(new Door(currentRoom, false, new Point(11,14), null));
-		currentRoom.addDoor(new Door(currentRoom, false, new Point(9,19), null));
-		currentRoom.addDoor(new Door(currentRoom, false, new Point(18,12), null));
+		currentRoom.addDoor(new Door(false, new Point(6,3), null));
+		currentRoom.addDoor(new Door(false, new Point(6,11), null));
+		currentRoom.addDoor(new Door(false, new Point(13,6), null));
+		currentRoom.addDoor(new Door(false, new Point(11,14), null));
+		currentRoom.addDoor(new Door(false, new Point(9,19), null));
+		currentRoom.addDoor(new Door(false, new Point(18,12), null));
 		
 		
 		this.tiles = data.getTiles();
