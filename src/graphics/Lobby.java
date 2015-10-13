@@ -44,7 +44,7 @@ public class Lobby extends Menu{
 	}
 	
 	public void accept(String data){
-		canvas.setState(State.PLAYING_MULTI);
+		
 	}
 	
 	public void mouseReleased(MouseEvent e){
@@ -58,7 +58,9 @@ public class Lobby extends Menu{
 			canvas.setState(State.MENU);
 			break;
 		case "start":
-			
+			canvas.setClient(cm);
+			canvas.setCurrentPlayer(currentPlayer);
+			canvas.setState(State.PLAYING_MULTI);
 			break;
 		}
 	}
@@ -104,6 +106,8 @@ public class Lobby extends Menu{
 	}
 	
 	public void draw(Graphics g){
+		String name = cm.getPlayer().getName();
+		String type = cm.getPlayer().getPlayerType().toString();
 		//Draw the players name, type and ip
 		
 		g.drawImage(menuBack, menuX, menuY, null);

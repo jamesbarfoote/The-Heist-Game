@@ -837,7 +837,16 @@ public class GameCanvas extends Canvas{
 	}
 
 	public void setHost(String data) {
-		this.host = data;
-		
+		this.host = data;		
+	}
+	
+	public void setCurrentPlayer(Player p)
+	{
+		currentPlayer = p;
+	}
+	
+	public void setClient(Client c)
+	{
+		cm = c;
 	}
 }
