@@ -101,6 +101,7 @@ public class Main extends JFrame implements KeyListener, MouseListener, MouseMot
 		canvas.addMouseMotionListener(this);
 		canvas.addMouseWheelListener(this);
 		add(canvas);
+		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setIconImage(GameCanvas.loadImage("money_bag_icon.png"));
 
