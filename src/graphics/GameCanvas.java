@@ -150,8 +150,8 @@ public class GameCanvas extends Canvas{
 		//start timer 
 		timer = new TimerThread(this);
 		timerSeconds = TIMELIMIT * 1000;
+		repaint();
 		timer.start();
-		this.repaint();
 	}
 	
 	private void addToImages(){
@@ -327,7 +327,8 @@ public class GameCanvas extends Canvas{
 		timerSeconds -= 5;
 	}
 	
-	private void drawTimer(Graphics g){
+	private void drawHUD(Graphics g){
+		//draw timer
 		int minutes;
 		int seconds;
 		int millis;
@@ -339,6 +340,10 @@ public class GameCanvas extends Canvas{
 		String sSeconds = seconds < 10 ? "0" + seconds : "" + seconds;
 		String sMillis = millis < 10 ? "0" + millis : "" + millis;
 		g.drawString(minutes + ":" + sSeconds + ":" + sMillis, 100, getHeight() - 100);
+		
+		//draw cash amount
+		
+		
 		g.setColor(Color.BLACK);
 	}
 
@@ -357,7 +362,7 @@ public class GameCanvas extends Canvas{
 				e.printStackTrace();
 			}
 			//draw the timer
-			drawTimer(g);
+			drawHUD(g);
 			if(inventory != null){
 				inventory.draw(g);
 			}

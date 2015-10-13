@@ -43,7 +43,7 @@ public class Lobby extends Menu{
 		
 	}
 	
-	public void accept(){
+	public void accept(String data){
 		canvas.setState(State.PLAYING);
 	}
 	

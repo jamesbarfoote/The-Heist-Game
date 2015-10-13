@@ -91,12 +91,8 @@ public class MainMenu extends Menu{
 			System.out.println("-----------------------------------------------");
 			break;
 		case "multi":
-			action = Action.TEXT;
+			action = Action.IP;
 			canvas.showConfirmation(this, Action.IP,  "Enter IP Address");
-			String host = "localhost";
-			Lobby l = new Lobby(canvas, player, players, host);
-			cm = l.getClient();
-			canvas.initialize();
 			break;
 		case "new":
 			state = MenuState.NEW;
@@ -116,12 +112,17 @@ public class MainMenu extends Menu{
 	
 	
 
-	private void setupMultiplayer() {
+	private void setupMultiplayer(String data) {
+		String host = "localhost";
+		Lobby l = new Lobby(canvas, player, players, host);
+		cm = l.getClient();
+		canvas.initialize();
+		
 		canvas.setState(State.MULTI);
 	}
 
 	//confirm proposed action
-	public void accept(){
+	public void accept(String data){
 		switch(action){
 		case QUIT:
 			System.exit(0);
@@ -129,7 +130,11 @@ public class MainMenu extends Menu{
 			
 			break;
 		case IP:
+			canvas.removeConfirmation();
+			canvas.simulateMouseMove();
+			action = null;//Action.TEXT;
 			
+			setupMultiplayer(data);
 			break;
 		}
 	}
