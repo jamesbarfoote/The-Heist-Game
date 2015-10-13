@@ -181,6 +181,7 @@ public class Save {
 
 		// add inventory if not empty
 		if (player.getInventory() != null) {
+			System.out.println("Helo");
 			Map<String, Integer> inventory = player.getInventory();
 			Node inventoryNode = doc.createTextNode(INVENTORY);
 
@@ -227,37 +228,37 @@ public class Save {
 	 * @param args
 	 */
 	public static void main(String[] args) {
+
 		Room currentRoom;
-		
+
 		Money money = new Money(1000000, new Point(2, 4));
 		ArrayList<InteractableItem> deskItems = new ArrayList<InteractableItem>();
 		// deskItems.add(money);
 		// deskItems.add(money);
-		
+
 		ArrayList<InteractableItem> safeItems = new ArrayList<InteractableItem>();
 		safeItems.add(money);
 		safeItems.add(money);
-		
-		Safe safe = new Safe(new Point(4, 7), safeItems, 0);
 
+		Safe safe = new Safe(new Point(4, 7), safeItems, 0);
+		Desk desk = new Desk(new Point(8, 8), deskItems, 0);
+		ArrayList<Player> players = new ArrayList<Player>();
+		currentRoom = new Room("testRoom", 0, 0, players);
+
+		currentRoom.addItem(money);
+		currentRoom.addItem(safe);
+		currentRoom.addItem(desk);
+		
 		Player currentPlayer = new Player(new Weapon("Badass", true), 1,
 				new Point(1, 0), game.Player.Type.robber);
 		Player player2 = new Player(new Weapon("Badass", true), 1, new Point(6,
 				2), game.Player.Type.robber);
-		ArrayList<Player> players = new ArrayList<Player>();		
-		
-		currentPlayer.lootContainer(safe);
+
+		currentPlayer.lootContainer(desk);
 		players.add(currentPlayer);
 		players.add(player2);
 
-		currentRoom = new Room("testRoom", 0, 0, players);
 
-
-		currentRoom.addItem(money);
-		currentRoom
-				.addItem(safe);
-		currentRoom
-				.addItem(new Desk(currentRoom, new Point(8, 8), deskItems, 0));
 
 		ArrayList<Room> rooms = new ArrayList<>();
 		rooms.add(currentRoom);
