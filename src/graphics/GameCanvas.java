@@ -60,7 +60,8 @@ public class GameCanvas extends Canvas{
 	public static final Font textFont = new Font("TimesRoman", Font.PLAIN, 18); //font to be used for text in game
 	private static final int PI = 0;
 	private TimerThread timer;	//timer for games
-	private int timerSeconds;	//seconds left on timer
+	private long timerSeconds;	//seconds left on timer
+	public final int TIMELIMIT = 300; //time to complete mission
 	
 	//-----------------------------new-------------------------------//
 	private AffineTransform at;
@@ -148,6 +149,10 @@ public class GameCanvas extends Canvas{
 		this.doors = currentRoom.getDoors();
 		initialTranslate();
 		
+		//start timer 
+		timer = new TimerThread(this);
+		timerSeconds = TIMELIMIT * 1000;
+		timer.start();
 		this.repaint();
 	}
 	
@@ -244,10 +249,6 @@ public class GameCanvas extends Canvas{
 		
 	}
 	
-	public void decrementTimer(){
-		timerSeconds -= 1;
-	}
-	
 	/**for dealing with mouse wheel movements**/
 	public void mouseWheelMoved(MouseWheelEvent e){
 		if(inventory != null){
@@ -299,7 +300,15 @@ public class GameCanvas extends Canvas{
 		if(s.equals(State.MENU)){
 			System.out.println("Menu 1");
 			gameMenu = new MainMenu(this, currentPlayer, players);
+			if (timer != null) {
+				timer.terminate();
+			try{
+				timer.join();
+			}catch(InterruptedException e){
+				e.printStackTrace();
+			}
 //			
+			}			
 			
 		}
 		else if(s.equals(State.PLAYING)){
@@ -315,14 +324,30 @@ public class GameCanvas extends Canvas{
 			//gameMenu = new Lobby(this);
 		}
 	}
+	
+	public void decrementTimer(){
+		timerSeconds -= 5;
+	}
+	
+	private void drawTimer(Graphics g){
+		int minutes;
+		int seconds;
+		int millis;
+		g.setFont(new Font("TimesRoman", Font.PLAIN, 96));
+		g.setColor(Color.WHITE);
+		minutes = (int)(timerSeconds/1000)/60;
+		seconds = (int)(timerSeconds/1000) % 60;
+		millis = (int)timerSeconds % 100;
+		String sSeconds = seconds < 10 ? "0" + seconds : "" + seconds;
+		String sMillis = millis < 10 ? "0" + millis : "" + millis;
+		g.drawString(minutes + ":" + sSeconds + ":" + sMillis, 100, getHeight() - 100);
+		g.setColor(Color.BLACK);
+	}
 
 	/**
 	 * paint method for drawing the GUI
 	 */
 	public void paint(Graphics g){
-		
-		
-		
 		g.setColor(Color.BLACK);
 		g.fillRect(0, 0, getWidth(), getHeight());
 		
@@ -333,6 +358,8 @@ public class GameCanvas extends Canvas{
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
+			//draw the timer
+			drawTimer(g);
 			if(inventory != null){
 				inventory.draw(g);
 			}
