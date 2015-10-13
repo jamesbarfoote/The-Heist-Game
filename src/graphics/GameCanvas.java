@@ -70,9 +70,10 @@ public class GameCanvas extends Canvas{
 	List<Player> players = new CopyOnWriteArrayList<Player>();
 	ArrayList<Item> items = new ArrayList<Item>();
 	ArrayList<Door> doors = new ArrayList<Door>();
-	int width, height, rows, columns;
-	Client cm;
-	Player currentPlayer;
+	private int width, height, rows, columns;
+	private Client cm;
+	private Player currentPlayer;
+	private String host = "localhost";
 	
 	double translateX, translateY;
 	double zoom;
@@ -324,7 +325,7 @@ public class GameCanvas extends Canvas{
 			gameMenu = new GameMenu(this, currentPlayer, players);
 		}
 		else if(s.equals(State.MULTI)){
-			//gameMenu = new Lobby(this);
+			gameMenu = new Lobby(this, currentPlayer, players, this.host);
 		}
 	}
 	
@@ -833,5 +834,10 @@ public class GameCanvas extends Canvas{
 	
 	public ArrayList<Door> getDoors(){
 		return doors;
+	}
+
+	public void setHost(String data) {
+		this.host = data;
+		
 	}
 }

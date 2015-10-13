@@ -44,7 +44,7 @@ public class Lobby extends Menu{
 	}
 	
 	public void accept(String data){
-		canvas.setState(State.PLAYING);
+		canvas.setState(State.PLAYING_MULTI);
 	}
 	
 	public void mouseReleased(MouseEvent e){

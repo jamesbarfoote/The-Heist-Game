@@ -27,7 +27,7 @@ public class MainMenu extends Menu{
 	private MenuState state;
 	Player player;
 	List<Player> players = new CopyOnWriteArrayList<Player>();
-	Client cm;
+	//Client cm;
 	
 	public MainMenu(GameCanvas cv, Player player, List<Player> players){
 		canvas = cv;
@@ -108,12 +108,12 @@ public class MainMenu extends Menu{
 	
 
 	private void setupMultiplayer(String data) {
-		String host = data;
-		Lobby l = new Lobby(canvas, player, players, host);
-		cm = l.getClient();
+		canvas.setHost(data);
+		//Lobby l = new Lobby(canvas, player, players, host);
+		//cm = l.getClient();
 		canvas.initialize();
 		
-		canvas.setState(State.PLAYING_MULTI);
+		canvas.setState(State.MULTI);
 	}
 
 	//confirm proposed action
@@ -159,6 +159,6 @@ public class MainMenu extends Menu{
 
 	
 	public Client getClient() {
-		return cm;
+		return null;
 	}
 }
