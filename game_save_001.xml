@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<game>
+<room name="testRoom">
+<item type="Money">
+<pos>2.0,4.0</pos>
+</item>
+<item type="Safe">
+<pos>4.0,7.0</pos>
+<item type="Money">
+<pos>2.0,4.0</pos>
+</item>
+<item type="Money">
+<pos>2.0,4.0</pos>
+</item>
+</item>
+<item type="Desk">
+<pos>8.0,8.0</pos>
+</item>
+</room>
+</game>
