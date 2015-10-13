@@ -9,7 +9,7 @@ public class Clutter extends InteractableItem{
 	private String name;
 	
 	public Clutter(Room room, Point p, String name) {
-		super(room, p);
+		super(p);
 		this.name = name;
 	}
 

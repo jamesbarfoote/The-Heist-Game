@@ -22,7 +22,7 @@ public class Key extends InteractableItem{
 	}
 
 	public Key(Door opens, Container containedIn, Room room, Point position){
-		super(room, position);
+		super(position);
 		this.opens = opens;
 		this.containedIn = containedIn;
 	}

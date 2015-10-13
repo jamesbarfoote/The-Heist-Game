@@ -4,7 +4,6 @@ import java.awt.Point;
 import java.util.ArrayList;
 
 import game.Money;
-import game.Room;
 
 public class Container extends InteractableItem{
 
@@ -13,8 +12,8 @@ public class Container extends InteractableItem{
 	private ArrayList<InteractableItem> items; //Null if no item in container
 	private Point oldPosition;
 	
-	public Container(Room room, Point position, ArrayList<InteractableItem> items, int money) {
-		super(room, position);
+	public Container(Point position, ArrayList<InteractableItem> items, int money) {
+		super(position);
 		this.position = position;
 		this.items = items;
 		this.money = money;

@@ -1,6 +1,5 @@
 package game.items;
 
-import game.Room;
 
 import java.awt.Point;
 import java.util.ArrayList;
@@ -13,8 +12,8 @@ public class Desk extends Container {
 	private ArrayList<Point> positions = new ArrayList<Point>();
 	
 
-	public Desk(Room room, Point position, ArrayList<InteractableItem> items, int money) {
-		super(room, position, items, money);
+	public Desk(Point position, ArrayList<InteractableItem> items, int money) {
+		super(position, items, money);
 		this.positions.add(new Point((int) position.getX(), (int) position.getY() - 1));
 	}
 

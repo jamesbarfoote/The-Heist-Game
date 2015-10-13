@@ -116,19 +116,19 @@ public class GameCanvas extends Canvas{
 		
 		Room currentRoom = new Room("testRoom", data.getWidth(), data.getHeight(), players);
 		
-		Money money = new Money(1000000, currentRoom, new Point(2, 4));
-		Money money2 = new Money(1000000, currentRoom, new Point(20, 5));
-		Money money3 = new Money(1000000, currentRoom, new Point(23, 6));
-		Money money4 = new Money(1000000, currentRoom, new Point(19, 3));
+		Money money = new Money(1000000, new Point(2, 4));
+		Money money2 = new Money(1000000, new Point(20, 5));
+		Money money3 = new Money(1000000, new Point(23, 6));
+		Money money4 = new Money(1000000, new Point(19, 3));
 		ArrayList<InteractableItem> deskItems = new ArrayList<InteractableItem>();
 		//deskItems.add(money);
 		currentRoom.addItem(money);
 		currentRoom.addItem(money2);
 		currentRoom.addItem(money3);
 		currentRoom.addItem(money4);
-		currentRoom.addItem(new Safe(currentRoom, new Point(4, 7), deskItems, money.getAmount()));
-		currentRoom.addItem(new Desk(currentRoom, new Point(12, 10), deskItems, money.getAmount()));
-		currentRoom.addItem(new Desk(currentRoom, new Point(22, 22), deskItems, money.getAmount()));
+		currentRoom.addItem(new Safe(new Point(4, 7), deskItems, money.getAmount()));
+		currentRoom.addItem(new Desk(new Point(12, 10), deskItems, money.getAmount()));
+		currentRoom.addItem(new Desk(new Point(22, 22), deskItems, money.getAmount()));
 		currentRoom.addDoor(new Door(currentRoom, false, new Point(6,3), null));
 		currentRoom.addDoor(new Door(currentRoom, false, new Point(6,11), null));
 		currentRoom.addDoor(new Door(currentRoom, false, new Point(13,6), null));

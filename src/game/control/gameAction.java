@@ -59,13 +59,13 @@ public class gameAction extends AbstractAction {
 		}
 		else if(action.equals("B")){
 			if(player.getMoneyHeld() >= 500){
-				Money m = new Money(500, player.getRoom(), player.getLocation());
+				Money m = new Money(500, player.getLocation());
 				this.canvas.getItems().add(m); //Adds the money object to the canvas
 				player.dropMoney(500); //Decrements the players money count
 			}
 			//As long as you have money you can drop some
 			else if(player.getMoneyHeld() > 0){
-				Money m = new Money(player.getMoneyHeld(), player.getRoom(), player.getLocation());
+				Money m = new Money(player.getMoneyHeld(), player.getLocation());
 				this.canvas.getItems().add(m); //Adds the money object to the canvas
 				player.dropMoney(player.getMoneyHeld()); //Decrements the players money count
 			}

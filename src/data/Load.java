@@ -16,11 +16,7 @@ import org.w3c.dom.NodeList;
 
 public class Load {
 
-	private static final String ITEM = "item";
-	private static final String TYPE = "type";
-	private static final String ROOM = "room";
-	private static final String DESK = "desk";
-	private static final String MONEY = "money";
+
 
 	public static Room loadFromXML(String fileName, Room room) {
 
@@ -46,7 +42,7 @@ public class Load {
 	// <room name="hall">
 	private static void getRooms(Element gameNode, Room room) {
 		// get all the rooms
-		NodeList roomsNodeList = gameNode.getElementsByTagName(ROOM);
+		NodeList roomsNodeList = gameNode.getElementsByTagName(Save.ROOM);
 
 		// design change, only one 'room' per map
 		Element roomNode = (Element) roomsNodeList.item(0);
@@ -65,12 +61,12 @@ public class Load {
 			if (roomItemsNodeList.item(count) instanceof Element) {
 				Element itemNode = (Element) roomItemsNodeList.item(count);
 
-				String type = itemNode.getAttribute(TYPE);
+				String type = itemNode.getAttribute(Save.TYPE);
 				switch (type) {
-				case (MONEY):
+				case (Save.MONEY):
 					room.addItem(addMoney(itemNode));
 					break;
-				case (DESK):
+				case (Save.DESK):
 					room.addItem(addDesk(itemNode));
 					break;
 				}
@@ -83,10 +79,10 @@ public class Load {
 
 		NodeList moneyNodeList = moneyNode.getChildNodes();
 
-		// pos
+		// position
 		Node node = moneyNodeList.item(1);
 		Element element = (Element) node;
-		String pos = element.getTextContent();
+		String point = element.getTextContent();
 
 		// amount
 		node = moneyNodeList.item(3);
@@ -94,7 +90,7 @@ public class Load {
 		String amount = element.getTextContent();
 
 		Money money = new Money(Integer.parseInt(amount), null,
-				stringToPoint(pos));
+				stringToPoint(point));
 
 		return money;
 	}

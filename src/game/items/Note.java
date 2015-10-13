@@ -19,7 +19,7 @@ public class Note extends InteractableItem{
 	 * @param containedIn
 	 */
 	public Note(String name, String text, Room room, Container containedIn, Point position){
-		super(room, position);
+		super(position);
 		this.name = name;
 		this.text = text;
 		this.containedIn = containedIn;
@@ -33,7 +33,7 @@ public class Note extends InteractableItem{
 	 * @param containedIn
 	 */
 	public Note(String name, Safe safeForCombo, Room room, Container containedIn, Point position){
-		super(room, position);
+		super(position);
 		this.name = name;
 		this.text = "";
 		this.safeForCombo = safeForCombo;

@@ -20,10 +20,9 @@ public class Money extends InteractableItem {
 	String direction = "N";
 	double[] size = {2, 3};
 	
-	public Money(int amount, Room location, Point position){
-		super(location, position);
+	public Money(int amount, Point position){
+		super(position);
 		this.amount = amount;
-		this.location = location;
 		this.position = position;
 		pickedUp = false;
 	}
