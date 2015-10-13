@@ -7,7 +7,7 @@ package graphics;
  */
 public class GraphicsUpdater extends Thread{
 	private GameCanvas display;
-	private final int DELAY = 15; //delay between updates, set to 33 to give roughly 30 frames per second
+	private final int DELAY = 15; //delay between updates
 	
 	public GraphicsUpdater(GameCanvas cv){
 		display = cv;

@@ -68,7 +68,7 @@ public class GameMenu extends Menu{
 	}
 	
 	//confirm the current action
-	public void accept(){
+	public void accept(String data){
 		switch(action){
 		case QUIT:
 			canvas.setState(GameCanvas.State.MENU);

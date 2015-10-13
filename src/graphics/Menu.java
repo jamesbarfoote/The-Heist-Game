@@ -11,7 +11,7 @@ public abstract class Menu extends Dialogue{
 	/**
 	 * for confirmation dialogues to approve the proposed action
 	 */
-	public abstract void accept();
+	public abstract void accept(String data);
 	
 	/**
 	 * for confirmation dialogues to decline the proposed action

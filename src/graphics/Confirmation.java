@@ -33,7 +33,7 @@ public class Confirmation extends Dialogue{
 			return;
 		}
 		if(button.equals("yes")){
-			listener.accept(); //action confirmed
+			listener.accept(null); //action confirmed
 			return;
 		}
 		listener.decline(); //only other alternative is action declined
