@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.net.UnknownHostException;
 import java.util.HashSet;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
@@ -15,7 +16,7 @@ import game.Player;
 /**
  * 
  */
-public class Server {
+public class Server implements Runnable {
 
 	/**
 	 * The port that the server listens on.
@@ -33,15 +34,33 @@ public class Server {
 	 */
 	private static HashSet<DataOutputStream> writers = new HashSet<DataOutputStream>();
 
+//	public Server() throws IOException
+//	{
+//		System.out.println("Server is running.");
+//
+//		InetAddress ip = InetAddress.getLocalHost();
+//		System.out.println("Current IP address : " + ip.getHostAddress());
+//
+//		ServerSocket listener = new ServerSocket(PORT);
+//		try {
+//			while (true) {
+//				new Handler(listener.accept()).start();
+//			}
+//		} finally {
+//			System.out.println("Listener closed");
+//			listener.close();
+//		}
+//	}
+
 	/**
 	 * listens on a port and spawns handler threads.
 	 */
 	public static void main(String[] args) throws Exception {
 		System.out.println("Server is running.");
-		
+
 		InetAddress ip = InetAddress.getLocalHost();
 		System.out.println("Current IP address : " + ip.getHostAddress());
-		
+
 		ServerSocket listener = new ServerSocket(PORT);
 		try {
 			while (true) {
@@ -96,7 +115,7 @@ public class Server {
 					out.writeInt(bytes.length);
 					out.write(bytes);
 					out.flush();
-					
+
 					//out.writeUnshared(players);
 
 					//Get player
@@ -105,7 +124,7 @@ public class Server {
 					in.readFully(bytes2);
 					Object plays = toObject(bytes2);
 					temp = (List<Player>) plays;
-					
+
 					//temp = (List<Player>) in.readObject();//get the arraylist for a single player
 					//System.out.println("Got player from client. Weapon = " + temp.get(0).getWeapon().getWeaponType());
 
@@ -129,7 +148,7 @@ public class Server {
 				// socket's print writer to the set of all writers so
 				// this client can receive broadcast messages.
 				int i = 0;
-								
+
 				List<Player> temp3 = new CopyOnWriteArrayList<Player>();
 				temp3 = players;
 				//out.reset();
@@ -143,7 +162,7 @@ public class Server {
 				// Accept messages from this client and broadcast them.
 				// Ignore other clients that cannot be broadcasted to.
 				while (true) {
-					
+
 					for(Player p: players)
 					{
 						System.out.println("Player " + " is at " + p.getLocation().x);
@@ -152,13 +171,13 @@ public class Server {
 					List<Player> temp2 = new CopyOnWriteArrayList<Player>();
 					//InputStream inputStream2 = new ObjectInputStream(socket.getInputStream());
 					//in.reset();
-					
+
 					int size2 = in.readInt();			 
 					byte[] bytes2 = new byte[size2];			 
 					in.readFully(bytes2);
 					Object plays = toObject(bytes2);
 					temp2 = (List<Player>) plays;
-					
+
 					//temp2 = (List<Player>) in.readObject();//get the arraylist for a single player
 					//System.out.println(temp2.get(0).getLocation().x);
 
@@ -177,15 +196,15 @@ public class Server {
 					}
 					//players.remove(playerToRemove);
 
-					
-						//out.reset();
+
+					//out.reset();
 					for (DataOutputStream writer : writers) {//Send out the revised array list to all players
 						byte[] bytes4 = toBytes(players);
 						out.writeInt(bytes4.length);
 						out.write(bytes4);
 						out.flush();
 						//writer.writeUnshared(players);
-						
+
 					}
 				}
 			} catch (IOException e) {
@@ -208,34 +227,42 @@ public class Server {
 				}
 			}
 		}
-		
-		
+
+
 		public static byte[] toBytes(Object object){
-		    java.io.ByteArrayOutputStream baos = new java.io.ByteArrayOutputStream();
-		    try{
-		        java.io.ObjectOutputStream oos = new java.io.ObjectOutputStream(baos);
-		        oos.writeObject(object);
-		    }catch(java.io.IOException ioe){
-		        ioe.printStackTrace();
-		    }
-		     
-		    return baos.toByteArray();
+			java.io.ByteArrayOutputStream baos = new java.io.ByteArrayOutputStream();
+			try{
+				java.io.ObjectOutputStream oos = new java.io.ObjectOutputStream(baos);
+				oos.writeObject(object);
+			}catch(java.io.IOException ioe){
+				ioe.printStackTrace();
+			}
+
+			return baos.toByteArray();
 		} 
-		 
+
 		public static Object toObject(byte[] bytes){
-		    Object object = null;
-		    try{
-		        object = new java.io.ObjectInputStream(new
-		        java.io.ByteArrayInputStream(bytes)).readObject();
-		    }catch(java.io.IOException ioe){
-		        ioe.printStackTrace();
-		    }catch(java.lang.ClassNotFoundException cnfe){
-		        cnfe.printStackTrace();
-		    }
-		    return object;
+			Object object = null;
+			try{
+				object = new java.io.ObjectInputStream(new
+						java.io.ByteArrayInputStream(bytes)).readObject();
+			}catch(java.io.IOException ioe){
+				ioe.printStackTrace();
+			}catch(java.lang.ClassNotFoundException cnfe){
+				cnfe.printStackTrace();
+			}
+			return object;
 		}
-		
+
+
+	}
+
+	@Override
+	public void run() {
+		// TODO Auto-generated method stub
 		
 	}
+
+	
 }
 

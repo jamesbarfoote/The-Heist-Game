@@ -77,7 +77,12 @@ public class MainMenu extends Menu{
 			canvas.showConfirmation(this, Action.QUIT, "Quit Game?");
 			break;
 		case "single":
-			//Server s = new Server();
+			Server myRunnable = new Server(); 
+			Thread myThread = new Thread(myRunnable);
+			myThread.setDaemon(true); // important, otherwise JVM does not exit at end of main()
+			myThread.start(); 
+
+			
 			canvas.initialize();
 			
 			//startClient();
