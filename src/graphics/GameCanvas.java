@@ -59,6 +59,8 @@ public class GameCanvas extends Canvas{
 	public static final Image logo = loadImage("title.png");
 	public static final Font textFont = new Font("TimesRoman", Font.PLAIN, 18); //font to be used for text in game
 	private static final int PI = 0;
+	private TimerThread timer;	//timer for games
+	private int timerSeconds;	//seconds left on timer
 	
 	//-----------------------------new-------------------------------//
 	private AffineTransform at;
@@ -235,6 +237,10 @@ public class GameCanvas extends Canvas{
 	/**for swapping items between containers**/
 	public void openTrade(){
 		
+	}
+	
+	public void decrementTimer(){
+		timerSeconds -= 1;
 	}
 	
 	/**for dealing with mouse wheel movements**/

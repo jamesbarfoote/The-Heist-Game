@@ -54,7 +54,7 @@ public class TextDialogue extends Dialogue{
 		}
 		else{
 			char c = e.getKeyChar();
-			if(!(Character.isLetter(c) || Character.isDigit(c))) return;
+			if(!(Character.isLetter(c) || Character.isDigit(c) || c == '.')) return;
 			if(canvas.getGraphics().getFontMetrics().stringWidth(text + c) > LIMIT - 50) return;
 			text += c;
 		}
