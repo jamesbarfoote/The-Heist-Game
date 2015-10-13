@@ -104,6 +104,8 @@ public class Lobby extends Menu{
 	}
 	
 	public void draw(Graphics g){
+		//Draw the players name, type and ip
+		
 		g.drawImage(menuBack, menuX, menuY, null);
 		for(GameButton gb: gameButtons){
 			g.drawImage(gb.getImage(), gb.getX(), gb.getY(), null);

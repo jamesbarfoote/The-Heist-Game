@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import java.util.Map;
 
 public class Player implements Serializable{
+	private String name;
 	private Room room;
 	private Weapon weapon;
 	private int score;
@@ -61,8 +62,9 @@ public class Player implements Serializable{
 		robber, guard
 	}
 	
-	public Player(Weapon w, int PlayerNum, Point p, Type t)
+	public Player(String name, Weapon w, int PlayerNum, Point p, Type t)
 	{
+		this.name = name;
 		this.weapon = w;
 		this.currentPosition = p;
 		this.oldPosition  = p;
@@ -325,6 +327,11 @@ public class Player implements Serializable{
 	
 	public Map<String, Integer> getInventory(){
 		return inventory;
+	}
+	
+	public String getName()
+	{
+		return this.name;
 	}
 	
 	@Override

@@ -65,7 +65,7 @@ public class Main extends JFrame implements KeyListener, MouseListener, MouseMot
 		super("The Heist");
 
 		//Create player
-		Player currentPlayer = new Player(new Weapon("Badass", true), 1, new Point(1,1), game.Player.Type.robber);
+		Player currentPlayer = new Player("Bob", new Weapon("Badass", true), 1, new Point(1,1), game.Player.Type.robber);
 		//Player player2 = new Player(new Weapon("Badass", true), 1, new Point(6,2), game.Player.Type.robber);
 		List<Player> players = new CopyOnWriteArrayList<Player>();
 		players.add(currentPlayer);
