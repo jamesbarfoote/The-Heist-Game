@@ -114,29 +114,7 @@ public class MainMenu extends Menu{
 		canvas.simulateMouseMove();
 	}
 	
-	private void startClient() {
-		try {
-			cm = new Client(43200, "127.0.0.1", player);
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}//Connect to the server. Change localhost to the actual host computer
-
-		players = cm.getPlayers();
-		for(Player p: players)
-		{
-			if(p.getID() == cm.getID())
-			{
-				player = p;
-			}
-		}
-
-		System.out.println("Number of players = " + players.size());
-		
-	}
+	
 
 	private void setupMultiplayer() {
 		canvas.setState(State.MULTI);
