@@ -95,7 +95,7 @@ public class Main extends JFrame implements KeyListener, MouseListener, MouseMot
 		
 		//Create canvas
 		setSize(getToolkit().getScreenSize());
-		canvas = new GameCanvas(getSize(), this.player, players);
+		canvas = new GameCanvas(getSize(), currentPlayer, players);
 		canvas.addKeyListener(this);
 		canvas.addMouseListener(this);
 		canvas.addMouseMotionListener(this);

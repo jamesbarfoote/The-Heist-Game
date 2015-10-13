@@ -5,6 +5,8 @@ import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 
+import networking.Client;
+
 public class Confirmation extends Dialogue{
 	private Menu listener;
 	private String message;
@@ -54,6 +56,11 @@ public class Confirmation extends Dialogue{
 			g.drawImage(gb.getImage(), gb.getX(), gb.getY(), null);
 			xAcross += menuBack.getWidth(null)/3;
 		}
+	}
+
+	@Override
+	public Client getClient() {
+		return null;
 	}
 	
 }

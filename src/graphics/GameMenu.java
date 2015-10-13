@@ -3,7 +3,12 @@ package graphics;
 import java.awt.Graphics;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
+
+import game.Player;
+import networking.Client;
 
 /**
  * Represents an in game menu which opens when escape is pressed to give the player options
@@ -11,9 +16,14 @@ import java.util.ArrayList;
  */
 public class GameMenu extends Menu{
 	private final int YSTART = 185; //how far down the buttons should appear on the menu
+	Player currentPlayer;
+	List<Player> players;
+	Client cm;
 	
-	public GameMenu(GameCanvas cv){
+	public GameMenu(GameCanvas cv, Player currentPlayer, List<Player> players){
 		canvas = cv;
+		this.currentPlayer = currentPlayer;
+		this.players = players;
 		menuBack = GameCanvas.loadImage("menu.png");
 		menuX = (canvas.getWidth()/2) - (menuBack.getWidth(null)/2);
 		menuY = (canvas.getHeight()/2) - (menuBack.getHeight(null)/2); 
@@ -88,5 +98,35 @@ public class GameMenu extends Menu{
 		for(GameButton gb: gameButtons){
 			g.drawImage(gb.getImage(), gb.getX(), gb.getY(), null);
 		}
+	}
+	
+	private void startClient() {
+		try {
+			cm = new Client(43200, "127.0.0.1", currentPlayer);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}//Connect to the server. Change localhost to the actual host computer
+
+		players = cm.getPlayers();
+		for(Player p: players)
+		{
+			if(p.getID() == cm.getID())
+			{
+				currentPlayer = p;
+			}
+		}
+
+		System.out.println("Number of players = " + players.size());
+		
+	}
+
+	@Override
+	public Client getClient() {
+		startClient();
+		return cm;
 	}
 }

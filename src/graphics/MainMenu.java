@@ -31,6 +31,7 @@ public class MainMenu extends Menu{
 	
 	public MainMenu(GameCanvas cv, Player player, List<Player> players){
 		canvas = cv;
+		System.out.println("5 Player is at " + player.getLocation().x);
 		this.player = player;
 		this.players = players;
 		menuBack = GameCanvas.loadImage("main_menu.png");
@@ -76,10 +77,13 @@ public class MainMenu extends Menu{
 			canvas.showConfirmation(this, Action.QUIT, "Quit Game?");
 			break;
 		case "single":
-			canvas.setState(State.PLAYING);
-			Server s = new Server();
-			startClient();
+			//Server s = new Server();
 			canvas.initialize();
+			
+			//startClient();
+			canvas.setState(State.PLAYING);
+			System.out.println("reached");
+			System.out.println("-----------------------------------------------");
 			break;
 		case "multi":
 			action = Action.TEXT;
@@ -107,7 +111,7 @@ public class MainMenu extends Menu{
 	
 	private void startClient() {
 		try {
-			cm = new Client(43200, "localhost", player);
+			cm = new Client(43200, "127.0.0.1", player);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -170,7 +174,7 @@ public class MainMenu extends Menu{
 		}
 	}
 
-	@Override
+	
 	public Client getClient() {
 		return cm;
 	}

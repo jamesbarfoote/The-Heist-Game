@@ -12,6 +12,8 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
+import networking.Client;
+
 public class Inventory extends Dialogue{
 	public final String message;
 	public final int BUTTONSPACE = 35;
@@ -114,6 +116,12 @@ public class Inventory extends Dialogue{
 		g.setColor(Color.BLACK);
 		g.fillRect((int)box1.getMaxX(), box1.y, 2, box1.height);
 		g.drawImage(scrollBar, (int)box1.getMaxX() - scrollBar.getWidth(null)/2, (menuY + listY - 10) + startList*spaceDist, null);
+	}
+
+	@Override
+	public Client getClient() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

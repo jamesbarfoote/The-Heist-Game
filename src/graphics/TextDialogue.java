@@ -6,6 +6,8 @@ import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 
+import networking.Client;
+
 public class TextDialogue extends Dialogue{
 	private Menu listener;
 	private String message;
@@ -54,7 +56,7 @@ public class TextDialogue extends Dialogue{
 		}
 		else{
 			char c = e.getKeyChar();
-			if(!(Character.isLetter(c) || Character.isDigit(c))) return;
+			if(!(Character.isLetter(c) || Character.isDigit(c)  || c == '.')) return;
 			if(canvas.getGraphics().getFontMetrics().stringWidth(text + c) > LIMIT - 50) return;
 			text += c;
 		}
@@ -78,6 +80,12 @@ public class TextDialogue extends Dialogue{
 		g.fillRect(menuX + 55, menuY + 65, LIMIT, 20);
 		g.setColor(Color.BLACK);
 		g.drawString(text, menuX + 60, menuY + 80);
+	}
+
+	@Override
+	public Client getClient() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

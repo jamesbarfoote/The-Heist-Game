@@ -39,6 +39,7 @@ public class Client {
 
 	public Client(int port, String host, Player p) throws IOException, InterruptedException
 	{
+
 		this.port = port;
 		this.host = host;
 		this.currentPlayer = p;
@@ -46,6 +47,7 @@ public class Client {
 
 		try {
 			//client = new Socket(host, port); 43200
+			System.out.println("Host = " + host + " Port = " + port);
 			client = new Socket(host, port);
 			outputStream = new DataOutputStream(client.getOutputStream());
 			inputStream = new DataInputStream(client.getInputStream());
@@ -64,17 +66,6 @@ public class Client {
 		// Make connection and initialize streams
 		String serverAddress = getServerAddress();
 		System.out.println("Get serv add");
-
-//		byte[] a = toBytes(map);
-//		Object o = toObject(a); //works fine    
-//		//daten senden
-//		out.write(a);
-//		out.flush();
-		
-		
-		 
-	
-		
 		
 		//Main stuff
 		List<Player> temp2;
@@ -89,7 +80,7 @@ public class Client {
 		//temp2 = (List<Player>) inputStream.readObject();//get the arraylist for a single player
 		System.out.println("Got initial array. size = " + temp2.size());
 		ID = temp2.size();
-		currentPlayer.setID(ID);
+		this.currentPlayer.setID(ID);
 		players.add(currentPlayer);
 
 		run();
@@ -125,13 +116,6 @@ public class Client {
 	 * @throws InterruptedException 
 	 */
 	public void run() throws IOException, InterruptedException {
-		//System.out.println("Running");
-
-
-		// Process all messages from server, according to the protocol.
-		//	while (true) {
-		//System.out.println("Processing");
-
 
 		//send our player out
 		List<Player> temp = new CopyOnWriteArrayList<Player>();
@@ -140,13 +124,6 @@ public class Client {
 		outputStream.writeInt(bytes.length);
 		outputStream.write(bytes);
 		outputStream.flush();
-		//System.out.println("Sent players");
-		
-		//outputStream.writeObject(temp);
-//		System.out.println("Sent!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-//		System.out.println("Sent players to server. Size = " + players.size());
-
-//		Thread.sleep(200);
 
 		//Get players array
 		int size = inputStream.readInt();			 
@@ -154,13 +131,8 @@ public class Client {
 		inputStream.readFully(bytes2);
 		Object plays = toObject(bytes2);
 		players = (List<Player>) plays;
-	//	System.out.println("Got players");
-		//for(Player p: players){
-//System.out.println("Got array. X = " + p.getLocation().x);}
-		//Thread.sleep(2000);
 
 	}
-	//	}
 
 	public void setPlayer(Player player2) {
 		this.currentPlayer = player2;

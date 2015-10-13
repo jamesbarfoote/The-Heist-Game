@@ -88,15 +88,18 @@ public class GameCanvas extends Canvas{
 	
 	public GameCanvas(Dimension d, Player player, List<Player> players){
 		//this.cm = cm;
-		setSize(d);
-		setState(State.MENU);
+		
 		this.players = players;
 		//this.players.add(player);
 		//this.rows = tiles.length;
 		//this.columns = tiles.length;
 		this.players.add(player);
-		addToImages();
+		
 		this.currentPlayer = player;
+		addToImages();
+		setSize(d);
+		setState(State.MENU);
+		//initialize();
 	}
 	
 	public void initialize(){
@@ -132,6 +135,8 @@ public class GameCanvas extends Canvas{
 		
 		
 		this.tiles = data.getTiles();
+		boolean a = true;
+	
 		this.rows = data.getWidth();
 		this.columns = data.getHeight();
 		this.room = currentRoom;
@@ -283,15 +288,22 @@ public class GameCanvas extends Canvas{
 	
 	/**set the state of the game to playing or main menu**/
 	public void setState(State s){
+		//TODO
 		gameState = s;
 		if(s.equals(State.MENU)){
+			System.out.println("Menu 1");
 			gameMenu = new MainMenu(this, currentPlayer, players);
+//			
+			
 		}
 		else if(s.equals(State.PLAYING)){
 			menuUp = false;
 			inventory = null;
-			gameMenu = new GameMenu(this);
+			gameMenu = new GameMenu(this, currentPlayer, players);
 			cm = gameMenu.getClient();
+			System.out.println(cm.getID());
+			currentPlayer = cm.getPlayer();
+			
 		}
 		else if(s.equals(State.MULTI)){
 			//gameMenu = new Lobby(this);
