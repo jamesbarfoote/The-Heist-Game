@@ -46,7 +46,7 @@ import data.fileReader;
  */
 public class GameCanvas extends Canvas{
 	private static final long serialVersionUID = 1l;
-	public enum State{MENU, PLAYING, MULTI}
+	public enum State{MENU, PLAYING_SINGLE, PLAYING_MULTI, MULTI}
 	
 	private static final String IMAGE_PATH = "images" + File.separator + "menus" + File.separator; //path for locating images
 	private static final String ASSET_PATH = "res" + File.separator; //path for locating assets.
@@ -232,7 +232,7 @@ public class GameCanvas extends Canvas{
 	}
 	
 	public void showInventory(){
-		if(gameState.equals(State.PLAYING) && !menuUp){
+		if((gameState.equals(State.PLAYING_SINGLE) || gameState.equals(State.PLAYING_MULTI)) && !menuUp){
 			if(inventory == null){
 				inventory = new Inventory(this);
 			}
@@ -263,7 +263,7 @@ public class GameCanvas extends Canvas{
 		if(dialogue != null){
 			dialogue.mouseReleased(e);
 		}
-		else if(gameState.equals(State.PLAYING) && menuUp || gameState.equals(State.MENU) || gameState.equals(State.MULTI)){
+		else if((gameState.equals(State.PLAYING_SINGLE)|| gameState.equals(State.PLAYING_MULTI)) && menuUp || gameState.equals(State.MENU) || gameState.equals(State.MULTI)){
 			gameMenu.mouseReleased(e);				
 		}
 		else if(inventory != null){
@@ -276,7 +276,7 @@ public class GameCanvas extends Canvas{
 		if(dialogue != null){
 			dialogue.mouseMoved(p);
 		}
-		else if(gameState.equals(State.MENU) || gameState.equals(State.PLAYING) && menuUp || gameState.equals(State.MULTI)){
+		else if(gameState.equals(State.MENU) || (gameState.equals(State.PLAYING_SINGLE)|| gameState.equals(State.PLAYING_MULTI)) && menuUp || gameState.equals(State.MULTI)){
 			gameMenu.mouseMoved(p);
 		}
 		else if(inventory != null){
@@ -309,14 +309,19 @@ public class GameCanvas extends Canvas{
 			}			
 			
 		}
-		else if(s.equals(State.PLAYING)){
+		else if(s.equals(State.PLAYING_SINGLE)){
 			menuUp = false;
 			inventory = null;
 			gameMenu = new GameMenu(this, currentPlayer, players);
 			cm = gameMenu.getClient();
-			System.out.println(cm.getID());
 			currentPlayer = cm.getPlayer();
 			
+		}
+		else if(s.equals(State.PLAYING_MULTI))
+		{
+			menuUp = false;
+			inventory = null;
+			gameMenu = new GameMenu(this, currentPlayer, players);
 		}
 		else if(s.equals(State.MULTI)){
 			//gameMenu = new Lobby(this);
@@ -354,7 +359,7 @@ public class GameCanvas extends Canvas{
 		g.setColor(Color.BLACK);
 		g.fillRect(0, 0, getWidth(), getHeight());
 		
-		if(gameState.equals(State.PLAYING)){
+		if(gameState.equals(State.PLAYING_SINGLE) || gameState.equals(State.PLAYING_MULTI)){
 			Graphics2D g2 = (Graphics2D)g;
 			try {
 				drawRoom(g2);

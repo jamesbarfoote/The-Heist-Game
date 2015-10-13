@@ -77,18 +77,13 @@ public class MainMenu extends Menu{
 			canvas.showConfirmation(this, Action.QUIT, "Quit Game?");
 			break;
 		case "single":
-			Server myRunnable = new Server(); 
+			Server myRunnable = new Server(); //Start the server in a new thread
 			Thread myThread = new Thread(myRunnable);
-			myThread.setDaemon(true); // important, otherwise JVM does not exit at end of main()
+			myThread.setDaemon(true); 
 			myThread.start(); 
 
-			
-			canvas.initialize();
-			
-			//startClient();
-			canvas.setState(State.PLAYING);
-			System.out.println("reached");
-			System.out.println("-----------------------------------------------");
+			canvas.initialize(); //Initialize the room
+			canvas.setState(State.PLAYING_SINGLE);
 			break;
 		case "multi":
 			action = Action.IP;
@@ -113,12 +108,12 @@ public class MainMenu extends Menu{
 	
 
 	private void setupMultiplayer(String data) {
-		String host = "localhost";
+		String host = data;
 		Lobby l = new Lobby(canvas, player, players, host);
 		cm = l.getClient();
 		canvas.initialize();
 		
-		canvas.setState(State.MULTI);
+		canvas.setState(State.PLAYING_MULTI);
 	}
 
 	//confirm proposed action
