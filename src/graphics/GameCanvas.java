@@ -138,8 +138,6 @@ public class GameCanvas extends Canvas{
 		
 		
 		this.tiles = data.getTiles();
-		boolean a = true;
-	
 		this.rows = data.getWidth();
 		this.columns = data.getHeight();
 		this.room = currentRoom;
@@ -731,16 +729,19 @@ public class GameCanvas extends Canvas{
 		this.translateX = this.translateX + translation[0];
 		this.translateY = this.translateY + translation[1];
 		
-		for(int i = 1; i < this.players.size(); i++){
-			oldLocation = players.get(i).getLocation();
-			if(direction.equals("clockwise")){
-				newLocation = new Point((this.tiles[(int) oldLocation.getY()].length - 1 - (int) oldLocation.getY()), (int) oldLocation.getX());
+		//for(int i = 1; i < this.players.size(); i++){
+		for(Player player : this.players){
+			if(player.getID() != currentPlayer.getID()){
+				oldLocation = player.getLocation();
+				if(direction.equals("clockwise")){
+					newLocation = new Point((this.tiles[(int) oldLocation.getY()].length - 1 - (int) oldLocation.getY()), (int) oldLocation.getX());
+				}
+				else{
+					newLocation = new Point((int) oldLocation.getY(), this.tiles[(int) oldLocation.getX()].length - 1 - (int) oldLocation.getX());
+				}
+				player.setOldLocation(oldLocation);
+				player.setLocation(newLocation);
 			}
-			else{
-				newLocation = new Point((int) oldLocation.getY(), this.tiles[(int) oldLocation.getX()].length - 1 - (int) oldLocation.getX());
-			}
-			this.players.get(i).setOldLocation(oldLocation);
-			this.players.get(i).setLocation(newLocation);
 		}
 		
 		for(Item item : this.items){
