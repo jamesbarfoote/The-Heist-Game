@@ -25,15 +25,13 @@ public class MainMenu extends Menu{
 	public enum MenuState{MAIN, NEW, LOAD} //determines whether main menu is in default state, starting
 	//new game or loading one
 	private MenuState state;
-	Player player;
-	List<Player> players = new CopyOnWriteArrayList<Player>();
-	//Client cm;
 	
-	public MainMenu(GameCanvas cv, Player player, List<Player> players){
+	/**
+	 * 
+	 * @param cv The games canvas
+	 */
+	public MainMenu(GameCanvas cv){
 		canvas = cv;
-		System.out.println("5 Player is at " + player.getLocation().x);
-		this.player = player;
-		this.players = players;
 		menuBack = GameCanvas.loadImage("main_menu.png");
 		state = MenuState.MAIN;
 		menuX = (canvas.getWidth()/2) - (menuBack.getWidth(null)/2);
@@ -41,7 +39,9 @@ public class MainMenu extends Menu{
 		loadButtons();
 	}
 
-	//add buttons to the menu
+	/**
+	 * Add the buttons to the menu
+	 */
 	private void loadButtons(){
 		gameButtons = new ArrayList<GameButton>();
 		if(state.equals(MenuState.MAIN)){
@@ -87,7 +87,7 @@ public class MainMenu extends Menu{
 			break;
 		case "multi":
 			action = Action.IP;
-			canvas.showConfirmation(this, Action.IP,  "Enter IP Address");
+			canvas.showConfirmation(this, Action.IP,  "Enter IP Address");//Displayer the box to type IP into
 			break;
 		case "new":
 			state = MenuState.NEW;
@@ -106,13 +106,13 @@ public class MainMenu extends Menu{
 	}
 	
 	
-
+/**
+ * Sets up a multiplayer game and is passed the address of the server
+ * @param String IP address
+ */
 	private void setupMultiplayer(String data) {
 		canvas.setHost(data);
-		//Lobby l = new Lobby(canvas, player, players, host);
-		//cm = l.getClient();
-		canvas.initialize();
-		
+		canvas.initialize();		
 		canvas.setState(State.MULTI);
 	}
 

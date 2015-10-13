@@ -265,26 +265,44 @@ public class Player implements Serializable{
 		moneyHeld = moneyHeld - d;
 	}
 	
+	/**
+	 * 
+	 * @return The players id
+	 */
 	public int getID()
 	{
 		return ID;
 	}
 	
+	/**
+	 * Sets the players unique ID
+	 * @param i The new ID for the player
+	 */
 	public void setID(int i)
 	{
 		this.ID = i;
 	}
 	
+	/**
+	 * 
+	 * @return The players current score
+	 */
 	public int getScore()
 	{
 		return score;
 	}
 	
+	/**
+	 * @return The room the player is currently in
+	 */
 	public Room getRoom()
 	{
 		return room;
 	}
 	
+	/**
+	 * @return Weapon The weapon the player is currently holding
+	 */
 	public Weapon getWeapon()
 	{
 		return weapon;

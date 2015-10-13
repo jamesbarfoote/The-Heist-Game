@@ -12,13 +12,13 @@ import java.io.Serializable;
  */
 public class Weapon implements Serializable {
 
+	private static final long serialVersionUID = 2168163321139030636L;
 	private String weaponType;
 	private Player carrier; //The wielder of the weapon
 	private boolean isGun; //If it is a projectile weapon or not
 	
 	public Weapon(String weaponType, boolean isGun){
 		this.weaponType = weaponType;
-		this.carrier = carrier;
 		this.isGun = isGun;
 	}
 	

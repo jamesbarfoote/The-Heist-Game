@@ -55,23 +55,16 @@ public class Main extends JFrame implements KeyListener, MouseListener, MouseMot
 	private static final String ROTATE_ANTICLOCKWISE = "rotate anticlockwise";
 	private static final String INTERACT_WITH_OBJECT = "interact with object";
 	private static final String DROP_MONEY = "drop money";
-
-	//private Client cM;
-	Room currentRoom;
-	Player player;
-	Client cM;
+	private Player player; //The current player
 
 	public Main(){
 		super("The Heist");
 
 		//Create player
 		Player currentPlayer = new Player("Bob", new Weapon("Badass", true), 1, new Point(1,1), game.Player.Type.robber);
-		//Player player2 = new Player(new Weapon("Badass", true), 1, new Point(6,2), game.Player.Type.robber);
 		List<Player> players = new CopyOnWriteArrayList<Player>();
 		players.add(currentPlayer);
-		//players.add(player2);
 		this.player = currentPlayer;
-
 	
 		//Create canvas
 		setSize(getToolkit().getScreenSize());

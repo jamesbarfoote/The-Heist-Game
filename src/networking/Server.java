@@ -6,7 +6,6 @@ import java.io.IOException;
 import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.net.UnknownHostException;
 import java.util.HashSet;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
@@ -14,7 +13,7 @@ import java.util.concurrent.CopyOnWriteArrayList;
 import game.Player;
 
 /**
- * 
+ * The server for the game. Stores a list of all the players. Hands sending and receving them
  */
 public class Server implements Runnable {
 
@@ -26,34 +25,17 @@ public class Server implements Runnable {
 	/**
 	 * The set of all players 
 	 */
-	private static CopyOnWriteArrayList<Player> players = new CopyOnWriteArrayList<Player>();
+	private static List<Player> players = new CopyOnWriteArrayList<Player>();
 
 	/**
 	 * The set of all the output streams(clients).  This
-	 * set is kept so we can easily send out the updated players.
+	 * set is kept so we can easily send out the updated players list.
 	 */
 	private static HashSet<DataOutputStream> writers = new HashSet<DataOutputStream>();
 
-//	public Server() throws IOException
-//	{
-//		System.out.println("Server is running.");
-//
-//		InetAddress ip = InetAddress.getLocalHost();
-//		System.out.println("Current IP address : " + ip.getHostAddress());
-//
-//		ServerSocket listener = new ServerSocket(PORT);
-//		try {
-//			while (true) {
-//				new Handler(listener.accept()).start();
-//			}
-//		} finally {
-//			System.out.println("Listener closed");
-//			listener.close();
-//		}
-//	}
 
 	/**
-	 * listens on a port and spawns handler threads.
+	 * listens on a port and creates handler threads.
 	 */
 	public static void main(String[] args) throws Exception {
 		System.out.println("Server is running.");
@@ -73,9 +55,9 @@ public class Server implements Runnable {
 	}
 
 	/**
-	 * A handler thread class.  Handlers are spawned from the listening
+	 * A handler thread class.  Handlers are created from the listening
 	 * loop and are responsible for a dealing with a single client
-	 * and broadcasting its messages.
+	 * and broadcasting its player.
 	 */
 	private static class Handler extends Thread {
 		private Player player;
@@ -84,39 +66,34 @@ public class Server implements Runnable {
 		private DataOutputStream out;
 
 		/**
-		 * Constructs a handler thread,
+		 * Constructs a handler thread
+		 * @param The socket connected to a single client
 		 * */
 		public Handler(Socket socket) {
-			System.out.println("New handler created");
 			this.socket = socket;
 			System.out.println(socket.getLocalSocketAddress());
 			System.out.println(socket.getRemoteSocketAddress());
-
-			//Player player2 = new Player(new Weapon("Laser", true), 2, new Point(8,2), game.Player.Type.robber);
-			//players.add(player2);
 		}
 
-
+		/**
+		* The main method for the server
+		*/
+		@SuppressWarnings("unchecked")
 		public void run() {
 			try {
 
-				// Create character streams for the socket.
+				// Create the streams for the socket.
 				in = new DataInputStream(socket.getInputStream());
 				out = new DataOutputStream(socket.getOutputStream());
 				List<Player> temp = new CopyOnWriteArrayList<Player>();
 
-				// Request a name from this client.  Keep requesting until
-				// a name is submitted that is not already used.  Note that
-				// checking for the existence of a name and adding the name
-				// must be done while locking the set of names.
+				//Main loop
 				while (true) {
 					//Send out the whole arraylist to the client
 					byte[] bytes = toBytes(players);
 					out.writeInt(bytes.length);
 					out.write(bytes);
 					out.flush();
-
-					//out.writeUnshared(players);
 
 					//Get player
 					int size2 = in.readInt();			 
@@ -125,10 +102,10 @@ public class Server implements Runnable {
 					Object plays = toObject(bytes2);
 					temp = (List<Player>) plays;
 
-					//temp = (List<Player>) in.readObject();//get the arraylist for a single player
-					//System.out.println("Got player from client. Weapon = " + temp.get(0).getWeapon().getWeaponType());
-
+					//Only alter the list of players when another thread isn't
 					synchronized (players) {
+						//If the player is already in the list of players then remove it and add the new one
+						//this avoid having duplicated players
 						if (players.contains(temp.get(0))) {
 							players.remove(temp.get(0));
 							players.add(temp.get(0));
@@ -137,6 +114,7 @@ public class Server implements Runnable {
 						}
 						else
 						{
+							//Add the player straight to the list as its isn't in the list yet
 							players.add(temp.get(0));
 							player = temp.get(0);
 							break;
@@ -144,74 +122,48 @@ public class Server implements Runnable {
 					}
 				}
 
-				// Now that a successful name has been chosen, add the
-				// socket's print writer to the set of all writers so
-				// this client can receive broadcast messages.
-				int i = 0;
-
 				List<Player> temp3 = new CopyOnWriteArrayList<Player>();
 				temp3 = players;
-				//out.reset();
 				byte[] bytes3 = toBytes(temp3);
 				out.writeInt(bytes3.length);
 				out.write(bytes3);
 				out.flush();
-				//out.writeUnshared(temp3);
 				writers.add(out);
 
 				// Accept messages from this client and broadcast them.
 				// Ignore other clients that cannot be broadcasted to.
 				while (true) {
 
-					for(Player p: players)
-					{
-						System.out.println("Player " + " is at " + p.getLocation().x);
-						//i++;
-					}
 					List<Player> temp2 = new CopyOnWriteArrayList<Player>();
-					//InputStream inputStream2 = new ObjectInputStream(socket.getInputStream());
-					//in.reset();
-
 					int size2 = in.readInt();			 
 					byte[] bytes2 = new byte[size2];			 
 					in.readFully(bytes2);
 					Object plays = toObject(bytes2);
 					temp2 = (List<Player>) plays;
-
-					//temp2 = (List<Player>) in.readObject();//get the arraylist for a single player
-					//System.out.println(temp2.get(0).getLocation().x);
-
-					//Find player is the list of player and add them
-					//Player playerToRemove = null;
-					synchronized (players) {
+					
+					synchronized (players) {//Make sure no other thread is currently trying to modify players
 						for(Player p: players)
 						{
 							if(p.getID() == temp2.get(0).getID())
 							{
-								//playerToRemove = p;
 								players.remove(p);//Remove player
 								players.add(temp2.get(0));//Replace player
 							}
 						}
 					}
-					//players.remove(playerToRemove);
 
-
-					//out.reset();
-					for (DataOutputStream writer : writers) {//Send out the revised array list to all players
+					for (@SuppressWarnings("unused") DataOutputStream writer : writers) {//Send out the revised list to all players
 						byte[] bytes4 = toBytes(players);
 						out.writeInt(bytes4.length);
 						out.write(bytes4);
 						out.flush();
-						//writer.writeUnshared(players);
 
 					}
 				}
 			} catch (IOException e) {
 				System.out.println(e);
 			} finally {
-				// This client is going down!  Remove its name and its print
-				// writer from the sets, and close its socket.
+				// Client is closing so remove it from the writer set and close the socket
 				if (player != null) {
 					players.remove(player);
 					System.out.println("PLayer removed");
@@ -229,6 +181,11 @@ public class Server implements Runnable {
 		}
 
 
+		/**
+		 * Converts the list of players to a byte array
+		 * @param object. List of all players
+		 * @return array of bytes
+		 */
 		public static byte[] toBytes(Object object){
 			java.io.ByteArrayOutputStream baos = new java.io.ByteArrayOutputStream();
 			try{
@@ -241,6 +198,11 @@ public class Server implements Runnable {
 			return baos.toByteArray();
 		} 
 
+		/**
+		 * Converts an array of bytes to a list of players
+		 * @param bytes
+		 * @return Object
+		 */
 		public static Object toObject(byte[] bytes){
 			Object object = null;
 			try{
@@ -262,7 +224,7 @@ public class Server implements Runnable {
 		try {
 			main(null);
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
+			System.out.println("Couldn't run the server");
 			e.printStackTrace();
 		}
 		

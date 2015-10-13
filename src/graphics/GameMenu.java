@@ -12,14 +12,20 @@ import networking.Client;
 
 /**
  * Represents an in game menu which opens when escape is pressed to give the player options
- * @author godfreya
+ * @author godfreya, james.barfoote
  */
 public class GameMenu extends Menu{
 	private final int YSTART = 185; //how far down the buttons should appear on the menu
-	Player currentPlayer;
-	List<Player> players;
-	Client cm;
+	private Player currentPlayer;
+	private List<Player> players;
+	private Client cm;
 	
+	/**
+	 * 
+	 * @param GameCanvas
+	 * @param currentPlayer
+	 * @param players List
+	 */
 	public GameMenu(GameCanvas cv, Player currentPlayer, List<Player> players){
 		canvas = cv;
 		this.currentPlayer = currentPlayer;
@@ -100,6 +106,9 @@ public class GameMenu extends Menu{
 		}
 	}
 	
+	/**
+	 * Creates and starts the client
+	 */
 	private void startClient() {
 		try {
 			cm = new Client(43200, "127.0.0.1", currentPlayer);

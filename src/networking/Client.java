@@ -11,20 +11,8 @@ import java.util.concurrent.CopyOnWriteArrayList;
 import game.Player;
 
 /**
- * A simple Swing-based client for the chat server.  Graphically
- * it is a frame with a text field for entering messages and a
- * textarea to see the whole dialog.
- *
- * The client follows the Chat Protocol which is as follows.
- * When the server sends "SUBMITNAME" the client replies with the
- * desired screen name.  The server will keep sending "SUBMITNAME"
- * requests as long as the client submits screen names that are
- * already in use.  When the server sends a line beginning
- * with "NAMEACCEPTED" the client is now allowed to start
- * sending the server arbitrary strings to be broadcast to all
- * chatters connected to the server.  When the server sends a
- * line beginning with "MESSAGE " then all characters following
- * this string should be displayed in its message area.
+ * A simple client that connects to a server. Sends and receives updated player information
+ * @author james.barfoote
  */
 public class Client {
 
@@ -37,75 +25,77 @@ public class Client {
 	private Socket client;
 	private int ID;
 
+	/**
+	 * Sets up and starts a connection to the server
+	 * @param port the server is listening to
+	 * @param host Address of the server
+	 * @param currentPlayer
+	 * @throws IOException
+	 * @throws InterruptedException
+	 */
+	@SuppressWarnings("unchecked")
 	public Client(int port, String host, Player p) throws IOException, InterruptedException
 	{
 
 		this.port = port;
 		this.host = host;
 		this.currentPlayer = p;
-		players = new CopyOnWriteArrayList<Player>();
+		players = new CopyOnWriteArrayList<Player>(); //This type is used to avoid concurrent modifications
 
 		try {
-			//client = new Socket(host, port); 43200
 			System.out.println("Host = " + host + " Port = " + port);
-			client = new Socket(host, port);
+			client = new Socket(host, port);//Create a new connection to the server
 			outputStream = new DataOutputStream(client.getOutputStream());
 			inputStream = new DataInputStream(client.getInputStream());
 
 			System.out.println(client.getLocalSocketAddress());
 			System.out.println(client.getRemoteSocketAddress());
 		} catch (UnknownHostException e) {
-			// TODO Auto-generated catch block
+			System.out.println(e);
 			e.printStackTrace();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
+			System.out.println(e);
 			e.printStackTrace();
-		}//Connect to the specified computer
+		}
 
-
-		// Make connection and initialize streams
-		String serverAddress = getServerAddress();
-		System.out.println("Get serv add");
-		
-		//Main stuff
+		//Main stuff. Sending and receiving
 		List<Player> temp2;
-
-		System.out.println("in");
-		int size = inputStream.readInt();			 
-		byte[] bytes = new byte[size];			 
-		inputStream.readFully(bytes);
-		Object plays = toObject(bytes);
+		int size = inputStream.readInt();	//Get the size of the array that follows		 
+		byte[] bytes = new byte[size];		//Create a new array of the correct size	 
+		inputStream.readFully(bytes);		//Dont stop reading till the array is full (this way we dont lose any data)
+		Object plays = toObject(bytes);		//Convert the byte array to a List of players
 		temp2 = (List<Player>) plays;
 
-		//temp2 = (List<Player>) inputStream.readObject();//get the arraylist for a single player
-		System.out.println("Got initial array. size = " + temp2.size());
+		//Set the current players ID based on how big the list of players is
 		ID = temp2.size();
 		this.currentPlayer.setID(ID);
 		players.add(currentPlayer);
 
+		//Run the main thread that deals with the constant sending and receiving between server and client
 		run();
 
 	}
 
 	/**
-	 * Prompt for and return the address of the server.
+	 * 
+	 * @return Current Players ID
 	 */
-	private String getServerAddress() {
-		return "localhost";
-	}
-
 	public int getID()
 	{
 		return ID;
 	}
 
 	/**
-	 * return the desired player.
+	 * @return the current player.
 	 */
 	public Player getPlayer() {
 		return currentPlayer;
 	}
 
+	/**
+	 * 
+	 * @return List of all players
+	 */
 	public List<Player> getPlayers()
 	{
 		return players;
@@ -115,15 +105,16 @@ public class Client {
 	 * Connects to the server then enters the processing loop.
 	 * @throws InterruptedException 
 	 */
+	@SuppressWarnings("unchecked")
 	public void run() throws IOException, InterruptedException {
 
 		//send our player out
 		List<Player> temp = new CopyOnWriteArrayList<Player>();
 		temp.add(currentPlayer);
 		byte[] bytes = toBytes(temp);
-		outputStream.writeInt(bytes.length);
+		outputStream.writeInt(bytes.length);//Send the length of the array
 		outputStream.write(bytes);
-		outputStream.flush();
+		outputStream.flush(); //Clear the stream
 
 		//Get players array
 		int size = inputStream.readInt();			 
@@ -134,12 +125,21 @@ public class Client {
 
 	}
 
-	public void setPlayer(Player player2) {
-		this.currentPlayer = player2;
+	/**
+	 * Sets the current player
+	 * @param player
+	 */
+	public void setPlayer(Player player) {
+		this.currentPlayer = player;
 
 	}
 	
-	public static byte[] toBytes(Object object){
+	/**
+	 * Converts a list of players to an array of bytes
+	 * @param List<Player>
+	 * @return Array of bytes
+	 */
+	public static byte[] toBytes(List<Player> object){
 	    java.io.ByteArrayOutputStream baos = new java.io.ByteArrayOutputStream();
 	    try{
 	        java.io.ObjectOutputStream oos = new java.io.ObjectOutputStream(baos);
@@ -151,6 +151,11 @@ public class Client {
 	    return baos.toByteArray();
 	} 
 	 
+	/**
+	 * Converts a byte array back to a list of players
+	 * @param bytes
+	 * @return List<Player>
+	 */
 	public static Object toObject(byte[] bytes){
 	    Object object = null;
 	    try{
@@ -163,12 +168,4 @@ public class Client {
 	    }
 	    return object;
 	}
-
-	/**
-	 * Runs the client as an application with a closeable frame.
-	 */
-	//	public static void main(String[] args) throws Exception {
-	//		Client client = new Client();
-	//		client.run();
-	//	}
 }

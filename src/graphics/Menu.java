@@ -22,7 +22,5 @@ public abstract class Menu extends Dialogue{
 	 * for setting the game button coordinates for drawing and selecting purposes
 	 */
 	protected abstract void setButtonCoordinates();
-	
-	public abstract Client getClient();
 
 }

@@ -8,8 +8,6 @@ import game.items.Desk;
 import game.items.InteractableItem;
 import game.items.Item;
 import game.items.Safe;
-//import networking.Client;
-import game.items.Weapon;
 import networking.Client;
 
 import graphics.Menu.Action;
@@ -58,28 +56,26 @@ public class GameCanvas extends Canvas{
 	private Inventory inventory;	//window for observing player inventory
 	public static final Image logo = loadImage("title.png");
 	public static final Font textFont = new Font("TimesRoman", Font.PLAIN, 18); //font to be used for text in game
-	private static final int PI = 0;
 	private TimerThread timer;	//timer for games
 	private long timerSeconds;	//seconds left on timer
 	public final int TIMELIMIT = 300; //time to complete mission
 	
 	//-----------------------------new-------------------------------//
 	private AffineTransform at;
-	String[][] tiles;
-	Room room;
-	List<Player> players = new CopyOnWriteArrayList<Player>();
-	ArrayList<Item> items = new ArrayList<Item>();
-	ArrayList<Door> doors = new ArrayList<Door>();
-	private int width, height, rows, columns;
+	private String[][] tiles;
+	private List<Player> players = new CopyOnWriteArrayList<Player>();
+	private ArrayList<Item> items = new ArrayList<Item>();
+	private ArrayList<Door> doors = new ArrayList<Door>();
+	private int width, height, columns;
 	private Client cm;
 	private Player currentPlayer;
 	private String host = "localhost";
 	
-	double translateX, translateY;
-	double zoom;
-	int zooming = 0;	//0 = Not zooming, 1 = zooming in, 2 = zooming out
+	private double translateX, translateY;
+	private double zoom;
+	private int zooming = 0;	//0 = Not zooming, 1 = zooming in, 2 = zooming out
 	private String[] directions = {"N", "E", "S", "W"};
-	int direction = 0;
+	private int direction = 0;
 	private HashMap<String, BufferedImage> images = new HashMap<String, BufferedImage>();
 	
 	/*
@@ -90,31 +86,27 @@ public class GameCanvas extends Canvas{
 	
 	//-------------------------------------------------------------------//
 	
+	/**
+	 * 
+	 * @param Dimension of the canvas
+	 * @param player
+	 * @param players
+	 */
 	public GameCanvas(Dimension d, Player player, List<Player> players){
-		//this.cm = cm;
-		
 		this.players = players;
-		//this.players.add(player);
-		//this.rows = tiles.length;
-		//this.columns = tiles.length;
-		this.players.add(player);
-		
+		this.players.add(player);		
 		this.currentPlayer = player;
 		addToImages();
 		setSize(d);
 		setState(State.MENU);
-		//initialize();
 	}
 	
+	/**
+	 * Sets up everything in the room
+	 */
 	public void initialize(){
-		this.currentPlayer.setLocation(new Point(1, 1));
-//		Player player2 = new Player(new Weapon("Badass", true), 1, new Point(6,2), game.Player.Type.robber);
-//		ArrayList<Player> players = new ArrayList<Player>();
-//		players.add(this.currentPlayer);
-//		players.add(player2);
-		
-		fileReader data = new fileReader("6");
-		
+		this.currentPlayer.setLocation(new Point(1, 1));		
+		fileReader data = new fileReader("6");		
 		Room currentRoom = new Room("testRoom", data.getWidth(), data.getHeight(), players);
 		
 		Money money = new Money(1000000, new Point(2, 4));
@@ -135,13 +127,10 @@ public class GameCanvas extends Canvas{
 		currentRoom.addDoor(new Door(false, new Point(13,6), null));
 		currentRoom.addDoor(new Door(false, new Point(11,14), null));
 		currentRoom.addDoor(new Door(false, new Point(9,19), null));
-		currentRoom.addDoor(new Door(false, new Point(18,12), null));
-		
+		currentRoom.addDoor(new Door(false, new Point(18,12), null));		
 		
 		this.tiles = data.getTiles();
-		this.rows = data.getWidth();
 		this.columns = data.getHeight();
-		this.room = currentRoom;
 		this.players = currentRoom.getPlayers();
 		this.zoom = 80;
 		this.items = currentRoom.getItems();
@@ -169,6 +158,10 @@ public class GameCanvas extends Canvas{
 		}
 	}
 	
+	/**
+	 * Get a list of all the file names of all the assets
+	 * @return ArrayList<String> 
+	 */
 	private ArrayList<String> addToFilenames(){
 		ArrayList<String> filenames = new ArrayList<String>();
 		
@@ -187,6 +180,11 @@ public class GameCanvas extends Canvas{
 		return filenames;
 	}
 	
+	/**
+	 * Get the dimensions of the canvas
+	 * @param width
+	 * @param height
+	 */
 	public void setDimension(int width, int height){
 		this.width = width;
 		this.height = height;
@@ -232,6 +230,9 @@ public class GameCanvas extends Canvas{
 		dialogue = null;
 	}
 	
+	/**
+	 * Display the players inventory
+	 */
 	public void showInventory(){
 		if((gameState.equals(State.PLAYING_SINGLE) || gameState.equals(State.PLAYING_MULTI)) && !menuUp){
 			if(inventory == null){
@@ -294,11 +295,10 @@ public class GameCanvas extends Canvas{
 	
 	/**set the state of the game to playing or main menu**/
 	public void setState(State s){
-		//TODO
 		gameState = s;
 		if(s.equals(State.MENU)){
 			System.out.println("Menu 1");
-			gameMenu = new MainMenu(this, currentPlayer, players);
+			gameMenu = new MainMenu(this);
 			if (timer != null) {
 				timer.terminate();
 			try{
@@ -310,22 +310,22 @@ public class GameCanvas extends Canvas{
 			}			
 			
 		}
-		else if(s.equals(State.PLAYING_SINGLE)){
+		else if(s.equals(State.PLAYING_SINGLE)){ //Playing in single player mode
 			menuUp = false;
 			inventory = null;
 			gameMenu = new GameMenu(this, currentPlayer, players);
-			cm = gameMenu.getClient();
-			currentPlayer = cm.getPlayer();
+			cm = gameMenu.getClient(); //Get the client that was created
+			currentPlayer = cm.getPlayer(); //Update the player
 			
 		}
-		else if(s.equals(State.PLAYING_MULTI))
+		else if(s.equals(State.PLAYING_MULTI)) //Playing in multiplayer mode
 		{
 			menuUp = false;
 			inventory = null;
 			gameMenu = new GameMenu(this, currentPlayer, players);
 		}
 		else if(s.equals(State.MULTI)){
-			gameMenu = new Lobby(this, currentPlayer, players, this.host);
+			gameMenu = new Lobby(this, currentPlayer, players, this.host);//Create a new game lobby
 		}
 	}
 	
@@ -333,6 +333,10 @@ public class GameCanvas extends Canvas{
 		timerSeconds -= 5;
 	}
 	
+	/**
+	 * Draw the on-screen overlays such as timer
+	 * @param graphics
+	 */
 	private void drawHUD(Graphics g){
 		//draw timer
 		int minutes;
@@ -551,28 +555,16 @@ public class GameCanvas extends Canvas{
 	}
 	
 	private void drawIcons(Graphics2D g, Point point){		
-//		Draw the player(s)	
-//		for(Player p: players)
-//		{
-//			if(p.getID() == cm.getID())//Get the current player
-//			{
-//				cm.setPlayer(p);//update the current plater in the client
-//		//		System.out.println(p.getLocation().x);
-//			}
-//		}
-//		cm.update(); //Tell the server the player has changed and to send it out
 		
-		
-		for(Player p: players)
+		for(Player p: players)//Find the current player in the list and update the local player with it
 		{
-
 			if(p.getID() == cm.getID())//Get the current player
 			{
 				cm.setPlayer(p);//update the current plater in the client
-		//		System.out.println(p.getLocation().x);
 			}
 		}
-		//cm.update(); //Tell the server the player has changed and to send it out
+
+		//Call the main client loop. This fetches and sends the latest player information
 		try {
 			cm.run();
 		} catch (IOException e1) {
@@ -582,10 +574,10 @@ public class GameCanvas extends Canvas{
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
-		List<Player> temp4 = new CopyOnWriteArrayList<Player>();
-		temp4 = cm.getPlayers();
+		List<Player> temp = new CopyOnWriteArrayList<Player>();
+		temp = cm.getPlayers(); //Put the updated players into a tempory aray
 		
-		for(Player p: players)
+		for(Player p: players)//Remove all players execpt current player from the list of players
 		{
 			if(p.getID() != cm.getID())
 			{
@@ -593,34 +585,25 @@ public class GameCanvas extends Canvas{
 			}
 		}
 
-		for(Player p: temp4)
+		for(Player p: temp)//Add back in the updated players (except for the current player)
 		{
-			//System.out.println("Player has weapon ID = " + p.getID() + p.getWeapon().getWeaponType() + " and is at " + p.getLocation().x);
 			if(p.getID() != cm.getID())
 			{
 				players.add(p);
 			}
 				
 		}
-
-		//System.out.println("Got updated players");
-		//players = cm.getPlayers();
 		
 		for(Player p: players)//set the current player
 		{
 			if(p.getID() == cm.getID())
 			{
 				this.currentPlayer = p;
-			//	System.out.println("Current player set");
 			}
 		}
 		
-		//players = temp4;
-		
-		
-		//players = cm.getPlayers();
+		//Draw all the player onto the screen
 		for(Player player : this.players){
-		//	System.out.println("Drawing player at: " + player.getLocation().x);
 			Point location = player.getLocation();
 			if(location.equals(point)){
 				BufferedImage asset = this.images.get(player.getDirection() + "_player_1.png");
@@ -820,31 +803,60 @@ public class GameCanvas extends Canvas{
 		}
 	}
 	
+	//-------------------------------------------Getters and setters-----------------------------\\
+	
+	/**
+	 * 
+	 * @return 2D array is tiles
+	 */
 	public String[][] getTiles(){
 		return this.tiles;
 	}
 	
+	/**
+	 * @return List of players
+	 */
 	public List<Player> getPlayers(){
 		return this.players;
 	}
 	
+	/**
+	 * Returns all the items in the room
+	 * @return all the items
+	 */
 	public ArrayList<Item> getItems(){
 		return items;
 	}
 	
+	/**
+	 * Returns a list of all the doors
+	 * @return List of Doors
+	 */
 	public ArrayList<Door> getDoors(){
 		return doors;
 	}
 
+	/**
+	 * Sets the address of the server we want to connect to
+	 * @param String serverAddress
+	 */
 	public void setHost(String data) {
 		this.host = data;		
 	}
 	
+	/**
+	 * Sets the current player
+	 * @param player
+	 */
 	public void setCurrentPlayer(Player p)
 	{
 		currentPlayer = p;
 	}
 	
+	/**
+	 * Sets the client
+	 * @param Client
+	 */
 	public void setClient(Client c)
 	{
 		cm = c;
