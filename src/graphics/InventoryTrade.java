@@ -69,7 +69,7 @@ public class InventoryTrade extends Inventory{
 	
 	private boolean selectSwap(MouseEvent e){
 		if(e.getX() > box1.x && e.getX() < box1.getMaxX()){
-			int y = box1.y + 12;
+			int y = box1.y;
 			for(int i = 0; i < (MAXDISPLAY < items1.size() ? MAXDISPLAY : items1.size()); i++){
 				if(e.getY() >= y && e.getY() < y + 25){
 					makeSwap(i, 1);
@@ -79,7 +79,7 @@ public class InventoryTrade extends Inventory{
 			}
 		}
 		if(e.getX() > box2.x && e.getX() < box2.getMaxX()){
-			int y = box2.y + 12;
+			int y = box2.y;
 			for(int i = 0; i < (MAXDISPLAY < items2.size() ? MAXDISPLAY : items2.size()); i++){
 				if(e.getY() >= y && e.getY() < y + 25){
 					makeSwap(i, 2);
