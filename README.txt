@@ -23,13 +23,17 @@ Move player rigth:	Right arrow/ S
 Rotate world clockwise:	Q
 Rotate world clockwise:	E
 
-Interacte w/ ojbects:	P
+Interact w/ ojbects:	P
 Open inventory:		I
 Drop item:		B
 
 
 The objective of the game is to collect as much money as possible
 before the clock runs out ! So much fun!!
+To open a safe you'll need to find the conbination in a desk.
+To pick up items you need to Interact with the items (P) and add them to your inventory.
+To unlock the door, you'll need to find a key. Once you get to the locked door Interact with it (P)
+to unlock it, it will remain unlocked.
 
 Note: Please load the project into Eclipse to run
 Note: Save works, but you can't load.
