@@ -39,6 +39,7 @@ public class TextDialogue extends Dialogue{
 			return;
 		}
 		if(button.equals("yes")){
+			if(text.length() < 1 || text.equals(" ")) return;
 			listener.accept(text); //action confirmed
 			return;
 		}
