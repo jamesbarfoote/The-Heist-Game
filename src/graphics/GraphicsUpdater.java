@@ -7,7 +7,7 @@ package graphics;
  */
 public class GraphicsUpdater extends Thread{
 	private GameCanvas display;
-	private final int DELAY = 15; //delay between updates
+	private final int DELAY = 200; //delay between updates
 	
 	public GraphicsUpdater(GameCanvas cv){
 		display = cv;

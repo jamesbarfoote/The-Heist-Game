@@ -76,7 +76,7 @@ public class GameCanvas extends Canvas{
 	private String host = "localhost";
 	
 	private double translateX, translateY;
-	private double zoom = 60;
+	private double zoom = 200;
 	private int zooming = 0;	//0 = Not zooming, 1 = zooming in, 2 = zooming out
 	private String[] directions = {"N", "E", "S", "W"};
 	private int direction = 0;
@@ -111,7 +111,7 @@ public class GameCanvas extends Canvas{
 	 * Sets up everything in the room
 	 */
 	public void initialize(){
-		this.currentPlayer.setLocation(new Point(1, 1));		
+		this.currentPlayer.setLocation(new Point(5, 20));		
 		fileReader data = new fileReader("10");		
 		Room currentRoom = new Room("testRoom", data.getWidth(), data.getHeight(), players);
 		
