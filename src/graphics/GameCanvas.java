@@ -117,6 +117,7 @@ public class GameCanvas extends Canvas{
 		Map<String, Integer> deskItems = new HashMap<String, Integer>();
 		//deskItems.add(money);
 		deskItems.put("Brown Fluid", 16);
+		deskItems.put("Anchor", 10);
 		currentRoom.addItem(money);
 		currentRoom.addItem(money2);
 		currentRoom.addItem(money3);
