@@ -135,23 +135,23 @@ public class Player implements Serializable{
 	 * Removes the items from the container
 	 * @param c
 	 */
-	public void lootContainer(Container c, GameCanvas canvas){
-		if(c instanceof Safe){
-			Safe s = (Safe) c;
-			if(!s.isLocked()){
-				if(s.getMoney() != 0){ moneyHeld += s.getMoney(); } //Increments the players money by the amount in the safe
-				c.containerLooted(); //Sets the safe to empty
+	public void lootContainer(Container contain, GameCanvas canvas){
+		if(contain instanceof Safe){
+			Safe safe = (Safe) contain;
+			if(!safe.isLocked()){
+				if(safe.getMoney() != 0){ moneyHeld += safe.getMoney(); } //Increments the players money by the amount in the safe
+				contain.containerLooted(); //Sets the safe to empty
 			}
 			else{
-				if(attemptSafeUnlock(s)){
-					if(s.getMoney() != 0){ moneyHeld += s.getMoney(); } //Increments the players money by the amount in the safe
-					c = s; //Sets the container as the unlocked safe
-					c.containerLooted(); //Sets the safe to empty
+				if(attemptSafeUnlock(safe)){
+					if(safe.getMoney() != 0){ moneyHeld += safe.getMoney(); } //Increments the players money by the amount in the safe
+					contain = safe; //Sets the container as the unlocked safe
+					contain.containerLooted(); //Sets the safe to empty
 				}
 			}
 		}
 		else{
-			Desk d = (Desk) c;
+			Desk d = (Desk) contain;
 
 			//Open the Inventory Trading screen for looting the desk
 			canvas.openTrade(d);
