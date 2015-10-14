@@ -17,9 +17,9 @@ import java.util.concurrent.CopyOnWriteArrayList;
 public class Room implements Serializable{
 //Stores the locations of all the objects that need to be drawn
 //Canvas calls this class and asks it to draw itself
-	
+
 	/**
-	 * 
+	 *
 	 */
 	private static final long serialVersionUID = 1L;
 	private String roomName;
@@ -116,10 +116,18 @@ public class Room implements Serializable{
 	public void setPlayers(List<Player> players){
 		this.players = players;
 	}
-	
+
 	public void setCurrentPlayer(Player p)
 	{
 		this.currentPlayer = p;
+	}
+
+	public void setItems(ArrayList<Item> items){
+		itemsInRoom = items;
+	}
+
+	public void setDoors(ArrayList<Door> doors){
+		roomDoors = doors;
 	}
 }
 
