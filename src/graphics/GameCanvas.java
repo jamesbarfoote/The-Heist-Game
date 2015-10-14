@@ -60,7 +60,7 @@ public class GameCanvas extends Canvas{
 	public static final Font textFont = new Font("TimesRoman", Font.PLAIN, 18); //font to be used for text in game
 	private TimerThread timer;	//timer for games
 	private int timerSeconds;	//seconds left on timer
-	public final int TIMELIMIT = 300; //time to complete mission
+	public final int TIMELIMIT = 180; //time to complete mission
 	
 	//-----------------------------new-------------------------------//
 	private AffineTransform at;
