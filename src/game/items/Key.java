@@ -1,12 +1,17 @@
 package game.items;
 
 import java.awt.Point;
+import java.io.Serializable;
 
 import game.Door;
 import game.Room;
 
-public class Key extends InteractableItem{
+public class Key extends InteractableItem implements Serializable{
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private Door opens;
 	private Container containedIn;
 	private Point position;

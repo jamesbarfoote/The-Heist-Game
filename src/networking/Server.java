@@ -102,6 +102,7 @@ public class Server implements Runnable {
 				while (true) {
 					//Send out the room to the client
 					byte[] bytes = toBytes(room);
+					System.out.println("Length of bytes array = " + bytes.length);
 					out.writeInt(bytes.length);
 					out.write(bytes);
 					out.flush();
@@ -149,14 +150,14 @@ public class Server implements Runnable {
 				// Ignore other clients that cannot be broadcasted to.
 				while (true) {
 					List<Player> temp2 = new CopyOnWriteArrayList<Player>();
-					int size2 = in.readInt();			 
+					int size2 = in.readInt();	
 					byte[] bytes2 = new byte[size2];			 
 					in.readFully(bytes2);
 					Room tempRoom = (Room) toObject(bytes2);
-					synchronized(room)
-					{
+					//synchronized(room)
+					//{
 						room = (Room) tempRoom;
-					}
+					//}
 					
 					temp2 = tempRoom.getPlayers();
 					

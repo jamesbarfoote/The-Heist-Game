@@ -4,9 +4,14 @@ import game.items.InteractableItem;
 import game.items.Key;
 
 import java.awt.Point;
+import java.io.Serializable;
 
-public class Door{
+public class Door implements Serializable{
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	//private Room room1;
 	//private Room room2;
 	//private Point room1Entry; //The Room 1 tile the door is on

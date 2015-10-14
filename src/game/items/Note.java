@@ -1,11 +1,16 @@
 package game.items;
 
 import java.awt.Point;
+import java.io.Serializable;
 
 import game.Room;
 
-public class Note extends InteractableItem{
+public class Note extends InteractableItem implements Serializable{
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private String name; //Name of the note in inventory and game dialog
 	private String text; //The message written on the note
 	private Safe safeForCombo; //The safe the combination refers to, if applicable

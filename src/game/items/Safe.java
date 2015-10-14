@@ -1,12 +1,15 @@
 package game.items;
 
 import java.awt.Point;
-import java.util.ArrayList;
-import java.util.Map;
+import java.io.Serializable;
 import java.util.Random;
 
-public class Safe extends Container{
+public class Safe extends Container implements Serializable{
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private int[] combination;
 	private boolean locked;
 	String filename = "_obj_floorSafe.png";
