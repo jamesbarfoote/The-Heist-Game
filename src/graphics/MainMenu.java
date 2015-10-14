@@ -95,7 +95,18 @@ public class MainMenu extends Menu{
 			break;
 		case "load":
 			state = MenuState.LOAD;
-			canvas.showConfirmation(this, Action.LOAD, "Enter file name", null);
+			//canvas.showConfirmation(this, Action.LOAD, "Enter file name", null);
+						//canvas.showConfirmation(this, Action.LOAD, "Enter file name", null);
+			Room loadedRoom = data.Load.loadFromXML("game_save_001.xml");
+
+			myRunnable = new Server(); //Start the server in a new thread
+			myThread = new Thread(myRunnable);
+			myThread.setDaemon(true);
+			myThread.start();
+
+			canvas.initialize(); //Initialize the room
+			canvas.setRoom(loadedRoom);
+			canvas.setState(State.PLAYING_SINGLE);
 			break;
 		case "back":
 			state = MenuState.MAIN;
