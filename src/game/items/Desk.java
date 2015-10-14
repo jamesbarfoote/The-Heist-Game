@@ -6,16 +6,13 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Map;
 
-<<<<<<< HEAD
-public class Desk extends Container implements Serializable{
-=======
 /**
  * An unlocked container containing items, usually a small amount of money + a key and/or safe combination
  * @author Lachlan Lee ID# 300281826
  *
  */
-public class Desk extends Container {
->>>>>>> bed7984ce3299a7ee074f7ac9b32e0ce43d8ade9
+public class Desk extends Container implements Serializable{
+
 	
 	/**
 	 * 

@@ -5,16 +5,13 @@ import game.Room;
 import java.awt.Point;
 import java.io.Serializable;
 
-<<<<<<< HEAD
-public class Clutter extends InteractableItem implements Serializable{
-=======
 /**
  * Class for representing all random/joke items that don't serve any particular purpose
  * @author Lachlan Lee ID# 300281826
  *
  */
-public class Clutter extends InteractableItem{
->>>>>>> bed7984ce3299a7ee074f7ac9b32e0ce43d8ade9
+public class Clutter extends InteractableItem implements Serializable{
+
 
 	/**
 	 * 

@@ -5,8 +5,12 @@ import java.io.Serializable;
 
 import game.Door;
 import game.Room;
-
-<<<<<<< HEAD
+/**
+ * An item for unlocking doors. A key should unlock a particular door
+ * Not currently in use as key specific doors are not yet implemented
+ * @author Lachlan Lee ID# 300281826
+ *
+ */
 public class Key extends InteractableItem implements Serializable{
 	
 	/**
@@ -16,16 +20,7 @@ public class Key extends InteractableItem implements Serializable{
 	private Door opens;
 	private Container containedIn;
 	private Point position;
-=======
-/**
- * An item for unlocking doors. A key should unlock a particular door
- * Not currently in use as key specific doors are not yet implemented
- * @author Lachlan Lee ID# 300281826
- *
- */
-public class Key extends InteractableItem{
-	
->>>>>>> bed7984ce3299a7ee074f7ac9b32e0ce43d8ade9
+
 	private String filename = "";	//TODO add the filename when asset is made.
 
 	public Key(){

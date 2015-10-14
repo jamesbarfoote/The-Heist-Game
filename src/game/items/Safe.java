@@ -4,22 +4,15 @@ import java.awt.Point;
 import java.io.Serializable;
 import java.util.Random;
 
-<<<<<<< HEAD
-public class Safe extends Container implements Serializable{
-=======
 /**
- * A container that may or may not be locked that contains a large sum of money
- * Unlocked with a Safe combination which is currently just a key
- * Does not yet have unlocking minigame, so no safe specific combinations
- * @author Lachlan Lee ID# 300281826
- *
- */
-public class Safe extends Container{
->>>>>>> bed7984ce3299a7ee074f7ac9b32e0ce43d8ade9
-	
-	/**
-	 * 
-	 */
+* A container that may or may not be locked that contains a large sum of money
+* Unlocked with a Safe combination which is currently just a key
+* Does not yet have unlocking minigame, so no safe specific combinations
+* @author Lachlan Lee ID# 300281826
+*
+*/
+public class Safe extends Container implements Serializable{
+
 	private static final long serialVersionUID = 1L;
 	private int[] combination;
 	private boolean locked;
