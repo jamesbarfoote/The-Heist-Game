@@ -135,6 +135,13 @@ public class Lobby extends Menu{
 		for(GameButton gb: gameButtons){
 			g.drawImage(gb.getImage(), gb.getX(), gb.getY(), null);
 		}
+		
+		int nameX = menuX + 100;
+		int nameY = menuY + 100;
+		for(Player p: players){
+			g.drawString(p.getName(), nameX, nameY);
+			nameY += 50;
+		}
 	}
 
 }

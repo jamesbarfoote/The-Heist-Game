@@ -1,6 +1,7 @@
 package graphics;
 
 import game.Player;
+import graphics.GameCanvas.State;
 
 import java.awt.Color;
 import java.awt.Graphics;
@@ -40,7 +41,8 @@ public class TextDialogue extends Dialogue{
 		}
 		if(button.equals("yes")){
 			if(text.length() < 1 || text.equals(" ")) return;
-			listener.accept(text); //action confirmed
+			canvas.setHost(text);
+			canvas.setState(State.MULTI); //action confirmed
 			return;
 		}
 		if(button.equals("back")){

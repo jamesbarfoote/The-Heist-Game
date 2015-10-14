@@ -1,15 +1,15 @@
 package game.control;
 
+import game.Player;
+import game.items.Desk;
+import game.items.Item;
+import graphics.GameCanvas;
+import graphics.GameCanvas.State;
+
 import java.awt.Point;
 import java.awt.event.ActionEvent;
 
 import javax.swing.AbstractAction;
-
-import graphics.GameCanvas;
-import game.Door;
-import game.Player;
-import game.items.Desk;
-import game.items.Item;
 
 /**
  * Player actions related to moving
@@ -82,6 +82,9 @@ public class moveAction extends AbstractAction {
 	 * @return boolean - whether the new location goes through a wall
 	 */
 	private boolean isValidMove(Point newLocation){
+		if(!(canvas.getState().equals(State.PLAYING_SINGLE) || canvas.getState().equals(State.PLAYING_MULTI))){
+			return false;
+		}
 		if(canvas.getMenuSelect()) return false;
 		System.out.println((int) newLocation.getX());
 		if(this.canvas.getTiles()[(int) newLocation.getX()][(int) newLocation.getY()].equals("wall")){
