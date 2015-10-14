@@ -54,8 +54,6 @@ public class Load {
 			String strTimer = timerNode.getTextContent();
 			timer = Long.parseLong(strTimer);
 
-			System.out.println(Save.TIMER + ": " + timer);
-
 			getContents(gameNode, roomToReturn);
 
 		} catch (Exception e) {
@@ -108,7 +106,6 @@ public class Load {
 
 		for (int count = 0; count < roomItemsNodeList.getLength(); count++) {
 			// if the node is an element
-			// System.out.println("count: " + count);
 			if (roomItemsNodeList.item(count) instanceof Element) {
 				Element itemNode = (Element) roomItemsNodeList.item(count);
 
@@ -148,8 +145,6 @@ public class Load {
 		element = (Element) node;
 		String amount = element.getTextContent();
 
-		System.out.println("Money\nAmount: " + amount + ", Point: " + point);
-
 		Money money = new Money(Integer.parseInt(amount), stringToPoint(point));
 
 		return money;
@@ -180,9 +175,6 @@ public class Load {
 		element = (Element) node;
 		boolean locked = Boolean.parseBoolean(element.getTextContent());
 
-		System.out.println("Safe\nPosition: " + point + ", money: " + money
-				+ ", Locked: " + locked + "\n");
-
 		Safe safe = new Safe(stringToPoint(point), Integer.parseInt(money),
 				locked);
 
@@ -210,9 +202,6 @@ public class Load {
 		int money = Integer.parseInt(element.getTextContent());
 
 		Map<String, Integer> items = addContents(deskNode);
-
-		System.out.println("Desk\nPosition: " + point + ", money: " + money
-				+ "\n");
 
 		Desk desk = new Desk(stringToPoint(point), items);
 
@@ -273,12 +262,6 @@ public class Load {
 			inventory.put(key, value);
 		}
 
-		// TODO: debug
-		System.out.println("Player\nID: " + id + ", Name: " + name
-				+ ", Point: " + point + ", Type: " + type + ", Direction: "
-				+ dir + ", Inventory: " + inventory.toString() + ", Money: "
-				+ money + "\n");
-
 		// make new player to return
 		Player player = new Player(name, stringToPoint(point),
 				stringToType(type));
@@ -321,8 +304,6 @@ public class Load {
 		node = doorNodeList.item(3);
 		element = (Element) node;
 		boolean locked = Boolean.parseBoolean(element.getTextContent());
-
-		System.out.println("Door\nPoint: " + point + ", Locked: "+ Boolean.toString(locked));
 
 		Door door = new Door(locked, stringToPoint(point));
 
