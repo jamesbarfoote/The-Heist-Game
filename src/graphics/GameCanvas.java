@@ -220,6 +220,7 @@ public class GameCanvas extends Canvas{
 	
 	/**open up a confirmation window**/
 	public void showConfirmation(Menu listener, Menu.Action action, String message, Player player){
+		this.currentPlayer = player;
 		if(action.equals(Action.QUIT)){
 			dialogue = new Confirmation(listener, message, this, null);
 		}
@@ -228,6 +229,9 @@ public class GameCanvas extends Canvas{
 		}
 		else if(action.equals(Action.CHOOSE)){
 			dialogue = new PlayerForm(listener, message, this);
+		}
+		else if(action.equals(Action.SAVE)){
+			dialogue = new TextDialogue(listener, message, this, null);
 		}
 	}
 	

@@ -52,7 +52,8 @@ public class GameMenu extends Menu{
 		}
 		switch(button){
 		case "save":
-			
+			action = Action.SAVE;
+			canvas.showConfirmation(this, Action.SAVE, "Enter save name", null);
 			break;
 		case "options":
 		
@@ -80,6 +81,13 @@ public class GameMenu extends Menu{
 			canvas.setState(GameCanvas.State.MENU);
 			canvas.removeConfirmation();
 			canvas.simulateMouseMove();
+			break;
+		case SAVE:
+			
+			action = null;
+			canvas.removeConfirmation();
+			canvas.simulateMouseMove();
+			break;
 		}
 	}
 	
