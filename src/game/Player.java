@@ -145,6 +145,7 @@ public class Player implements Serializable{
 			else{
 				if(attemptSafeUnlock(s)){
 					if(s.getMoney() != 0){ moneyHeld += s.getMoney(); } //Increments the players money by the amount in the safe
+					c = s; //Sets the container as the unlocked safe
 					c.containerLooted(); //Sets the safe to empty
 				}
 			}
@@ -154,9 +155,6 @@ public class Player implements Serializable{
 			
 			//Open the Inventory Trading screen for looting the desk
 			canvas.openTrade(d);
-			
-			if(d.getMoney() != 0){ moneyHeld += d.getMoney(); }
-			c.containerLooted(); //Sets Container to empty
 		}
 	}
 	
@@ -236,6 +234,13 @@ public class Player implements Serializable{
 					return m;
 				}
 			}
+			if(item.getFilename().equals("_obj_floorSafe.png")){
+				Safe s = (Safe) item;
+				if(s.getPosition().equals(pos)){
+					return s;
+				}
+			}
+			
 		}
 		return null;
 	}
