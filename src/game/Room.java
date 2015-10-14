@@ -9,14 +9,16 @@ import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 /**
- * Each room has a different name and contents. A room does not necessarily have to contain any money or guards.
- * Players can move through a room at whim, providing there is nothing in place to stop them eg: A puzzle/lock or guard
+ * Each room has a different name and contents. A room does not necessarily have
+ * to contain any money or guards. Players can move through a room at whim,
+ * providing there is nothing in place to stop them eg: A puzzle/lock or guard
+ *
  * @author Lachlan
  *
  */
-public class Room implements Serializable{
-//Stores the locations of all the objects that need to be drawn
-//Canvas calls this class and asks it to draw itself
+public class Room implements Serializable {
+	// Stores the locations of all the objects that need to be drawn
+	// Canvas calls this class and asks it to draw itself
 
 	/**
 	 *
@@ -26,12 +28,13 @@ public class Room implements Serializable{
 	private ArrayList<Item> itemsInRoom;
 	private ArrayList<Door> roomDoors;
 	private List<Player> players = new CopyOnWriteArrayList<Player>();
-	private char[][] tiles; //The floorspace of the room
+	private char[][] tiles; // The floorspace of the room
 	private int width;
 	private int height;
 	private Player currentPlayer;
+	private int savedTimer;
 
-	public Room(String roomName, int width, int height, List<Player> players2){
+	public Room(String roomName, int width, int height, List<Player> players2) {
 		this.roomName = roomName;
 		this.players = players2;
 		itemsInRoom = new ArrayList<Item>();
@@ -46,46 +49,49 @@ public class Room implements Serializable{
 	 * Sets the room to an empty space, with empty tiles denoted as 'T'.
 	 */
 	private void setUpFloorspace() {
-		for(int i = 0; i < width; i++){
-			for(int j = 0; j < height; j++){
+		for (int i = 0; i < width; i++) {
+			for (int j = 0; j < height; j++) {
 				tiles[i][j] = 'T';
 			}
 		}
 	}
 
-//	/**
-//	 * Updates the character array with the characters new position, setting the old position to an empty tile
-//	 * @param newPos
-//	 * @param oldPos
-//	 */
-//	public void moveCharacter(Point newPos, Point oldPos){
-//		tiles[(int) newPos.getX()][(int) newPos.getY()] = 'C';
-//		tiles[(int) oldPos.getX()][(int) oldPos.getY()] = 'T';
-//	}
-//
-//	/**
-//	 * Updates the char array to reflect a character moving into a different room by setting its current position to
-//	 * and empty tile
-//	 * @param room1Entry
-//	 */
-//	public void removeCharacter(Point roomEntry) {
-//		tiles[(int) roomEntry.getX()][(int) roomEntry.getY()] = 'T';
-//	}
+	// /**
+	// * Updates the character array with the characters new position, setting
+	// the old position to an empty tile
+	// * @param newPos
+	// * @param oldPos
+	// */
+	// public void moveCharacter(Point newPos, Point oldPos){
+	// tiles[(int) newPos.getX()][(int) newPos.getY()] = 'C';
+	// tiles[(int) oldPos.getX()][(int) oldPos.getY()] = 'T';
+	// }
+	//
+	// /**
+	// * Updates the char array to reflect a character moving into a different
+	// room by setting its current position to
+	// * and empty tile
+	// * @param room1Entry
+	// */
+	// public void removeCharacter(Point roomEntry) {
+	// tiles[(int) roomEntry.getX()][(int) roomEntry.getY()] = 'T';
+	// }
 
 	/**
-	 * Updates the char array to reflect a character moving into this room from another by setting the doors entry
-	 * point to a character.
+	 * Updates the char array to reflect a character moving into this room from
+	 * another by setting the doors entry point to a character.
+	 *
 	 * @param roomEntry
 	 */
 	public void addCharacter(Point roomEntry) {
 		tiles[(int) roomEntry.getX()][(int) roomEntry.getY()] = 'C';
 	}
 
-	public void addItem(Item item){
+	public void addItem(Item item) {
 		this.itemsInRoom.add(item);
 	}
 
-	public String getRoomName(){
+	public String getRoomName() {
 		return roomName;
 	}
 	
@@ -94,45 +100,61 @@ public class Room implements Serializable{
 		return currentPlayer;
 	}
 
-	public int getWidth(){
+	public int getWidth() {
 		return width;
 	}
 
-	public int getHeight(){
+	public int getHeight() {
 		return height;
 	}
 
-	public List<Player> getPlayers(){
+	public List<Player> getPlayers() {
 		return this.players;
 	}
 
-	public ArrayList<Item> getItems(){
+	public ArrayList<Item> getItems() {
 		return itemsInRoom;
 	}
 
-	public ArrayList<Door> getDoors(){
+	public ArrayList<Door> getDoors() {
 		return roomDoors;
+	}
+
+	/**
+	 * Used for storing the remaining timer
+	 *
+	 * @return - Timer
+	 */
+	public int getSavedTimer() {
+		return savedTimer;
+	}
+
+	/**
+	 * Used for storing the remaining timer
+	 *
+	 * @param timer
+	 */
+	public void setSavedTimer(int timer) {
+		savedTimer = timer;
 	}
 
 	public void addDoor(Door door) {
 		roomDoors.add(door);
 	}
 
-	public void setPlayers(List<Player> players){
+	public void setPlayers(List<Player> players) {
 		this.players = players;
 	}
 
-	public void setCurrentPlayer(Player p)
-	{
+	public void setCurrentPlayer(Player p) {
 		this.currentPlayer = p;
 	}
 
-	public void setItems(ArrayList<Item> items){
+	public void setItems(ArrayList<Item> items) {
 		itemsInRoom = items;
 	}
 
-	public void setDoors(ArrayList<Door> doors){
+	public void setDoors(ArrayList<Door> doors) {
 		roomDoors = doors;
 	}
 }
-

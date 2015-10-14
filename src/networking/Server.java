@@ -157,11 +157,7 @@ public class Server implements Runnable {
 					//synchronized(room)
 					//{
 					room = (Room) tempRoom;
-//					for(Player p: room.getPlayers())
-//					{
-//						System.out.println(room.getCurrentPlayer().getLocation().getX());
-//						System.out.println(p.getLocation().getX());
-//					}
+					
 
 					//}
 

@@ -95,21 +95,15 @@ public class Client {
 
 		//send our room out
 		this.room.setCurrentPlayer(this.currentPlayer);
-		for(Player p: players) //Update the current player in the players list
+		for(int i = 0; i < players.size(); i++) //Update the current player in the players list
 		{
-			if(p.getID() == currentPlayer.getID())
+			if(players.get(i).getID() == currentPlayer.getID())
 			{
-				System.out.println("Player set. Size = " + players.size());
-				p = currentPlayer;
+				
+				players.set(i, currentPlayer);
 			}
 		}
 		this.room.setPlayers(players);
-		
-		for(Player p: players)
-		{
-			System.out.println(room.getCurrentPlayer().getLocation().getX());
-			System.out.println(p.getLocation().getX());
-		}
 		
 		byte[] bytes = toBytes(this.room);
 		outputStream.writeInt(bytes.length);//Send the length of the array
