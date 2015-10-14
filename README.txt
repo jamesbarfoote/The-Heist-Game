@@ -31,7 +31,7 @@ Drop item:		B
 The objective of the game is to collect as much money as possible
 before the clock runs out ! So much fun!!
 
-
+Note: Please load the project into Eclipse to run
 Note: Save works, but you can't load.
 Note: Multiplayer doesn't work.
 Note: Game doesn't run well/at all on ECS machines
