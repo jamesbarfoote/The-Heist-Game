@@ -20,13 +20,16 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 
-import game.*;
-import game.Player.Type;
+import game.Money;
+import game.Player;
+import game.Room;
+import game.items.Container;
 import game.items.Desk;
 import game.items.InteractableItem;
 import game.items.Item;
 import game.items.Safe;
 import game.items.Weapon;
+import graphics.GameCanvas;
 
 /**
  * @author boticanich
@@ -43,11 +46,14 @@ public class Save {
 	public static final String TYPE = "type";
 	public static final String DESK = "desk";
 	public static final String MONEY = "money";
+	public static final String SAFE = "safe";
 	public static final String POS = "position";
 	public static final String NAME = "name";
 	public static final String DIR = "direction";
 	public static final String INVENTORY = "inventory";
 	public static final String MAP = "map";
+	public static final String TIMER = "timer";
+
 
 	// http://crunchify.com/java-simple-way-to-write-xml-dom-file-in-java/
 
@@ -72,6 +78,9 @@ public class Save {
 			Document doc = docBuilder.newDocument();
 			Element rootElement = doc.createElement(GAME);
 			doc.appendChild(rootElement);
+
+			// add timer
+			rootElement.appendChild(node(doc, TIMER, "10000"));
 
 			// append rooms to root element
 			for (Room room : rooms) {
@@ -148,8 +157,15 @@ public class Save {
 
 		// if a container, add items inside
 		if (i instanceof game.items.Container) {
-			for (InteractableItem item : ((game.items.Container) i).getItems()) {
-				itemNode.appendChild(addItems(doc, item));
+			// add money int
+			int money = ((Container) i).getMoney();
+				itemNode.appendChild(node(doc, MONEY, Integer.toString(money) ));
+			// check if null
+			if (((game.items.Container) i).getItems() != null) {
+				for (InteractableItem item : ((game.items.Container) i)
+						.getItems()) {
+					itemNode.appendChild(addItems(doc, item));
+				}
 			}
 		}
 
@@ -181,7 +197,6 @@ public class Save {
 
 		// add inventory if not empty
 		if (player.getInventory() != null) {
-			System.out.println("Helo");
 			Map<String, Integer> inventory = player.getInventory();
 			Node inventoryNode = doc.createTextNode(INVENTORY);
 
@@ -202,7 +217,11 @@ public class Save {
 	 * @return - String in the form x,y
 	 */
 	private static String pointToString(Point point) {
-		return point.getX() + "," + point.getY();
+		int x = (int) point.getX();
+		int y = (int) point.getY();
+
+		return x + "," + y;
+
 	}
 
 	/**
@@ -248,17 +267,17 @@ public class Save {
 		currentRoom.addItem(money);
 		currentRoom.addItem(safe);
 		currentRoom.addItem(desk);
-		
-		Player currentPlayer = new Player(new Weapon("Badass", true), 1,
-				new Point(1, 0), game.Player.Type.robber);
-		Player player2 = new Player(new Weapon("Badass", true), 1, new Point(6,
-				2), game.Player.Type.robber);
+
+		Weapon weapon = new Weapon("", false);
+
+		Player currentPlayer = new Player("1", weapon, new Point(1, 1),
+				game.Player.Type.robber);
+		Player player2 = new Player("2", weapon, new Point(6, 2),
+				game.Player.Type.robber);
 
 		currentPlayer.lootContainer(desk);
 		players.add(currentPlayer);
 		players.add(player2);
-
-
 
 		ArrayList<Room> rooms = new ArrayList<>();
 		rooms.add(currentRoom);
