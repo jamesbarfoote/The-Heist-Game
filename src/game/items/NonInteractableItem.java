@@ -15,7 +15,7 @@ public class NonInteractableItem implements Item {
 	private itemType itemType;
 
 	public enum itemType {
-		PLANT, COUCH, LAMP
+		PLANT, COUCH, LAMP, VAULTDOOR
 	}
 
 	public NonInteractableItem(Point point, String type) {
@@ -31,11 +31,17 @@ public class NonInteractableItem implements Item {
 			itemType = itemType.COUCH;
 		case "lamp":
 			itemType = itemType.LAMP;
+		case "VaultDoor":
+			itemType = itemType.VAULTDOOR;
 		}
 	}
 
 	public Point getPosition() {
 		return position;
+	}
+	
+	public Point getOldPosition() {
+		return oldPosition;
 	}
 
 	@Override

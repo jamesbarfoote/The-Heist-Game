@@ -43,7 +43,6 @@ public class fileReader {
 				Scanner lineSc = new Scanner(line);
 				int rowNum = 0;
 				
-
 				while(lineSc.hasNext()){
 
 					String value = lineSc.next();
@@ -69,13 +68,16 @@ public class fileReader {
 						tiles[lineNum][rowNum] = "vault";
 					}
 					else if(value.equals("7")){
-						tiles[lineNum][rowNum] = "vaultDoor1";
+						tiles[lineNum][rowNum] = "vaultWall1";
 					}
 					else if(value.equals("8")){
-						tiles[lineNum][rowNum] = "vaultDoor2";
+						tiles[lineNum][rowNum] = "vaultWall2";
 					}
 					else if(value.equals("9")){
-						tiles[lineNum][rowNum] = "vaultDoor3";
+						tiles[lineNum][rowNum] = "vaultWall3";
+					}
+					else if(value.equals("10")){
+						tiles[lineNum][rowNum] = "vaultDoor";
 					}
 					else{
 						throw new ArrayStoreException();
