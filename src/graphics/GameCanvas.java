@@ -154,12 +154,28 @@ public class GameCanvas extends Canvas{
 //		currentRoom.addItem(new Desk(new Point(10, 25), deskItems));
 //		currentRoom.addItem(new Desk(new Point(22, 22), deskItems2));
 		
-		currentRoom.addDoor(new Door(false, new Point(6,3)));
-		currentRoom.addDoor(new Door(true, new Point(6,11)));
-		currentRoom.addDoor(new Door(false, new Point(13,6)));
-		currentRoom.addDoor(new Door(false, new Point(11,14)));
-		currentRoom.addDoor(new Door(false, new Point(9,19)));
-		currentRoom.addDoor(new Door(false, new Point(18,12)));	
+		currentRoom.addDoor(new Door(false, new Point(7, 36)));
+		currentRoom.addDoor(new Door(false, new Point(13, 19)));
+		currentRoom.addDoor(new Door(false, new Point(18, 19)));
+		currentRoom.addDoor(new Door(false, new Point(24, 3)));
+		currentRoom.addDoor(new Door(false, new Point(24, 19)));
+		currentRoom.addDoor(new Door(false, new Point(31, 33)));
+		currentRoom.addDoor(new Door(false, new Point(34, 2)));
+		currentRoom.addDoor(new Door(false, new Point(11, 3)));
+		currentRoom.addDoor(new Door(false, new Point(9, 8)));
+		currentRoom.addDoor(new Door(false, new Point(10, 14)));
+		currentRoom.addDoor(new Door(false, new Point(14, 33)));
+		currentRoom.addDoor(new Door(false, new Point(15, 6)));
+		currentRoom.addDoor(new Door(false, new Point(21, 6)));
+		currentRoom.addDoor(new Door(false, new Point(21, 13)));
+		currentRoom.addDoor(new Door(false, new Point(21, 33)));
+		currentRoom.addDoor(new Door(false, new Point(26, 6)));
+		currentRoom.addDoor(new Door(false, new Point(26, 33)));
+		currentRoom.addDoor(new Door(false, new Point(29, 28)));
+		currentRoom.addDoor(new Door(false, new Point(38, 11)));
+		currentRoom.addDoor(new Door(false, new Point(38, 28)));
+		currentRoom.addDoor(new Door(true, new Point(21, 26)));
+		
 		
 		this.setRoom(currentRoom);
 		this.tiles = data.getTiles();

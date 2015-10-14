@@ -197,7 +197,7 @@ public class GameLogicTest extends TestCase{
 		int oldcanvasitems = canvas.getItems().size();
 		gDrop.actionPerformed(new ActionEvent(p, 0, "B")); //Attempts to drop money
 		assertTrue(p.getMoneyHeld() == 0);
-		assertTrue(oldcanvasitems == canvas.getItems().size()); //Checks the dropped money was added to canvas
+		assertTrue(oldcanvasitems == canvas.getItems().size()); //Checks that no money was added to the canvas
 	}
 	
 	public @Test void test_move_left_true(){

@@ -13,6 +13,7 @@ import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 import game.Player;
+import game.Room;
 
 //import networking.Client;
 
