@@ -115,18 +115,18 @@ public class Player implements Serializable{
 		return true; //The door was unlocked to begin with
 	}
 	
-	/**
-	 * Attempts to unlock the given safe with the given combination attempt.
-	 * Combinations are stored as integer arrays of length 4
-	 * @param combinatAttempt
-	 * @param s
-	 * @return true if safe was unlocked, false if safe still locked
-	 */
-	public boolean attemptSafeCrack(int[] combinatAttempt, Safe s){
-		if(combinatAttempt.length != 4){ } //throw an exception here (need to make exception)
-		return s.unlockSafe(combinatAttempt);
-	}
-	
+//	/**
+//	 * Attempts to unlock the given safe with the given combination attempt.
+//	 * Combinations are stored as integer arrays of length 4
+//	 * @param combinatAttempt
+//	 * @param s
+//	 * @return true if safe was unlocked, false if safe still locked
+//	 */
+//	public boolean attemptSafeCrack(int[] combinatAttempt, Safe s){
+//		if(combinatAttempt.length != 4){ } //throw an exception here (need to make exception)
+//		return s.unlockSafe(combinatAttempt);
+//	}
+//	
 	/**
 	 * Loots the given container by adding the item/money in it to the characters items array/money integer
 	 * If the container is a safe, checks if it is unlocked first.
@@ -140,19 +140,17 @@ public class Player implements Serializable{
 				if(s.getMoney() != 0){ moneyHeld += s.getMoney(); } //Increments the players money by the amount in the safe
 				c.containerLooted(); //Sets the safe to empty
 			}
+			else{
+				if(attemptSafeUnlock(s)){
+					if(s.getMoney() != 0){ moneyHeld += s.getMoney(); } //Increments the players money by the amount in the safe
+					c.containerLooted(); //Sets the safe to empty
+				}
+			}
 		}
 		else{
 			Desk d = (Desk) c;
-//			if(d.getItems() != null){ 
-//				for(InteractableItem item : d.getItems()){
-//					//Adds the item to inventory
-//					if(!inventory.containsKey(item.getFilename())){
-//						inventory.put(item.getFilename(), 1); //Adds a new instance of quantity 1
-//					}
-//					else{ inventory.put(item.getFilename(), inventory.get(item.getFilename()));} //Increments the current quantity of the item by 1
-//				}
-//			}
 			
+			//Open the Inventory Trading screen for looting the desk
 			canvas.openTrade(d);
 			
 			if(d.getMoney() != 0){ moneyHeld += d.getMoney(); }
@@ -160,6 +158,31 @@ public class Player implements Serializable{
 		}
 	}
 	
+	/**
+	 * Attempt to unlock the safe with a safe combination.
+	 * @param s
+	 * @return true if you had a safe combination and the door gets unlocked
+	 */
+	private boolean attemptSafeUnlock(Safe s) {
+		for(String str : inventory.keySet()){
+			//If you have at least one safe combination in your inventory
+			if(str.equals("Safe Combination")){
+				//Unlocks the safe
+				s.unlock();
+				
+				//Removes one Safe Combination from your inventory
+				if(inventory.get("Safe Combination") == 1){
+					inventory.remove("Safe Combination");
+				}
+				else{
+					inventory.put("Safe Combination", inventory.get("Safe Combination")-1);
+				}
+				return true;
+			}
+		}
+		return false; //You do no have a safe combination in your inventory
+	}
+
 	/**
 	 * Checks one tile ahead in the players facing direction for an InteractableItem
 	 * @return an InteractableItem

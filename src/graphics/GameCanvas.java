@@ -123,19 +123,20 @@ public class GameCanvas extends Canvas{
 		deskItems.put("Old Coin", 16);
 		deskItems.put("Paper Weight", 10);
 		deskItems.put("Key", 1);
+		deskItems.put("Safe Combination", 1);
 		currentRoom.addItem(money);
 		currentRoom.addItem(money2);
 		currentRoom.addItem(money3);
 		currentRoom.addItem(money4);
-		currentRoom.addItem(new Safe(new Point(4, 7), money.getAmount()));
+		currentRoom.addItem(new Safe(new Point(4, 7), money.getAmount(), true));
 		currentRoom.addItem(new Desk(new Point(12, 10), deskItems));
 		currentRoom.addItem(new Desk(new Point(22, 22), deskItems));
-		currentRoom.addDoor(new Door(false, new Point(6,3), null));
-		currentRoom.addDoor(new Door(true, new Point(6,11), null));
-		currentRoom.addDoor(new Door(false, new Point(13,6), null));
-		currentRoom.addDoor(new Door(false, new Point(11,14), null));
-		currentRoom.addDoor(new Door(false, new Point(9,19), null));
-		currentRoom.addDoor(new Door(false, new Point(18,12), null));		
+		currentRoom.addDoor(new Door(false, new Point(6,3)));
+		currentRoom.addDoor(new Door(true, new Point(6,11)));
+		currentRoom.addDoor(new Door(false, new Point(13,6)));
+		currentRoom.addDoor(new Door(false, new Point(11,14)));
+		currentRoom.addDoor(new Door(false, new Point(9,19)));
+		currentRoom.addDoor(new Door(false, new Point(18,12)));		
 		
 		this.tiles = data.getTiles();
 		this.columns = data.getHeight();
