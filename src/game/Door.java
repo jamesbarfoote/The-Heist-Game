@@ -12,7 +12,7 @@ public class Door{
 	private Key key;
 	private Point position;
 	
-	public Door(boolean locked, Point pos, Key k){
+	public Door(boolean locked, Point pos){
 		this.position = pos;
 		this.locked = locked;
 	}
