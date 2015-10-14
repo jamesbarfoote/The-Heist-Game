@@ -76,7 +76,7 @@ public class GameCanvas extends Canvas{
 	private String host = "localhost";
 	
 	private double translateX, translateY;
-	private double zoom = 200;
+	private double zoom = 30;
 	private int zooming = 0;	//0 = Not zooming, 1 = zooming in, 2 = zooming out
 	private String[] directions = {"N", "E", "S", "W"};
 	private int direction = 0;
@@ -115,6 +115,10 @@ public class GameCanvas extends Canvas{
 		Room currentRoom = new Room("testRoom", data.getWidth(), data.getHeight(), players);
 		
 		VaultDoor vaultDoor = new VaultDoor(new Point(8, 19));
+		Money money = new Money(1000000, new Point(2, 4));
+		Money money2 = new Money(1000, new Point(20, 5));
+		Money money3 = new Money(1000, new Point(23, 6));
+		Money money4 = new Money(1000, new Point(19, 3));
 		Map<String, Integer> deskItems = new HashMap<String, Integer>();
 		Map<String, Integer> deskItems2 = new HashMap<String, Integer>();
 		deskItems.put("Money", 50);
@@ -124,67 +128,16 @@ public class GameCanvas extends Canvas{
 		deskItems2.put("Safe Combination", 1);
 		deskItems2.put("Money", 200);
 		currentRoom.addItem(vaultDoor);
-		//Money-----------------------------------------------
-		ArrayList<Money> money = new ArrayList<Money>();
-		money.add(new Money(500, new Point(29, 17)));
-		money.add(new Money(500, new Point(29, 18)));
-		money.add(new Money(500, new Point(29, 19)));
-		money.add(new Money(500, new Point(29, 20)));
-		money.add(new Money(500, new Point(29, 21)));
-		money.add(new Money(500, new Point(29, 22)));
-		money.add(new Money(500, new Point(29, 23)));
-		money.add(new Money(500, new Point(29, 24)));
-		
-		money.add(new Money(500, new Point(9, 36)));
-		money.add(new Money(500, new Point(15, 36)));
-		money.add(new Money(500, new Point(10, 37)));
-		money.add(new Money(500, new Point(24, 38)));
-		money.add(new Money(500, new Point(28, 38)));
-		money.add(new Money(500, new Point(23, 35)));
-		money.add(new Money(500, new Point(10, 37)));
-		money.add(new Money(500, new Point(15, 35)));
-		money.add(new Money(500, new Point(13, 34)));
-		
-		money.add(new Money(500, new Point(12, 27)));
-		money.add(new Money(500, new Point(14, 25)));
-		money.add(new Money(500, new Point(13, 24)));
-		
-		money.add(new Money(500, new Point(27, 12)));
-		money.add(new Money(500, new Point(26, 14)));
-		money.add(new Money(500, new Point(28, 13)));
-		money.add(new Money(500, new Point(27, 25)));
-		money.add(new Money(500, new Point(25, 27)));
-		money.add(new Money(500, new Point(24, 20)));
-		
-		money.add(new Money(500, new Point(12, 8)));
-		money.add(new Money(500, new Point(14, 12)));
-		money.add(new Money(500, new Point(15, 13)));
-		money.add(new Money(500, new Point(13, 15)));
-		money.add(new Money(500, new Point(16, 15)));
-		money.add(new Money(500, new Point(17, 16)));
-		
-		money.add(new Money(500, new Point(8, 5)));
-		money.add(new Money(500, new Point(5, 9)));
-		money.add(new Money(500, new Point(4, 3)));
-		money.add(new Money(500, new Point(2, 4)));
-		money.add(new Money(500, new Point(3, 7)));
-		
-		money.add(new Money(500, new Point(34, 10)));
-		money.add(new Money(500, new Point(32, 5)));
-		money.add(new Money(500, new Point(33, 3)));
-		money.add(new Money(500, new Point(32, 7)));
-		
-		money.add(new Money(500, new Point(20, 20)));
-		money.add(new Money(500, new Point(22, 20)));
-		money.add(new Money(500, new Point(24, 23)));
-		money.add(new Money(500, new Point(21, 21)));
-		//Safes--------------------------------------------------
-		currentRoom.addItem(new Safe(new Point(4, 32), money.get(0).getAmount(), true));
-		currentRoom.addItem(new Safe(new Point(33, 29),  money.get(0).getAmount(), true));
-		currentRoom.addItem(new Safe(new Point(31, 1), money.get(0).getAmount(), true));
-		currentRoom.addItem(new Safe(new Point(16, 23), money.get(0).getAmount(), true));
-		currentRoom.addItem(new Safe(new Point(18, 7), money.get(0).getAmount(), true));
-		currentRoom.addItem(new Safe(new Point(24, 27), money.get(0).getAmount(), true));
+		currentRoom.addItem(money);
+		currentRoom.addItem(money2);
+		currentRoom.addItem(money3);
+		currentRoom.addItem(money4);
+		currentRoom.addItem(new Safe(new Point(4, 32), money.getAmount(), true));
+		currentRoom.addItem(new Safe(new Point(33, 29), money.getAmount(), true));
+		currentRoom.addItem(new Safe(new Point(31, 1), money.getAmount(), true));
+		currentRoom.addItem(new Safe(new Point(16, 23), money.getAmount(), true));
+		currentRoom.addItem(new Safe(new Point(18, 7), money.getAmount(), true));
+		currentRoom.addItem(new Safe(new Point(24, 27), money.getAmount(), true));
 		//Desks--------------------------------------------------
 		currentRoom.addItem(new Desk(new Point(2, 35), deskItems));
 		currentRoom.addItem(new Desk(new Point(2, 3), deskItems));
@@ -196,19 +149,35 @@ public class GameCanvas extends Canvas{
 		currentRoom.addItem(new Desk(new Point(30, 24), deskItems));
 		currentRoom.addItem(new Desk(new Point(30, 9), deskItems));
 		currentRoom.addItem(new Desk(new Point(36, 38), deskItems));
-
+//		currentRoom.addItem(new Desk(new Point(1, 5), deskItems));
+//		currentRoom.addItem(new Desk(new Point(10, 15), deskItems));
+//		currentRoom.addItem(new Desk(new Point(10, 25), deskItems));
+//		currentRoom.addItem(new Desk(new Point(22, 22), deskItems2));
 		
-		for(Money m : money){
-			currentRoom.addItem(m);
-		}
-		currentRoom.addDoor(new Door(false, new Point(6,3)));
-		currentRoom.addDoor(new Door(true, new Point(6,11)));
-		currentRoom.addDoor(new Door(false, new Point(13,6)));
-		currentRoom.addDoor(new Door(false, new Point(11,14)));
-		currentRoom.addDoor(new Door(false, new Point(9,19)));
-		currentRoom.addDoor(new Door(false, new Point(18,12)));		
-		this.room = currentRoom;
-		//this.setRoom(currentRoom);
+		currentRoom.addDoor(new Door(false, new Point(7, 36)));
+		currentRoom.addDoor(new Door(false, new Point(13, 19)));
+		currentRoom.addDoor(new Door(false, new Point(18, 19)));
+		currentRoom.addDoor(new Door(false, new Point(24, 3)));
+		currentRoom.addDoor(new Door(false, new Point(24, 19)));
+		currentRoom.addDoor(new Door(false, new Point(31, 33)));
+		currentRoom.addDoor(new Door(false, new Point(34, 2)));
+		currentRoom.addDoor(new Door(false, new Point(11, 3)));
+		currentRoom.addDoor(new Door(false, new Point(9, 8)));
+		currentRoom.addDoor(new Door(false, new Point(10, 14)));
+		currentRoom.addDoor(new Door(false, new Point(14, 33)));
+		currentRoom.addDoor(new Door(false, new Point(15, 6)));
+		currentRoom.addDoor(new Door(false, new Point(21, 6)));
+		currentRoom.addDoor(new Door(false, new Point(21, 13)));
+		currentRoom.addDoor(new Door(false, new Point(21, 33)));
+		currentRoom.addDoor(new Door(false, new Point(26, 6)));
+		currentRoom.addDoor(new Door(false, new Point(26, 33)));
+		currentRoom.addDoor(new Door(false, new Point(29, 28)));
+		currentRoom.addDoor(new Door(false, new Point(38, 11)));
+		currentRoom.addDoor(new Door(false, new Point(38, 28)));
+		currentRoom.addDoor(new Door(true, new Point(21, 26)));
+		
+		
+		this.setRoom(currentRoom);
 		this.tiles = data.getTiles();
 		this.columns = data.getHeight();
 		this.players = currentRoom.getPlayers();
@@ -471,6 +440,12 @@ public class GameCanvas extends Canvas{
 			menuUp = false;
 			inventory = null;
 			inventoryTrade = null;
+			try {
+				Thread.sleep(2000);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 			
 			inventoryTrade = null;			
 			gameMenu = new GameMenu(this, currentPlayer, players, this.room);
@@ -482,14 +457,12 @@ public class GameCanvas extends Canvas{
 		}
 		else if(s.equals(State.PLAYING_MULTI)) //Playing in multiplayer mode
 		{
-			
 			menuUp = false;
 			inventory = null;
 			inventoryTrade = null;
 			gameMenu = new GameMenu(this, currentPlayer, players, this.room);
 		}
 		else if(s.equals(State.MULTI)){
-			this.initialize();
 			gameMenu = new Lobby(this, currentPlayer, players, this.host, this.room);//Create a new game lobby
 			this.cm = gameMenu.getClient();
 			currentPlayer = this.cm.getPlayer();
@@ -673,7 +646,7 @@ public class GameCanvas extends Canvas{
 		    		drawIcons(g, point);
 		    	}
 		    	else if(tiles[i][j] == "wall"){
-		            drawWall(g, p, this.directions[direction] + "_wall_block1.png");
+		           // drawWall(g, p, this.directions[direction] + "_wall_block1.png");
 		    	}
 		    	else if(tiles[i][j] == "marble2"){
 		    		drawTile(g, p, this.directions[direction] + "_floor_marble2.png");
@@ -742,6 +715,7 @@ public class GameCanvas extends Canvas{
 	}
 	
 	private void drawIcons(Graphics2D g, Point point){	
+
 		
 //		for(Player p: this.players)//Find the current player in the list and update the local player with it
 //		{
@@ -750,7 +724,6 @@ public class GameCanvas extends Canvas{
 				cm.setPlayer(currentPlayer);//update the current plater in the client
 //			}
 //		}
-
 		//Call the main client loop. This fetches and sends the latest player information
 		try {
 			cm.run();

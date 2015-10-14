@@ -13,6 +13,7 @@ import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 import game.Player;
+import game.Room;
 
 //import networking.Client;
 
@@ -97,7 +98,7 @@ public class MainMenu extends Menu{
 			state = MenuState.LOAD;
 			//canvas.showConfirmation(this, Action.LOAD, "Enter file name", null);
 						//canvas.showConfirmation(this, Action.LOAD, "Enter file name", null);
-		//	Room loadedRoom = data.Load.loadFromXML("game_save_001.xml");
+			//Room loadedRoom = data.Load.loadFromXML("game_save_001.xml");
 
 			myRunnable = new Server(); //Start the server in a new thread
 			myThread = new Thread(myRunnable);
