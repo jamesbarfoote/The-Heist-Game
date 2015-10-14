@@ -97,15 +97,20 @@ public class Player implements Serializable{
 		//Safety check to ensure you aren't trying to unlock an unlocked door
 		if(d.isLocked()){
 			//Iterates through your items looking for keys
-			for(InteractableItem i : items){
-				if(i instanceof Key){
-					Key k = (Key) i; //Assigns the key to a key object
-					if(d.unlockDoor(k) == true){
-						return true; //The correct key has been found and the door is now unlocked
+			for(String s : inventory.keySet()){
+				//If you have at least one key you can unlock the door
+				if(s.equals("Key")){
+					d.unlockDoor();
+					//Removes a key from your inventory
+					if(inventory.get("Key") == 1){
+						inventory.remove("Key");
+					}
+					else{
+						inventory.put("Key", inventory.get("Key")-1);
 					}
 				}
 			}
-			return false; //A correct key was not found therefore the door is still locked
+			return false; //You do not have a key in your inventory
 		}
 		return true; //The door was unlocked to begin with
 	}

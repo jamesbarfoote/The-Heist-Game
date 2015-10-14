@@ -7,23 +7,11 @@ import game.Room;
 
 public class Key extends InteractableItem{
 	
-	private Door opens;
 	private Container containedIn;
-	private Point position;
 	private String filename = "";	//TODO add the filename when asset is made.
-	private String direction = "N";
-	private Point oldPosition;
-	
-	/**
-	 * @return the position
-	 */
-	public Point getPosition() {
-		return position;
-	}
 
-	public Key(Door opens, Container containedIn, Room room, Point position){
-		super(position);
-		this.opens = opens;
+	public Key(){
+		super(null);
 		this.containedIn = containedIn;
 	}
 	
@@ -36,10 +24,6 @@ public class Key extends InteractableItem{
 		containedIn = null;
 	}
 	
-	public Door getDoor(){
-		return opens;
-	}
-	
 	public Container getContainedIn(){
 		return containedIn;
 	}
@@ -47,11 +31,6 @@ public class Key extends InteractableItem{
 	@Override
 	public String getFilename() {
 		return this.filename;
-	}
-
-	@Override
-	public String getDirection() {
-		return this.direction;
 	}
 
 	@Override
@@ -70,6 +49,12 @@ public class Key extends InteractableItem{
 	 */
 	public void setPosition(Point position) {
 		this.position = position;
+	}
+
+	@Override
+	public String getDirection() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

@@ -7,6 +7,7 @@ import game.Room;
 import game.items.Desk;
 import game.items.InteractableItem;
 import game.items.Item;
+import game.items.Key;
 import game.items.Safe;
 import networking.Client;
 import graphics.Menu.Action;
@@ -111,13 +112,15 @@ public class GameCanvas extends Canvas{
 		Room currentRoom = new Room("testRoom", data.getWidth(), data.getHeight(), players);
 		
 		Money money = new Money(1000000, new Point(2, 4));
-		Money money2 = new Money(1000000, new Point(20, 5));
-		Money money3 = new Money(1000000, new Point(23, 6));
-		Money money4 = new Money(1000000, new Point(19, 3));
+		Money money2 = new Money(1000, new Point(20, 5));
+		Money money3 = new Money(1000, new Point(23, 6));
+		Money money4 = new Money(1000, new Point(19, 3));
+		Key key = new Key();
 		Map<String, Integer> deskItems = new HashMap<String, Integer>();
 		deskItems.put("Money", 50);
-		deskItems.put("Brown Fluid", 16);
-		deskItems.put("Anchor", 10);
+		deskItems.put("Old Coin", 16);
+		deskItems.put("Paper Weight", 10);
+		deskItems.put("Key", 1);
 		currentRoom.addItem(money);
 		currentRoom.addItem(money2);
 		currentRoom.addItem(money3);
@@ -126,7 +129,7 @@ public class GameCanvas extends Canvas{
 		currentRoom.addItem(new Desk(new Point(12, 10), deskItems));
 		currentRoom.addItem(new Desk(new Point(22, 22), deskItems));
 		currentRoom.addDoor(new Door(false, new Point(6,3), null));
-		currentRoom.addDoor(new Door(false, new Point(6,11), null));
+		currentRoom.addDoor(new Door(true, new Point(6,11), null));
 		currentRoom.addDoor(new Door(false, new Point(13,6), null));
 		currentRoom.addDoor(new Door(false, new Point(11,14), null));
 		currentRoom.addDoor(new Door(false, new Point(9,19), null));

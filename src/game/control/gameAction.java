@@ -8,6 +8,7 @@ import graphics.GameCanvas;
 import game.Money;
 import game.Player;
 import game.items.Container;
+import game.items.InteractableItem;
 
 public class gameAction extends AbstractAction {
 
@@ -42,17 +43,21 @@ public class gameAction extends AbstractAction {
 			this.canvas.rotate("anti-clockwise");
 		}
 		else if(action.equals("P")){
+			//The item (if any) that is in front of you
+			InteractableItem check = player.checkforInteract(this.canvas);
+			
 			//If there is a container found
-			if(player.checkforInteract(this.canvas) instanceof Container){
-				Container c = (Container) player.checkforInteract(this.canvas);
+			if(check instanceof Container){
+				Container c = (Container) check;
 				player.lootContainer(c, this.canvas);
 			}
 			//If there is a cash stack found
-			else if(player.checkforInteract(this.canvas) instanceof Money){
-				Money m = (Money) player.checkforInteract(this.canvas);
+			else if(check instanceof Money){
+				Money m = (Money) check;
 				player.pickUpMoney(m);
 				this.canvas.getItems().remove(m);
 			}
+			//If there is a door found
 			else if(player.checkForDoor(canvas) != null){
 				player.unlockDoor(player.checkForDoor(canvas));
 			}
