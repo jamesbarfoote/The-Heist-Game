@@ -37,7 +37,7 @@ public class VaultDoor extends NonInteractableItem {
 	}
 	
 	/**
-	 * Sets the position of the desk based on which way the view is rotated
+	 * Sets the position of the vault door based on which way the view is rotated
 	 * @param direction
 	 */
 	public void setPositions(String direction){
