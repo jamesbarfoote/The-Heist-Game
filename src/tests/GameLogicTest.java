@@ -81,6 +81,7 @@ public class GameLogicTest extends TestCase{
 		p.lootContainer(s, canvas);
 		assertTrue(!s.isLocked());
 		assertTrue(s.getMoney() == 0);
+		assertTrue(p.getMoneyHeld() == 10000);
 	}
 	
 	public @Test void test_loot_safe_locked_false(){
@@ -95,6 +96,7 @@ public class GameLogicTest extends TestCase{
 		p.lootContainer(s, canvas);
 		assertTrue(!s.isLocked());
 		assertTrue(s.getMoney() == 0);
+		assertTrue(p.getMoneyHeld() == 10000);
 	}
 	
 	//Also tests checkForInteract for the case of finding money
