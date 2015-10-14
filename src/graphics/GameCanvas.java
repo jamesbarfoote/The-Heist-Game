@@ -168,6 +168,10 @@ public class GameCanvas extends Canvas{
 		}
 	}
 	
+	public State getState(){
+		return gameState;
+	}
+	
 	private void scaleImages(){
 		double width = 0;
 		double height = 0;
@@ -395,6 +399,7 @@ public class GameCanvas extends Canvas{
 				e.printStackTrace();
 			}
 			
+			inventoryTrade = null;			
 			gameMenu = new GameMenu(this, currentPlayer, players, this.room);
 			
 			this.cm = gameMenu.getClient(); //Get the client that was created
