@@ -15,6 +15,7 @@ import game.Room;
 
 /**
  * The server for the game. Stores a list of all the players. Hands sending and receving them
+ * @author james barfoote ID:300279899
  */
 public class Server implements Runnable {
 
@@ -27,7 +28,7 @@ public class Server implements Runnable {
 	 * The set of all players 
 	 */
 	private static List<Player> players = new CopyOnWriteArrayList<Player>();
-	
+
 	private static Room room;
 
 	/**
@@ -57,7 +58,7 @@ public class Server implements Runnable {
 			listener.close();
 		}
 	}
-	
+
 	public void stopServer()
 	{
 		running = false;
@@ -86,8 +87,8 @@ public class Server implements Runnable {
 		}
 
 		/**
-		* The main method for the server
-		*/
+		 * The main method for the server
+		 */
 		@SuppressWarnings("unchecked")
 		public void run() {
 			try {
@@ -116,29 +117,29 @@ public class Server implements Runnable {
 
 					//Only alter the list of players when another thread isn't
 					synchronized (players) {
-//						//If the player is already in the list of players then remove it and add the new one
-//						//this avoid having duplicated players
-//						if (players.contains(temp.get(0))) {
-//							players.remove(temp.get(0));
-//							players.add(temp.get(0));
-//							player = temp.get(0);
-//							this.r = tempR;
-//							break;
-//						}
-//						else
-//						{
-//							//Add the player straight to the list as its isn't in the list yet
-//							players.add(temp.get(0));
-//							player = temp.get(0);
-//							break;
-//						}
+						//						//If the player is already in the list of players then remove it and add the new one
+						//						//this avoid having duplicated players
+						//						if (players.contains(temp.get(0))) {
+						//							players.remove(temp.get(0));
+						//							players.add(temp.get(0));
+						//							player = temp.get(0);
+						//							this.r = tempR;
+						//							break;
+						//						}
+						//						else
+						//						{
+						//							//Add the player straight to the list as its isn't in the list yet
+						//							players.add(temp.get(0));
+						//							player = temp.get(0);
+						//							break;
+						//						}
 						players = temp;
 						room = tempR;
 						break;
 					}
 				}
 
-				
+
 				byte[] bytes3 = toBytes(room);
 				out.writeInt(bytes3.length);
 				out.write(bytes3);
@@ -155,22 +156,30 @@ public class Server implements Runnable {
 					Room tempRoom = (Room) toObject(bytes2);
 					//synchronized(room)
 					//{
-						room = (Room) tempRoom;
+					room = (Room) tempRoom;
+//					for(Player p: room.getPlayers())
+//					{
+//						System.out.println(room.getCurrentPlayer().getLocation().getX());
+//						System.out.println(p.getLocation().getX());
+//					}
+
 					//}
+
+					players = room.getPlayers();
 					
-					temp2 = tempRoom.getPlayers();
 					
 					synchronized (players) {//Make sure no other thread is currently trying to modify players
-//						for(Player p: players)
-//						{
-//							if(p.getID() == temp2.get(0).getID())
-//							{
-//								players.remove(p);//Remove player
-//								players.add(temp2.get(0));//Replace player
-//							}
-//						}
+						//						for(Player p: players)
+						//						{
+						//							if(p.getID() == temp2.get(0).getID())
+						//							{
+						//								players.remove(p);//Remove player
+						//								players.add(temp2.get(0));//Replace player
+						//							}
+						//						}
 						players = temp2;
 					}
+					
 
 					for (@SuppressWarnings("unused") DataOutputStream writer : writers) {//Send out the revised list to all players
 						byte[] bytes4 = toBytes(room);
@@ -215,7 +224,6 @@ public class Server implements Runnable {
 			}catch(java.io.IOException ioe){
 				ioe.printStackTrace();
 			}
-
 			return baos.toByteArray();
 		} 
 
@@ -236,8 +244,6 @@ public class Server implements Runnable {
 			}
 			return object;
 		}
-
-
 	}
 
 	@Override
@@ -247,10 +253,7 @@ public class Server implements Runnable {
 		} catch (Exception e) {
 			System.out.println("Couldn't run the server");
 			e.printStackTrace();
-		}
-		
-	}
-
-	
+		}		
+	}	
 }
 

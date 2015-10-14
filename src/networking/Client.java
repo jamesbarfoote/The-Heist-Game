@@ -5,6 +5,7 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.Socket;
 import java.net.UnknownHostException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 import game.Room;
@@ -21,8 +22,6 @@ public class Client {
 	public List<Player> players;
 	public Player currentPlayer;
 	public Room room;
-	private int port;
-	private String host;
 	private Socket client;
 	private int ID;
 
@@ -38,8 +37,6 @@ public class Client {
 	public Client(int port, String host, Player currentPlayer, Room r) throws IOException, InterruptedException
 	{
 		System.out.println("Client started");
-		this.port = port;
-		this.host = host;
 		this.room = r;
 		this.currentPlayer = currentPlayer;
 		players = new CopyOnWriteArrayList<Player>(); //This type is used to avoid concurrent modifications
@@ -94,11 +91,26 @@ public class Client {
 	 * Connects to the server then enters the processing loop.
 	 * @throws InterruptedException 
 	 */
-	@SuppressWarnings("unchecked")
 	public void run() throws IOException, InterruptedException {
 
 		//send our room out
 		this.room.setCurrentPlayer(this.currentPlayer);
+		for(Player p: players) //Update the current player in the players list
+		{
+			if(p.getID() == currentPlayer.getID())
+			{
+				System.out.println("Player set. Size = " + players.size());
+				p = currentPlayer;
+			}
+		}
+		this.room.setPlayers(players);
+		
+		for(Player p: players)
+		{
+			System.out.println(room.getCurrentPlayer().getLocation().getX());
+			System.out.println(p.getLocation().getX());
+		}
+		
 		byte[] bytes = toBytes(this.room);
 		outputStream.writeInt(bytes.length);//Send the length of the array
 		outputStream.write(bytes);

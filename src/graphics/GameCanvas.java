@@ -419,6 +419,8 @@ public class GameCanvas extends Canvas{
 		else if(s.equals(State.MULTI)){
 			this.initialize();
 			gameMenu = new Lobby(this, currentPlayer, players, this.host, this.room);//Create a new game lobby
+			this.cm = gameMenu.getClient();
+			currentPlayer = this.cm.getPlayer();
 		}
 	}
 	
@@ -662,16 +664,14 @@ public class GameCanvas extends Canvas{
 	}
 	
 	private void drawIcons(Graphics2D g, Point point){	
-
-		//System.out.println("ID  = " + cm.getID());
-		for(Player p: this.players)//Find the current player in the list and update the local player with it
-
-		{
-			if(p.getID() == cm.getID())//Get the current player
-			{
-				cm.setPlayer(p);//update the current plater in the client
-			}
-		}
+		
+//		for(Player p: this.players)//Find the current player in the list and update the local player with it
+//		{
+//			if(p.getID() == cm.getID())//Get the current player
+//			{
+				cm.setPlayer(currentPlayer);//update the current plater in the client
+//			}
+//		}
 
 		//Call the main client loop. This fetches and sends the latest player information
 		try {
@@ -705,6 +705,7 @@ public class GameCanvas extends Canvas{
 		
 		for(Player p: players)//set the current player
 		{
+			//System.out.println("Game Canvas " + p.getLocation().getX());
 			if(p.getID() == cm.getID())
 			{
 				this.currentPlayer = p;

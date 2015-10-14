@@ -88,6 +88,11 @@ public class Room implements Serializable{
 	public String getRoomName(){
 		return roomName;
 	}
+	
+	public Player getCurrentPlayer()
+	{
+		return currentPlayer;
+	}
 
 	public int getWidth(){
 		return width;
