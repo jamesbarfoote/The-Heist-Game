@@ -202,30 +202,38 @@ public class GameLogicTest extends TestCase{
 	
 	public @Test void test_move_left_true(){
 		canvas.initialize();
+		Point old = p.getLocation();
+		Point newP = new Point((int)old.getX(),(int) old.getY()-1);
 		m.actionPerformed(new ActionEvent(p, 0, "Left"));
-		assertTrue(p.getOldLocation().equals(new Point(5,20)));
-		assertTrue(p.getLocation().equals(new Point(5,19)));
+		assertTrue(p.getOldLocation().equals(old));
+		assertTrue(p.getLocation().equals(newP));
 	}
 	
 	public @Test void test_move_right_true(){
 		canvas.initialize();
+		Point old = p.getLocation();
+		Point newP = new Point((int)old.getX(),(int) old.getY()+1);
 		m3.actionPerformed(new ActionEvent(p, 0, "Right"));
-		assertTrue(p.getOldLocation().equals(new Point(5,20)));
-		assertTrue(p.getLocation().equals(new Point(5,21)));
+		assertTrue(p.getOldLocation().equals(old));
+		assertTrue(p.getLocation().equals(newP));
 	}
 	
 	public @Test void test_move_up_true(){
 		canvas.initialize();
+		Point old = p.getLocation();
+		Point newP = new Point((int)old.getX()+1,(int) old.getY());
 		m2.actionPerformed(new ActionEvent(p, 0, "Up"));
-		assertTrue(p.getOldLocation().equals(new Point(5,20)));
-		assertTrue(p.getLocation().equals(new Point(6,20)));
+		assertTrue(p.getOldLocation().equals(old));
+		assertTrue(p.getLocation().equals(newP));
 	}
 	
 	public @Test void test_move_down_true(){
 		canvas.initialize();
+		Point old = p.getLocation();
+		Point newP = new Point((int)old.getX()-1,(int) old.getY());
 		m4.actionPerformed(new ActionEvent(p, 0, "Down"));
-		assertTrue(p.getOldLocation().equals(new Point(5,20)));
-		assertTrue(p.getLocation().equals(new Point(4,20)));
+		assertTrue(p.getOldLocation().equals(old));
+		assertTrue(p.getLocation().equals(newP));
 	}
 	
 	public @Test void test_move_left_false(){
