@@ -23,7 +23,7 @@ public class GameMenu extends Menu{
 	private Room room;
 
 	/**
-	 * 
+	 *
 	 * @param GameCanvas
 	 * @param currentPlayer
 	 * @param players List
@@ -35,7 +35,7 @@ public class GameMenu extends Menu{
 		this.players = players;
 		menuBack = GameCanvas.loadImage("menu.png");
 		menuX = (canvas.getWidth()/2) - (menuBack.getWidth(null)/2);
-		menuY = (canvas.getHeight()/2) - (menuBack.getHeight(null)/2); 
+		menuY = (canvas.getHeight()/2) - (menuBack.getHeight(null)/2);
 		gameButtons = new ArrayList<GameButton>();
 
 		//add buttons to the menu
@@ -57,6 +57,7 @@ public class GameMenu extends Menu{
 		case "save":
 			action = Action.SAVE;
 			canvas.showConfirmation(this, Action.SAVE, "Enter save name", null);
+			data.Save.saveToXML(cm.getRoom());
 			break;
 		case "options":
 
