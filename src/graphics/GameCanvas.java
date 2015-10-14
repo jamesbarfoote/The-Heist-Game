@@ -156,7 +156,7 @@ public class GameCanvas extends Canvas{
 	
 	private void addToImages(){
 		this.filenames = addToFilenames();
-		for(int i = 0; i < 16; i++){	//16 different kinds of assets.
+		for(int i = 0; i < 17; i++){	//16 different kinds of assets.
 			for(int j = 0; j < 4; j++){	//4 different directions.
 				try {
 					BufferedImage myPicture = ImageIO.read(new File(ASSET_PATH + this.directions[j] + filenames.get(i)));
@@ -220,6 +220,7 @@ public class GameCanvas extends Canvas{
 		filenames.add("_wall_vault_3.png");
 		filenames.add("_floor_checkered.png");
 		filenames.add("_floor_marble1.png");
+		filenames.add("_floor_marble2.png");
 		filenames.add("_floor_vault.png");
 		filenames.add("_player_1.png");
 		filenames.add("_obj_cashStack.png");
@@ -387,7 +388,6 @@ public class GameCanvas extends Canvas{
 			menuUp = false;
 			inventory = null;
 			inventoryTrade = null;
-			System.out.println("Beofre new menu");
 			try {
 				Thread.sleep(2000);
 			} catch (InterruptedException e) {
@@ -572,10 +572,10 @@ public class GameCanvas extends Canvas{
 		    for (int j = 0; j < tiles[i].length; j++){
 		    	Point point = new Point(i, j);
 		    	Point p = twoDToIso(point);
-		    	if(p.getX() > this.width - this.translateX + this.zoom || p.getY() > this.height - this.translateY + this.zoom){
-		    		System.out.println(p.getX() + " " + p.getY());
-		    		System.out.println(this.width);
-		    		System.out.println("translateX: " + this.translateX);
+		    	if(p.getX() > this.width - this.translateX - this.zoom/8  || p.getY() > this.height - this.translateY + this.zoom){
+		    		continue;
+		    	}
+		    	if(p.getX() < 0 - this.translateX - this.zoom  || p.getY() < 0 - this.translateY - this.zoom/2){
 		    		continue;
 		    	}
 		    	if(tiles[i][j] == "marble"){
@@ -655,8 +655,6 @@ public class GameCanvas extends Canvas{
 	}
 	
 	private void drawIcons(Graphics2D g, Point point){	
-		System.out.println(cm.getPlayer());
-		System.out.println("P = " + players.get(0).getID());
 		//System.out.println("ID  = " + cm.getID());
 		for(Player p: players)//Find the current player in the list and update the local player with it
 		{
@@ -838,7 +836,6 @@ public class GameCanvas extends Canvas{
 		this.translateX = this.translateX + translation[0];
 		this.translateY = this.translateY + translation[1];
 		
-		//for(int i = 1; i < this.players.size(); i++){
 		for(Player player : this.players){
 			if(player.getID() != currentPlayer.getID()){
 				oldLocation = player.getLocation();
