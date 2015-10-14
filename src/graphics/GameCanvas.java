@@ -167,7 +167,7 @@ public class GameCanvas extends Canvas{
 		
 		filenames.add("_door_woodenClosed.png");
 		filenames.add("_door_woodenOpen.png");
-		filenames.add("_floor_carpet1.png");
+		filenames.add("_floor_checkered.png");
 		filenames.add("_floor_marble1.png");
 		filenames.add("_floor_marble2.png");
 		filenames.add("_obj_cashStack.png");
@@ -496,8 +496,8 @@ public class GameCanvas extends Canvas{
 		    		drawTile(g, p, this.directions[direction] + "_floor_marble2.png");
 		    		drawIcons(g, point);
 		    	}
-		    	else if(tiles[i][j] == "carpet"){
-		    		drawTile(g, p, this.directions[direction] + "_floor_carpet1.png");
+		    	else if(tiles[i][j] == "checkered"){
+		    		drawTile(g, p, this.directions[direction] + "_floor_checkered.png");
 		    		drawIcons(g, point);
 		    	}
 		    	else if(tiles[i][j] == "door"){
