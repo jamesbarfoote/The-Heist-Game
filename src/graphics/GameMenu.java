@@ -56,7 +56,7 @@ public class GameMenu extends Menu{
 		switch(button){
 		case "save":
 			action = Action.SAVE;
-			canvas.showConfirmation(this, Action.SAVE, "Enter save name", null);
+			//canvas.showConfirmation(this, Action.SAVE, "Enter save name", null);
 			data.Save.saveToXML(cm.getRoom());
 			break;
 		case "options":

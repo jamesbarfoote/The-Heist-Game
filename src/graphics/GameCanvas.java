@@ -134,6 +134,10 @@ public class GameCanvas extends Canvas{
 		currentRoom.addItem(money4);
 		currentRoom.addItem(new Safe(new Point(4, 32), money.getAmount(), true));
 		currentRoom.addItem(new Safe(new Point(33, 29), money.getAmount(), true));
+		currentRoom.addItem(new Safe(new Point(31, 1), money.getAmount(), true));
+		currentRoom.addItem(new Safe(new Point(16, 23), money.getAmount(), true));
+		currentRoom.addItem(new Safe(new Point(18, 7), money.getAmount(), true));
+		currentRoom.addItem(new Safe(new Point(24, 27), money.getAmount(), true));
 		//Desks--------------------------------------------------
 		currentRoom.addItem(new Desk(new Point(2, 35), deskItems));
 		currentRoom.addItem(new Desk(new Point(2, 3), deskItems));
