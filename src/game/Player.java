@@ -18,7 +18,8 @@ import java.util.Map;
 /**
  * 
  * @author james.barfoote, 
- * Represents everything that a player is. 
+ * Represents everything that a player is.
+ * Holds methods for the interactions players have with objects and doors, eg: Picking up money, looting desks
  *
  */
 public class Player implements Serializable{
@@ -26,7 +27,7 @@ public class Player implements Serializable{
 	private Room room;
 	private Weapon weapon;
 	private int score;
-	private Type t;
+	private Type t; //Whether the player is a robber or a guard
 	private int ID;
 	private Point currentPosition, oldPosition; //Location(coords of the square with current room)
 	private Map<String, Integer> inventory;	//contains player items
@@ -43,6 +44,7 @@ public class Player implements Serializable{
 	}
 
 	/**
+	 * Rotates the player one cardinal direction clockwise/anti-clockwise
 	 * @param direction the direction to set
 	 */
 	public void rotatePlayer(String direction) {

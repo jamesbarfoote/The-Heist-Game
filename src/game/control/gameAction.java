@@ -63,6 +63,7 @@ public class gameAction extends AbstractAction {
 			}
 		}
 		else if(action.equals("B")){
+			//If you have enough money to drop one full stack
 			if(player.getMoneyHeld() >= 500){
 				Money m = new Money(500, player.getLocation());
 				this.canvas.getItems().add(m); //Adds the money object to the canvas

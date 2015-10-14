@@ -5,12 +5,18 @@ import game.items.Key;
 
 import java.awt.Point;
 
+/**
+ * Representation of a Door that the player can pass through into another room. Doors can be locked to prevent
+ * the player passing through them. 
+ * The door can be unlocked by any key
+ * @author Lachlan
+ *
+ */
 public class Door{
 
 
-	private boolean locked;
-	private Key key;
-	private Point position;
+	private boolean locked; //Whether the door is locked or not
+	private Point position; //The position in the worldpsace
 	
 	public Door(boolean locked, Point pos){
 		this.position = pos;
@@ -38,10 +44,6 @@ public class Door{
 	
 	public boolean isLocked(){
 		return locked;
-	}
-	
-	public Key getKey(){
-		return key;
 	}
 	
 	public Point getPosition(){

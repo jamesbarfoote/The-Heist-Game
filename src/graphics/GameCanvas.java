@@ -117,7 +117,6 @@ public class GameCanvas extends Canvas{
 		Money money2 = new Money(1000, new Point(20, 5));
 		Money money3 = new Money(1000, new Point(23, 6));
 		Money money4 = new Money(1000, new Point(19, 3));
-		Key key = new Key();
 		Map<String, Integer> deskItems = new HashMap<String, Integer>();
 		deskItems.put("Money", 50);
 		deskItems.put("Old Coin", 16);

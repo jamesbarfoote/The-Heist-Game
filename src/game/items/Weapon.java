@@ -7,6 +7,7 @@ import java.io.Serializable;
 /**
  * Various weapons can be wielded and used by both the robbers and guards. Most of these will be projectile weapons,
  * but some will have to be used at melee range.
+ * Not yet in use.
  * @author Lachlan
  *
  */

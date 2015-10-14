@@ -6,6 +6,12 @@ import java.util.Map;
 
 import game.Money;
 
+/**
+ * An interactable item that can hold other interactable items, including money.
+ * Cannot hold another container
+ * @author Lachlan
+ *
+ */
 public class Container extends InteractableItem{
 
 	private Point position;

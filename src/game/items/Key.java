@@ -5,27 +5,18 @@ import java.awt.Point;
 import game.Door;
 import game.Room;
 
+/**
+ * An item for unlocking doors. A key should unlock a particular door
+ * Not currently in use as key specific doors are not yet implemented
+ * @author Lachlan
+ *
+ */
 public class Key extends InteractableItem{
 	
-	private Container containedIn;
 	private String filename = "";	//TODO add the filename when asset is made.
 
 	public Key(){
 		super(null);
-		this.containedIn = containedIn;
-	}
-	
-	/**
-	 * Called by the character class when it takes ownership of the key.
-	 * Makes sure the game doesn't think the key is still in its container
-	 * Prevents possible key duplication and/or game not thinking you have the key
-	 */
-	public void giveToPlayer(){
-		containedIn = null;
-	}
-	
-	public Container getContainedIn(){
-		return containedIn;
 	}
 
 	@Override

@@ -98,6 +98,7 @@ public class moveAction extends AbstractAction {
 				}
 			}
 		}
+		//Checks to make sure there isnt a locked door where you are trying to move
 		if(player.checkForDoor(canvas) != null){
 			if(player.checkForDoor(canvas).isLocked() == true){
 				return false;
