@@ -46,16 +46,6 @@ public class Inventory extends Dialogue{
 		
 		startList = 0;
 		items = p.getInventory();
-		//items = new LinkedHashMap<String, Integer>();
-		//items.put("Gun", 1);
-		//items.put("cheese", 1);
-		//items.put("Gold", 100);
-		//items.put("chips", 5);
-		//items.put("tomato", 2);
-		//items.put("donut", 1);
-		//items.put("bullets", 10);
-		//items.put("gum", 2);
-		//items.put("bacon", 5);
 	}
 	
 	public void mouseReleased(MouseEvent e){

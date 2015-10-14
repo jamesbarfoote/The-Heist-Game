@@ -13,8 +13,8 @@ public class Desk extends Container {
 	private ArrayList<Point> positions = new ArrayList<Point>();
 	
 
-	public Desk(Point position, Map<String, Integer> items, int money) {
-		super(position, items, money);
+	public Desk(Point position, Map<String, Integer> items) {
+		super(position, items, 0);
 		this.positions.add(new Point((int) position.getX(), (int) position.getY() - 1));
 	}
 
