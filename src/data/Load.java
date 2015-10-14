@@ -41,7 +41,7 @@ public class Load {
 
 			Element gameNode = doc.getDocumentElement();
 
-			//get timer
+			// get timer
 			NodeList timerNodeList = gameNode.getElementsByTagName(Save.TIMER);
 			Element timerNode = (Element) timerNodeList.item(0);
 			String strTimer = timerNode.getTextContent();
@@ -75,8 +75,8 @@ public class Load {
 		ArrayList<Player> players = new ArrayList<>();
 
 		for (int i = 0; i < playersNodeList.getLength(); i++) {
-			Node playerNode = roomsNodeList.item(i);
-			players.add(addPlayers(playerNode));
+			Element playerNode = (Element) playersNodeList.item(i);
+			players.add(addPlayer(playerNode));
 		}
 
 		room.setPlayers(players);
@@ -89,11 +89,9 @@ public class Load {
 		// get all the items in the room
 		NodeList roomItemsNodeList = roomNode.getChildNodes();
 
-		System.out.println("Length of roomItemsNodeList: " + roomItemsNodeList.getLength());
-
 		for (int count = 0; count < roomItemsNodeList.getLength(); count++) {
 			// if the node is an element
-			System.out.println("count: " + count);
+			// System.out.println("count: " + count);
 			if (roomItemsNodeList.item(count) instanceof Element) {
 				Element itemNode = (Element) roomItemsNodeList.item(count);
 
@@ -153,11 +151,13 @@ public class Load {
 		element = (Element) node;
 		boolean locked = Boolean.parseBoolean(element.getTextContent());
 
-		Map<String,Integer> items = new HashMap<>();
+		Map<String, Integer> items = new HashMap<>();
 
-		System.out.println("Safe\nPosition: " + point + ", money: " + money);
+		System.out.println("Safe\nPosition: " + point + ", money: " + money
+				+ ", Locked: " + locked+"\n");
 
-		Safe safe = new Safe(stringToPoint(point), Integer.parseInt(money), locked);
+		Safe safe = new Safe(stringToPoint(point), Integer.parseInt(money),
+				locked);
 
 		return safe;
 	}
@@ -176,27 +176,28 @@ public class Load {
 		element = (Element) node;
 		String money = element.getTextContent();
 
-		Map<String,Integer> items = new HashMap<>();
+		Map<String, Integer> items = new HashMap<>();
 
-		System.out.println("Desk\nPosition: " + point + ", money: " + money);
+		System.out.println("Desk\nPosition: " + point + ", money: " + money+"\n");
 
 		Desk desk = new Desk(stringToPoint(point), items);
 
 		return desk;
 	}
 
-	private static Player addPlayers(Node playerNode) {
+	private static Player addPlayer(Element playerNode) {
 
 		NodeList playerNodeList = playerNode.getChildNodes();
+
+		// id
+		String id = playerNode.getAttribute(Save.ID);
 
 		// name
 		Node node = playerNodeList.item(1);
 		Element element = (Element) node;
 		String name = element.getTextContent();
 
-		// weapon
-
-		// point
+		// location
 		node = playerNodeList.item(3);
 		element = (Element) node;
 		String point = element.getTextContent();
@@ -206,7 +207,27 @@ public class Load {
 		element = (Element) node;
 		String type = element.getTextContent();
 
-		System.out.println("Player\nName: " + point+", Point: " + point + ", Type: "+ type);
+		// direction
+		node = playerNodeList.item(7);
+		element = (Element) node;
+		String dir = element.getTextContent();
+
+		Map<String, Integer> inventory = new HashMap<>();
+
+		NodeList playerInventoryList = playerNode
+				.getElementsByTagName(Save.INVENTORY);
+
+		// read inventory items and add to inventory map
+		for (int i = 0; i < playerInventoryList.getLength(); i++) {
+			String item = playerInventoryList.item(i).getTextContent();
+			String key = item.split(",")[0];
+			int value = Integer.parseInt(item.split(",")[1]);
+			inventory.put(key, value);
+		}
+
+		 System.out.println("Player\nID: " + id + ", Name: " + name +
+		 ", Point: "
+		 + point + ", Type: " + type + ", Direction: " + dir +", Inventory: " + inventory.toString() + "\n");
 
 		Player player = new Player(name, stringToPoint(point),
 				stringToType(type));
