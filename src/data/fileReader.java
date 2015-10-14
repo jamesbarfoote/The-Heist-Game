@@ -53,7 +53,7 @@ public class fileReader {
 						tiles[lineNum][rowNum] = "marble2";
 					}
 					else if(value.equals("3")){
-						tiles[lineNum][rowNum] = "carpet";
+						tiles[lineNum][rowNum] = "checkered";
 					}
 					else if(value.equals("4")){
 						tiles[lineNum][rowNum] = "door";
