@@ -66,7 +66,7 @@ public class Save {
 	 * @param rooms
 	 *            - The list of rooms in the current game.
 	 */
-	public static void saveToXML(ArrayList<Room> rooms) {
+	public static void saveToXML(Room room) {
 		DocumentBuilderFactory docFactory = DocumentBuilderFactory
 				.newInstance();
 		DocumentBuilder docBuilder;
@@ -83,9 +83,7 @@ public class Save {
 			rootElement.appendChild(node(doc, TIMER, "10000"));
 
 			// append rooms to root element
-			for (Room room : rooms) {
-				rootElement.appendChild(addRoom(doc, room));
-			}
+			rootElement.appendChild(addRoom(doc, room));
 
 			// output XML to file
 			Transformer transformer = TransformerFactory.newInstance()
@@ -146,32 +144,38 @@ public class Save {
 		return room;
 	}
 
-	private static Node addItems(Document doc, Item i) {
+	private static Node addItems(Document doc, Item item) {
 		// <item type=MoveableItem>
 		Element itemNode = doc.createElement(ITEM);
-		String itemType = i.getClass().getSimpleName().toLowerCase();
+		String itemType = item.getClass().getSimpleName().toLowerCase();
 		itemNode.setAttribute(TYPE, itemType);
 
 		// add item position
-		itemNode.appendChild(node(doc, POS, pointToString(i.getPosition())));
+		itemNode.appendChild(node(doc, POS, pointToString(item.getPosition())));
 
 		// if a container, add items inside
-		if (i instanceof game.items.Container) {
+		if (item instanceof game.items.Container) {
 			// add money int
-			int money = ((Container) i).getMoney();
+			int money = ((Container) item).getMoney();
 				itemNode.appendChild(node(doc, MONEY, Integer.toString(money) ));
-			// check if null
-			if (((game.items.Container) i).getItems() != null) {
-				for (InteractableItem item : ((game.items.Container) i)
-						.getItems()) {
-					itemNode.appendChild(addItems(doc, item));
+
+				// add map of items, if not null
+				if (((game.items.Container) item).getItems() != null) {
+					Map<String, Integer> inventory = ((game.items.Container) item).getItems();
+					Node inventoryNode = doc.createTextNode(INVENTORY);
+
+					for (Entry<String, Integer> entry : inventory.entrySet()) {
+						String key = entry.getKey();
+						String value = Integer.toString(entry.getValue());
+						inventoryNode.appendChild(node(doc, MAP, key + "," + value));
+					}
+					itemNode.appendChild(inventoryNode);
 				}
-			}
 		}
 
 		// if money, add value
-		if (i instanceof game.Money) {
-			int amount = ((game.Money) i).getAmount();
+		if (item instanceof game.Money) {
+			int amount = ((game.Money) item).getAmount();
 			String strAmount = Integer.toString(amount);
 			itemNode.appendChild(node(doc, AMOUNT, strAmount));
 		}
@@ -259,7 +263,7 @@ public class Save {
 		safeItems.add(money);
 		safeItems.add(money);
 
-		Safe safe = new Safe(new Point(4, 7), safeItems, 0);
+		Safe safe = new Safe(new Point(4, 7), 0);
 		Desk desk = new Desk(new Point(8, 8), deskItems, 0);
 		ArrayList<Player> players = new ArrayList<Player>();
 		currentRoom = new Room("testRoom", 0, 0, players);
@@ -270,19 +274,16 @@ public class Save {
 
 		Weapon weapon = new Weapon("", false);
 
-		Player currentPlayer = new Player("1", weapon, new Point(1, 1),
+		Player currentPlayer = new Player("1", new Point(1, 1),
 				game.Player.Type.robber);
-		Player player2 = new Player("2", weapon, new Point(6, 2),
+		Player player2 = new Player("2", new Point(6, 2),
 				game.Player.Type.robber);
 
 		currentPlayer.lootContainer(desk);
 		players.add(currentPlayer);
 		players.add(player2);
 
-		ArrayList<Room> rooms = new ArrayList<>();
-		rooms.add(currentRoom);
-
-		saveToXML(rooms);
+		saveToXML(currentRoom);
 
 	}
 
