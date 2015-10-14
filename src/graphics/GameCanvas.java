@@ -687,7 +687,7 @@ public class GameCanvas extends Canvas{
 	}
 	
 	private void drawIcons(Graphics2D g, Point point){	
-<<<<<<< HEAD
+
 		
 //		for(Player p: this.players)//Find the current player in the list and update the local player with it
 //		{
@@ -696,17 +696,6 @@ public class GameCanvas extends Canvas{
 				cm.setPlayer(currentPlayer);//update the current plater in the client
 //			}
 //		}
-=======
-		//System.out.println("ID  = " + cm.getID());
-		for(Player p: this.players)//Find the current player in the list and update the local player with it
-		{
-			if(p.getID() == cm.getID())//Get the current player
-			{
-				cm.setPlayer(p);//update the current plater in the client
-			}
-		}
->>>>>>> 11aa3a4fbabb1d101fea38c264aa4569275a81a1
-
 		//Call the main client loop. This fetches and sends the latest player information
 		try {
 			cm.run();
