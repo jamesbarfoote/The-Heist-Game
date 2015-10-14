@@ -82,7 +82,7 @@ public class InventoryTrade extends Inventory{
 			int y = box2.y + 12;
 			for(int i = 0; i < (MAXDISPLAY < items2.size() ? MAXDISPLAY : items2.size()); i++){
 				if(e.getY() >= y && e.getY() < y + 25){
-					makeSwap(i, 1);
+					makeSwap(i, 2);
 					return true;
 				}
 				y += 25;
