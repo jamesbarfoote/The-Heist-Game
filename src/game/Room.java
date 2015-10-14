@@ -106,6 +106,9 @@ public class Room {
 
 	public void addDoor(Door door) {
 		roomDoors.add(door);
-		
+	}
+	
+	public void setPlayers(List<Player> players){
+		this.players = players;
 	}
 }

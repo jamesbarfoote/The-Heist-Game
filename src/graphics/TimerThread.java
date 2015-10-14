@@ -20,7 +20,7 @@ public class TimerThread extends Thread{
 		running = true;
 		while(running){
 			try{
-				Thread.sleep(5);
+				Thread.sleep(1000);
 				display.decrementTimer();
 			}catch(InterruptedException e){
 				e.printStackTrace();

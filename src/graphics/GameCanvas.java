@@ -57,7 +57,7 @@ public class GameCanvas extends Canvas{
 	public static final Image logo = loadImage("title.png");
 	public static final Font textFont = new Font("TimesRoman", Font.PLAIN, 18); //font to be used for text in game
 	private TimerThread timer;	//timer for games
-	private long timerSeconds;	//seconds left on timer
+	private int timerSeconds;	//seconds left on timer
 	public final int TIMELIMIT = 300; //time to complete mission
 	
 	//-----------------------------new-------------------------------//
@@ -139,7 +139,7 @@ public class GameCanvas extends Canvas{
 		
 		//start timer 
 		timer = new TimerThread(this);
-		timerSeconds = TIMELIMIT * 1000;
+		timerSeconds = TIMELIMIT;
 		repaint();
 		timer.start();
 	}
@@ -330,7 +330,7 @@ public class GameCanvas extends Canvas{
 	}
 	
 	public void decrementTimer(){
-		timerSeconds -= 5;
+		timerSeconds --;
 	}
 	
 	/**
@@ -341,15 +341,12 @@ public class GameCanvas extends Canvas{
 		//draw timer
 		int minutes;
 		int seconds;
-		int millis;
 		g.setFont(new Font("TimesRoman", Font.PLAIN, 96));
 		g.setColor(Color.WHITE);
-		minutes = (int)(timerSeconds/1000)/60;
-		seconds = (int)(timerSeconds/1000) % 60;
-		millis = (int)timerSeconds % 100;
+		minutes = (int)timerSeconds/60;
+		seconds = (int)timerSeconds % 60;
 		String sSeconds = seconds < 10 ? "0" + seconds : "" + seconds;
-		String sMillis = millis < 10 ? "0" + millis : "" + millis;
-		g.drawString(minutes + ":" + sSeconds + ":" + sMillis, 100, getHeight() - 100);
+		g.drawString(minutes + ":" + sSeconds, 100, getHeight() - 100);
 		
 		//draw cash amount
 		
