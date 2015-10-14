@@ -2,6 +2,7 @@ package game.items;
 
 import java.awt.Point;
 import java.util.ArrayList;
+import java.util.Map;
 import java.util.Random;
 
 public class Safe extends Container{
@@ -12,8 +13,8 @@ public class Safe extends Container{
 	String direction = "N";
 	double[] size = {1.3, 2};
 	
-	public Safe(Point position, ArrayList<InteractableItem> items, int money){
-		super(position, items, money);
+	public Safe(Point position, int money){
+		super(position, null, money);
 		locked = true;
 		combination = new int[4];
 		generateCombination();

@@ -1,5 +1,8 @@
 package graphics;
 
+import game.Player;
+import game.items.Desk;
+
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Rectangle;
@@ -16,32 +19,36 @@ public class InventoryTrade extends Inventory{
 	private Rectangle box2; //area for second inventory to display
 	private int startList1; //place for first list to start
 	private int startList2; //place for second list to start drawing
+	private Desk d; //The desk being looted, used for closing window
 	
-	public InventoryTrade(GameCanvas cv){//, Map<String, Integer> i1, Map<String, Integer> i2){
-		super(cv);
+	public InventoryTrade(GameCanvas cv, Player p, Desk d){//, Map<String, Integer> i1, Map<String, Integer> i2){
+		super(cv, p);
 		//items1 = i1;
 		//items2 = i2;
 		box2 = new Rectangle((int)box1.getMaxX() + 15, box1.y, box1.width, box1.height);
+		this.d = d;
 		
 		startList1 = 0;
-		items1 = new LinkedHashMap<String, Integer>();
-		items1.put("Gun", 1);
-		items1.put("cheese", 1);
-		items1.put("Gold", 100);
-		items1.put("chips", 5);
-		items1.put("tomato", 2);
-		items1.put("donut", 1);
-		items1.put("bullets", 10);
-		items1.put("gum", 2);
-		items1.put("bacon", 5);
+		items1 = p.getInventory();
+		//items1 = new LinkedHashMap<String, Integer>();
+		//items1.put("Gun", 1);
+		//items1.put("cheese", 1);
+		//items1.put("Gold", 100);
+		//items1.put("chips", 5);
+		//items1.put("tomato", 2);
+		//items1.put("donut", 1);
+		//items1.put("bullets", 10);
+		//items1.put("gum", 2);
+		//items1.put("bacon", 5);
 		
 		startList2 = 0;
-		items2 = new LinkedHashMap<String, Integer>();
-		items2.put("Gun", 1);
-		items2.put("cheese", 1);
-		items2.put("Gold", 100);
-		items2.put("chips", 5);
-		items2.put("tomato", 2);
+		items2 = d.getItems();
+//		items2 = new LinkedHashMap<String, Integer>();
+//		items2.put("Gun", 1);
+//		items2.put("cheese", 1);
+//		items2.put("Gold", 100);
+//		items2.put("chips", 5);
+//		items2.put("tomato", 2);
 		//items2.put("donut", 1);
 		//items2.put("bullets", 10);
 		//items2.put("gum", 2);
@@ -56,7 +63,7 @@ public class InventoryTrade extends Inventory{
 			return;
 		}
 		if(button.equals("close")){
-			canvas.showInventory();
+			canvas.openTrade(d);
 		}
 	}
 	

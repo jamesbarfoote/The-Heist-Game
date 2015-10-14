@@ -45,7 +45,7 @@ public class gameAction extends AbstractAction {
 			//If there is a container found
 			if(player.checkforInteract(this.canvas) instanceof Container){
 				Container c = (Container) player.checkforInteract(this.canvas);
-				player.lootContainer(c);
+				player.lootContainer(c, this.canvas);
 			}
 			//If there is a cash stack found
 			else if(player.checkforInteract(this.canvas) instanceof Money){
