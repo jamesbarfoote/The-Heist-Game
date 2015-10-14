@@ -25,7 +25,7 @@ public class Lobby extends Menu{
 	private Client cm;
 	private String host = "localhost";
 	private Room room;
-	
+
 	/**
 	 * 
 	 * @param cv The main drawing area
@@ -49,19 +49,19 @@ public class Lobby extends Menu{
 		setButtonCoordinates();
 		startClient();
 	}
-	
+
 	public void keyPressed(KeyEvent e){
-		
+
 	}
-	
+
 	public void decline(){
-		
+
 	}
-	
+
 	public void accept(String data){
-		
+
 	}
-	
+
 	public void mouseReleased(MouseEvent e){
 		String button = onClick(e);
 		if(button == null) {
@@ -79,7 +79,7 @@ public class Lobby extends Menu{
 			break;
 		}
 	}
-	
+
 	/**
 	 * Creates a new client and connects to the server.
 	 * Updates the current player and list of players
@@ -108,8 +108,8 @@ public class Lobby extends Menu{
 		}
 
 	}
-	
-	
+
+
 	/**
 	 * Returns the client for use in other classes
 	 */
@@ -117,7 +117,7 @@ public class Lobby extends Menu{
 	{
 		return cm;
 	}
-	
+
 	protected void setButtonCoordinates(){
 		int yDown = menuY + menuBack.getHeight(null) - YSTART;
 		int x = menuX + menuBack.getWidth(null)/4;
@@ -127,23 +127,30 @@ public class Lobby extends Menu{
 		x = menuX + menuBack.getWidth(null)*3/5 + 10;
 		current.setCoordinates(x, yDown);
 	}
-	
-	public void draw(Graphics g){
-		//String name = cm.getPlayer().getName();
-	//	String type = cm.getPlayer().getPlayerType().toString();
-		//Draw the players name, type and ip
-		
+
+	public void draw(Graphics g){	
 		g.drawImage(menuBack, menuX, menuY, null);
 		for(GameButton gb: gameButtons){
 			g.drawImage(gb.getImage(), gb.getX(), gb.getY(), null);
 		}
-		
+
 		int nameX = menuX + 100;
 		int nameY = menuY + 100;
+		
+		try {
+			cm.run();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		players = cm.getPlayers();
 		for(Player p: players){
-			g.drawString(p.getName(), nameX, nameY);
+			g.drawString(p.getName(), nameX, nameY + 20);
 			nameY += 50;
 		}
 	}
-
 }
