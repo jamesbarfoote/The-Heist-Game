@@ -76,7 +76,7 @@ public class GameCanvas extends Canvas{
 	private String host = "localhost";
 	
 	private double translateX, translateY;
-	private double zoom = 200;
+	private double zoom = 30;
 	private int zooming = 0;	//0 = Not zooming, 1 = zooming in, 2 = zooming out
 	private String[] directions = {"N", "E", "S", "W"};
 	private int direction = 0;
@@ -110,7 +110,7 @@ public class GameCanvas extends Canvas{
 	 * Sets up everything in the room
 	 */
 	public void initialize(){
-		this.currentPlayer.setLocation(new Point(5, 20));		
+		this.currentPlayer.setLocation(new Point(35, 20));		
 		fileReader data = new fileReader("10");		
 		Room currentRoom = new Room("testRoom", data.getWidth(), data.getHeight(), players);
 		
@@ -132,15 +132,30 @@ public class GameCanvas extends Canvas{
 		currentRoom.addItem(money2);
 		currentRoom.addItem(money3);
 		currentRoom.addItem(money4);
-		currentRoom.addItem(new Safe(new Point(4, 7), money.getAmount(), true));
-		currentRoom.addItem(new Desk(new Point(12, 10), deskItems));
-		currentRoom.addItem(new Desk(new Point(22, 22), deskItems2));
+		currentRoom.addItem(new Safe(new Point(4, 32), money.getAmount(), true));
+		currentRoom.addItem(new Safe(new Point(33, 29), money.getAmount(), true));
+		//Desks--------------------------------------------------
+		currentRoom.addItem(new Desk(new Point(2, 35), deskItems));
+		currentRoom.addItem(new Desk(new Point(2, 3), deskItems));
+		currentRoom.addItem(new Desk(new Point(9, 12), deskItems));
+		currentRoom.addItem(new Desk(new Point(9, 29), deskItems));
+		currentRoom.addItem(new Desk(new Point(30, 18), deskItems));
+		currentRoom.addItem(new Desk(new Point(30, 20), deskItems));
+		currentRoom.addItem(new Desk(new Point(30, 22), deskItems));
+		currentRoom.addItem(new Desk(new Point(30, 24), deskItems));
+		currentRoom.addItem(new Desk(new Point(30, 9), deskItems));
+		currentRoom.addItem(new Desk(new Point(36, 38), deskItems));
+//		currentRoom.addItem(new Desk(new Point(1, 5), deskItems));
+//		currentRoom.addItem(new Desk(new Point(10, 15), deskItems));
+//		currentRoom.addItem(new Desk(new Point(10, 25), deskItems));
+//		currentRoom.addItem(new Desk(new Point(22, 22), deskItems2));
+		
 		currentRoom.addDoor(new Door(false, new Point(6,3)));
 		currentRoom.addDoor(new Door(true, new Point(6,11)));
 		currentRoom.addDoor(new Door(false, new Point(13,6)));
 		currentRoom.addDoor(new Door(false, new Point(11,14)));
 		currentRoom.addDoor(new Door(false, new Point(9,19)));
-		currentRoom.addDoor(new Door(false, new Point(18,12)));		
+		currentRoom.addDoor(new Door(false, new Point(18,12)));	
 		
 		this.setRoom(currentRoom);
 		this.tiles = data.getTiles();
@@ -597,7 +612,7 @@ public class GameCanvas extends Canvas{
 		    		drawIcons(g, point);
 		    	}
 		    	else if(tiles[i][j] == "wall"){
-		            drawWall(g, p, this.directions[direction] + "_wall_block1.png");
+		           // drawWall(g, p, this.directions[direction] + "_wall_block1.png");
 		    	}
 		    	else if(tiles[i][j] == "marble2"){
 		    		drawTile(g, p, this.directions[direction] + "_floor_marble2.png");
