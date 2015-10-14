@@ -72,11 +72,12 @@ public class GameCanvas extends Canvas{
 	private String host = "localhost";
 	
 	private double translateX, translateY;
-	private double zoom;
+	private double zoom = 60;
 	private int zooming = 0;	//0 = Not zooming, 1 = zooming in, 2 = zooming out
 	private String[] directions = {"N", "E", "S", "W"};
 	private int direction = 0;
 	private HashMap<String, BufferedImage> images = new HashMap<String, BufferedImage>();
+	private ArrayList<String> filenames;
 	
 	/*
 	 * Everything is held within the rooms. The canvas needs a current room to draw. This room will hold an
@@ -97,6 +98,7 @@ public class GameCanvas extends Canvas{
 		this.players.add(player);		
 		this.currentPlayer = player;
 		addToImages();
+		scaleImages();
 		setSize(d);
 		setState(State.MENU);
 	}
@@ -132,7 +134,6 @@ public class GameCanvas extends Canvas{
 		this.tiles = data.getTiles();
 		this.columns = data.getHeight();
 		this.players = currentRoom.getPlayers();
-		this.zoom = 80;
 		this.items = currentRoom.getItems();
 		this.doors = currentRoom.getDoors();
 		initialTranslate();
@@ -145,7 +146,7 @@ public class GameCanvas extends Canvas{
 	}
 	
 	private void addToImages(){
-		ArrayList<String> filenames = addToFilenames();
+		this.filenames = addToFilenames();
 		for(int i = 0; i < 11; i++){	//11 different kinds of assets.
 			for(int j = 0; j < 4; j++){	//4 different directions.
 				try {
@@ -154,6 +155,42 @@ public class GameCanvas extends Canvas{
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
+			}
+		}
+	}
+	
+	private void scaleImages(){
+		double width = 0;
+		double height = 0;
+		for(String filename : this.filenames){
+			if(filename.equals("_door_woodenClosed.png")){
+				width = this.zoom;
+				height = this.zoom*(3.0/2.0);
+			}
+			else if(filename.equals("_floor_checkered.png")){
+				width = zoom;
+				height = zoom/2;
+			}
+			else if(filename.equals("_obj_cashStack.png")){
+				width = this.zoom / 2.0;
+				height = this.zoom / 3.0;
+			}
+			else if(filename.equals("_obj_desk.png")){
+				width = this.zoom / 0.6;
+				height = this.zoom / 0.8;
+			}
+			else if(filename.equals("_obj_floorSafe.png")){
+				width = this.zoom / 1.3;
+				height = this.zoom / 2.0;
+			}
+			else if(filename.equals("_player_1.png")){
+				width = zoom;
+				height = zoom*1.5;
+			}
+			for(int j = 0; j < 4; j++){	
+				BufferedImage asset = this.images.get(this.directions[j] + filename);
+				BufferedImage scaled =  getScaledImage(asset, (int) width, (int) height);
+				this.images.put(this.directions[j] + filename, scaled);
 			}
 		}
 	}
@@ -167,6 +204,8 @@ public class GameCanvas extends Canvas{
 		
 		filenames.add("_door_woodenClosed.png");
 		filenames.add("_door_woodenOpen.png");
+		filenames.add("_wall_block1.png");
+		filenames.add("_wall_painted1.png");
 		filenames.add("_floor_checkered.png");
 		filenames.add("_floor_marble1.png");
 		filenames.add("_floor_marble2.png");
@@ -174,8 +213,6 @@ public class GameCanvas extends Canvas{
 		filenames.add("_obj_desk.png");
 		filenames.add("_obj_floorSafe.png");
 		filenames.add("_player_1.png");
-		filenames.add("_wall_block1.png");
-		filenames.add("_wall_painted1.png");
 		
 		return filenames;
 	}
@@ -484,6 +521,12 @@ public class GameCanvas extends Canvas{
 		    for (int j = 0; j < tiles[i].length; j++){
 		    	Point point = new Point(i, j);
 		    	Point p = twoDToIso(point);
+		    	if(p.getX() > this.width - this.translateX + this.zoom || p.getY() > this.height - this.translateY + this.zoom){
+		    		System.out.println(p.getX() + " " + p.getY());
+		    		System.out.println(this.width);
+		    		System.out.println("translateX: " + this.translateX);
+		    		continue;
+		    	}
 		    	if(tiles[i][j] == "marble"){
 		    		drawTile(g, p, this.directions[direction] + "_floor_marble1.png");
 		    		drawIcons(g, point);
@@ -532,23 +575,17 @@ public class GameCanvas extends Canvas{
 	
 	private void drawWall(Graphics2D g, Point p, String filename){
 		BufferedImage asset = this.images.get(filename);
-		double width = this.zoom;
-		double height = this.zoom*(3.0/2.0);
-		BufferedImage scaled = getScaledImage(asset, (int) width, (int) height);
 		this.at = new AffineTransform();
 		this.at.translate(p.x + this.translateX, p.y + this.translateY);
 		this.at.translate(0, this.zoom*-1);
-		g.drawImage(scaled, this.at, getParent());
+		g.drawImage(asset, this.at, getParent());
 	}
 	
 	private void drawTile(Graphics2D g, Point p, String filename){
 		BufferedImage asset = this.images.get(filename);
-		double width = zoom;
-		double height = zoom/2;
-		BufferedImage scaled = getScaledImage(asset, (int) width, (int) height);
 		this.at = new AffineTransform();
 		this.at.translate(p.x + this.translateX, p.y + this.translateY);
-		g.drawImage(scaled, this.at, getParent());
+		g.drawImage(asset, this.at, getParent());
 	}
 	
 	private void drawIcons(Graphics2D g, Point point){		
@@ -604,14 +641,11 @@ public class GameCanvas extends Canvas{
 			Point location = player.getLocation();
 			if(location.equals(point)){
 				BufferedImage asset = this.images.get(player.getDirection() + "_player_1.png");
-				double width = zoom;
-				double height = zoom*1.5;
-				BufferedImage scaled = getScaledImage(asset, (int) width, (int) height);
 				AffineTransform at = new AffineTransform();
 				double[] translation = calculatePlayerTranslate(currentPlayer.getLocation(), player.getLocation());
 				at.translate(0, -this.zoom/1.2);
 				at.translate(this.width/2 + translation[0], this.height/2 + translation[1]);
-				g.drawImage(scaled, at, getParent());
+				g.drawImage(asset, at, getParent());
 			}
 		}
 		
@@ -640,9 +674,6 @@ public class GameCanvas extends Canvas{
 	
 	private void drawItems2(Graphics2D g, Item item){	//Yes this is horrible convention but I can't be bothered anymore.
 		BufferedImage asset = this.images.get(this.directions[direction] + item.getFilename());
-		double width = zoom / item.getSize()[0];
-		double height = zoom / item.getSize()[1];
-		BufferedImage scaled = getScaledImage(asset, (int) width, (int) height);
 		AffineTransform at = new AffineTransform();
 		double[] translation = calculatePlayerTranslate(currentPlayer.getLocation(), item.getPosition());
 		if(item.getFilename().equals("_obj_desk.png")){
@@ -666,7 +697,7 @@ public class GameCanvas extends Canvas{
 			at.translate(this.zoom/3.8, this.zoom/4.3);
 		}
 		at.translate(this.width/2 + translation[0], this.height/2 + translation[1]);
-		g.drawImage(scaled, at, getParent());
+		g.drawImage(asset, at, getParent());
 	}
 	
 	/*
@@ -776,11 +807,15 @@ public class GameCanvas extends Canvas{
 		if(direction == 1 && this.zoom < 500){
 			this.zoom = zoom;
 			this.zooming = direction;
+			addToImages();
+			scaleImages();
 			translateRoom();
 		}
 		else if(direction == 2 && this.zoom > 20){
 			this.zoom = zoom;
 			this.zooming = direction;
+			addToImages();
+			scaleImages();
 			translateRoom();
 		}
 	}
