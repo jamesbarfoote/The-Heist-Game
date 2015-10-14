@@ -76,7 +76,7 @@ public class GameCanvas extends Canvas{
 	private String host = "localhost";
 	
 	private double translateX, translateY;
-	private double zoom = 30;
+	private double zoom = 200;
 	private int zooming = 0;	//0 = Not zooming, 1 = zooming in, 2 = zooming out
 	private String[] directions = {"N", "E", "S", "W"};
 	private int direction = 0;
@@ -149,19 +149,17 @@ public class GameCanvas extends Canvas{
 		currentRoom.addItem(new Desk(new Point(30, 24), deskItems));
 		currentRoom.addItem(new Desk(new Point(30, 9), deskItems));
 		currentRoom.addItem(new Desk(new Point(36, 38), deskItems));
-//		currentRoom.addItem(new Desk(new Point(1, 5), deskItems));
-//		currentRoom.addItem(new Desk(new Point(10, 15), deskItems));
-//		currentRoom.addItem(new Desk(new Point(10, 25), deskItems));
-//		currentRoom.addItem(new Desk(new Point(22, 22), deskItems2));
+		
+		
 		
 		currentRoom.addDoor(new Door(false, new Point(6,3)));
 		currentRoom.addDoor(new Door(true, new Point(6,11)));
 		currentRoom.addDoor(new Door(false, new Point(13,6)));
 		currentRoom.addDoor(new Door(false, new Point(11,14)));
 		currentRoom.addDoor(new Door(false, new Point(9,19)));
-		currentRoom.addDoor(new Door(false, new Point(18,12)));	
-		
-		this.setRoom(currentRoom);
+		currentRoom.addDoor(new Door(false, new Point(18,12)));		
+		this.room = currentRoom;
+		//this.setRoom(currentRoom);
 		this.tiles = data.getTiles();
 		this.columns = data.getHeight();
 		this.players = currentRoom.getPlayers();
@@ -418,12 +416,6 @@ public class GameCanvas extends Canvas{
 			menuUp = false;
 			inventory = null;
 			inventoryTrade = null;
-			try {
-				Thread.sleep(2000);
-			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
 			
 			inventoryTrade = null;			
 			gameMenu = new GameMenu(this, currentPlayer, players, this.room);
@@ -435,12 +427,14 @@ public class GameCanvas extends Canvas{
 		}
 		else if(s.equals(State.PLAYING_MULTI)) //Playing in multiplayer mode
 		{
+			
 			menuUp = false;
 			inventory = null;
 			inventoryTrade = null;
 			gameMenu = new GameMenu(this, currentPlayer, players, this.room);
 		}
 		else if(s.equals(State.MULTI)){
+			this.initialize();
 			gameMenu = new Lobby(this, currentPlayer, players, this.host, this.room);//Create a new game lobby
 			this.cm = gameMenu.getClient();
 			currentPlayer = this.cm.getPlayer();
@@ -618,7 +612,7 @@ public class GameCanvas extends Canvas{
 		    		drawIcons(g, point);
 		    	}
 		    	else if(tiles[i][j] == "wall"){
-		           // drawWall(g, p, this.directions[direction] + "_wall_block1.png");
+		            drawWall(g, p, this.directions[direction] + "_wall_block1.png");
 		    	}
 		    	else if(tiles[i][j] == "marble2"){
 		    		drawTile(g, p, this.directions[direction] + "_floor_marble2.png");
@@ -687,7 +681,6 @@ public class GameCanvas extends Canvas{
 	}
 	
 	private void drawIcons(Graphics2D g, Point point){	
-
 		
 //		for(Player p: this.players)//Find the current player in the list and update the local player with it
 //		{
@@ -696,6 +689,7 @@ public class GameCanvas extends Canvas{
 				cm.setPlayer(currentPlayer);//update the current plater in the client
 //			}
 //		}
+
 		//Call the main client loop. This fetches and sends the latest player information
 		try {
 			cm.run();
