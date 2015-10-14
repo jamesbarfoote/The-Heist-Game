@@ -8,7 +8,7 @@ import game.Room;
 /**
  * An item for unlocking doors. A key should unlock a particular door
  * Not currently in use as key specific doors are not yet implemented
- * @author Lachlan
+ * @author Lachlan Lee ID# 300281826
  *
  */
 public class Key extends InteractableItem{

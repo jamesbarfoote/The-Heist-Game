@@ -7,7 +7,7 @@ import java.util.Map;
 
 /**
  * An unlocked container containing items, usually a small amount of money + a key and/or safe combination
- * @author Lachlan
+ * @author Lachlan Lee ID# 300281826
  *
  */
 public class Desk extends Container {

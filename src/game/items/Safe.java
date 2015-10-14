@@ -9,7 +9,7 @@ import java.util.Random;
  * A container that may or may not be locked that contains a large sum of money
  * Unlocked with a Safe combination which is currently just a key
  * Does not yet have unlocking minigame, so no safe specific combinations
- * @author Lachlan
+ * @author Lachlan Lee ID# 300281826
  *
  */
 public class Safe extends Container{

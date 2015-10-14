@@ -10,7 +10,7 @@ import java.util.concurrent.CopyOnWriteArrayList;
 /**
  * Each room has a different name and contents. A room does not necessarily have to contain any money or guards. 
  * Players can move through a room at whim, providing there is nothing in place to stop them eg: A puzzle/lock or guard
- * @author Lachlan
+ * @author Lachlan Lee ID# 300281826
  *
  */
 public class Room {

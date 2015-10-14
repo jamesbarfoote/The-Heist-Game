@@ -8,7 +8,7 @@ import game.Room;
  * A note that contains a safe combination for unlocking a safe
  * Not currently in use as there is no unlocking minigame and therefore an equivalent for keys is
  * being used currently
- * @author Lachlan
+ * @author Lachlan Lee ID# 300281826
  *
  */
 public class Note extends InteractableItem{

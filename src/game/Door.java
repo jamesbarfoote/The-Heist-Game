@@ -9,7 +9,7 @@ import java.awt.Point;
  * Representation of a Door that the player can pass through into another room. Doors can be locked to prevent
  * the player passing through them. 
  * The door can be unlocked by any key
- * @author Lachlan
+ * @author Lachlan Lee ID# 300281826
  *
  */
 public class Door{

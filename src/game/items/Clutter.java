@@ -6,7 +6,7 @@ import java.awt.Point;
 
 /**
  * Class for representing all random/joke items that don't serve any particular purpose
- * @author Lachlan
+ * @author Lachlan Lee ID# 300281826
  *
  */
 public class Clutter extends InteractableItem{

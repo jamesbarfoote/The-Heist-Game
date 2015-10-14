@@ -17,7 +17,7 @@ import java.util.Map;
 
 /**
  * 
- * @author james.barfoote, 
+ * @author james.barfoote, Lachlan Lee ID# 300281826
  * Represents everything that a player is.
  * Holds methods for the interactions players have with objects and doors, eg: Picking up money, looting desks
  *
@@ -110,6 +110,7 @@ public class Player implements Serializable{
 					else{
 						inventory.put("Key", inventory.get("Key")-1);
 					}
+					return true; //You unlocked the door
 				}
 			}
 			return false; //You do not have a key in your inventory
