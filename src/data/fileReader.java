@@ -20,9 +20,13 @@ public class fileReader {
 	 * 0 = marble1
 	 * 1 = wall
 	 * 2 = marble2
-	 * 3 = carpet
+	 * 3 = checkered
 	 * 4 = door
 	 * 5 = door2
+	 * 6 = vault
+	 * 7 = vaultDoor1
+	 * 8 = vaultDoor2
+	 * 9 = vaultDoor3
 	 */
 
 	/**

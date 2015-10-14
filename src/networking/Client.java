@@ -20,6 +20,7 @@ public class Client {
 	static DataInputStream inputStream;
 	public List<Player> players;
 	public Player currentPlayer;
+	public Room room;
 	private int port;
 	private String host;
 	private Socket client;
@@ -34,12 +35,12 @@ public class Client {
 	 * @throws InterruptedException
 	 */
 	@SuppressWarnings("unchecked")
-	public Client(int port, String host, Player p) throws IOException, InterruptedException
+	public Client(int port, String host, Room r) throws IOException, InterruptedException
 	{
 
 		this.port = port;
 		this.host = host;
-		this.currentPlayer = p;
+		this.room = r;
 		players = new CopyOnWriteArrayList<Player>(); //This type is used to avoid concurrent modifications
 
 		try {
@@ -99,6 +100,14 @@ public class Client {
 	public List<Player> getPlayers()
 	{
 		return players;
+	}
+	
+	public Room getRoom() {
+		return room;
+	}
+
+	public void setRoom(Room room) {
+		this.room = room;
 	}
 
 	/**
