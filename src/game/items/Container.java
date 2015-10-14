@@ -1,6 +1,7 @@
 package game.items;
 
 import java.awt.Point;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Map;
 
@@ -12,8 +13,13 @@ import game.Money;
  * @author Lachlan Lee ID# 300281826
  *
  */
-public class Container extends InteractableItem{
+public class Container extends InteractableItem implements Serializable{
 
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private Point position;
 	protected int money; //Null if no money in container
 	private Map<String, Integer> items; //Null if no item in container

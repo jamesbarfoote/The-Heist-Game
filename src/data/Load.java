@@ -9,6 +9,8 @@ import game.items.Safe;
 import java.awt.Point;
 import java.io.File;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -18,6 +20,10 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
+/**
+ * @author Nick Botica - 300298159
+ *
+ */
 public class Load {
 
 	public static Room loadFromXML(String fileName) {
@@ -142,12 +148,16 @@ public class Load {
 		element = (Element) node;
 		String money = element.getTextContent();
 
-		ArrayList<InteractableItem> items = new ArrayList<>();
+		// locked
+		node = safeNodeList.item(5);
+		element = (Element) node;
+		boolean locked = Boolean.parseBoolean(element.getTextContent());
+
+		Map<String,Integer> items = new HashMap<>();
 
 		System.out.println("Safe\nPosition: " + point + ", money: " + money);
 
-		Safe safe = new Safe(stringToPoint(point), items,
-				Integer.parseInt(money));
+		Safe safe = new Safe(stringToPoint(point), Integer.parseInt(money), locked);
 
 		return safe;
 	}
@@ -166,12 +176,11 @@ public class Load {
 		element = (Element) node;
 		String money = element.getTextContent();
 
-		ArrayList<InteractableItem> items = new ArrayList<>();
+		Map<String,Integer> items = new HashMap<>();
 
 		System.out.println("Desk\nPosition: " + point + ", money: " + money);
 
-		Desk desk = new Desk(stringToPoint(point), items,
-				Integer.parseInt(money));
+		Desk desk = new Desk(stringToPoint(point), items);
 
 		return desk;
 	}
@@ -199,7 +208,7 @@ public class Load {
 
 		System.out.println("Player\nName: " + point+", Point: " + point + ", Type: "+ type);
 
-		Player player = new Player(name, null, stringToPoint(point),
+		Player player = new Player(name, stringToPoint(point),
 				stringToType(type));
 
 		return player;

@@ -7,7 +7,7 @@ import java.net.Socket;
 import java.net.UnknownHostException;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
-
+import game.Room;
 import game.Player;
 
 /**
@@ -35,12 +35,13 @@ public class Client {
 	 * @throws InterruptedException
 	 */
 	@SuppressWarnings("unchecked")
-	public Client(int port, String host, Room r) throws IOException, InterruptedException
+	public Client(int port, String host, Player currentPlayer, Room r) throws IOException, InterruptedException
 	{
-
+System.out.println("Client started");
 		this.port = port;
 		this.host = host;
 		this.room = r;
+		this.currentPlayer = currentPlayer;
 		players = new CopyOnWriteArrayList<Player>(); //This type is used to avoid concurrent modifications
 
 		try {
@@ -60,23 +61,98 @@ public class Client {
 		}
 
 		//Main stuff. Sending and receiving
-		List<Player> temp2;
+		Room temp2;
 		int size = inputStream.readInt();	//Get the size of the array that follows		 
 		byte[] bytes = new byte[size];		//Create a new array of the correct size	 
 		inputStream.readFully(bytes);		//Dont stop reading till the array is full (this way we dont lose any data)
-		Object plays = toObject(bytes);		//Convert the byte array to a List of players
-		temp2 = (List<Player>) plays;
+		Object room = toObject(bytes);		//Convert the byte array to a Room
+		temp2 = (Room) r;
 
 		//Set the current players ID based on how big the list of players is
-		ID = temp2.size();
+		this.ID = temp2.getPlayers().size();
+		System.out.println("CLient ID = " + this.ID);
+
 		this.currentPlayer.setID(ID);
 		players.add(currentPlayer);
+		this.room.setPlayers(players);
+		this.room.setCurrentPlayer(currentPlayer);
 
 		//Run the main thread that deals with the constant sending and receiving between server and client
 		run();
 
 	}
 
+
+
+	/**
+	 * Connects to the server then enters the processing loop.
+	 * @throws InterruptedException 
+	 */
+	@SuppressWarnings("unchecked")
+	public void run() throws IOException, InterruptedException {
+
+		//send our room out
+		this.room.setCurrentPlayer(this.currentPlayer);
+		byte[] bytes = toBytes(this.room);
+		outputStream.writeInt(bytes.length);//Send the length of the array
+		outputStream.write(bytes);
+		outputStream.flush(); //Clear the stream
+
+		//Get players array
+		int size = inputStream.readInt();			 
+		byte[] bytes2 = new byte[size];			 
+		inputStream.readFully(bytes2);
+		Object room = toObject(bytes2);
+		room = (Room) room;
+		this.players = this.room.getPlayers();
+
+	}
+
+	/**
+	 * Sets the current player
+	 * @param player
+	 */
+	public void setPlayer(Player player) {
+		this.currentPlayer = player;
+
+	}
+	
+	/**
+	 * Converts a list of players to an array of bytes
+	 * @param List<Player>
+	 * @return Array of bytes
+	 */
+	public static byte[] toBytes(Room object){
+	    java.io.ByteArrayOutputStream baos = new java.io.ByteArrayOutputStream();
+	    try{
+	        java.io.ObjectOutputStream oos = new java.io.ObjectOutputStream(baos);
+	        oos.writeObject(object);
+	    }catch(java.io.IOException ioe){
+	        ioe.printStackTrace();
+	    }
+	     
+	    return baos.toByteArray();
+	} 
+	 
+	/**
+	 * Converts a byte array back to a list of players
+	 * @param bytes
+	 * @return List<Player>
+	 */
+	public static Object toObject(byte[] bytes){
+	    Object object = null;
+	    try{
+	        object = new java.io.ObjectInputStream(new
+	        java.io.ByteArrayInputStream(bytes)).readObject();
+	    }catch(java.io.IOException ioe){
+	        ioe.printStackTrace();
+	    }catch(java.lang.ClassNotFoundException cnfe){
+	        cnfe.printStackTrace();
+	    }
+	    return object;
+	}
+	
+	
 	/**
 	 * 
 	 * @return Current Players ID
@@ -108,73 +184,5 @@ public class Client {
 
 	public void setRoom(Room room) {
 		this.room = room;
-	}
-
-	/**
-	 * Connects to the server then enters the processing loop.
-	 * @throws InterruptedException 
-	 */
-	@SuppressWarnings("unchecked")
-	public void run() throws IOException, InterruptedException {
-
-		//send our player out
-		List<Player> temp = new CopyOnWriteArrayList<Player>();
-		temp.add(currentPlayer);
-		byte[] bytes = toBytes(temp);
-		outputStream.writeInt(bytes.length);//Send the length of the array
-		outputStream.write(bytes);
-		outputStream.flush(); //Clear the stream
-
-		//Get players array
-		int size = inputStream.readInt();			 
-		byte[] bytes2 = new byte[size];			 
-		inputStream.readFully(bytes2);
-		Object plays = toObject(bytes2);
-		players = (List<Player>) plays;
-
-	}
-
-	/**
-	 * Sets the current player
-	 * @param player
-	 */
-	public void setPlayer(Player player) {
-		this.currentPlayer = player;
-
-	}
-	
-	/**
-	 * Converts a list of players to an array of bytes
-	 * @param List<Player>
-	 * @return Array of bytes
-	 */
-	public static byte[] toBytes(List<Player> object){
-	    java.io.ByteArrayOutputStream baos = new java.io.ByteArrayOutputStream();
-	    try{
-	        java.io.ObjectOutputStream oos = new java.io.ObjectOutputStream(baos);
-	        oos.writeObject(object);
-	    }catch(java.io.IOException ioe){
-	        ioe.printStackTrace();
-	    }
-	     
-	    return baos.toByteArray();
-	} 
-	 
-	/**
-	 * Converts a byte array back to a list of players
-	 * @param bytes
-	 * @return List<Player>
-	 */
-	public static Object toObject(byte[] bytes){
-	    Object object = null;
-	    try{
-	        object = new java.io.ObjectInputStream(new
-	        java.io.ByteArrayInputStream(bytes)).readObject();
-	    }catch(java.io.IOException ioe){
-	        ioe.printStackTrace();
-	    }catch(java.lang.ClassNotFoundException cnfe){
-	        cnfe.printStackTrace();
-	    }
-	    return object;
 	}
 }

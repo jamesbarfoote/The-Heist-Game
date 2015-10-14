@@ -1,6 +1,7 @@
 package game;
 
 import java.awt.Point;
+import java.io.Serializable;
 
 import game.items.InteractableItem;
 
@@ -10,8 +11,12 @@ import game.items.InteractableItem;
  * @author Lachlan Lee ID# 300281826
  *
  */
-public class Money extends InteractableItem {
+public class Money extends InteractableItem implements Serializable{
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private int amount;
 	private Room location;
 	private Point position; //Position in room, if it is not in a container, null if it is

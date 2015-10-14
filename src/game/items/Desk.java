@@ -2,6 +2,7 @@ package game.items;
 
 
 import java.awt.Point;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Map;
 
@@ -10,8 +11,13 @@ import java.util.Map;
  * @author Lachlan Lee ID# 300281826
  *
  */
-public class Desk extends Container {
+public class Desk extends Container implements Serializable{
+
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	String filename = "_obj_desk.png";
 	String direction = "N";
 	double[] size = {0.6, 0.8};

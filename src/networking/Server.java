@@ -11,6 +11,7 @@ import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 import game.Player;
+import game.Room;
 
 /**
  * The server for the game. Stores a list of all the players. Hands sending and receving them
@@ -26,6 +27,8 @@ public class Server implements Runnable {
 	 * The set of all players 
 	 */
 	private static List<Player> players = new CopyOnWriteArrayList<Player>();
+	
+	private static Room room;
 
 	/**
 	 * The set of all the output streams(clients).  This
@@ -67,6 +70,7 @@ public class Server implements Runnable {
 	 */
 	private static class Handler extends Thread {
 		private Player player;
+		private Room r;
 		private Socket socket;
 		private DataInputStream in;
 		private DataOutputStream out;
@@ -92,45 +96,51 @@ public class Server implements Runnable {
 				in = new DataInputStream(socket.getInputStream());
 				out = new DataOutputStream(socket.getOutputStream());
 				List<Player> temp = new CopyOnWriteArrayList<Player>();
+				Room tempR;
 
 				//Main loop
 				while (true) {
-					//Send out the whole arraylist to the client
-					byte[] bytes = toBytes(players);
+					//Send out the room to the client
+					byte[] bytes = toBytes(room);
+					System.out.println("Length of bytes array = " + bytes.length);
 					out.writeInt(bytes.length);
 					out.write(bytes);
 					out.flush();
 
-					//Get player
+					//Get updated room and players
 					int size2 = in.readInt();			 
 					byte[] bytes2 = new byte[size2];			 
 					in.readFully(bytes2);
-					Object plays = toObject(bytes2);
-					temp = (List<Player>) plays;
+					Object room = toObject(bytes2);
+					tempR = (Room) room;
+					temp = tempR.getPlayers();
 
 					//Only alter the list of players when another thread isn't
 					synchronized (players) {
-						//If the player is already in the list of players then remove it and add the new one
-						//this avoid having duplicated players
-						if (players.contains(temp.get(0))) {
-							players.remove(temp.get(0));
-							players.add(temp.get(0));
-							player = temp.get(0);
-							break;
-						}
-						else
-						{
-							//Add the player straight to the list as its isn't in the list yet
-							players.add(temp.get(0));
-							player = temp.get(0);
-							break;
-						}
+//						//If the player is already in the list of players then remove it and add the new one
+//						//this avoid having duplicated players
+//						if (players.contains(temp.get(0))) {
+//							players.remove(temp.get(0));
+//							players.add(temp.get(0));
+//							player = temp.get(0);
+//							this.r = tempR;
+//							break;
+//						}
+//						else
+//						{
+//							//Add the player straight to the list as its isn't in the list yet
+//							players.add(temp.get(0));
+//							player = temp.get(0);
+//							break;
+//						}
+						players = temp;
+						room = tempR;
+						break;
 					}
 				}
 
-				List<Player> temp3 = new CopyOnWriteArrayList<Player>();
-				temp3 = players;
-				byte[] bytes3 = toBytes(temp3);
+				
+				byte[] bytes3 = toBytes(room);
 				out.writeInt(bytes3.length);
 				out.write(bytes3);
 				out.flush();
@@ -139,27 +149,32 @@ public class Server implements Runnable {
 				// Accept messages from this client and broadcast them.
 				// Ignore other clients that cannot be broadcasted to.
 				while (true) {
-
 					List<Player> temp2 = new CopyOnWriteArrayList<Player>();
-					int size2 = in.readInt();			 
+					int size2 = in.readInt();	
 					byte[] bytes2 = new byte[size2];			 
 					in.readFully(bytes2);
-					Object plays = toObject(bytes2);
-					temp2 = (List<Player>) plays;
+					Room tempRoom = (Room) toObject(bytes2);
+					//synchronized(room)
+					//{
+						room = (Room) tempRoom;
+					//}
+					
+					temp2 = tempRoom.getPlayers();
 					
 					synchronized (players) {//Make sure no other thread is currently trying to modify players
-						for(Player p: players)
-						{
-							if(p.getID() == temp2.get(0).getID())
-							{
-								players.remove(p);//Remove player
-								players.add(temp2.get(0));//Replace player
-							}
-						}
+//						for(Player p: players)
+//						{
+//							if(p.getID() == temp2.get(0).getID())
+//							{
+//								players.remove(p);//Remove player
+//								players.add(temp2.get(0));//Replace player
+//							}
+//						}
+						players = temp2;
 					}
 
 					for (@SuppressWarnings("unused") DataOutputStream writer : writers) {//Send out the revised list to all players
-						byte[] bytes4 = toBytes(players);
+						byte[] bytes4 = toBytes(room);
 						out.writeInt(bytes4.length);
 						out.write(bytes4);
 						out.flush();
@@ -172,7 +187,8 @@ public class Server implements Runnable {
 				// Client is closing so remove it from the writer set and close the socket
 				if (player != null) {
 					players.remove(player);
-					System.out.println("PLayer removed");
+					room.setPlayers(players);
+					System.out.println("Player removed");
 				}
 				if (out != null) {
 					writers.remove(out);

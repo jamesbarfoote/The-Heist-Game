@@ -12,6 +12,7 @@ import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 import game.Player;
+import game.Room;
 
 /**
  * Is the screen where each player can see the other players that are currently connected
@@ -19,10 +20,11 @@ import game.Player;
  */
 public class Lobby extends Menu{
 	private final int YSTART = 70; //how far up the buttons should appear on the menu
-	Player currentPlayer;
-	List<Player> players = new CopyOnWriteArrayList<Player>();
-	Client cm;
-	String host = "localhost";
+	private Player currentPlayer;
+	private List<Player> players = new CopyOnWriteArrayList<Player>();
+	private Client cm;
+	private String host = "localhost";
+	private Room room;
 	
 	/**
 	 * 
@@ -31,11 +33,12 @@ public class Lobby extends Menu{
 	 * @param players The list of all players in the game
 	 * @param host The server address
 	 */
-	public Lobby(GameCanvas cv, Player player, List<Player> players, String host){
+	public Lobby(GameCanvas cv, Player player, List<Player> players, String host, Room room){
 		canvas = cv;
 		this.currentPlayer = player;
 		this.players = players;
 		this.host = host;
+		this.room = room;
 		menuBack = GameCanvas.loadImage("lobby.png");
 		menuX = (canvas.getWidth()/2) - (menuBack.getWidth(null)/2);
 		menuY = (canvas.getHeight()/2) - (menuBack.getHeight(null)/2); 
@@ -83,7 +86,7 @@ public class Lobby extends Menu{
 	public void startClient()
 	{
 		try {
-			cm = new Client(43200, host, currentPlayer);
+			cm = new Client(43200, host, currentPlayer, this.room);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

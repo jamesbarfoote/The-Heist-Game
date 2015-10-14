@@ -1,6 +1,7 @@
 package game.items;
 
 import java.awt.Point;
+import java.io.Serializable;
 
 /**
  * Abstraction of the Immovable objects in the bank. This encompasses all
@@ -9,13 +10,17 @@ import java.awt.Point;
  * @author Lachlan Lee ID# 300281826
  *
  */
-public class NonInteractableItem implements Item {
+public class NonInteractableItem implements Item, Serializable{
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private Point position, oldPosition;
 	private itemType itemType;
 
 	public enum itemType {
-		PLANT, COUCH, LAMP
+		PLANT, COUCH, LAMP, VAULTDOOR
 	}
 
 	public NonInteractableItem(Point point, String type) {
@@ -31,11 +36,17 @@ public class NonInteractableItem implements Item {
 			itemType = itemType.COUCH;
 		case "lamp":
 			itemType = itemType.LAMP;
+		case "VaultDoor":
+			itemType = itemType.VAULTDOOR;
 		}
 	}
 
 	public Point getPosition() {
 		return position;
+	}
+	
+	public Point getOldPosition() {
+		return oldPosition;
 	}
 
 	@Override

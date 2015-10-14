@@ -4,7 +4,18 @@ import game.items.InteractableItem;
 import game.items.Key;
 
 import java.awt.Point;
+import java.io.Serializable;
 
+public class Door implements Serializable{
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	//private Room room1;
+	//private Room room2;
+	//private Point room1Entry; //The Room 1 tile the door is on
+	//private Point room2Entry; //The Room 2 tile the door is on
 /**
  * Representation of a Door that the player can pass through into another room. Doors can be locked to prevent
  * the player passing through them. 
@@ -12,7 +23,6 @@ import java.awt.Point;
  * @author Lachlan Lee ID# 300281826
  *
  */
-public class Door{
 
 
 	private boolean locked; //Whether the door is locked or not

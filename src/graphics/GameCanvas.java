@@ -9,6 +9,7 @@ import game.items.InteractableItem;
 import game.items.Item;
 import game.items.Key;
 import game.items.Safe;
+import game.items.VaultDoor;
 import networking.Client;
 import graphics.Menu.Action;
 
@@ -60,6 +61,7 @@ public class GameCanvas extends Canvas{
 	public static final Font textFont = new Font("TimesRoman", Font.PLAIN, 18); //font to be used for text in game
 	private TimerThread timer;	//timer for games
 	private int timerSeconds;	//seconds left on timer
+	private Room room;
 	public final int TIMELIMIT = 180; //time to complete mission
 	
 	//-----------------------------new-------------------------------//
@@ -137,6 +139,7 @@ public class GameCanvas extends Canvas{
 		currentRoom.addDoor(new Door(false, new Point(9,19)));
 		currentRoom.addDoor(new Door(false, new Point(18,12)));		
 		
+		this.setRoom(currentRoom);
 		this.tiles = data.getTiles();
 		this.columns = data.getHeight();
 		this.players = currentRoom.getPlayers();
@@ -153,7 +156,7 @@ public class GameCanvas extends Canvas{
 	
 	private void addToImages(){
 		this.filenames = addToFilenames();
-		for(int i = 0; i < 15; i++){	//15 different kinds of assets.
+		for(int i = 0; i < 16; i++){	//16 different kinds of assets.
 			for(int j = 0; j < 4; j++){	//4 different directions.
 				try {
 					BufferedImage myPicture = ImageIO.read(new File(ASSET_PATH + this.directions[j] + filenames.get(i)));
@@ -223,6 +226,7 @@ public class GameCanvas extends Canvas{
 		filenames.add("_obj_desk.png");
 		filenames.add("_obj_floorSafe.png");
 		filenames.add("_player_1.png");
+		filenames.add("_obj_vaultdoor.png");
 		
 		return filenames;
 	}
@@ -367,7 +371,6 @@ public class GameCanvas extends Canvas{
 	public void setState(State s){
 		gameState = s;
 		if(s.equals(State.MENU)){
-			System.out.println("Menu 1");
 			gameMenu = new MainMenu(this);
 			if (timer != null) {
 				timer.terminate();
@@ -384,9 +387,19 @@ public class GameCanvas extends Canvas{
 			menuUp = false;
 			inventory = null;
 			inventoryTrade = null;
-			gameMenu = new GameMenu(this, currentPlayer, players);
-			cm = gameMenu.getClient(); //Get the client that was created
-			currentPlayer = cm.getPlayer(); //Update the player
+			System.out.println("Beofre new menu");
+			try {
+				Thread.sleep(2000);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
+			gameMenu = new GameMenu(this, currentPlayer, players, this.room);
+			
+			this.cm = gameMenu.getClient(); //Get the client that was created
+			currentPlayer = this.cm.getPlayer(); //Update the player
+			
 			
 		}
 		else if(s.equals(State.PLAYING_MULTI)) //Playing in multiplayer mode
@@ -394,10 +407,10 @@ public class GameCanvas extends Canvas{
 			menuUp = false;
 			inventory = null;
 			inventoryTrade = null;
-			gameMenu = new GameMenu(this, currentPlayer, players);
+			gameMenu = new GameMenu(this, currentPlayer, players, this.room);
 		}
 		else if(s.equals(State.MULTI)){
-			gameMenu = new Lobby(this, currentPlayer, players, this.host);//Create a new game lobby
+			gameMenu = new Lobby(this, currentPlayer, players, this.host, this.room);//Create a new game lobby
 		}
 	}
 	
@@ -571,7 +584,6 @@ public class GameCanvas extends Canvas{
 		    	}
 		    	else if(tiles[i][j] == "wall"){
 		            drawWall(g, p, this.directions[direction] + "_wall_block1.png");
-		    		//drawTile(g, p, this.directions[direction] + "_floor_marble2.png");
 		    	}
 		    	else if(tiles[i][j] == "marble2"){
 		    		drawTile(g, p, this.directions[direction] + "_floor_marble2.png");
@@ -585,16 +597,16 @@ public class GameCanvas extends Canvas{
 		    		drawTile(g, p, this.directions[direction] + "_floor_vault.png");
 		    		drawIcons(g, point);
 		    	}
-		    	else if(tiles[i][j] == "vaultDoor1"){
-		    		drawWall(g, p, this.directions[direction] + "_wall_vault_1.pn");
+		    	else if(tiles[i][j] == "vaultWall1"){
+		    		drawWall(g, p, this.directions[direction] + "_wall_vault_1.png");
 		    		drawIcons(g, point);
 		    	}
-		    	else if(tiles[i][j] == "vaultDoor2"){
-		    		drawWall(g, p, this.directions[direction] + "_wall_vault_2.pn");
+		    	else if(tiles[i][j] == "vaultWall2"){
+		    		drawWall(g, p, this.directions[direction] + "_wall_vault_2.png");
 		    		drawIcons(g, point);
 		    	}
-		    	else if(tiles[i][j] == "vaultDoor3"){
-		    		drawTile(g, p, this.directions[direction] + "_wall_vault_3.pn");
+		    	else if(tiles[i][j] == "vaultWall3"){
+		    		drawTile(g, p, this.directions[direction] + "_wall_vault_3.png");
 		    		drawIcons(g, point);
 		    	}
 		    	else if(tiles[i][j] == "door"){
@@ -642,8 +654,10 @@ public class GameCanvas extends Canvas{
 		g.drawImage(asset, this.at, getParent());
 	}
 	
-	private void drawIcons(Graphics2D g, Point point){		
-		
+	private void drawIcons(Graphics2D g, Point point){	
+		System.out.println(cm.getPlayer());
+		System.out.println("P = " + players.get(0).getID());
+		//System.out.println("ID  = " + cm.getID());
 		for(Player p: players)//Find the current player in the list and update the local player with it
 		{
 			if(p.getID() == cm.getID())//Get the current player
@@ -706,14 +720,19 @@ public class GameCanvas extends Canvas{
 		drawItems(g, point);
 	}
 	
-	/*
-	 * TODO optimize the game by storing the images in memory. So players store their own assets as do desks etc.
-	 */
 	private void drawItems(Graphics2D g, Point point){
 		for(Item item : this.items){
 			if(item.getFilename().equals("_obj_desk.png")){
 				Desk desk = (Desk) item;
 				for(Point p : desk.getPositions()){
+					if(p.equals(point)){
+						drawItems2(g, item);
+					}
+				}
+			}
+			if(item.getFilename().equals("_obj_vaultdoor.png")){
+				VaultDoor vaultDoor = (VaultDoor) item;
+				for(Point p : vaultDoor.getPositions()){
 					if(p.equals(point)){
 						drawItems2(g, item);
 					}
@@ -731,6 +750,20 @@ public class GameCanvas extends Canvas{
 		AffineTransform at = new AffineTransform();
 		double[] translation = calculatePlayerTranslate(currentPlayer.getLocation(), item.getPosition());
 		if(item.getFilename().equals("_obj_desk.png")){
+			if(this.direction == 0){
+				at.translate(-this.zoom/1.7, -this.zoom/1.35);
+			}
+			else if(this.direction == 1){
+				at.translate(-this.zoom/1.8, -this.zoom/2.1);
+			}
+			else if(this.direction == 2){
+				at.translate(-this.zoom/15, -this.zoom/2.1);
+			}
+			else if(this.direction == 3){
+				at.translate(-this.zoom/19, -this.zoom/1.35);
+			}
+		}
+		else if(item.getFilename().equals("_obj_vaultdoor.png")){	//-------------------------------------------------------------------------------------
 			if(this.direction == 0){
 				at.translate(-this.zoom/1.7, -this.zoom/1.35);
 			}
@@ -946,5 +979,13 @@ public class GameCanvas extends Canvas{
 	public void setClient(Client c)
 	{
 		cm = c;
+	}
+
+	public Room getRoom() {
+		return room;
+	}
+
+	public void setRoom(Room room) {
+		this.room = room;
 	}
 }
