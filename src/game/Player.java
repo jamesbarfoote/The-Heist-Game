@@ -31,7 +31,6 @@ public class Player implements Serializable{
 	private int ID;
 	private Point currentPosition, oldPosition; //Location(coords of the square with current room)
 	private Map<String, Integer> inventory;	//contains player items
-	private ArrayList<InteractableItem> items; //Contains player items (Temporarily using until can integrate methods with map)
 	private int moneyHeld; //Amount of money held (Possibly temporary, not sure if money will be held in items map)
 	private String[] directions = {"N", "E", "S", "W"};
 	int direction = 0;
@@ -417,13 +416,6 @@ public class Player implements Serializable{
 	}
 	
 	/**
-	 * @return the items that are interactable
-	 */
-	public ArrayList<InteractableItem> getItems(){
-		return items;
-	}
-	
-	/**
 	 * @return the amount of money the player current has on them
 	 */
 	public int getMoneyHeld(){
@@ -435,6 +427,13 @@ public class Player implements Serializable{
 	 */
 	public Map<String, Integer> getInventory(){
 		return inventory;
+	}
+	
+	/**
+	 * sets the items the player is holding - used for loading
+	 */
+	public void setInventory(Map<String, Integer> inventory){
+		this.inventory = inventory;
 	}
 	
 	/**

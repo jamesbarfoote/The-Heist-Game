@@ -65,6 +65,18 @@ public class fileReader {
 					else if(value.equals("5")){
 						tiles[lineNum][rowNum] = "door2";
 					}
+					else if(value.equals("6")){
+						tiles[lineNum][rowNum] = "vault";
+					}
+					else if(value.equals("7")){
+						tiles[lineNum][rowNum] = "vaultDoor1";
+					}
+					else if(value.equals("8")){
+						tiles[lineNum][rowNum] = "vaultDoor2";
+					}
+					else if(value.equals("9")){
+						tiles[lineNum][rowNum] = "vaultDoor3";
+					}
 					else{
 						throw new ArrayStoreException();
 					}

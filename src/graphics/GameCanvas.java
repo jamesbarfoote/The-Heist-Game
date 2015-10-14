@@ -110,7 +110,7 @@ public class GameCanvas extends Canvas{
 	 */
 	public void initialize(){
 		this.currentPlayer.setLocation(new Point(1, 1));		
-		fileReader data = new fileReader("6");		
+		fileReader data = new fileReader("10");		
 		Room currentRoom = new Room("testRoom", data.getWidth(), data.getHeight(), players);
 		
 		Money money = new Money(1000000, new Point(2, 4));
@@ -153,7 +153,7 @@ public class GameCanvas extends Canvas{
 	
 	private void addToImages(){
 		this.filenames = addToFilenames();
-		for(int i = 0; i < 11; i++){	//11 different kinds of assets.
+		for(int i = 0; i < 15; i++){	//15 different kinds of assets.
 			for(int j = 0; j < 4; j++){	//4 different directions.
 				try {
 					BufferedImage myPicture = ImageIO.read(new File(ASSET_PATH + this.directions[j] + filenames.get(i)));
@@ -212,9 +212,13 @@ public class GameCanvas extends Canvas{
 		filenames.add("_door_woodenOpen.png");
 		filenames.add("_wall_block1.png");
 		filenames.add("_wall_painted1.png");
+		filenames.add("_wall_vault_1.png");
+		filenames.add("_wall_vault_2.png");
+		filenames.add("_wall_vault_3.png");
 		filenames.add("_floor_checkered.png");
 		filenames.add("_floor_marble1.png");
-		filenames.add("_floor_marble2.png");
+		filenames.add("_floor_vault.png");
+		filenames.add("_player_1.png");
 		filenames.add("_obj_cashStack.png");
 		filenames.add("_obj_desk.png");
 		filenames.add("_obj_floorSafe.png");
@@ -575,6 +579,22 @@ public class GameCanvas extends Canvas{
 		    	}
 		    	else if(tiles[i][j] == "checkered"){
 		    		drawTile(g, p, this.directions[direction] + "_floor_checkered.png");
+		    		drawIcons(g, point);
+		    	}
+		    	else if(tiles[i][j] == "vault"){
+		    		drawTile(g, p, this.directions[direction] + "_floor_vault.png");
+		    		drawIcons(g, point);
+		    	}
+		    	else if(tiles[i][j] == "vaultDoor1"){
+		    		drawWall(g, p, this.directions[direction] + "_wall_vault_1.pn");
+		    		drawIcons(g, point);
+		    	}
+		    	else if(tiles[i][j] == "vaultDoor2"){
+		    		drawWall(g, p, this.directions[direction] + "_wall_vault_2.pn");
+		    		drawIcons(g, point);
+		    	}
+		    	else if(tiles[i][j] == "vaultDoor3"){
+		    		drawTile(g, p, this.directions[direction] + "_wall_vault_3.pn");
 		    		drawIcons(g, point);
 		    	}
 		    	else if(tiles[i][j] == "door"){
