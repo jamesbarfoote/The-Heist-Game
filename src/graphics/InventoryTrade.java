@@ -1,5 +1,9 @@
 package graphics;
 
+import game.Money;
+import game.Player;
+import game.items.Desk;
+
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Rectangle;
@@ -16,36 +20,20 @@ public class InventoryTrade extends Inventory{
 	private Rectangle box2; //area for second inventory to display
 	private int startList1; //place for first list to start
 	private int startList2; //place for second list to start drawing
+	private Desk d; //The desk being looted, used for closing window
+	private Player p; //The player looting the container
 	
-	public InventoryTrade(GameCanvas cv){//, Map<String, Integer> i1, Map<String, Integer> i2){
-		super(cv);
-		//items1 = i1;
-		//items2 = i2;
+	public InventoryTrade(GameCanvas cv, Player p, Desk d){
+		super(cv, p);
 		box2 = new Rectangle((int)box1.getMaxX() + 15, box1.y, box1.width, box1.height);
+		this.d = d;
+		this.p = p;
 		
 		startList1 = 0;
-		items1 = new LinkedHashMap<String, Integer>();
-		items1.put("Gun", 1);
-		items1.put("cheese", 1);
-		items1.put("Gold", 100);
-		items1.put("chips", 5);
-		items1.put("tomato", 2);
-		items1.put("donut", 1);
-		items1.put("bullets", 10);
-		items1.put("gum", 2);
-		items1.put("bacon", 5);
-		
+		items1 = p.getInventory();
+
 		startList2 = 0;
-		items2 = new LinkedHashMap<String, Integer>();
-		items2.put("Gun", 1);
-		items2.put("cheese", 1);
-		items2.put("Gold", 100);
-		items2.put("chips", 5);
-		items2.put("tomato", 2);
-		//items2.put("donut", 1);
-		//items2.put("bullets", 10);
-		//items2.put("gum", 2);
-		//items2.put("bacon", 5);
+		items2 = d.getItems();
 	}
 	
 	public void mouseReleased(MouseEvent e){
@@ -56,13 +44,13 @@ public class InventoryTrade extends Inventory{
 			return;
 		}
 		if(button.equals("close")){
-			canvas.showInventory();
+			canvas.openTrade(d);
 		}
 	}
 	
 	private boolean selectSwap(MouseEvent e){
 		if(e.getX() > box1.x && e.getX() < box1.getMaxX()){
-			int y = box1.y + 12;
+			int y = box1.y;
 			for(int i = 0; i < (MAXDISPLAY < items1.size() ? MAXDISPLAY : items1.size()); i++){
 				if(e.getY() >= y && e.getY() < y + 25){
 					makeSwap(i, 1);
@@ -72,10 +60,10 @@ public class InventoryTrade extends Inventory{
 			}
 		}
 		if(e.getX() > box2.x && e.getX() < box2.getMaxX()){
-			int y = box2.y + 12;
+			int y = box2.y;
 			for(int i = 0; i < (MAXDISPLAY < items2.size() ? MAXDISPLAY : items2.size()); i++){
 				if(e.getY() >= y && e.getY() < y + 25){
-					makeSwap(i, 1);
+					makeSwap(i, 2);
 					return true;
 				}
 				y += 25;
@@ -106,19 +94,27 @@ public class InventoryTrade extends Inventory{
 		else {
 			List<String> itemNames = new ArrayList<String>(items2.keySet());
 			String item = itemNames.get(i + startList2);
-			//remove from second map
-			if(items2.get(item) == 1){
+			
+			//If you are looting money, take it all at once
+			if(item.equals("Money")){
+				p.pickUpMoney(new Money(items2.get(item), null));
 				items2.remove(item);
 			}
 			else{
-				items2.put(item, items2.get(item) - 1);
-			}
-			//add to first map
-			if(items1.containsKey(item)){
-				items1.put(item, items1.get(item) + 1);
-			}
-			else{
-				items1.put(item, 1);
+				//remove from second map
+				if(items2.get(item) == 1){
+					items2.remove(item);
+				}
+				else{
+					items2.put(item, items2.get(item) - 1);
+				}
+				//add to first map
+				if(items1.containsKey(item)){
+					items1.put(item, items1.get(item) + 1);
+				}
+				else{
+					items1.put(item, 1);
+				}
 			}
 		}
 	}

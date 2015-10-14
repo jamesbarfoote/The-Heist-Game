@@ -9,7 +9,6 @@ import game.items.InteractableItem;
 import game.items.Item;
 import game.items.Safe;
 import networking.Client;
-
 import graphics.Menu.Action;
 
 import java.awt.Canvas;
@@ -32,6 +31,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 import javax.imageio.ImageIO;
@@ -54,6 +54,7 @@ public class GameCanvas extends Canvas{
 	private State gameState; 		//determines the status of the game client
 	private Dialogue dialogue; 	//current dialogue open, if any
 	private Inventory inventory;	//window for observing player inventory
+	private InventoryTrade inventoryTrade; //window for inventory trading between player and container
 	public static final Image logo = loadImage("title.png");
 	public static final Font textFont = new Font("TimesRoman", Font.PLAIN, 18); //font to be used for text in game
 	private TimerThread timer;	//timer for games
@@ -115,15 +116,17 @@ public class GameCanvas extends Canvas{
 		Money money2 = new Money(1000000, new Point(20, 5));
 		Money money3 = new Money(1000000, new Point(23, 6));
 		Money money4 = new Money(1000000, new Point(19, 3));
-		ArrayList<InteractableItem> deskItems = new ArrayList<InteractableItem>();
-		//deskItems.add(money);
+		Map<String, Integer> deskItems = new HashMap<String, Integer>();
+		deskItems.put("Money", 50);
+		deskItems.put("Brown Fluid", 16);
+		deskItems.put("Anchor", 10);
 		currentRoom.addItem(money);
 		currentRoom.addItem(money2);
 		currentRoom.addItem(money3);
 		currentRoom.addItem(money4);
-		currentRoom.addItem(new Safe(new Point(4, 7), deskItems, money.getAmount()));
-		currentRoom.addItem(new Desk(new Point(12, 10), deskItems, money.getAmount()));
-		currentRoom.addItem(new Desk(new Point(22, 22), deskItems, money.getAmount()));
+		currentRoom.addItem(new Safe(new Point(4, 7), money.getAmount()));
+		currentRoom.addItem(new Desk(new Point(12, 10), deskItems));
+		currentRoom.addItem(new Desk(new Point(22, 22), deskItems));
 		currentRoom.addDoor(new Door(false, new Point(6,3), null));
 		currentRoom.addDoor(new Door(false, new Point(6,11), null));
 		currentRoom.addDoor(new Door(false, new Point(13,6), null));
@@ -253,12 +256,19 @@ public class GameCanvas extends Canvas{
 	}
 	
 	/**open up a confirmation window**/
-	public void showConfirmation(Menu listener, Menu.Action action, String message){
+	public void showConfirmation(Menu listener, Menu.Action action, String message, Player player){
+		this.currentPlayer = player;
 		if(action.equals(Action.QUIT)){
-			dialogue = new Confirmation(listener, message, this);
+			dialogue = new Confirmation(listener, message, this, null);
 		}
-		else if(action.equals(Action.TEXT) || action.equals(Action.IP)){
-			dialogue = new TextDialogue(listener, message, this);
+		else if(action.equals(Action.IP)){
+			dialogue = new TextDialogue(listener, message, this, player);
+		}
+		else if(action.equals(Action.CHOOSE)){
+			dialogue = new PlayerForm(listener, message, this);
+		}
+		else if(action.equals(Action.SAVE)){
+			dialogue = new TextDialogue(listener, message, this, null);
 		}
 	}
 	
@@ -273,7 +283,7 @@ public class GameCanvas extends Canvas{
 	public void showInventory(){
 		if((gameState.equals(State.PLAYING_SINGLE) || gameState.equals(State.PLAYING_MULTI)) && !menuUp){
 			if(inventory == null){
-				inventory = new Inventory(this);
+				inventory = new Inventory(this, currentPlayer);
 			}
 			else{
 				inventory = null;
@@ -282,14 +292,24 @@ public class GameCanvas extends Canvas{
 	}
 	
 	/**for swapping items between containers**/
-	public void openTrade(){
-		
+	public void openTrade(Desk d){
+		if((gameState.equals(State.PLAYING_SINGLE) || gameState.equals(State.PLAYING_MULTI)) && !menuUp){
+			if(inventoryTrade == null){
+				inventoryTrade = new InventoryTrade(this, currentPlayer, d);
+			}
+			else{
+				inventoryTrade = null;
+			}
+		}
 	}
 	
 	/**for dealing with mouse wheel movements**/
 	public void mouseWheelMoved(MouseWheelEvent e){
 		if(inventory != null){
 			inventory.mouseWheelMoved(e);
+		}
+		else if(inventoryTrade != null){
+			inventoryTrade.mouseWheelMoved(e);
 		}
 	}
 	
@@ -308,6 +328,9 @@ public class GameCanvas extends Canvas{
 		else if(inventory != null){
 			inventory.mouseReleased(e);
 		}
+		else if(inventoryTrade != null){
+			inventoryTrade.mouseReleased(e);
+		}
 	}
 	
 	/**deal with mouse movements**/
@@ -320,6 +343,9 @@ public class GameCanvas extends Canvas{
 		}
 		else if(inventory != null){
 			inventory.mouseMoved(p);
+		}
+		else if(inventoryTrade != null){
+			inventoryTrade.mouseMoved(p);
 		}
 	}
 	
@@ -350,6 +376,7 @@ public class GameCanvas extends Canvas{
 		else if(s.equals(State.PLAYING_SINGLE)){ //Playing in single player mode
 			menuUp = false;
 			inventory = null;
+			inventoryTrade = null;
 			gameMenu = new GameMenu(this, currentPlayer, players);
 			cm = gameMenu.getClient(); //Get the client that was created
 			currentPlayer = cm.getPlayer(); //Update the player
@@ -359,6 +386,7 @@ public class GameCanvas extends Canvas{
 		{
 			menuUp = false;
 			inventory = null;
+			inventoryTrade = null;
 			gameMenu = new GameMenu(this, currentPlayer, players);
 		}
 		else if(s.equals(State.MULTI)){
@@ -409,6 +437,9 @@ public class GameCanvas extends Canvas{
 			drawHUD(g);
 			if(inventory != null){
 				inventory.draw(g);
+			}
+			if(inventoryTrade != null){
+				inventoryTrade.draw(g);
 			}
 			if(menuUp){
 				gameMenu.draw(g);

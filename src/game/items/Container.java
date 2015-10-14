@@ -2,6 +2,7 @@ package game.items;
 
 import java.awt.Point;
 import java.util.ArrayList;
+import java.util.Map;
 
 import game.Money;
 
@@ -9,10 +10,10 @@ public class Container extends InteractableItem{
 
 	private Point position;
 	protected int money; //Null if no money in container
-	private ArrayList<InteractableItem> items; //Null if no item in container
+	private Map<String, Integer> items; //Null if no item in container
 	private Point oldPosition;
 	
-	public Container(Point position, ArrayList<InteractableItem> items, int money) {
+	public Container(Point position, Map<String, Integer> items, int money) {
 		super(position);
 		this.position = position;
 		this.items = items;
@@ -27,7 +28,7 @@ public class Container extends InteractableItem{
 		return this.money;
 	}
 	
-	public ArrayList<InteractableItem> getItems(){
+	public Map<String, Integer> getItems(){
 		return this.items;
 	}
 	

@@ -12,6 +12,7 @@ import graphics.GameCanvas;
 import java.awt.Point;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -79,13 +80,13 @@ public class Player implements Serializable{
 	 * @param p The players location represented as a point on the canvas
 	 * @param t The players type (robber or guard)
 	 */
-	public Player(String name, Weapon w, Point p, Type t)
+	public Player(String name, Point p, Type t)
 	{
 		this.name = name;
-		this.weapon = w;
 		this.currentPosition = p;
 		this.oldPosition  = p;
 		this.t = t;
+		inventory = new HashMap<String, Integer>();
 	}
 	
 	/**
@@ -127,7 +128,7 @@ public class Player implements Serializable{
 	 * Removes the items from the container
 	 * @param c
 	 */
-	public void lootContainer(Container c){
+	public void lootContainer(Container c, GameCanvas canvas){
 		if(c instanceof Safe){
 			Safe s = (Safe) c;
 			if(!s.isLocked()){
@@ -137,15 +138,18 @@ public class Player implements Serializable{
 		}
 		else{
 			Desk d = (Desk) c;
-			if(d.getItems() != null){ 
-				for(InteractableItem item : d.getItems()){
-					//Adds the item to inventory
-					if(!inventory.containsKey(item.getFilename())){
-						inventory.put(item.getFilename(), 1); //Adds a new instance of quantity 1
-					}
-					else{ inventory.put(item.getFilename(), inventory.get(item.getFilename()));} //Increments the current quantity of the item by 1
-				}
-			}
+//			if(d.getItems() != null){ 
+//				for(InteractableItem item : d.getItems()){
+//					//Adds the item to inventory
+//					if(!inventory.containsKey(item.getFilename())){
+//						inventory.put(item.getFilename(), 1); //Adds a new instance of quantity 1
+//					}
+//					else{ inventory.put(item.getFilename(), inventory.get(item.getFilename()));} //Increments the current quantity of the item by 1
+//				}
+//			}
+			
+			canvas.openTrade(d);
+			
 			if(d.getMoney() != 0){ moneyHeld += d.getMoney(); }
 			c.containerLooted(); //Sets Container to empty
 		}
