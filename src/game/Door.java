@@ -59,4 +59,9 @@ public class Door implements Serializable{
 	public Point getPosition(){
 		return position;
 	}
+
+	public void setPosition(Point newLocation) {
+		position = newLocation;
+		
+	}
 }

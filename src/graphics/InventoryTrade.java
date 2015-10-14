@@ -49,6 +49,11 @@ public class InventoryTrade extends Inventory{
 		}
 	}
 	
+	/**
+	 * Decide which inventory to swap to and from, and then call makeSwap if valid selection to perform it
+	 * @param e
+	 * @return
+	 */
 	private boolean selectSwap(MouseEvent e){
 		if(e.getX() > box1.x && e.getX() < box1.getMaxX()){
 			int y = box1.y;
@@ -73,6 +78,11 @@ public class InventoryTrade extends Inventory{
 		return false;
 	}
 	
+	/**
+	 * Swap the decided element from its current inventory(player or desk) to the other
+	 * @param i
+	 * @param takenFrom
+	 */
 	private void makeSwap(int i, int takenFrom){
 		if(takenFrom == 1){
 			List<String> itemNames = new ArrayList<String>(items1.keySet());
