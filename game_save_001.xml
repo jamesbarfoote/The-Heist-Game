@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <game>
-<timer>10000</timer>
+<timer>1000</timer>
 <room name="testRoom">
 <item type="money">
 <position>2,4</position>
@@ -33,5 +33,9 @@
 <direction>N</direction>
 <money>0</money>
 </player>
+<door>
+<position>3,5</position>
+<locked>false</locked>
+</door>
 </room>
 </game>
