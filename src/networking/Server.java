@@ -33,6 +33,7 @@ public class Server implements Runnable {
 	 */
 	private static HashSet<DataOutputStream> writers = new HashSet<DataOutputStream>();
 
+	private static boolean running = true;
 
 	/**
 	 * listens on a port and creates handler threads.
@@ -45,13 +46,18 @@ public class Server implements Runnable {
 
 		ServerSocket listener = new ServerSocket(PORT);
 		try {
-			while (true) {
+			while (running) {
 				new Handler(listener.accept()).start();
 			}
 		} finally {
 			System.out.println("Listener closed");
 			listener.close();
 		}
+	}
+	
+	public void stopServer()
+	{
+		running = false;
 	}
 
 	/**

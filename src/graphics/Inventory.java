@@ -1,5 +1,7 @@
 package graphics;
 
+import game.Player;
+
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Image;
@@ -26,7 +28,7 @@ public class Inventory extends Dialogue{
 	
 	private Map<String, Integer> items; //for testing
 	
-	public Inventory(GameCanvas cv){
+	public Inventory(GameCanvas cv, Player p){
 		message = "Inventory";
 		canvas = cv;
 		menuBack = GameCanvas.loadImage("inventory.png");
@@ -43,16 +45,17 @@ public class Inventory extends Dialogue{
 		gameButtons.add(close);
 		
 		startList = 0;
-		items = new LinkedHashMap<String, Integer>();
-		items.put("Gun", 1);
-		items.put("cheese", 1);
-		items.put("Gold", 100);
-		items.put("chips", 5);
-		items.put("tomato", 2);
-		items.put("donut", 1);
-		items.put("bullets", 10);
-		items.put("gum", 2);
-		items.put("bacon", 5);
+		items = p.getInventory();
+		//items = new LinkedHashMap<String, Integer>();
+		//items.put("Gun", 1);
+		//items.put("cheese", 1);
+		//items.put("Gold", 100);
+		//items.put("chips", 5);
+		//items.put("tomato", 2);
+		//items.put("donut", 1);
+		//items.put("bullets", 10);
+		//items.put("gum", 2);
+		//items.put("bacon", 5);
 	}
 	
 	public void mouseReleased(MouseEvent e){
