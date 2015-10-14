@@ -1,6 +1,7 @@
 package game.items;
 
 import java.awt.Point;
+import java.io.Serializable;
 
 import game.Room;
 
@@ -8,11 +9,15 @@ import game.Room;
  * Abstraction of the Movable items in the bank. This includes items that can be
  * picked up/used for solving puzzles
  * 
- * @author Lachlan
+ * @author Lachlan Lee ID# 300281826
  *
  */
-public abstract class InteractableItem implements Item {
+public abstract class InteractableItem implements Item, Serializable {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	Point position, oldPosition;
 
 	// private Room room; // rooms hold items, an item shouldn't need to know

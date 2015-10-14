@@ -42,7 +42,7 @@ import data.fileReader;
 
 /**
  * Main canvas onto which GUI components are drawn
- * @author Godfreya, CombuskenKid, james.barfoote
+ * @author Godfreya, CombuskenKid, james.barfoote, Lachlan Lee ID# 300281826
  */
 public class GameCanvas extends Canvas{
 	private static final long serialVersionUID = 1l;
@@ -61,6 +61,7 @@ public class GameCanvas extends Canvas{
 	public static final Font textFont = new Font("TimesRoman", Font.PLAIN, 18); //font to be used for text in game
 	private TimerThread timer;	//timer for games
 	private int timerSeconds;	//seconds left on timer
+	private Room room;
 	public final int TIMELIMIT = 180; //time to complete mission
 	
 	//-----------------------------new-------------------------------//
@@ -138,6 +139,7 @@ public class GameCanvas extends Canvas{
 		currentRoom.addDoor(new Door(false, new Point(9,19)));
 		currentRoom.addDoor(new Door(false, new Point(18,12)));		
 		
+		this.setRoom(currentRoom);
 		this.tiles = data.getTiles();
 		this.columns = data.getHeight();
 		this.players = currentRoom.getPlayers();
@@ -369,7 +371,6 @@ public class GameCanvas extends Canvas{
 	public void setState(State s){
 		gameState = s;
 		if(s.equals(State.MENU)){
-			System.out.println("Menu 1");
 			gameMenu = new MainMenu(this);
 			if (timer != null) {
 				timer.terminate();
@@ -386,9 +387,19 @@ public class GameCanvas extends Canvas{
 			menuUp = false;
 			inventory = null;
 			inventoryTrade = null;
-			gameMenu = new GameMenu(this, currentPlayer, players);
-			cm = gameMenu.getClient(); //Get the client that was created
-			currentPlayer = cm.getPlayer(); //Update the player
+			System.out.println("Beofre new menu");
+			try {
+				Thread.sleep(2000);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
+			gameMenu = new GameMenu(this, currentPlayer, players, this.room);
+			
+			this.cm = gameMenu.getClient(); //Get the client that was created
+			currentPlayer = this.cm.getPlayer(); //Update the player
+			
 			
 		}
 		else if(s.equals(State.PLAYING_MULTI)) //Playing in multiplayer mode
@@ -396,10 +407,10 @@ public class GameCanvas extends Canvas{
 			menuUp = false;
 			inventory = null;
 			inventoryTrade = null;
-			gameMenu = new GameMenu(this, currentPlayer, players);
+			gameMenu = new GameMenu(this, currentPlayer, players, this.room);
 		}
 		else if(s.equals(State.MULTI)){
-			gameMenu = new Lobby(this, currentPlayer, players, this.host);//Create a new game lobby
+			gameMenu = new Lobby(this, currentPlayer, players, this.host, this.room);//Create a new game lobby
 		}
 	}
 	
@@ -643,8 +654,10 @@ public class GameCanvas extends Canvas{
 		g.drawImage(asset, this.at, getParent());
 	}
 	
-	private void drawIcons(Graphics2D g, Point point){		
-		
+	private void drawIcons(Graphics2D g, Point point){	
+		System.out.println(cm.getPlayer());
+		System.out.println("P = " + players.get(0).getID());
+		//System.out.println("ID  = " + cm.getID());
 		for(Player p: players)//Find the current player in the list and update the local player with it
 		{
 			if(p.getID() == cm.getID())//Get the current player
@@ -966,5 +979,13 @@ public class GameCanvas extends Canvas{
 	public void setClient(Client c)
 	{
 		cm = c;
+	}
+
+	public Room getRoom() {
+		return room;
+	}
+
+	public void setRoom(Room room) {
+		this.room = room;
 	}
 }

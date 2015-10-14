@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import game.Player;
+import game.Room;
 import networking.Client;
 
 /**
@@ -19,22 +20,24 @@ public class GameMenu extends Menu{
 	private Player currentPlayer;
 	private List<Player> players;
 	private Client cm;
-	
+	private Room room;
+
 	/**
 	 * 
 	 * @param GameCanvas
 	 * @param currentPlayer
 	 * @param players List
 	 */
-	public GameMenu(GameCanvas cv, Player currentPlayer, List<Player> players){
+	public GameMenu(GameCanvas cv, Player currentPlayer, List<Player> players, Room room){
 		canvas = cv;
+		this.room = room;
 		this.currentPlayer = currentPlayer;
 		this.players = players;
 		menuBack = GameCanvas.loadImage("menu.png");
 		menuX = (canvas.getWidth()/2) - (menuBack.getWidth(null)/2);
 		menuY = (canvas.getHeight()/2) - (menuBack.getHeight(null)/2); 
 		gameButtons = new ArrayList<GameButton>();
-		
+
 		//add buttons to the menu
 		gameButtons.add(new GameButton("resume"));
 		gameButtons.add(new GameButton("save"));
@@ -42,7 +45,7 @@ public class GameMenu extends Menu{
 		gameButtons.add(new GameButton("quit"));
 		setButtonCoordinates();
 	}
-	
+
 	//deal with mouse clicks
 	public void mouseReleased(MouseEvent e) {
 		String button = onClick(e);
@@ -56,23 +59,23 @@ public class GameMenu extends Menu{
 			canvas.showConfirmation(this, Action.SAVE, "Enter save name", null);
 			break;
 		case "options":
-		
+
 			break;
 		case "quit":
 			action = Action.QUIT;
-			canvas.showConfirmation(this, Action.QUIT, "Exit to main menu?", null);			
+			canvas.showConfirmation(this, Action.QUIT, "Exit to main menu?", null);
 			break;
 		case "resume":
 			canvas.gameMenuSelect();
-			
+
 			break;
 		}
 	}
-	
+
 	public void keyPressed(KeyEvent e){
-		
+
 	}
-	
+
 	//confirm the current action
 	public void accept(String data){
 		switch(action){
@@ -82,21 +85,21 @@ public class GameMenu extends Menu{
 			canvas.simulateMouseMove();
 			break;
 		case SAVE:
-			
+
 			action = null;
 			canvas.removeConfirmation();
 			canvas.simulateMouseMove();
 			break;
 		}
 	}
-	
+
 	//block the proposed action
 	public void decline(){
 		action = null;
 		canvas.removeConfirmation();
 		canvas.simulateMouseMove();
 	}
-	
+
 	protected void setButtonCoordinates(){
 		int yDown = menuY + YSTART;
 		for(GameButton gb: gameButtons){
@@ -105,20 +108,20 @@ public class GameMenu extends Menu{
 			yDown += 50;
 		}
 	}
-	
+
 	public void draw(Graphics g){
 		g.drawImage(menuBack, menuX, menuY, null);
 		for(GameButton gb: gameButtons){
 			g.drawImage(gb.getImage(), gb.getX(), gb.getY(), null);
 		}
 	}
-	
+
 	/**
 	 * Creates and starts the client
 	 */
 	private void startClient() {
 		try {
-			cm = new Client(43200, "127.0.0.1", currentPlayer);
+			cm = new Client(43200, "127.0.0.1", currentPlayer, this.room);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -135,9 +138,9 @@ public class GameMenu extends Menu{
 				currentPlayer = p;
 			}
 		}
-
+		this.room = cm.getRoom();
 		System.out.println("Number of players = " + players.size());
-		
+
 	}
 
 	@Override

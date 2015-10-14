@@ -1,6 +1,7 @@
 package game.items;
 
 import java.awt.Point;
+import java.io.Serializable;
 
 import game.Room;
 
@@ -8,11 +9,13 @@ import game.Room;
  * A note that contains a safe combination for unlocking a safe
  * Not currently in use as there is no unlocking minigame and therefore an equivalent for keys is
  * being used currently
- * @author Lachlan
+ * @author Lachlan Lee ID# 300281826
  *
  */
-public class Note extends InteractableItem{
+public class Note extends InteractableItem implements Serializable{
 
+
+	private static final long serialVersionUID = 1L;
 	private String name; //Name of the note in inventory and game dialog
 	private String text; //The message written on the note
 	private Safe safeForCombo; //The safe the combination refers to, if applicable

@@ -11,6 +11,11 @@ import game.Player;
 import game.items.Desk;
 import game.items.Item;
 
+/**
+ * Player actions related to moving
+ * @author Lachlan Lee ID# 300281826
+ *
+ */
 public class moveAction extends AbstractAction {
 
 	private static final long serialVersionUID = 1L;

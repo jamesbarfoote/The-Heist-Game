@@ -1,19 +1,19 @@
 package game.items;
 
 import java.awt.Point;
-import java.util.ArrayList;
-import java.util.Map;
+import java.io.Serializable;
 import java.util.Random;
 
 /**
- * A container that may or may not be locked that contains a large sum of money
- * Unlocked with a Safe combination which is currently just a key
- * Does not yet have unlocking minigame, so no safe specific combinations
- * @author Lachlan
- *
- */
-public class Safe extends Container{
-	
+* A container that may or may not be locked that contains a large sum of money
+* Unlocked with a Safe combination which is currently just a key
+* Does not yet have unlocking minigame, so no safe specific combinations
+* @author Lachlan Lee ID# 300281826
+*
+*/
+public class Safe extends Container implements Serializable{
+
+	private static final long serialVersionUID = 1L;
 	private int[] combination;
 	private boolean locked;
 	String filename = "_obj_floorSafe.png";

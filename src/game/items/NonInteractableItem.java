@@ -1,16 +1,21 @@
 package game.items;
 
 import java.awt.Point;
+import java.io.Serializable;
 
 /**
  * Abstraction of the Immovable objects in the bank. This encompasses all
  * objects that cannot be interacted with A.K.A. set dressing for the rooms.
  * 
- * @author Lachlan
+ * @author Lachlan Lee ID# 300281826
  *
  */
-public class NonInteractableItem implements Item {
+public class NonInteractableItem implements Item, Serializable{
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private Point position, oldPosition;
 	private itemType itemType;
 
