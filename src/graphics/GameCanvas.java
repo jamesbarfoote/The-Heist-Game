@@ -176,6 +176,9 @@ public class GameCanvas extends Canvas{
 		timer.start();
 	}
 	
+	/**
+	 * Add the image assets to the canvas
+	 */
 	private void addToImages(){
 		this.filenames = addToFilenames();
 		for(int i = 0; i < 17; i++){	//17 different kinds of assets.
@@ -194,6 +197,9 @@ public class GameCanvas extends Canvas{
 		return gameState;
 	}
 	
+	/**
+	 * Scale the image sizes based on the current zoom level
+	 */
 	private void scaleImages(){
 		double width = 0;
 		double height = 0;
@@ -600,6 +606,12 @@ public class GameCanvas extends Canvas{
 		}
 	}
 	
+	/**
+	 * Draw the room onto the canvas based on the positions of the objects in the 2d String array that
+	 * represents the room
+	 * @param g
+	 * @throws InterruptedException
+	 */
 	private void drawRoom(Graphics2D g) throws InterruptedException{	
 		for (int i = tiles.length-1; i >= 0; i--){
 		    for (int j = 0; j < tiles[i].length; j++){
@@ -823,6 +835,11 @@ public class GameCanvas extends Canvas{
 		return returnTranslate;
 	}
 	
+	/**
+	 * Rotate everything one cardinal direction clockwise or anti-clockwise and update their records
+	 * to reflect this
+	 * @param direction
+	 */
 	public void rotate(String direction){
 		String[][] newArray = new String[this.tiles.length][this.tiles[0].length];
 		Point oldLocation = currentPlayer.getLocation();
@@ -860,6 +877,7 @@ public class GameCanvas extends Canvas{
 		this.translateX = this.translateX + translation[0];
 		this.translateY = this.translateY + translation[1];
 		
+		//Update the players position fields to reflect their rotated values
 		for(Player player : this.players){
 			if(player.getID() != currentPlayer.getID()){
 				oldLocation = player.getLocation();
@@ -874,6 +892,19 @@ public class GameCanvas extends Canvas{
 			}
 		}
 		
+		//Update the doors position fields to reflect their rotated values
+		for(Door door : this.doors){
+			oldLocation = door.getPosition();
+			if(direction.equals("clockwise")){
+				newLocation = new Point((this.tiles[(int) oldLocation.getY()].length - 1 - (int) oldLocation.getY()), (int) oldLocation.getX());
+			}
+			else{
+				newLocation = new Point((int) oldLocation.getY(), this.tiles[(int) oldLocation.getX()].length - 1 - (int) oldLocation.getX());
+			}
+			door.setPosition(newLocation);
+		}
+		
+		//Update the items position fields to reflect their rotated values
 		for(Item item : this.items){
 			oldLocation = item.getPosition();
 			if(direction.equals("clockwise")){
