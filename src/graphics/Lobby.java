@@ -39,6 +39,7 @@ public class Lobby extends Menu{
 		this.players = players;
 		this.host = host;
 		this.room = room;
+		System.out.println("Lobby height = " + room.getHeight());
 		menuBack = GameCanvas.loadImage("lobby.png");
 		menuX = (canvas.getWidth()/2) - (menuBack.getWidth(null)/2);
 		menuY = (canvas.getHeight()/2) - (menuBack.getHeight(null)/2); 
@@ -86,6 +87,8 @@ public class Lobby extends Menu{
 	public void startClient()
 	{
 		try {
+			System.out.println("Lobby player = " + currentPlayer.getName());
+			System.out.println("Lobby room = " + this.room.getPlayers().get(0).getID());
 			cm = new Client(43200, host, currentPlayer, this.room);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
@@ -104,7 +107,6 @@ public class Lobby extends Menu{
 			}
 		}
 
-		System.out.println("Number of players = " + players.size());
 	}
 	
 	
@@ -127,8 +129,8 @@ public class Lobby extends Menu{
 	}
 	
 	public void draw(Graphics g){
-		String name = cm.getPlayer().getName();
-		String type = cm.getPlayer().getPlayerType().toString();
+		//String name = cm.getPlayer().getName();
+	//	String type = cm.getPlayer().getPlayerType().toString();
 		//Draw the players name, type and ip
 		
 		g.drawImage(menuBack, menuX, menuY, null);

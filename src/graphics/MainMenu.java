@@ -112,7 +112,7 @@ public class MainMenu extends Menu{
  */
 	private void setupMultiplayer(String data) {
 		canvas.setHost(data);
-		canvas.initialize();		
+		canvas.initialize();	
 		canvas.setState(State.MULTI);
 	}
 
@@ -125,7 +125,6 @@ public class MainMenu extends Menu{
 			canvas.removeConfirmation();
 			canvas.simulateMouseMove();
 			action = null;//Action.TEXT;
-			
 			setupMultiplayer(data);
 			break;
 		case LOAD:

@@ -102,7 +102,6 @@ public class Server implements Runnable {
 				while (true) {
 					//Send out the room to the client
 					byte[] bytes = toBytes(room);
-					System.out.println("Length of bytes array = " + bytes.length);
 					out.writeInt(bytes.length);
 					out.write(bytes);
 					out.flush();
