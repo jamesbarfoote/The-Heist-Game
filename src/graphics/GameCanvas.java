@@ -121,11 +121,13 @@ public class GameCanvas extends Canvas{
 		Money money3 = new Money(1000, new Point(23, 6));
 		Money money4 = new Money(1000, new Point(19, 3));
 		Map<String, Integer> deskItems = new HashMap<String, Integer>();
+		Map<String, Integer> deskItems2 = new HashMap<String, Integer>();
 		deskItems.put("Money", 50);
-		deskItems.put("Old Coin", 16);
+		deskItems2.put("Old Coin", 16);
 		deskItems.put("Paper Weight", 10);
 		deskItems.put("Key", 1);
-		deskItems.put("Safe Combination", 1);
+		deskItems2.put("Safe Combination", 1);
+		deskItems2.put("Money", 200);
 		currentRoom.addItem(vaultDoor);
 		currentRoom.addItem(money);
 		currentRoom.addItem(money2);
@@ -133,7 +135,7 @@ public class GameCanvas extends Canvas{
 		currentRoom.addItem(money4);
 		currentRoom.addItem(new Safe(new Point(4, 7), money.getAmount(), true));
 		currentRoom.addItem(new Desk(new Point(12, 10), deskItems));
-		currentRoom.addItem(new Desk(new Point(22, 22), deskItems));
+		currentRoom.addItem(new Desk(new Point(22, 22), deskItems2));
 		currentRoom.addDoor(new Door(false, new Point(6,3)));
 		currentRoom.addDoor(new Door(true, new Point(6,11)));
 		currentRoom.addDoor(new Door(false, new Point(13,6)));
