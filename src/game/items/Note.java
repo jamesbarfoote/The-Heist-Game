@@ -4,6 +4,13 @@ import java.awt.Point;
 
 import game.Room;
 
+/**
+ * A note that contains a safe combination for unlocking a safe
+ * Not currently in use as there is no unlocking minigame and therefore an equivalent for keys is
+ * being used currently
+ * @author Lachlan
+ *
+ */
 public class Note extends InteractableItem{
 
 	private String name; //Name of the note in inventory and game dialog

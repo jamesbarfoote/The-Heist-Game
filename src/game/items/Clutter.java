@@ -4,6 +4,11 @@ import game.Room;
 
 import java.awt.Point;
 
+/**
+ * Class for representing all random/joke items that don't serve any particular purpose
+ * @author Lachlan
+ *
+ */
 public class Clutter extends InteractableItem{
 
 	private String name;

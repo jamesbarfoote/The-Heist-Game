@@ -2,8 +2,11 @@ package game.control;
 
 import java.awt.Point;
 import java.awt.event.ActionEvent;
+
 import javax.swing.AbstractAction;
+
 import graphics.GameCanvas;
+import game.Door;
 import game.Player;
 import game.items.Desk;
 import game.items.Item;
@@ -93,6 +96,12 @@ public class moveAction extends AbstractAction {
 				if(desk.getPositions().contains(newLocation)){
 					return false;
 				}
+			}
+		}
+		//Checks to make sure there isnt a locked door where you are trying to move
+		if(player.checkForDoor(canvas) != null){
+			if(player.checkForDoor(canvas).isLocked() == true){
+				return false;
 			}
 		}
 		return true;

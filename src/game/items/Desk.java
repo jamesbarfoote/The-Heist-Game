@@ -5,6 +5,11 @@ import java.awt.Point;
 import java.util.ArrayList;
 import java.util.Map;
 
+/**
+ * An unlocked container containing items, usually a small amount of money + a key and/or safe combination
+ * @author Lachlan
+ *
+ */
 public class Desk extends Container {
 	
 	String filename = "_obj_desk.png";
@@ -33,7 +38,10 @@ public class Desk extends Container {
 		return this.size;
 	}
 	
-	
+	/**
+	 * Sets the position of the desk based on which way the view is rotated
+	 * @param direction
+	 */
 	public void setPositions(String direction){
 		this.positions.clear();
 		this.direction = direction;

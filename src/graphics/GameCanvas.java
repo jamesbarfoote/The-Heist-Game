@@ -7,6 +7,7 @@ import game.Room;
 import game.items.Desk;
 import game.items.InteractableItem;
 import game.items.Item;
+import game.items.Key;
 import game.items.Safe;
 import networking.Client;
 import graphics.Menu.Action;
@@ -59,7 +60,7 @@ public class GameCanvas extends Canvas{
 	public static final Font textFont = new Font("TimesRoman", Font.PLAIN, 18); //font to be used for text in game
 	private TimerThread timer;	//timer for games
 	private int timerSeconds;	//seconds left on timer
-	public final int TIMELIMIT = 300; //time to complete mission
+	public final int TIMELIMIT = 180; //time to complete mission
 	
 	//-----------------------------new-------------------------------//
 	private AffineTransform at;
@@ -113,26 +114,28 @@ public class GameCanvas extends Canvas{
 		Room currentRoom = new Room("testRoom", data.getWidth(), data.getHeight(), players);
 		
 		Money money = new Money(1000000, new Point(2, 4));
-		Money money2 = new Money(1000000, new Point(20, 5));
-		Money money3 = new Money(1000000, new Point(23, 6));
-		Money money4 = new Money(1000000, new Point(19, 3));
+		Money money2 = new Money(1000, new Point(20, 5));
+		Money money3 = new Money(1000, new Point(23, 6));
+		Money money4 = new Money(1000, new Point(19, 3));
 		Map<String, Integer> deskItems = new HashMap<String, Integer>();
 		deskItems.put("Money", 50);
-		deskItems.put("Brown Fluid", 16);
-		deskItems.put("Anchor", 10);
+		deskItems.put("Old Coin", 16);
+		deskItems.put("Paper Weight", 10);
+		deskItems.put("Key", 1);
+		deskItems.put("Safe Combination", 1);
 		currentRoom.addItem(money);
 		currentRoom.addItem(money2);
 		currentRoom.addItem(money3);
 		currentRoom.addItem(money4);
-		currentRoom.addItem(new Safe(new Point(4, 7), money.getAmount()));
+		currentRoom.addItem(new Safe(new Point(4, 7), money.getAmount(), true));
 		currentRoom.addItem(new Desk(new Point(12, 10), deskItems));
 		currentRoom.addItem(new Desk(new Point(22, 22), deskItems));
-		currentRoom.addDoor(new Door(false, new Point(6,3), null));
-		currentRoom.addDoor(new Door(false, new Point(6,11), null));
-		currentRoom.addDoor(new Door(false, new Point(13,6), null));
-		currentRoom.addDoor(new Door(false, new Point(11,14), null));
-		currentRoom.addDoor(new Door(false, new Point(9,19), null));
-		currentRoom.addDoor(new Door(false, new Point(18,12), null));		
+		currentRoom.addDoor(new Door(false, new Point(6,3)));
+		currentRoom.addDoor(new Door(true, new Point(6,11)));
+		currentRoom.addDoor(new Door(false, new Point(13,6)));
+		currentRoom.addDoor(new Door(false, new Point(11,14)));
+		currentRoom.addDoor(new Door(false, new Point(9,19)));
+		currentRoom.addDoor(new Door(false, new Point(18,12)));		
 		
 		this.tiles = data.getTiles();
 		this.columns = data.getHeight();
@@ -271,7 +274,7 @@ public class GameCanvas extends Canvas{
 		else if(action.equals(Action.CHOOSE)){
 			dialogue = new PlayerForm(listener, message, this);
 		}
-		else if(action.equals(Action.SAVE)){
+		else if(action.equals(Action.SAVE) || action.equals(Action.LOAD)){
 			dialogue = new TextDialogue(listener, message, this, null);
 		}
 	}

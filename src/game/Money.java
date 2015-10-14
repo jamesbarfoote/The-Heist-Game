@@ -47,6 +47,9 @@ public class Money extends InteractableItem {
 		this.position = p;
 	}
 	
+	/**
+	 * Sets the money as picked up by the player
+	 */
 	public void pickUpCash(){
 		location = null;
 		pickedUp = true;

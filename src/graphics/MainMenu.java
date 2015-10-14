@@ -50,7 +50,7 @@ public class MainMenu extends Menu{
 			gameButtons.add(new GameButton("options"));
 			gameButtons.add(new GameButton("quit"));
 		}
-		else if(state.equals(MenuState.NEW) || state.equals(MenuState.LOAD)){
+		else if(state.equals(MenuState.NEW)){
 			gameButtons.add(new GameButton("single"));
 			gameButtons.add(new GameButton("multi"));
 			gameButtons.add(new GameButton("back"));
@@ -88,7 +88,6 @@ public class MainMenu extends Menu{
 		case "multi":
 			action = Action.CHOOSE;
 			canvas.showConfirmation(this, Action.CHOOSE, "Enter Player Name", null);
-			//canvas.showConfirmation(this, Action.IP,  "Enter IP Address");//Displayer the box to type IP into
 			break;
 		case "new":
 			state = MenuState.NEW;
@@ -96,7 +95,7 @@ public class MainMenu extends Menu{
 			break;
 		case "load":
 			state = MenuState.LOAD;
-			loadButtons();
+			canvas.showConfirmation(this, Action.LOAD, "Enter file name", null);
 			break;
 		case "back":
 			state = MenuState.MAIN;
@@ -122,15 +121,15 @@ public class MainMenu extends Menu{
 		switch(action){
 		case QUIT:
 			System.exit(0);
-		case TEXT:
-			
-			break;
 		case IP:
 			canvas.removeConfirmation();
 			canvas.simulateMouseMove();
 			action = null;//Action.TEXT;
 			
 			setupMultiplayer(data);
+			break;
+		case LOAD:
+			
 			break;
 		}
 	}
