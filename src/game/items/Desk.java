@@ -8,7 +8,7 @@ import java.util.Map;
 
 /**
  * An unlocked container containing items, usually a small amount of money + a key and/or safe combination
- * @author Lachlan Lee ID# 300281826
+ * @author Lachlan Lee ID# 300281826 Cameron Porter 300279891
  *
  */
 public class Desk extends Container implements Serializable{

@@ -181,7 +181,6 @@ public class Save {
 		return itemNode;
 	}
 
-
 	/**
 	 * Add a player and return a node
 	 *
@@ -223,20 +222,19 @@ public class Save {
 		return playerNode;
 	}
 
-	private static Node addDoor(Document doc, Door door){
+	private static Node addDoor(Document doc, Door door) {
 		// create door node
-				Element doorNode = doc.createElement(DOOR);
+		Element doorNode = doc.createElement(DOOR);
 
-				// location
-				Point point = door.getPosition();
-				doorNode.appendChild(node(doc, POS, pointToString(point)));
-				// locked
-				boolean locked = door.isLocked();
-				doorNode.appendChild(node(doc, LOCKED, Boolean.toString(locked)));
+		// location
+		Point point = door.getPosition();
+		doorNode.appendChild(node(doc, POS, pointToString(point)));
+		// locked
+		boolean locked = door.isLocked();
+		doorNode.appendChild(node(doc, LOCKED, Boolean.toString(locked)));
 
-				return doorNode;
+		return doorNode;
 	}
-
 
 	private static void addContents(Document doc, Container item,
 			Element itemNode) {
@@ -328,11 +326,12 @@ public class Save {
 		ArrayList<Player> players = new ArrayList<Player>();
 		currentRoom = new Room("testRoom", 0, 0, players);
 
-		//Door door = new Door();
+		Door door = new Door(false, new Point(3,5));
 
 		currentRoom.addItem(money);
 		currentRoom.addItem(safe);
 		currentRoom.addItem(desk);
+		currentRoom.addDoor(door);
 
 		Player currentPlayer = new Player("player 1", new Point(1, 1),
 				game.Player.Type.robber);

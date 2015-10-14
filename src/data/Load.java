@@ -26,6 +26,13 @@ import org.w3c.dom.NodeList;
  */
 public class Load {
 
+	/**
+	 * Load a saved game from xml file. To be called from
+	 *
+	 * @param fileName
+	 *            - *.xml. Must be created by the saveToXML method.
+	 * @return - Room with items, doors and players
+	 */
 	public static Room loadFromXML(String fileName) {
 
 		Room roomToReturn = new Room("currentRoom", 0, 0, null);
@@ -49,7 +56,7 @@ public class Load {
 
 			System.out.println(Save.TIMER + ": " + timer);
 
-			getRooms(gameNode, roomToReturn);
+			getContents(gameNode, roomToReturn);
 
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
@@ -58,33 +65,43 @@ public class Load {
 		return roomToReturn;
 	}
 
-	// <room name="hall">
-	private static Room getRooms(Element gameNode, Room room) {
+	/**
+	 *
+	 *
+	 * @param gameNode
+	 * @param room
+	 * @return
+	 */
+	private static Room getContents(Element gameNode, Room room) {
 		// get all the rooms
 		NodeList roomsNodeList = gameNode.getElementsByTagName(Save.ROOM);
-
 		// design change, only one 'room' per map
 		Element roomNode = (Element) roomsNodeList.item(0);
-
-		// pass room to get the items in the room
 		getRoomItems(roomNode, room);
 
 		// get all the players
 		NodeList playersNodeList = gameNode.getElementsByTagName(Save.PLAYER);
-
 		ArrayList<Player> players = new ArrayList<>();
 
 		for (int i = 0; i < playersNodeList.getLength(); i++) {
 			Element playerNode = (Element) playersNodeList.item(i);
 			players.add(addPlayer(playerNode));
 		}
-
 		room.setPlayers(players);
+
+		// get all the doors
+		NodeList doorsNodeList = gameNode.getElementsByTagName(Save.DOOR);
+		ArrayList<Door> doors = new ArrayList<>();
+
+		for (int i = 0; i < doorsNodeList.getLength(); i++) {
+			Element doorNode = (Element) doorsNodeList.item(i);
+			doors.add(addDoor(doorNode));
+		}
+		room.setDoors(doors);
 
 		return room;
 	}
 
-	// <item = type"money">
 	private static void getRoomItems(Element roomNode, Room room) {
 		// get all the items in the room
 		NodeList roomItemsNodeList = roomNode.getChildNodes();
@@ -111,6 +128,12 @@ public class Load {
 		}
 	}
 
+	/**
+	 * Create and return a money node to add to a parent node
+	 *
+	 * @param moneyNode
+	 * @return - Money node to add to Room node
+	 */
 	private static Money addMoney(Element moneyNode) {
 
 		NodeList moneyNodeList = moneyNode.getChildNodes();
@@ -132,6 +155,12 @@ public class Load {
 		return money;
 	}
 
+	/**
+	 * Create and return a safe node to add to a parent node
+	 *
+	 * @param safeNode
+	 * @return - Safe node to add to Room node
+	 */
 	private static Safe addSafe(Element safeNode) {
 
 		NodeList safeNodeList = safeNode.getChildNodes();
@@ -151,8 +180,6 @@ public class Load {
 		element = (Element) node;
 		boolean locked = Boolean.parseBoolean(element.getTextContent());
 
-		Map<String, Integer> items = new HashMap<>();
-
 		System.out.println("Safe\nPosition: " + point + ", money: " + money
 				+ ", Locked: " + locked + "\n");
 
@@ -162,6 +189,12 @@ public class Load {
 		return safe;
 	}
 
+	/**
+	 * Create and return a desk node to add to a parent node
+	 *
+	 * @param deskNode
+	 * @return - Desk node to add to Room node
+	 */
 	private static Desk addDesk(Element deskNode) {
 
 		NodeList deskNodeList = deskNode.getChildNodes();
@@ -174,18 +207,26 @@ public class Load {
 		// money
 		node = deskNodeList.item(3);
 		element = (Element) node;
-		String money = element.getTextContent();
+		int money = Integer.parseInt(element.getTextContent());
 
-		Map<String, Integer> items = new HashMap<>();
+		Map<String, Integer> items = addContents(deskNode);
 
 		System.out.println("Desk\nPosition: " + point + ", money: " + money
 				+ "\n");
 
 		Desk desk = new Desk(stringToPoint(point), items);
 
+		desk.setMoney(money);
+
 		return desk;
 	}
 
+	/**
+	 * Create and return a player node to add to a parent node
+	 *
+	 * @param playerNode
+	 * @return - Player node to add to Room node
+	 */
 	private static Player addPlayer(Element playerNode) {
 
 		NodeList playerNodeList = playerNode.getChildNodes();
@@ -257,6 +298,52 @@ public class Load {
 		player.setMoney(money);
 
 		return player;
+	}
+
+
+	/**
+	 * Create and return a door node to add to a parent node
+	 *
+	 * @param doorNode
+	 * @return - Door to add to Room
+	 */
+	private static Door addDoor(Element doorNode) {
+
+		NodeList doorNodeList = doorNode.getChildNodes();
+
+		// position
+		Node node = doorNodeList.item(1);
+		Element element = (Element) node;
+		String point = element.getTextContent();
+
+		// locked
+		// locked
+		node = doorNodeList.item(3);
+		element = (Element) node;
+		boolean locked = Boolean.parseBoolean(element.getTextContent());
+
+		System.out.println("Door\nPoint: " + point + ", Locked: "+ Boolean.toString(locked));
+
+		Door door = new Door(locked, stringToPoint(point));
+
+		return door;
+	}
+
+	private static Map<String, Integer> addContents(Element containerNode){
+
+		Map<String, Integer> contents = new HashMap<>();
+
+		NodeList contentsList = containerNode.getElementsByTagName(Save.ITEM);
+
+		// read inventory items and add to inventory map
+		for (int i = 0; i < contentsList.getLength(); i++) {
+			String item = contentsList.item(i).getTextContent();
+			String key = item.split(",")[0];
+			int value = Integer.parseInt(item.split(",")[1]);
+			contents.put(key, value);
+		}
+
+		return contents;
 	}
 
 	/**

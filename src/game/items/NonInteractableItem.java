@@ -7,7 +7,7 @@ import java.io.Serializable;
  * Abstraction of the Immovable objects in the bank. This encompasses all
  * objects that cannot be interacted with A.K.A. set dressing for the rooms.
  * 
- * @author Lachlan Lee ID# 300281826
+ * @author Lachlan Lee ID# 300281826, Cameron Porter 300279891
  *
  */
 public class NonInteractableItem implements Item, Serializable{

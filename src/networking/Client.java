@@ -37,7 +37,7 @@ public class Client {
 	@SuppressWarnings("unchecked")
 	public Client(int port, String host, Player currentPlayer, Room r) throws IOException, InterruptedException
 	{
-System.out.println("Client started");
+		System.out.println("Client started");
 		this.port = port;
 		this.host = host;
 		this.room = r;
@@ -49,9 +49,6 @@ System.out.println("Client started");
 			client = new Socket(host, port);//Create a new connection to the server
 			outputStream = new DataOutputStream(client.getOutputStream());
 			inputStream = new DataInputStream(client.getInputStream());
-
-			System.out.println(client.getLocalSocketAddress());
-			System.out.println(client.getRemoteSocketAddress());
 		} catch (UnknownHostException e) {
 			System.out.println(e);
 			e.printStackTrace();
@@ -66,16 +63,25 @@ System.out.println("Client started");
 		byte[] bytes = new byte[size];		//Create a new array of the correct size	 
 		inputStream.readFully(bytes);		//Dont stop reading till the array is full (this way we dont lose any data)
 		Object room = toObject(bytes);		//Convert the byte array to a Room
-		temp2 = (Room) r;
+		temp2 = (Room) room;
 
 		//Set the current players ID based on how big the list of players is
-		this.ID = temp2.getPlayers().size();
-		System.out.println("CLient ID = " + this.ID);
+		if(room != null){
+			this.ID = (temp2.getPlayers().size()) -5;
 
-		this.currentPlayer.setID(ID);
-		players.add(currentPlayer);
-		this.room.setPlayers(players);
-		this.room.setCurrentPlayer(currentPlayer);
+			this.currentPlayer.setID(ID);
+			players.add(currentPlayer);
+			this.room.setPlayers(players);
+			this.room.setCurrentPlayer(currentPlayer);
+		}
+		else
+		{
+			this.ID = 0;
+			this.currentPlayer.setID(ID);
+			players.add(currentPlayer);
+			this.room.setPlayers(players);
+			this.room.setCurrentPlayer(currentPlayer);
+		}
 
 		//Run the main thread that deals with the constant sending and receiving between server and client
 		run();
@@ -116,43 +122,43 @@ System.out.println("Client started");
 		this.currentPlayer = player;
 
 	}
-	
+
 	/**
 	 * Converts a list of players to an array of bytes
 	 * @param List<Player>
 	 * @return Array of bytes
 	 */
 	public static byte[] toBytes(Room object){
-	    java.io.ByteArrayOutputStream baos = new java.io.ByteArrayOutputStream();
-	    try{
-	        java.io.ObjectOutputStream oos = new java.io.ObjectOutputStream(baos);
-	        oos.writeObject(object);
-	    }catch(java.io.IOException ioe){
-	        ioe.printStackTrace();
-	    }
-	     
-	    return baos.toByteArray();
+		java.io.ByteArrayOutputStream baos = new java.io.ByteArrayOutputStream();
+		try{
+			java.io.ObjectOutputStream oos = new java.io.ObjectOutputStream(baos);
+			oos.writeObject(object);
+		}catch(java.io.IOException ioe){
+			ioe.printStackTrace();
+		}
+
+		return baos.toByteArray();
 	} 
-	 
+
 	/**
 	 * Converts a byte array back to a list of players
 	 * @param bytes
 	 * @return List<Player>
 	 */
 	public static Object toObject(byte[] bytes){
-	    Object object = null;
-	    try{
-	        object = new java.io.ObjectInputStream(new
-	        java.io.ByteArrayInputStream(bytes)).readObject();
-	    }catch(java.io.IOException ioe){
-	        ioe.printStackTrace();
-	    }catch(java.lang.ClassNotFoundException cnfe){
-	        cnfe.printStackTrace();
-	    }
-	    return object;
+		Object object = null;
+		try{
+			object = new java.io.ObjectInputStream(new
+					java.io.ByteArrayInputStream(bytes)).readObject();
+		}catch(java.io.IOException ioe){
+			ioe.printStackTrace();
+		}catch(java.lang.ClassNotFoundException cnfe){
+			cnfe.printStackTrace();
+		}
+		return object;
 	}
-	
-	
+
+
 	/**
 	 * 
 	 * @return Current Players ID
@@ -177,7 +183,7 @@ System.out.println("Client started");
 	{
 		return players;
 	}
-	
+
 	public Room getRoom() {
 		return room;
 	}
