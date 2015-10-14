@@ -154,7 +154,7 @@ public class Load {
 		Map<String, Integer> items = new HashMap<>();
 
 		System.out.println("Safe\nPosition: " + point + ", money: " + money
-				+ ", Locked: " + locked+"\n");
+				+ ", Locked: " + locked + "\n");
 
 		Safe safe = new Safe(stringToPoint(point), Integer.parseInt(money),
 				locked);
@@ -178,7 +178,8 @@ public class Load {
 
 		Map<String, Integer> items = new HashMap<>();
 
-		System.out.println("Desk\nPosition: " + point + ", money: " + money+"\n");
+		System.out.println("Desk\nPosition: " + point + ", money: " + money
+				+ "\n");
 
 		Desk desk = new Desk(stringToPoint(point), items);
 
@@ -190,7 +191,8 @@ public class Load {
 		NodeList playerNodeList = playerNode.getChildNodes();
 
 		// id
-		String id = playerNode.getAttribute(Save.ID);
+		String strID = playerNode.getAttribute(Save.ID);
+		int id = Integer.parseInt(strID);
 
 		// name
 		Node node = playerNodeList.item(1);
@@ -212,6 +214,11 @@ public class Load {
 		element = (Element) node;
 		String dir = element.getTextContent();
 
+		// money
+		node = playerNodeList.item(9);
+		element = (Element) node;
+		int money = Integer.parseInt(element.getTextContent());
+
 		Map<String, Integer> inventory = new HashMap<>();
 
 		NodeList playerInventoryList = playerNode
@@ -225,12 +232,29 @@ public class Load {
 			inventory.put(key, value);
 		}
 
-		 System.out.println("Player\nID: " + id + ", Name: " + name +
-		 ", Point: "
-		 + point + ", Type: " + type + ", Direction: " + dir +", Inventory: " + inventory.toString() + "\n");
+		// TODO: debug
+		System.out.println("Player\nID: " + id + ", Name: " + name
+				+ ", Point: " + point + ", Type: " + type + ", Direction: "
+				+ dir + ", Inventory: " + inventory.toString() + ", Money: "
+				+ money + "\n");
 
+		// make new player to return
 		Player player = new Player(name, stringToPoint(point),
 				stringToType(type));
+		// set id
+		player.setID(id);
+
+		// set direction from string to int N,E,S,W
+		if (dir == "N")
+			player.setDirection(0);
+		else if (dir == "E")
+			player.setDirection(1);
+		else if (dir == "S")
+			player.setDirection(2);
+		else if (dir == "W")
+			player.setDirection(3);
+		// set money
+		player.setMoney(money);
 
 		return player;
 	}
