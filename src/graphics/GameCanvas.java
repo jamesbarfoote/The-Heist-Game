@@ -115,6 +115,7 @@ public class GameCanvas extends Canvas{
 		fileReader data = new fileReader("10");		
 		Room currentRoom = new Room("testRoom", data.getWidth(), data.getHeight(), players);
 		
+		VaultDoor vaultDoor = new VaultDoor(new Point(7, 22));
 		Money money = new Money(1000000, new Point(2, 4));
 		Money money2 = new Money(1000, new Point(20, 5));
 		Money money3 = new Money(1000, new Point(23, 6));
@@ -125,6 +126,7 @@ public class GameCanvas extends Canvas{
 		deskItems.put("Paper Weight", 10);
 		deskItems.put("Key", 1);
 		deskItems.put("Safe Combination", 1);
+		currentRoom.addItem(vaultDoor);
 		currentRoom.addItem(money);
 		currentRoom.addItem(money2);
 		currentRoom.addItem(money3);

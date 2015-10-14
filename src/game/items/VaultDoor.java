@@ -2,14 +2,19 @@ package game.items;
 
 
 import java.awt.Point;
+import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
- * An unlocked container containing items, usually a small amount of money + a key and/or safe combination
+ * The door to the vault
  * @author Cameron
  */
-public class VaultDoor extends NonInteractableItem {
+public class VaultDoor extends NonInteractableItem implements Serializable{
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	String filename = "_obj_vaultdoor.png";
 	String direction = "N";
 	double[] size = {0.6, 0.8};
