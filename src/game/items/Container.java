@@ -10,7 +10,7 @@ import game.Money;
 /**
  * An interactable item that can hold other interactable items, including money.
  * Cannot hold another container
- * @author Lachlan Lee ID# 300281826
+ * @author Lachlan Lee ID# 300281826, Cameron Porter 300279891
  *
  */
 public class Container extends InteractableItem implements Serializable{

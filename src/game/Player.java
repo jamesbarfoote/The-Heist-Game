@@ -17,7 +17,7 @@ import java.util.Map;
 
 /**
  *
- * @author james.barfoote, Lachlan Lee ID# 300281826
+ * @author james.barfoote, Lachlan Lee ID# 300281826,	Cameron Porter 300279891
  * Represents everything that a player is.
  * Holds methods for the interactions players have with objects and doors, eg: Picking up money, looting desks
  *

@@ -13,7 +13,7 @@ import javax.swing.AbstractAction;
 
 /**
  * Player actions related to moving
- * @author Lachlan Lee ID# 300281826
+ * @author Cameron Porter 300279891,  Lachlan Lee ID# 300281826
  *
  */
 public class moveAction extends AbstractAction {

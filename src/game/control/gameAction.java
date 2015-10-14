@@ -12,7 +12,7 @@ import game.items.InteractableItem;
 
 /**
  * Actions by the player in the game world  not related to moving, eg: dropping money, unlocking doors
- * @author Lachlan Lee ID# 300281826
+ * @author Cameron Porter 300279891 , Lachlan Lee ID# 300281826
  *
  */
 public class gameAction extends AbstractAction {

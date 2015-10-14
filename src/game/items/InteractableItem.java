@@ -9,7 +9,7 @@ import game.Room;
  * Abstraction of the Movable items in the bank. This includes items that can be
  * picked up/used for solving puzzles
  * 
- * @author Lachlan Lee ID# 300281826
+ * @author Lachlan Lee ID# 300281826, Cameron Porter 300279891
  *
  */
 public abstract class InteractableItem implements Item, Serializable {

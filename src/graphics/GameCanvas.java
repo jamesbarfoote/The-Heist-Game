@@ -42,7 +42,7 @@ import data.fileReader;
 
 /**
  * Main canvas onto which GUI components are drawn
- * @author Godfreya, CombuskenKid, james.barfoote, Lachlan Lee ID# 300281826
+ * @author Godfreya, Cameron Porter	300279891, james.barfoote, Lachlan Lee ID# 300281826
  */
 public class GameCanvas extends Canvas{
 	private static final long serialVersionUID = 1l;
