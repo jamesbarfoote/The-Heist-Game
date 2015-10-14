@@ -219,6 +219,7 @@ public class GameCanvas extends Canvas{
 	
 	/**open up a confirmation window**/
 	public void showConfirmation(Menu listener, Menu.Action action, String message, Player player){
+		this.currentPlayer = player;
 		if(action.equals(Action.QUIT)){
 			dialogue = new Confirmation(listener, message, this, null);
 		}
