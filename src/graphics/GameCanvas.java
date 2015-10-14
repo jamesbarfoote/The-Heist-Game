@@ -117,8 +117,14 @@ public class GameCanvas extends Canvas{
 		VaultDoor vaultDoor = new VaultDoor(new Point(8, 19));
 		Map<String, Integer> deskItems = new HashMap<String, Integer>();
 		Map<String, Integer> deskItems2 = new HashMap<String, Integer>();
+		Map<String, Integer> deskItems3 = new HashMap<String, Integer>();
+		Map<String, Integer> deskItems4 = new HashMap<String, Integer>();
+		Map<String, Integer> deskItems5 = new HashMap<String, Integer>();
 		deskItems.put("Money", 50);
 		deskItems2.put("Old Coin", 16);
+		deskItems3.put("Cake", 1);
+		deskItems4.put("Poo", 5);
+		deskItems5.put("Cabbage", 1000000);
 		deskItems.put("Paper Weight", 10);
 		deskItems.put("Key", 1);
 		deskItems2.put("Safe Combination", 1);
@@ -219,16 +225,16 @@ public class GameCanvas extends Canvas{
 		currentRoom.addItem(new Safe(new Point(6, 28), money.get(0).getAmount(), true));
 		currentRoom.addItem(new Safe(new Point(3, 13), money.get(0).getAmount(), true));
 		//Desks--------------------------------------------------
-		currentRoom.addItem(new Desk(new Point(2, 35), deskItems));
+		currentRoom.addItem(new Desk(new Point(2, 35), deskItems4));
 		currentRoom.addItem(new Desk(new Point(2, 3), deskItems));
 		currentRoom.addItem(new Desk(new Point(9, 12), deskItems));
-		currentRoom.addItem(new Desk(new Point(9, 29), deskItems));
+		currentRoom.addItem(new Desk(new Point(9, 29), deskItems2));
 		currentRoom.addItem(new Desk(new Point(30, 18), deskItems));
-		currentRoom.addItem(new Desk(new Point(30, 20), deskItems));
+		currentRoom.addItem(new Desk(new Point(30, 20), deskItems5));
 		currentRoom.addItem(new Desk(new Point(30, 22), deskItems));
-		currentRoom.addItem(new Desk(new Point(30, 24), deskItems));
+		currentRoom.addItem(new Desk(new Point(30, 24), deskItems2));
 		currentRoom.addItem(new Desk(new Point(30, 9), deskItems));
-		currentRoom.addItem(new Desk(new Point(36, 38), deskItems));
+		currentRoom.addItem(new Desk(new Point(36, 38), deskItems2));
 			
 		for(Money m : money){
 			currentRoom.addItem(m);
