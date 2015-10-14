@@ -53,24 +53,24 @@ public class Room implements Serializable{
 		}
 	}
 
-	/**
-	 * Updates the character array with the characters new position, setting the old position to an empty tile
-	 * @param newPos
-	 * @param oldPos
-	 */
-	public void moveCharacter(Point newPos, Point oldPos){
-		tiles[(int) newPos.getX()][(int) newPos.getY()] = 'C';
-		tiles[(int) oldPos.getX()][(int) oldPos.getY()] = 'T';
-	}
-
-	/**
-	 * Updates the char array to reflect a character moving into a different room by setting its current position to
-	 * and empty tile
-	 * @param room1Entry
-	 */
-	public void removeCharacter(Point roomEntry) {
-		tiles[(int) roomEntry.getX()][(int) roomEntry.getY()] = 'T';
-	}
+//	/**
+//	 * Updates the character array with the characters new position, setting the old position to an empty tile
+//	 * @param newPos
+//	 * @param oldPos
+//	 */
+//	public void moveCharacter(Point newPos, Point oldPos){
+//		tiles[(int) newPos.getX()][(int) newPos.getY()] = 'C';
+//		tiles[(int) oldPos.getX()][(int) oldPos.getY()] = 'T';
+//	}
+//
+//	/**
+//	 * Updates the char array to reflect a character moving into a different room by setting its current position to
+//	 * and empty tile
+//	 * @param room1Entry
+//	 */
+//	public void removeCharacter(Point roomEntry) {
+//		tiles[(int) roomEntry.getX()][(int) roomEntry.getY()] = 'T';
+//	}
 
 	/**
 	 * Updates the char array to reflect a character moving into this room from another by setting the doors entry

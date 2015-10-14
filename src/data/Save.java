@@ -80,7 +80,7 @@ public class Save {
 			doc.appendChild(rootElement);
 
 			// add timer
-			rootElement.appendChild(node(doc, TIMER, "10000"));
+			rootElement.appendChild(node(doc, TIMER, "1000"));
 
 			// append rooms to root element
 			rootElement.appendChild(addRoom(doc, room));
@@ -196,18 +196,27 @@ public class Save {
 		// id
 		String strID = Integer.toString(player.getID());
 		playerNode.setAttribute(ID, strID);
+
 		// name
 		String name = player.getName();
 		playerNode.appendChild(node(doc, NAME, name));
+
 		// location
 		Point point = player.getLocation();
 		playerNode.appendChild(node(doc, POS, pointToString(point)));
+
 		// type
 		String type = player.getPlayerType().toString();
 		playerNode.appendChild(node(doc, TYPE, type));
+
 		// direction
 		String dir = player.getDirection();
 		playerNode.appendChild(node(doc, DIR, dir));
+
+		// moneyHeld
+		int money = player.getMoneyHeld();
+		playerNode.appendChild(node(doc, MONEY, Integer.toString(money)));
+
 		// inventory
 		addInventory(doc, player, playerNode);
 
@@ -318,6 +327,8 @@ public class Save {
 		Desk desk = new Desk(new Point(8, 8), deskItems);
 		ArrayList<Player> players = new ArrayList<Player>();
 		currentRoom = new Room("testRoom", 0, 0, players);
+
+		//Door door = new Door();
 
 		currentRoom.addItem(money);
 		currentRoom.addItem(safe);

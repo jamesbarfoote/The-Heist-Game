@@ -16,7 +16,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * 
+ *
  * @author james.barfoote, Lachlan Lee ID# 300281826
  * Represents everything that a player is.
  * Holds methods for the interactions players have with objects and doors, eg: Picking up money, looting desks
@@ -34,7 +34,7 @@ public class Player implements Serializable{
 	private int moneyHeld; //Amount of money held (Possibly temporary, not sure if money will be held in items map)
 	private String[] directions = {"N", "E", "S", "W"};
 	int direction = 0;
-	
+
 	/**
 	 * @return the direction
 	 */
@@ -60,21 +60,21 @@ public class Player implements Serializable{
 			}
 		}
 	}
-	
+
 	/**
-	 * 
+	 *
 	 * @param direction The current direction the player is facing
 	 */
 	public void setDirection(int direction){
 		this.direction = direction;
 	}
-	
+
 	public enum Type{
 		robber, guard
 	}
-	
+
 	/**
-	 * 
+	 *
 	 * @param name The name of the player
 	 * @param w The players weapon
 	 * @param PlayerNum The players unique ID
@@ -89,7 +89,7 @@ public class Player implements Serializable{
 		this.t = t;
 		inventory = new HashMap<String, Integer>();
 	}
-	
+
 	/**
 	 * Checks to see if you have to appropriate key to unlock a door, if so, the door is unlocked
 	 * @param d The door they want to unlock
@@ -116,7 +116,7 @@ public class Player implements Serializable{
 		}
 		return true; //The door was unlocked to begin with
 	}
-	
+
 //	/**
 //	 * Attempts to unlock the given safe with the given combination attempt.
 //	 * Combinations are stored as integer arrays of length 4
@@ -128,7 +128,7 @@ public class Player implements Serializable{
 //		if(combinatAttempt.length != 4){ } //throw an exception here (need to make exception)
 //		return s.unlockSafe(combinatAttempt);
 //	}
-//	
+//
 	/**
 	 * Loots the given container by adding the item/money in it to the characters items array/money integer
 	 * If the container is a safe, checks if it is unlocked first.
@@ -152,12 +152,12 @@ public class Player implements Serializable{
 		}
 		else{
 			Desk d = (Desk) c;
-			
+
 			//Open the Inventory Trading screen for looting the desk
 			canvas.openTrade(d);
 		}
 	}
-	
+
 	/**
 	 * Attempt to unlock the safe with a safe combination.
 	 * @param s
@@ -169,7 +169,7 @@ public class Player implements Serializable{
 			if(str.equals("Safe Combination")){
 				//Unlocks the safe
 				s.unlock();
-				
+
 				//Removes one Safe Combination from your inventory
 				if(inventory.get("Safe Combination") == 1){
 					inventory.remove("Safe Combination");
@@ -214,7 +214,7 @@ public class Player implements Serializable{
 			return findItem(oneInFront, canvas);
 		}
 	}
-	
+
 	/**
 	 * Checks if the given point in the room has an interactable item on it
 	 * @param The position of the item, canvas to draw to
@@ -240,11 +240,11 @@ public class Player implements Serializable{
 					return s;
 				}
 			}
-			
+
 		}
 		return null;
 	}
-	
+
 	/**
 	 * Checks for a door in a given direction from the player
 	 * @param canvas
@@ -272,7 +272,7 @@ public class Player implements Serializable{
 					return findDoor(oneInFront, canvas);
 				}
 	}
-	
+
 	/**
 	 * Looks for a door at the given position and returns it
 	 * @param pos
@@ -287,7 +287,7 @@ public class Player implements Serializable{
 		}
 		return null;
 	}
-	
+
 	/**
 	 * Adds the amount picked up to the money the player is holding
 	 * @param Money that is picked up
@@ -295,7 +295,7 @@ public class Player implements Serializable{
 	public void pickUpMoney(Money m){
 		moneyHeld += m.getAmount();
 	}
-	
+
 	/**
 	 * Substracts the amount of money dropped from the money the player is holding
 	 * @param Dollars the player is dropping
@@ -303,16 +303,16 @@ public class Player implements Serializable{
 	public void dropMoney(int d){
 		moneyHeld = moneyHeld - d;
 	}
-	
+
 	/**
-	 * 
+	 *
 	 * @return The players id
 	 */
 	public int getID()
 	{
 		return ID;
 	}
-	
+
 	/**
 	 * Sets the players unique ID
 	 * @param i The new ID for the player
@@ -321,16 +321,16 @@ public class Player implements Serializable{
 	{
 		this.ID = i;
 	}
-	
+
 	/**
-	 * 
+	 *
 	 * @return The players current score
 	 */
 	public int getScore()
 	{
 		return score;
 	}
-	
+
 	/**
 	 * @return The room the player is currently in
 	 */
@@ -338,7 +338,7 @@ public class Player implements Serializable{
 	{
 		return room;
 	}
-	
+
 	/**
 	 * @return Weapon The weapon the player is currently holding
 	 */
@@ -346,7 +346,7 @@ public class Player implements Serializable{
 	{
 		return weapon;
 	}
-	
+
 	/**
 	 * @return the type this player is
 	 */
@@ -354,36 +354,36 @@ public class Player implements Serializable{
 	{
 		return t;
 	}
-	
+
 	/**
-	 * @return 
+	 * @return
 	 * @param takes an integer and sets the score to the new score
 	 */
 	public void updateScore(int s)
 	{
 		score = s;
 	}
-	
+
 	/**
-	 * @return 
+	 * @return
 	 * @param takes a room object and changes the player to that room
 	 */
 	public void updateRoom(Room r)
 	{
 		room = r;
 	}
-	
+
 	/**
-	 * @return 
+	 * @return
 	 * @param takes a weapon object and changes the current weapon to the new one
 	 */
 	public void changeWeapon(Weapon w)
 	{
 		weapon = w;
 	}
-	
+
 	/**
-	 * @return 
+	 * @return
 	 * @param takes player type and sets it
 	 * @
 	 */
@@ -391,7 +391,7 @@ public class Player implements Serializable{
 	{
 		this.t = t;
 	}
-	
+
 	/**
 	 * @return the location
 	 */
@@ -405,7 +405,7 @@ public class Player implements Serializable{
 	public void setLocation(Point location) {
 		this.currentPosition = location;
 	}
-	
+
 	/**
 	 * @return the oldLocation
 	 */
@@ -419,28 +419,28 @@ public class Player implements Serializable{
 	public void setOldLocation(Point location) {
 		this.oldPosition = location;
 	}
-	
+
 	/**
 	 * @return the amount of money the player current has on them
 	 */
 	public int getMoneyHeld(){
 		return moneyHeld;
 	}
-	
+
 	/**
 	 * @return all the items the player is holding
 	 */
 	public Map<String, Integer> getInventory(){
 		return inventory;
 	}
-	
+
 	/**
 	 * sets the items the player is holding - used for loading
 	 */
 	public void setInventory(Map<String, Integer> inventory){
 		this.inventory = inventory;
 	}
-	
+
 	/**
 	 * @return the name of the player
 	 */
@@ -448,9 +448,13 @@ public class Player implements Serializable{
 	{
 		return this.name;
 	}
-	
+
 	@Override
     protected Object clone() throws CloneNotSupportedException {
         return super.clone();
     }
+
+	public void setMoney(int money){
+		moneyHeld = money;
+	}
 }

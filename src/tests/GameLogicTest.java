@@ -3,6 +3,7 @@ package tests;
 import java.awt.Dimension;
 import java.awt.Point;
 import java.awt.event.ActionEvent;
+import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,6 +16,8 @@ import game.control.moveAction;
 import game.items.Desk;
 import game.items.Safe;
 import graphics.GameCanvas;
+import graphics.GameCanvas.State;
+import graphics.MainMenu;
 
 import org.junit.Test;
 
@@ -29,7 +32,7 @@ public class GameLogicTest extends TestCase{
 
 	Player p = new Player("Bob", new Point(4,4), Type.robber);
 	List<Player> play = new ArrayList<Player>();
-	GameCanvas canvas = new GameCanvas(new Dimension(),p , play);
+	GameCanvas canvas = new GameCanvas(new Dimension(1366, 768),p , play);
 	gameAction g = new gameAction("P", p, canvas);
 	gameAction gDrop = new gameAction("B", p, canvas);
 	moveAction m = new moveAction("Left", p, canvas);
@@ -174,7 +177,7 @@ public class GameLogicTest extends TestCase{
 		Money m = new Money(1000, new Point(4,4));
 		int oldcanvasitems = canvas.getItems().size();
 		p.pickUpMoney(m);
-		gDrop.actionPerformed(new ActionEvent(m, 0, "B")); //Attemts to drop money
+		gDrop.actionPerformed(new ActionEvent(m, 0, "B")); //Attempts to drop money
 		assertTrue(p.getMoneyHeld() == 500);
 		assertTrue(oldcanvasitems == canvas.getItems().size()-1); //Checks the dropped money was added to canvas
 	}
@@ -193,5 +196,97 @@ public class GameLogicTest extends TestCase{
 		gDrop.actionPerformed(new ActionEvent(p, 0, "B")); //Attempts to drop money
 		assertTrue(p.getMoneyHeld() == 0);
 		assertTrue(oldcanvasitems == canvas.getItems().size()); //Checks the dropped money was added to canvas
+	}
+	
+	public @Test void test_move_left_true(){
+		canvas.initialize();
+		m.actionPerformed(new ActionEvent(p, 0, "Left"));
+		assertTrue(p.getOldLocation().equals(new Point(5,20)));
+		assertTrue(p.getLocation().equals(new Point(5,19)));
+	}
+	
+	public @Test void test_move_right_true(){
+		canvas.initialize();
+		m3.actionPerformed(new ActionEvent(p, 0, "Right"));
+		assertTrue(p.getOldLocation().equals(new Point(5,20)));
+		assertTrue(p.getLocation().equals(new Point(5,21)));
+	}
+	
+	public @Test void test_move_up_true(){
+		canvas.initialize();
+		m2.actionPerformed(new ActionEvent(p, 0, "Up"));
+		assertTrue(p.getOldLocation().equals(new Point(5,20)));
+		assertTrue(p.getLocation().equals(new Point(6,20)));
+	}
+	
+	public @Test void test_move_down_true(){
+		canvas.initialize();
+		m4.actionPerformed(new ActionEvent(p, 0, "Down"));
+		assertTrue(p.getOldLocation().equals(new Point(5,20)));
+		assertTrue(p.getLocation().equals(new Point(4,20)));
+	}
+	
+	public @Test void test_move_left_false(){
+		canvas.initialize();
+		p.setLocation(new Point(1,1));
+		m.actionPerformed(new ActionEvent(p, 0, "Left"));
+		//The points are different as oldLocation was initialised as (4,4)
+		//and the current location is set at (1,1) so they should stay the same when you cant move
+		assertTrue(p.getOldLocation().equals(new Point(4,4)));
+		assertTrue(p.getLocation().equals(new Point(1,1)));
+	}
+	
+	public @Test void test_move_right_false(){
+		canvas.initialize();
+		p.setLocation(new Point(1,38));
+		m3.actionPerformed(new ActionEvent(p, 0, "Right"));
+		//The points are different as oldLocation was initialised as (4,4)
+		//and the current location is set at (1,38) so they should stay the same when you cant move
+		assertTrue(p.getOldLocation().equals(new Point(4,4)));
+		assertTrue(p.getLocation().equals(new Point(1,38)));
+	}
+	
+	public @Test void test_move_up_false(){
+		canvas.initialize();
+		p.setLocation(new Point(38,1));
+		m.actionPerformed(new ActionEvent(p, 0, "Up"));
+		//The points are different as oldLocation was initialised as (4,4)
+		//and the current location is set at (38,1) so they should stay the same when you cant move
+		assertTrue(p.getOldLocation().equals(new Point(4,4)));
+		assertTrue(p.getLocation().equals(new Point(38,1)));
+	}
+	
+	public @Test void test_move_down_false(){
+		canvas.initialize();
+		p.setLocation(new Point(1,1));
+		m.actionPerformed(new ActionEvent(p, 0, "Down"));
+		//The points are different as oldLocation was initialised as (4,4)
+		//and the current location is set at (1,1) so they should stay the same when you cant move
+		assertTrue(p.getOldLocation().equals(new Point(4,4)));
+		assertTrue(p.getLocation().equals(new Point(1,1)));
+	}
+	
+	public @Test void test_player_rotate_clockwise_wraparound(){
+		p.setDirection(0);
+		p.rotatePlayer("clockwise");
+		assertTrue(p.getDirection().equals("W"));
+	}
+	
+	public @Test void test_player_rotate_clockwise_regular(){
+		p.setDirection(1);
+		p.rotatePlayer("clockwise");
+		assertTrue(p.getDirection().equals("N"));
+	}
+	
+	public @Test void test_player_rotate_anticlockwise_wraparound(){
+		p.setDirection(3);
+		p.rotatePlayer("anti-clockwise");
+		assertTrue(p.getDirection().equals("N"));
+	}
+	
+	public @Test void test_player_rotate_anticlockwise_regular(){
+		p.setDirection(2);
+		p.rotatePlayer("anti-clockwise");
+		assertTrue(p.getDirection().equals("W"));
 	}
 }

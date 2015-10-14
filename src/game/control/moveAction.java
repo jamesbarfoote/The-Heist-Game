@@ -81,9 +81,9 @@ public class moveAction extends AbstractAction {
 	 * @return boolean - whether the new location goes through a wall
 	 */
 	private boolean isValidMove(Point newLocation){
-		if(!(canvas.getState().equals(State.PLAYING_SINGLE) || canvas.getState().equals(State.PLAYING_MULTI))){
-			return false;
-		}
+//		if(!(canvas.getState().equals(State.PLAYING_SINGLE) || canvas.getState().equals(State.PLAYING_MULTI))){
+//			return false;
+//		}
 		if(canvas.getMenuSelect()) return false;
 		if(this.canvas.getTiles()[(int) newLocation.getX()][(int) newLocation.getY()].equals("wall")){
 			return false;
