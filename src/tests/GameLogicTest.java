@@ -15,6 +15,7 @@ import game.control.moveAction;
 import game.items.Desk;
 import game.items.Safe;
 import graphics.GameCanvas;
+import graphics.GameCanvas.State;
 
 import org.junit.Test;
 
@@ -29,7 +30,7 @@ public class GameLogicTest extends TestCase{
 
 	Player p = new Player("Bob", new Point(4,4), Type.robber);
 	List<Player> play = new ArrayList<Player>();
-	GameCanvas canvas = new GameCanvas(new Dimension(),p , play);
+	GameCanvas canvas = new GameCanvas(new Dimension(1366, 768),p , play);
 	gameAction g = new gameAction("P", p, canvas);
 	gameAction gDrop = new gameAction("B", p, canvas);
 	moveAction m = new moveAction("Left", p, canvas);
@@ -174,7 +175,7 @@ public class GameLogicTest extends TestCase{
 		Money m = new Money(1000, new Point(4,4));
 		int oldcanvasitems = canvas.getItems().size();
 		p.pickUpMoney(m);
-		gDrop.actionPerformed(new ActionEvent(m, 0, "B")); //Attemts to drop money
+		gDrop.actionPerformed(new ActionEvent(m, 0, "B")); //Attempts to drop money
 		assertTrue(p.getMoneyHeld() == 500);
 		assertTrue(oldcanvasitems == canvas.getItems().size()-1); //Checks the dropped money was added to canvas
 	}
@@ -193,5 +194,12 @@ public class GameLogicTest extends TestCase{
 		gDrop.actionPerformed(new ActionEvent(p, 0, "B")); //Attempts to drop money
 		assertTrue(p.getMoneyHeld() == 0);
 		assertTrue(oldcanvasitems == canvas.getItems().size()); //Checks the dropped money was added to canvas
+	}
+	
+	public @Test void test_move_left_true(){
+		m.actionPerformed(new ActionEvent(p, 0, "Left"));
+		canvas.setState(State.PLAYING_SINGLE);
+		assertTrue(p.getOldLocation().equals(new Point(4,4)));
+		assertTrue(p.getLocation().equals(new Point(4,3)));
 	}
 }
