@@ -439,7 +439,8 @@ public class GameCanvas extends Canvas{
 		g.drawString(minutes + ":" + sSeconds, 100, getHeight() - 100);
 		
 		//draw cash amount
-		g.drawString("$" + currentPlayer.getMoneyHeld(), 10, 100);
+		g.setFont(new Font("TimesRoman", Font.PLAIN, 40));
+		g.drawString("$" + currentPlayer.getMoneyHeld(), 10, 40);
 		
 		
 		g.setColor(Color.BLACK);
