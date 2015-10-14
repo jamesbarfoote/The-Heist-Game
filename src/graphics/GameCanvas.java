@@ -230,6 +230,7 @@ public class GameCanvas extends Canvas{
 		currentRoom.addItem(new Desk(new Point(30, 24), deskItems));
 		currentRoom.addItem(new Desk(new Point(30, 9), deskItems));
 		currentRoom.addItem(new Desk(new Point(36, 38), deskItems));
+
 		
 		for(Money m : money){
 			currentRoom.addItem(m);
@@ -239,9 +240,9 @@ public class GameCanvas extends Canvas{
 		currentRoom.addDoor(new Door(false, new Point(13,6)));
 		currentRoom.addDoor(new Door(false, new Point(11,14)));
 		currentRoom.addDoor(new Door(false, new Point(9,19)));
-		currentRoom.addDoor(new Door(false, new Point(18,12)));	
-		
-		this.setRoom(currentRoom);
+		currentRoom.addDoor(new Door(false, new Point(18,12)));		
+		this.room = currentRoom;
+		//this.setRoom(currentRoom);
 		this.tiles = data.getTiles();
 		this.columns = data.getHeight();
 		this.players = currentRoom.getPlayers();
@@ -504,12 +505,6 @@ public class GameCanvas extends Canvas{
 			menuUp = false;
 			inventory = null;
 			inventoryTrade = null;
-			try {
-				Thread.sleep(2000);
-			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
 			
 			inventoryTrade = null;			
 			gameMenu = new GameMenu(this, currentPlayer, players, this.room);
@@ -521,12 +516,14 @@ public class GameCanvas extends Canvas{
 		}
 		else if(s.equals(State.PLAYING_MULTI)) //Playing in multiplayer mode
 		{
+			
 			menuUp = false;
 			inventory = null;
 			inventoryTrade = null;
 			gameMenu = new GameMenu(this, currentPlayer, players, this.room);
 		}
 		else if(s.equals(State.MULTI)){
+			this.initialize();
 			gameMenu = new Lobby(this, currentPlayer, players, this.host, this.room);//Create a new game lobby
 			this.cm = gameMenu.getClient();
 			currentPlayer = this.cm.getPlayer();
@@ -779,7 +776,6 @@ public class GameCanvas extends Canvas{
 	}
 	
 	private void drawIcons(Graphics2D g, Point point){	
-
 		
 //		for(Player p: this.players)//Find the current player in the list and update the local player with it
 //		{
@@ -788,6 +784,7 @@ public class GameCanvas extends Canvas{
 				cm.setPlayer(currentPlayer);//update the current plater in the client
 //			}
 //		}
+
 		//Call the main client loop. This fetches and sends the latest player information
 		try {
 			cm.run();
