@@ -168,6 +168,10 @@ public class GameCanvas extends Canvas{
 		}
 	}
 	
+	public State getState(){
+		return gameState;
+	}
+	
 	private void scaleImages(){
 		double width = 0;
 		double height = 0;
