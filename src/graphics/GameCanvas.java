@@ -114,7 +114,6 @@ public class GameCanvas extends Canvas{
 		this.currentPlayer.setLocation(new Point(1, 1));		
 		fileReader data = new fileReader("10");		
 		Room currentRoom = new Room("testRoom", data.getWidth(), data.getHeight(), players);
-		
 		Money money = new Money(1000000, new Point(2, 4));
 		Money money2 = new Money(1000, new Point(20, 5));
 		Money money3 = new Money(1000, new Point(23, 6));
@@ -138,8 +137,8 @@ public class GameCanvas extends Canvas{
 		currentRoom.addDoor(new Door(false, new Point(11,14)));
 		currentRoom.addDoor(new Door(false, new Point(9,19)));
 		currentRoom.addDoor(new Door(false, new Point(18,12)));		
-		
-		this.setRoom(currentRoom);
+		this.room = currentRoom;
+		//this.setRoom(currentRoom);
 		this.tiles = data.getTiles();
 		this.columns = data.getHeight();
 		this.players = currentRoom.getPlayers();
@@ -392,12 +391,6 @@ public class GameCanvas extends Canvas{
 			menuUp = false;
 			inventory = null;
 			inventoryTrade = null;
-			try {
-				Thread.sleep(2000);
-			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
 			
 			inventoryTrade = null;			
 			gameMenu = new GameMenu(this, currentPlayer, players, this.room);
@@ -409,12 +402,14 @@ public class GameCanvas extends Canvas{
 		}
 		else if(s.equals(State.PLAYING_MULTI)) //Playing in multiplayer mode
 		{
+			
 			menuUp = false;
 			inventory = null;
 			inventoryTrade = null;
 			gameMenu = new GameMenu(this, currentPlayer, players, this.room);
 		}
 		else if(s.equals(State.MULTI)){
+			this.initialize();
 			gameMenu = new Lobby(this, currentPlayer, players, this.host, this.room);//Create a new game lobby
 		}
 	}
@@ -660,7 +655,6 @@ public class GameCanvas extends Canvas{
 	}
 	
 	private void drawIcons(Graphics2D g, Point point){	
-		//System.out.println("ID  = " + cm.getID());
 		for(Player p: players)//Find the current player in the list and update the local player with it
 		{
 			if(p.getID() == cm.getID())//Get the current player
