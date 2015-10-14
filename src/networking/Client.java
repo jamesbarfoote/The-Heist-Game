@@ -20,6 +20,7 @@ public class Client {
 	static DataInputStream inputStream;
 	public List<Player> players;
 	public Player currentPlayer;
+	public Room room;
 	private int port;
 	private String host;
 	private Socket client;
@@ -39,7 +40,7 @@ public class Client {
 
 		this.port = port;
 		this.host = host;
-		this.currentRoom = r;
+		this.room = r;
 		players = new CopyOnWriteArrayList<Player>(); //This type is used to avoid concurrent modifications
 
 		try {
@@ -101,12 +102,12 @@ public class Client {
 		return players;
 	}
 	
-	public Room getCurrentRoom() {
-		return currentRoom;
+	public Room getRoom() {
+		return room;
 	}
 
-	public void setCurrentRoom(Room currentRoom) {
-		this.currentRoom = currentRoom;
+	public void setRoom(Room room) {
+		this.room = room;
 	}
 
 	/**
