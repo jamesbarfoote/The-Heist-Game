@@ -386,15 +386,7 @@ public class GameCanvas extends Canvas{
 		else if(s.equals(State.PLAYING_SINGLE)){ //Playing in single player mode
 			menuUp = false;
 			inventory = null;
-			inventoryTrade = null;
-			System.out.println("Beofre new menu");
-			try {
-				Thread.sleep(2000);
-			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			
+			inventoryTrade = null;			
 			gameMenu = new GameMenu(this, currentPlayer, players, this.room);
 			
 			this.cm = gameMenu.getClient(); //Get the client that was created
