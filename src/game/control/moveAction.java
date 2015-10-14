@@ -34,7 +34,6 @@ public class moveAction extends AbstractAction {
 	 */
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		System.err.println("Action x =" + player.getLocation().x);
 		Point location = player.getLocation();
 		if (direction.equals("Left") || direction.equals("A")){
 			Point newLocation = new Point(location.x, location.y-1);
@@ -86,7 +85,6 @@ public class moveAction extends AbstractAction {
 			return false;
 		}
 		if(canvas.getMenuSelect()) return false;
-		System.out.println((int) newLocation.getX());
 		if(this.canvas.getTiles()[(int) newLocation.getX()][(int) newLocation.getY()].equals("wall")){
 			return false;
 		}

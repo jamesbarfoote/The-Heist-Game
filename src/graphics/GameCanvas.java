@@ -98,8 +98,7 @@ public class GameCanvas extends Canvas{
 	 * @param players
 	 */
 	public GameCanvas(Dimension d, Player player, List<Player> players){
-		this.players = players;
-		this.players.add(player);		
+		this.players = players;	
 		this.currentPlayer = player;
 		addToImages();
 		scaleImages();
@@ -115,7 +114,7 @@ public class GameCanvas extends Canvas{
 		fileReader data = new fileReader("10");		
 		Room currentRoom = new Room("testRoom", data.getWidth(), data.getHeight(), players);
 		
-		VaultDoor vaultDoor = new VaultDoor(new Point(7, 22));
+		VaultDoor vaultDoor = new VaultDoor(new Point(8, 19));
 		Money money = new Money(1000000, new Point(2, 4));
 		Money money2 = new Money(1000, new Point(20, 5));
 		Money money3 = new Money(1000, new Point(23, 6));
@@ -201,6 +200,10 @@ public class GameCanvas extends Canvas{
 			else if(filename.equals("_player_1.png")){
 				width = zoom;
 				height = zoom*1.5;
+			}
+			else if(filename.equals("_obj_vaultdoor.png")){
+				width = zoom;
+				height = zoom;
 			}
 			for(int j = 0; j < 4; j++){	
 				BufferedImage asset = this.images.get(this.directions[j] + filename);
@@ -660,7 +663,7 @@ public class GameCanvas extends Canvas{
 	
 	private void drawIcons(Graphics2D g, Point point){	
 		//System.out.println("ID  = " + cm.getID());
-		for(Player p: players)//Find the current player in the list and update the local player with it
+		for(Player p: this.players)//Find the current player in the list and update the local player with it
 		{
 			if(p.getID() == cm.getID())//Get the current player
 			{
@@ -732,14 +735,14 @@ public class GameCanvas extends Canvas{
 					}
 				}
 			}
-			if(item.getFilename().equals("_obj_vaultdoor.png")){
-				VaultDoor vaultDoor = (VaultDoor) item;
-				for(Point p : vaultDoor.getPositions()){
-					if(p.equals(point)){
-						drawItems2(g, item);
-					}
-				}
-			}
+//			if(item.getFilename().equals("_obj_vaultdoor.png")){
+//				VaultDoor vaultDoor = (VaultDoor) item;
+//				for(Point p : vaultDoor.getPositions()){
+//					if(p.equals(point)){
+//						drawItems2(g, item);
+//					}
+//				}
+//			}
 			Point location = item.getPosition();
 			if(location.equals(point)){
 				drawItems2(g, item);
@@ -765,18 +768,12 @@ public class GameCanvas extends Canvas{
 				at.translate(-this.zoom/19, -this.zoom/1.35);
 			}
 		}
-		else if(item.getFilename().equals("_obj_vaultdoor.png")){	//-------------------------------------------------------------------------------------
-			if(this.direction == 0){
-				at.translate(-this.zoom/1.7, -this.zoom/1.35);
-			}
-			else if(this.direction == 1){
-				at.translate(-this.zoom/1.8, -this.zoom/2.1);
-			}
-			else if(this.direction == 2){
-				at.translate(-this.zoom/15, -this.zoom/2.1);
+		else if(item.getFilename().equals("_obj_vaultdoor.png")){
+			if(this.direction == 2){
+				at.translate(this.zoom/4, -this.zoom/1.5);
 			}
 			else if(this.direction == 3){
-				at.translate(-this.zoom/19, -this.zoom/1.35);
+				at.translate(0, -this.zoom/1.2);
 			}
 		}
 		else if(item.getFilename().equals("_obj_floorSafe.png")){

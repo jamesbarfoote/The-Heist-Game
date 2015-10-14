@@ -25,6 +25,7 @@ public class NonInteractableItem implements Item, Serializable{
 
 	public NonInteractableItem(Point point, String type) {
 		this.position = point;
+		this.oldPosition = point;
 		setType(type);
 	}
 
