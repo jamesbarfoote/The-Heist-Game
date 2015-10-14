@@ -270,7 +270,7 @@ public class GameCanvas extends Canvas{
 		else if(action.equals(Action.CHOOSE)){
 			dialogue = new PlayerForm(listener, message, this);
 		}
-		else if(action.equals(Action.SAVE)){
+		else if(action.equals(Action.SAVE) || action.equals(Action.LOAD)){
 			dialogue = new TextDialogue(listener, message, this, null);
 		}
 	}
