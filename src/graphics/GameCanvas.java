@@ -156,7 +156,7 @@ public class GameCanvas extends Canvas{
 	
 	private void addToImages(){
 		this.filenames = addToFilenames();
-		for(int i = 0; i < 17; i++){	//16 different kinds of assets.
+		for(int i = 0; i < 17; i++){	//17 different kinds of assets.
 			for(int j = 0; j < 4; j++){	//4 different directions.
 				try {
 					BufferedImage myPicture = ImageIO.read(new File(ASSET_PATH + this.directions[j] + filenames.get(i)));
@@ -604,15 +604,12 @@ public class GameCanvas extends Canvas{
 		    	}
 		    	else if(tiles[i][j] == "vaultWall1"){
 		    		drawWall(g, p, this.directions[direction] + "_wall_vault_1.png");
-		    		drawIcons(g, point);
 		    	}
 		    	else if(tiles[i][j] == "vaultWall2"){
 		    		drawWall(g, p, this.directions[direction] + "_wall_vault_2.png");
-		    		drawIcons(g, point);
 		    	}
 		    	else if(tiles[i][j] == "vaultWall3"){
-		    		drawTile(g, p, this.directions[direction] + "_wall_vault_3.png");
-		    		drawIcons(g, point);
+		    		drawWall(g, p, this.directions[direction] + "_wall_vault_3.png");
 		    	}
 		    	else if(tiles[i][j] == "door"){
 		    		for(Player player : this.players){
