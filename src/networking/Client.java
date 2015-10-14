@@ -34,12 +34,12 @@ public class Client {
 	 * @throws InterruptedException
 	 */
 	@SuppressWarnings("unchecked")
-	public Client(int port, String host, Player p) throws IOException, InterruptedException
+	public Client(int port, String host, Room r) throws IOException, InterruptedException
 	{
 
 		this.port = port;
 		this.host = host;
-		this.currentPlayer = p;
+		this.currentRoom = r;
 		players = new CopyOnWriteArrayList<Player>(); //This type is used to avoid concurrent modifications
 
 		try {
@@ -99,6 +99,14 @@ public class Client {
 	public List<Player> getPlayers()
 	{
 		return players;
+	}
+	
+	public Room getCurrentRoom() {
+		return currentRoom;
+	}
+
+	public void setCurrentRoom(Room currentRoom) {
+		this.currentRoom = currentRoom;
 	}
 
 	/**
