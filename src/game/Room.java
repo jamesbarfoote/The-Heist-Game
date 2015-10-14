@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 /**
- * Each room has a different name and contents. A room does not necessarily have to contain any money or guards. 
+ * Each room has a different name and contents. A room does not necessarily have to contain any money or guards.
  * Players can move through a room at whim, providing there is nothing in place to stop them eg: A puzzle/lock or guard
  * @author Lachlan
  *
@@ -17,11 +17,15 @@ import java.util.concurrent.CopyOnWriteArrayList;
 public class Room implements Serializable{
 //Stores the locations of all the objects that need to be drawn
 //Canvas calls this class and asks it to draw itself
+<<<<<<< HEAD
 	
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
+=======
+
+>>>>>>> bed7984ce3299a7ee074f7ac9b32e0ce43d8ade9
 	private String roomName;
 	private ArrayList<Item> itemsInRoom;
 	private ArrayList<Door> roomDoors;
@@ -29,8 +33,12 @@ public class Room implements Serializable{
 	private char[][] tiles; //The floorspace of the room
 	private int width;
 	private int height;
+<<<<<<< HEAD
 	private Player currentPlayer;
 	
+=======
+
+>>>>>>> bed7984ce3299a7ee074f7ac9b32e0ce43d8ade9
 	public Room(String roomName, int width, int height, List<Player> players2){
 		this.roomName = roomName;
 		this.players = players2;
@@ -51,9 +59,8 @@ public class Room implements Serializable{
 				tiles[i][j] = 'T';
 			}
 		}
-		
 	}
-	
+
 	/**
 	 * Updates the character array with the characters new position, setting the old position to an empty tile
 	 * @param newPos
@@ -81,31 +88,31 @@ public class Room implements Serializable{
 	public void addCharacter(Point roomEntry) {
 		tiles[(int) roomEntry.getX()][(int) roomEntry.getY()] = 'C';
 	}
-	
+
 	public void addItem(Item item){
 		this.itemsInRoom.add(item);
 	}
-	
+
 	public String getRoomName(){
 		return roomName;
 	}
-	
+
 	public int getWidth(){
 		return width;
 	}
-	
+
 	public int getHeight(){
 		return height;
 	}
-	
+
 	public List<Player> getPlayers(){
 		return this.players;
 	}
-	
+
 	public ArrayList<Item> getItems(){
 		return itemsInRoom;
 	}
-	
+
 	public ArrayList<Door> getDoors(){
 		return roomDoors;
 	}
@@ -113,7 +120,7 @@ public class Room implements Serializable{
 	public void addDoor(Door door) {
 		roomDoors.add(door);
 	}
-	
+
 	public void setPlayers(List<Player> players){
 		this.players = players;
 	}

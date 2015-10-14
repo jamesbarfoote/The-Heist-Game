@@ -6,6 +6,7 @@ import game.items.Key;
 import java.awt.Point;
 import java.io.Serializable;
 
+<<<<<<< HEAD
 public class Door implements Serializable{
 
 	/**
@@ -19,13 +20,23 @@ public class Door implements Serializable{
 	private boolean locked;
 	private Key key;
 	private Point position;
+=======
+/**
+ * Representation of a Door that the player can pass through into another room. Doors can be locked to prevent
+ * the player passing through them. 
+ * The door can be unlocked by any key
+ * @author Lachlan Lee ID# 300281826
+ *
+ */
+public class Door{
+
+
+	private boolean locked; //Whether the door is locked or not
+	private Point position; //The position in the worldpsace
+>>>>>>> bed7984ce3299a7ee074f7ac9b32e0ce43d8ade9
 	
-	public Door(/*Room room1, Room room2, Point room1Entry, Point room2Entry*/ boolean locked, Point pos, Key k){
-		this.position = position;
-		//this.room1 = room1;
-		//this.room2 = room2;
-		//this.room1Entry = room1Entry;
-		//this.room2Entry = room2Entry;
+	public Door(boolean locked, Point pos){
+		this.position = pos;
 		this.locked = locked;
 	}
 	
@@ -33,45 +44,23 @@ public class Door implements Serializable{
 	 * Unlocks the door if they player has provided the required key
 	 * Should only be called by methods handling door unlocking
 	 */
-	public boolean unlockDoor(Key k){
-		if(isCorrectKey(k)){
-			locked = false;
-		}
+	public boolean unlockDoor(){
+		locked = false;
 		return locked;
 	}
 	
-	/**
-	 * Checks whether a given key is the correct key to unlock the door
-	 * @param k
-	 * @return
-	 */
-	public boolean isCorrectKey(Key k){
-		if (k == key){ return true; }
-		else{ return false; }
-	}
-
-//	public Room getRoom1() {
-//		return room1;
-//	}
-//
-//	public Room getRoom2() {
-//		return room2;
-//	}
-//
-//	public Point getRoom1Entry() {
-//		return room1Entry;
-//	}
-//
-//	public Point getRoom2Entry() {
-//		return room2Entry;
+//	/**
+//	 * Checks whether a given key is the correct key to unlock the door
+//	 * @param k
+//	 * @return
+//	 */
+//	public boolean isCorrectKey(Key k){
+//		if (k == key){ return true; }
+//		else{ return false; }
 //	}
 	
 	public boolean isLocked(){
 		return locked;
-	}
-	
-	public Key getKey(){
-		return key;
 	}
 	
 	public Point getPosition(){

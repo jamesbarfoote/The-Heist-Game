@@ -14,6 +14,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
+
 public class InventoryTrade extends Inventory{
 	private Map<String, Integer> items1;
 	private Map<String, Integer> items2;

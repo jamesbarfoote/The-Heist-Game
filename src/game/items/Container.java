@@ -7,7 +7,17 @@ import java.util.Map;
 
 import game.Money;
 
+<<<<<<< HEAD
 public class Container extends InteractableItem implements Serializable{
+=======
+/**
+ * An interactable item that can hold other interactable items, including money.
+ * Cannot hold another container
+ * @author Lachlan Lee ID# 300281826
+ *
+ */
+public class Container extends InteractableItem{
+>>>>>>> bed7984ce3299a7ee074f7ac9b32e0ce43d8ade9
 
 	/**
 	 * 

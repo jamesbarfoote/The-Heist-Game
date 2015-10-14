@@ -17,8 +17,9 @@ import java.util.Map;
 
 /**
  * 
- * @author james.barfoote, 
- * Represents everything that a player is. 
+ * @author james.barfoote, Lachlan Lee ID# 300281826
+ * Represents everything that a player is.
+ * Holds methods for the interactions players have with objects and doors, eg: Picking up money, looting desks
  *
  */
 public class Player implements Serializable{
@@ -26,11 +27,10 @@ public class Player implements Serializable{
 	private Room room;
 	private Weapon weapon;
 	private int score;
-	private Type t;
+	private Type t; //Whether the player is a robber or a guard
 	private int ID;
 	private Point currentPosition, oldPosition; //Location(coords of the square with current room)
 	private Map<String, Integer> inventory;	//contains player items
-	private ArrayList<InteractableItem> items; //Contains player items (Temporarily using until can integrate methods with map)
 	private int moneyHeld; //Amount of money held (Possibly temporary, not sure if money will be held in items map)
 	private String[] directions = {"N", "E", "S", "W"};
 	int direction = 0;
@@ -43,6 +43,7 @@ public class Player implements Serializable{
 	}
 
 	/**
+	 * Rotates the player one cardinal direction clockwise/anti-clockwise
 	 * @param direction the direction to set
 	 */
 	public void rotatePlayer(String direction) {
@@ -97,31 +98,37 @@ public class Player implements Serializable{
 		//Safety check to ensure you aren't trying to unlock an unlocked door
 		if(d.isLocked()){
 			//Iterates through your items looking for keys
-			for(InteractableItem i : items){
-				if(i instanceof Key){
-					Key k = (Key) i; //Assigns the key to a key object
-					if(d.unlockDoor(k) == true){
-						return true; //The correct key has been found and the door is now unlocked
+			for(String s : inventory.keySet()){
+				//If you have at least one key you can unlock the door
+				if(s.equals("Key")){
+					d.unlockDoor();
+					//Removes a key from your inventory
+					if(inventory.get("Key") == 1){
+						inventory.remove("Key");
 					}
+					else{
+						inventory.put("Key", inventory.get("Key")-1);
+					}
+					return true; //You unlocked the door
 				}
 			}
-			return false; //A correct key was not found therefore the door is still locked
+			return false; //You do not have a key in your inventory
 		}
 		return true; //The door was unlocked to begin with
 	}
 	
-	/**
-	 * Attempts to unlock the given safe with the given combination attempt.
-	 * Combinations are stored as integer arrays of length 4
-	 * @param combinatAttempt
-	 * @param s
-	 * @return true if safe was unlocked, false if safe still locked
-	 */
-	public boolean attemptSafeCrack(int[] combinatAttempt, Safe s){
-		if(combinatAttempt.length != 4){ } //throw an exception here (need to make exception)
-		return s.unlockSafe(combinatAttempt);
-	}
-	
+//	/**
+//	 * Attempts to unlock the given safe with the given combination attempt.
+//	 * Combinations are stored as integer arrays of length 4
+//	 * @param combinatAttempt
+//	 * @param s
+//	 * @return true if safe was unlocked, false if safe still locked
+//	 */
+//	public boolean attemptSafeCrack(int[] combinatAttempt, Safe s){
+//		if(combinatAttempt.length != 4){ } //throw an exception here (need to make exception)
+//		return s.unlockSafe(combinatAttempt);
+//	}
+//	
 	/**
 	 * Loots the given container by adding the item/money in it to the characters items array/money integer
 	 * If the container is a safe, checks if it is unlocked first.
@@ -135,19 +142,17 @@ public class Player implements Serializable{
 				if(s.getMoney() != 0){ moneyHeld += s.getMoney(); } //Increments the players money by the amount in the safe
 				c.containerLooted(); //Sets the safe to empty
 			}
+			else{
+				if(attemptSafeUnlock(s)){
+					if(s.getMoney() != 0){ moneyHeld += s.getMoney(); } //Increments the players money by the amount in the safe
+					c.containerLooted(); //Sets the safe to empty
+				}
+			}
 		}
 		else{
 			Desk d = (Desk) c;
-//			if(d.getItems() != null){ 
-//				for(InteractableItem item : d.getItems()){
-//					//Adds the item to inventory
-//					if(!inventory.containsKey(item.getFilename())){
-//						inventory.put(item.getFilename(), 1); //Adds a new instance of quantity 1
-//					}
-//					else{ inventory.put(item.getFilename(), inventory.get(item.getFilename()));} //Increments the current quantity of the item by 1
-//				}
-//			}
 			
+			//Open the Inventory Trading screen for looting the desk
 			canvas.openTrade(d);
 			
 			if(d.getMoney() != 0){ moneyHeld += d.getMoney(); }
@@ -155,6 +160,31 @@ public class Player implements Serializable{
 		}
 	}
 	
+	/**
+	 * Attempt to unlock the safe with a safe combination.
+	 * @param s
+	 * @return true if you had a safe combination and the door gets unlocked
+	 */
+	private boolean attemptSafeUnlock(Safe s) {
+		for(String str : inventory.keySet()){
+			//If you have at least one safe combination in your inventory
+			if(str.equals("Safe Combination")){
+				//Unlocks the safe
+				s.unlock();
+				
+				//Removes one Safe Combination from your inventory
+				if(inventory.get("Safe Combination") == 1){
+					inventory.remove("Safe Combination");
+				}
+				else{
+					inventory.put("Safe Combination", inventory.get("Safe Combination")-1);
+				}
+				return true;
+			}
+		}
+		return false; //You do no have a safe combination in your inventory
+	}
+
 	/**
 	 * Checks one tile ahead in the players facing direction for an InteractableItem
 	 * @return an InteractableItem
@@ -386,13 +416,6 @@ public class Player implements Serializable{
 	}
 	
 	/**
-	 * @return the items that are interactable
-	 */
-	public ArrayList<InteractableItem> getItems(){
-		return items;
-	}
-	
-	/**
 	 * @return the amount of money the player current has on them
 	 */
 	public int getMoneyHeld(){
@@ -404,6 +427,13 @@ public class Player implements Serializable{
 	 */
 	public Map<String, Integer> getInventory(){
 		return inventory;
+	}
+	
+	/**
+	 * sets the items the player is holding - used for loading
+	 */
+	public void setInventory(Map<String, Integer> inventory){
+		this.inventory = inventory;
 	}
 	
 	/**

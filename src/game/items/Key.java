@@ -6,6 +6,7 @@ import java.io.Serializable;
 import game.Door;
 import game.Room;
 
+<<<<<<< HEAD
 public class Key extends InteractableItem implements Serializable{
 	
 	/**
@@ -15,48 +16,25 @@ public class Key extends InteractableItem implements Serializable{
 	private Door opens;
 	private Container containedIn;
 	private Point position;
+=======
+/**
+ * An item for unlocking doors. A key should unlock a particular door
+ * Not currently in use as key specific doors are not yet implemented
+ * @author Lachlan Lee ID# 300281826
+ *
+ */
+public class Key extends InteractableItem{
+	
+>>>>>>> bed7984ce3299a7ee074f7ac9b32e0ce43d8ade9
 	private String filename = "";	//TODO add the filename when asset is made.
-	private String direction = "N";
-	private Point oldPosition;
-	
-	/**
-	 * @return the position
-	 */
-	public Point getPosition() {
-		return position;
-	}
 
-	public Key(Door opens, Container containedIn, Room room, Point position){
-		super(position);
-		this.opens = opens;
-		this.containedIn = containedIn;
-	}
-	
-	/**
-	 * Called by the character class when it takes ownership of the key.
-	 * Makes sure the game doesn't think the key is still in its container
-	 * Prevents possible key duplication and/or game not thinking you have the key
-	 */
-	public void giveToPlayer(){
-		containedIn = null;
-	}
-	
-	public Door getDoor(){
-		return opens;
-	}
-	
-	public Container getContainedIn(){
-		return containedIn;
+	public Key(){
+		super(null);
 	}
 
 	@Override
 	public String getFilename() {
 		return this.filename;
-	}
-
-	@Override
-	public String getDirection() {
-		return this.direction;
 	}
 
 	@Override
@@ -75,6 +53,12 @@ public class Key extends InteractableItem implements Serializable{
 	 */
 	public void setPosition(Point position) {
 		this.position = position;
+	}
+
+	@Override
+	public String getDirection() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }
