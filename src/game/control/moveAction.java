@@ -13,7 +13,7 @@ import javax.swing.AbstractAction;
 
 /**
  * Player actions related to moving
- * @author Lachlan Lee ID# 300281826
+ * @author Cameron Porter 300279891,  Lachlan Lee ID# 300281826
  *
  */
 public class moveAction extends AbstractAction {
@@ -34,7 +34,6 @@ public class moveAction extends AbstractAction {
 	 */
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		System.err.println("Action x =" + player.getLocation().x);
 		Point location = player.getLocation();
 		if (direction.equals("Left") || direction.equals("A")){
 			Point newLocation = new Point(location.x, location.y-1);
@@ -82,11 +81,10 @@ public class moveAction extends AbstractAction {
 	 * @return boolean - whether the new location goes through a wall
 	 */
 	private boolean isValidMove(Point newLocation){
-		if(!(canvas.getState().equals(State.PLAYING_SINGLE) || canvas.getState().equals(State.PLAYING_MULTI))){
-			return false;
-		}
+//		if(!(canvas.getState().equals(State.PLAYING_SINGLE) || canvas.getState().equals(State.PLAYING_MULTI))){
+//			return false;
+//		}
 		if(canvas.getMenuSelect()) return false;
-		System.out.println((int) newLocation.getX());
 		if(this.canvas.getTiles()[(int) newLocation.getX()][(int) newLocation.getY()].equals("wall")){
 			return false;
 		}

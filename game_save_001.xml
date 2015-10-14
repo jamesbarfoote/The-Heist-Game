@@ -1,20 +1,41 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <game>
+<timer>1000</timer>
 <room name="testRoom">
-<item type="Money">
-<pos>2.0,4.0</pos>
+<item type="money">
+<position>2,4</position>
+<amount>1000000</amount>
 </item>
-<item type="Safe">
-<pos>4.0,7.0</pos>
-<item type="Money">
-<pos>2.0,4.0</pos>
+<item type="safe">
+<position>4,7</position>
+<money>0</money>
+<locked>true</locked>
 </item>
-<item type="Money">
-<pos>2.0,4.0</pos>
+<item type="desk">
+<position>8,8</position>
+<money>0</money>
+<item>Poos,1</item>
+<item>Wees,54</item>
 </item>
-</item>
-<item type="Desk">
-<pos>8.0,8.0</pos>
-</item>
+<player id="0">
+<name>player 1</name>
+<position>1,1</position>
+<type>robber</type>
+<direction>N</direction>
+<money>0</money>
+<inventory>Poos,1</inventory>
+<inventory>Wees,54</inventory>
+</player>
+<player id="0">
+<name>player 2</name>
+<position>6,2</position>
+<type>robber</type>
+<direction>N</direction>
+<money>0</money>
+</player>
+<door>
+<position>3,5</position>
+<locked>false</locked>
+</door>
 </room>
 </game>

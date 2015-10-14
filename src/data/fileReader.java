@@ -6,6 +6,11 @@ import java.util.Scanner;
 
 public class fileReader {
 	
+	/**
+	 * Reads the room file in to draw all the tiles
+	 * Cameron Porter 300279891
+	 */
+	
 	private String[][] tiles = new String[999][999];
 	private static final String ASSET_PATH = "res" + File.separator +  "Rooms" + File.separator; //path for locating room files
 	private int width, height = 0;
@@ -75,9 +80,6 @@ public class fileReader {
 					}
 					else if(value.equals("9")){
 						tiles[lineNum][rowNum] = "vaultWall3";
-					}
-					else if(value.equals("10")){
-						tiles[lineNum][rowNum] = "vaultDoor";
 					}
 					else{
 						throw new ArrayStoreException();

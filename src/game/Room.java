@@ -17,9 +17,9 @@ import java.util.concurrent.CopyOnWriteArrayList;
 public class Room implements Serializable{
 //Stores the locations of all the objects that need to be drawn
 //Canvas calls this class and asks it to draw itself
-	
+
 	/**
-	 * 
+	 *
 	 */
 	private static final long serialVersionUID = 1L;
 	private String roomName;
@@ -53,24 +53,24 @@ public class Room implements Serializable{
 		}
 	}
 
-	/**
-	 * Updates the character array with the characters new position, setting the old position to an empty tile
-	 * @param newPos
-	 * @param oldPos
-	 */
-	public void moveCharacter(Point newPos, Point oldPos){
-		tiles[(int) newPos.getX()][(int) newPos.getY()] = 'C';
-		tiles[(int) oldPos.getX()][(int) oldPos.getY()] = 'T';
-	}
-
-	/**
-	 * Updates the char array to reflect a character moving into a different room by setting its current position to
-	 * and empty tile
-	 * @param room1Entry
-	 */
-	public void removeCharacter(Point roomEntry) {
-		tiles[(int) roomEntry.getX()][(int) roomEntry.getY()] = 'T';
-	}
+//	/**
+//	 * Updates the character array with the characters new position, setting the old position to an empty tile
+//	 * @param newPos
+//	 * @param oldPos
+//	 */
+//	public void moveCharacter(Point newPos, Point oldPos){
+//		tiles[(int) newPos.getX()][(int) newPos.getY()] = 'C';
+//		tiles[(int) oldPos.getX()][(int) oldPos.getY()] = 'T';
+//	}
+//
+//	/**
+//	 * Updates the char array to reflect a character moving into a different room by setting its current position to
+//	 * and empty tile
+//	 * @param room1Entry
+//	 */
+//	public void removeCharacter(Point roomEntry) {
+//		tiles[(int) roomEntry.getX()][(int) roomEntry.getY()] = 'T';
+//	}
 
 	/**
 	 * Updates the char array to reflect a character moving into this room from another by setting the doors entry
@@ -116,10 +116,18 @@ public class Room implements Serializable{
 	public void setPlayers(List<Player> players){
 		this.players = players;
 	}
-	
+
 	public void setCurrentPlayer(Player p)
 	{
 		this.currentPlayer = p;
+	}
+
+	public void setItems(ArrayList<Item> items){
+		itemsInRoom = items;
+	}
+
+	public void setDoors(ArrayList<Door> doors){
+		roomDoors = doors;
 	}
 }
 

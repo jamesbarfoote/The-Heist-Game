@@ -42,7 +42,7 @@ import data.fileReader;
 
 /**
  * Main canvas onto which GUI components are drawn
- * @author Godfreya, CombuskenKid, james.barfoote, Lachlan Lee ID# 300281826
+ * @author Godfreya, Cameron Porter	300279891, james.barfoote, Lachlan Lee ID# 300281826
  */
 public class GameCanvas extends Canvas{
 	private static final long serialVersionUID = 1l;
@@ -76,7 +76,7 @@ public class GameCanvas extends Canvas{
 	private String host = "localhost";
 	
 	private double translateX, translateY;
-	private double zoom = 60;
+	private double zoom = 200;
 	private int zooming = 0;	//0 = Not zooming, 1 = zooming in, 2 = zooming out
 	private String[] directions = {"N", "E", "S", "W"};
 	private int direction = 0;
@@ -98,8 +98,7 @@ public class GameCanvas extends Canvas{
 	 * @param players
 	 */
 	public GameCanvas(Dimension d, Player player, List<Player> players){
-		this.players = players;
-		this.players.add(player);		
+		this.players = players;	
 		this.currentPlayer = player;
 		addToImages();
 		scaleImages();
@@ -111,26 +110,31 @@ public class GameCanvas extends Canvas{
 	 * Sets up everything in the room
 	 */
 	public void initialize(){
-		this.currentPlayer.setLocation(new Point(1, 1));		
+		this.currentPlayer.setLocation(new Point(5, 20));		
 		fileReader data = new fileReader("10");		
 		Room currentRoom = new Room("testRoom", data.getWidth(), data.getHeight(), players);
+		
+		VaultDoor vaultDoor = new VaultDoor(new Point(8, 19));
 		Money money = new Money(1000000, new Point(2, 4));
 		Money money2 = new Money(1000, new Point(20, 5));
 		Money money3 = new Money(1000, new Point(23, 6));
 		Money money4 = new Money(1000, new Point(19, 3));
 		Map<String, Integer> deskItems = new HashMap<String, Integer>();
+		Map<String, Integer> deskItems2 = new HashMap<String, Integer>();
 		deskItems.put("Money", 50);
-		deskItems.put("Old Coin", 16);
+		deskItems2.put("Old Coin", 16);
 		deskItems.put("Paper Weight", 10);
 		deskItems.put("Key", 1);
-		deskItems.put("Safe Combination", 1);
+		deskItems2.put("Safe Combination", 1);
+		deskItems2.put("Money", 200);
+		currentRoom.addItem(vaultDoor);
 		currentRoom.addItem(money);
 		currentRoom.addItem(money2);
 		currentRoom.addItem(money3);
 		currentRoom.addItem(money4);
 		currentRoom.addItem(new Safe(new Point(4, 7), money.getAmount(), true));
 		currentRoom.addItem(new Desk(new Point(12, 10), deskItems));
-		currentRoom.addItem(new Desk(new Point(22, 22), deskItems));
+		currentRoom.addItem(new Desk(new Point(22, 22), deskItems2));
 		currentRoom.addDoor(new Door(false, new Point(6,3)));
 		currentRoom.addDoor(new Door(true, new Point(6,11)));
 		currentRoom.addDoor(new Door(false, new Point(13,6)));
@@ -155,7 +159,7 @@ public class GameCanvas extends Canvas{
 	
 	private void addToImages(){
 		this.filenames = addToFilenames();
-		for(int i = 0; i < 17; i++){	//16 different kinds of assets.
+		for(int i = 0; i < 17; i++){	//17 different kinds of assets.
 			for(int j = 0; j < 4; j++){	//4 different directions.
 				try {
 					BufferedImage myPicture = ImageIO.read(new File(ASSET_PATH + this.directions[j] + filenames.get(i)));
@@ -198,6 +202,10 @@ public class GameCanvas extends Canvas{
 			else if(filename.equals("_player_1.png")){
 				width = zoom;
 				height = zoom*1.5;
+			}
+			else if(filename.equals("_obj_vaultdoor.png")){
+				width = zoom;
+				height = zoom;
 			}
 			for(int j = 0; j < 4; j++){	
 				BufferedImage asset = this.images.get(this.directions[j] + filename);
@@ -434,6 +442,8 @@ public class GameCanvas extends Canvas{
 		g.drawString(minutes + ":" + sSeconds, 100, getHeight() - 100);
 		
 		//draw cash amount
+		g.setFont(new Font("TimesRoman", Font.PLAIN, 40));
+		g.drawString("$" + currentPlayer.getMoneyHeld(), 10, 40);
 		
 		
 		g.setColor(Color.BLACK);
@@ -599,15 +609,12 @@ public class GameCanvas extends Canvas{
 		    	}
 		    	else if(tiles[i][j] == "vaultWall1"){
 		    		drawWall(g, p, this.directions[direction] + "_wall_vault_1.png");
-		    		drawIcons(g, point);
 		    	}
 		    	else if(tiles[i][j] == "vaultWall2"){
 		    		drawWall(g, p, this.directions[direction] + "_wall_vault_2.png");
-		    		drawIcons(g, point);
 		    	}
 		    	else if(tiles[i][j] == "vaultWall3"){
-		    		drawTile(g, p, this.directions[direction] + "_wall_vault_3.png");
-		    		drawIcons(g, point);
+		    		drawWall(g, p, this.directions[direction] + "_wall_vault_3.png");
 		    	}
 		    	else if(tiles[i][j] == "door"){
 		    		for(Player player : this.players){
@@ -655,7 +662,10 @@ public class GameCanvas extends Canvas{
 	}
 	
 	private void drawIcons(Graphics2D g, Point point){	
-		for(Player p: players)//Find the current player in the list and update the local player with it
+
+		//System.out.println("ID  = " + cm.getID());
+		for(Player p: this.players)//Find the current player in the list and update the local player with it
+
 		{
 			if(p.getID() == cm.getID())//Get the current player
 			{
@@ -727,14 +737,14 @@ public class GameCanvas extends Canvas{
 					}
 				}
 			}
-			if(item.getFilename().equals("_obj_vaultdoor.png")){
-				VaultDoor vaultDoor = (VaultDoor) item;
-				for(Point p : vaultDoor.getPositions()){
-					if(p.equals(point)){
-						drawItems2(g, item);
-					}
-				}
-			}
+//			if(item.getFilename().equals("_obj_vaultdoor.png")){
+//				VaultDoor vaultDoor = (VaultDoor) item;
+//				for(Point p : vaultDoor.getPositions()){
+//					if(p.equals(point)){
+//						drawItems2(g, item);
+//					}
+//				}
+//			}
 			Point location = item.getPosition();
 			if(location.equals(point)){
 				drawItems2(g, item);
@@ -760,18 +770,12 @@ public class GameCanvas extends Canvas{
 				at.translate(-this.zoom/19, -this.zoom/1.35);
 			}
 		}
-		else if(item.getFilename().equals("_obj_vaultdoor.png")){	//-------------------------------------------------------------------------------------
-			if(this.direction == 0){
-				at.translate(-this.zoom/1.7, -this.zoom/1.35);
-			}
-			else if(this.direction == 1){
-				at.translate(-this.zoom/1.8, -this.zoom/2.1);
-			}
-			else if(this.direction == 2){
-				at.translate(-this.zoom/15, -this.zoom/2.1);
+		else if(item.getFilename().equals("_obj_vaultdoor.png")){
+			if(this.direction == 2){
+				at.translate(this.zoom/4, -this.zoom/1.5);
 			}
 			else if(this.direction == 3){
-				at.translate(-this.zoom/19, -this.zoom/1.35);
+				at.translate(0, -this.zoom/1.2);
 			}
 		}
 		else if(item.getFilename().equals("_obj_floorSafe.png")){
