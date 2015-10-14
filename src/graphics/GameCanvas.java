@@ -115,10 +115,6 @@ public class GameCanvas extends Canvas{
 		Room currentRoom = new Room("testRoom", data.getWidth(), data.getHeight(), players);
 		
 		VaultDoor vaultDoor = new VaultDoor(new Point(8, 19));
-		Money money = new Money(1000000, new Point(2, 4));
-		Money money2 = new Money(1000, new Point(20, 5));
-		Money money3 = new Money(1000, new Point(23, 6));
-		Money money4 = new Money(1000, new Point(19, 3));
 		Map<String, Integer> deskItems = new HashMap<String, Integer>();
 		Map<String, Integer> deskItems2 = new HashMap<String, Integer>();
 		deskItems.put("Money", 50);
@@ -128,16 +124,67 @@ public class GameCanvas extends Canvas{
 		deskItems2.put("Safe Combination", 1);
 		deskItems2.put("Money", 200);
 		currentRoom.addItem(vaultDoor);
-		currentRoom.addItem(money);
-		currentRoom.addItem(money2);
-		currentRoom.addItem(money3);
-		currentRoom.addItem(money4);
-		currentRoom.addItem(new Safe(new Point(4, 32), money.getAmount(), true));
-		currentRoom.addItem(new Safe(new Point(33, 29), money.getAmount(), true));
-		currentRoom.addItem(new Safe(new Point(31, 1), money.getAmount(), true));
-		currentRoom.addItem(new Safe(new Point(16, 23), money.getAmount(), true));
-		currentRoom.addItem(new Safe(new Point(18, 7), money.getAmount(), true));
-		currentRoom.addItem(new Safe(new Point(24, 27), money.getAmount(), true));
+		//Money-----------------------------------------------
+		ArrayList<Money> money = new ArrayList<Money>();
+		money.add(new Money(500, new Point(29, 17)));
+		money.add(new Money(500, new Point(29, 18)));
+		money.add(new Money(500, new Point(29, 19)));
+		money.add(new Money(500, new Point(29, 20)));
+		money.add(new Money(500, new Point(29, 21)));
+		money.add(new Money(500, new Point(29, 22)));
+		money.add(new Money(500, new Point(29, 23)));
+		money.add(new Money(500, new Point(29, 24)));
+		
+		money.add(new Money(500, new Point(9, 36)));
+		money.add(new Money(500, new Point(15, 36)));
+		money.add(new Money(500, new Point(10, 37)));
+		money.add(new Money(500, new Point(24, 38)));
+		money.add(new Money(500, new Point(28, 38)));
+		money.add(new Money(500, new Point(23, 35)));
+		money.add(new Money(500, new Point(10, 37)));
+		money.add(new Money(500, new Point(15, 35)));
+		money.add(new Money(500, new Point(13, 34)));
+		
+		money.add(new Money(500, new Point(12, 27)));
+		money.add(new Money(500, new Point(14, 25)));
+		money.add(new Money(500, new Point(13, 24)));
+		
+		money.add(new Money(500, new Point(27, 12)));
+		money.add(new Money(500, new Point(26, 14)));
+		money.add(new Money(500, new Point(28, 13)));
+		money.add(new Money(500, new Point(27, 25)));
+		money.add(new Money(500, new Point(25, 27)));
+		money.add(new Money(500, new Point(24, 20)));
+		
+		money.add(new Money(500, new Point(12, 8)));
+		money.add(new Money(500, new Point(14, 12)));
+		money.add(new Money(500, new Point(15, 13)));
+		money.add(new Money(500, new Point(13, 15)));
+		money.add(new Money(500, new Point(16, 15)));
+		money.add(new Money(500, new Point(17, 16)));
+		
+		money.add(new Money(500, new Point(8, 5)));
+		money.add(new Money(500, new Point(5, 9)));
+		money.add(new Money(500, new Point(4, 3)));
+		money.add(new Money(500, new Point(2, 4)));
+		money.add(new Money(500, new Point(3, 7)));
+		
+		money.add(new Money(500, new Point(34, 10)));
+		money.add(new Money(500, new Point(32, 5)));
+		money.add(new Money(500, new Point(33, 3)));
+		money.add(new Money(500, new Point(32, 7)));
+		
+		money.add(new Money(500, new Point(20, 20)));
+		money.add(new Money(500, new Point(22, 20)));
+		money.add(new Money(500, new Point(24, 23)));
+		money.add(new Money(500, new Point(21, 21)));
+		//Safes--------------------------------------------------
+		currentRoom.addItem(new Safe(new Point(4, 32), money.get(0).getAmount(), true));
+		currentRoom.addItem(new Safe(new Point(33, 29),  money.get(0).getAmount(), true));
+		currentRoom.addItem(new Safe(new Point(31, 1), money.get(0).getAmount(), true));
+		currentRoom.addItem(new Safe(new Point(16, 23), money.get(0).getAmount(), true));
+		currentRoom.addItem(new Safe(new Point(18, 7), money.get(0).getAmount(), true));
+		currentRoom.addItem(new Safe(new Point(24, 27), money.get(0).getAmount(), true));
 		//Desks--------------------------------------------------
 		currentRoom.addItem(new Desk(new Point(2, 35), deskItems));
 		currentRoom.addItem(new Desk(new Point(2, 3), deskItems));
@@ -149,9 +196,11 @@ public class GameCanvas extends Canvas{
 		currentRoom.addItem(new Desk(new Point(30, 24), deskItems));
 		currentRoom.addItem(new Desk(new Point(30, 9), deskItems));
 		currentRoom.addItem(new Desk(new Point(36, 38), deskItems));
+
 		
-		
-		
+		for(Money m : money){
+			currentRoom.addItem(m);
+		}
 		currentRoom.addDoor(new Door(false, new Point(6,3)));
 		currentRoom.addDoor(new Door(true, new Point(6,11)));
 		currentRoom.addDoor(new Door(false, new Point(13,6)));
@@ -174,6 +223,9 @@ public class GameCanvas extends Canvas{
 		timer.start();
 	}
 	
+	/**
+	 * Add the image assets to the canvas
+	 */
 	private void addToImages(){
 		this.filenames = addToFilenames();
 		for(int i = 0; i < 17; i++){	//17 different kinds of assets.
@@ -192,6 +244,9 @@ public class GameCanvas extends Canvas{
 		return gameState;
 	}
 	
+	/**
+	 * Scale the image sizes based on the current zoom level
+	 */
 	private void scaleImages(){
 		double width = 0;
 		double height = 0;
@@ -596,6 +651,12 @@ public class GameCanvas extends Canvas{
 		}
 	}
 	
+	/**
+	 * Draw the room onto the canvas based on the positions of the objects in the 2d String array that
+	 * represents the room
+	 * @param g
+	 * @throws InterruptedException
+	 */
 	private void drawRoom(Graphics2D g) throws InterruptedException{	
 		for (int i = tiles.length-1; i >= 0; i--){
 		    for (int j = 0; j < tiles[i].length; j++){
@@ -820,6 +881,11 @@ public class GameCanvas extends Canvas{
 		return returnTranslate;
 	}
 	
+	/**
+	 * Rotate everything one cardinal direction clockwise or anti-clockwise and update their records
+	 * to reflect this
+	 * @param direction
+	 */
 	public void rotate(String direction){
 		String[][] newArray = new String[this.tiles.length][this.tiles[0].length];
 		Point oldLocation = currentPlayer.getLocation();
@@ -857,6 +923,7 @@ public class GameCanvas extends Canvas{
 		this.translateX = this.translateX + translation[0];
 		this.translateY = this.translateY + translation[1];
 		
+		//Update the players position fields to reflect their rotated values
 		for(Player player : this.players){
 			if(player.getID() != currentPlayer.getID()){
 				oldLocation = player.getLocation();
@@ -871,6 +938,19 @@ public class GameCanvas extends Canvas{
 			}
 		}
 		
+		//Update the doors position fields to reflect their rotated values
+		for(Door door : this.doors){
+			oldLocation = door.getPosition();
+			if(direction.equals("clockwise")){
+				newLocation = new Point((this.tiles[(int) oldLocation.getY()].length - 1 - (int) oldLocation.getY()), (int) oldLocation.getX());
+			}
+			else{
+				newLocation = new Point((int) oldLocation.getY(), this.tiles[(int) oldLocation.getX()].length - 1 - (int) oldLocation.getX());
+			}
+			door.setPosition(newLocation);
+		}
+		
+		//Update the items position fields to reflect their rotated values
 		for(Item item : this.items){
 			oldLocation = item.getPosition();
 			if(direction.equals("clockwise")){

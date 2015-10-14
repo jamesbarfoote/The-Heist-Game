@@ -149,7 +149,7 @@ public class Lobby extends Menu{
 		
 		players = cm.getPlayers();
 		for(Player p: players){
-			g.drawString(p.getName(), nameX, nameY);
+			g.drawString(p.getName(), nameX, nameY + 20);
 			nameY += 50;
 		}
 	}
