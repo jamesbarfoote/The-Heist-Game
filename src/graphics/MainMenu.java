@@ -74,7 +74,7 @@ public class MainMenu extends Menu{
 			break;
 		case "quit":
 			action = Action.QUIT;
-			canvas.showConfirmation(this, Action.QUIT, "Quit Game?");
+			canvas.showConfirmation(this, Action.QUIT, "Quit Game?", null);
 			break;
 		case "single":
 			Server myRunnable = new Server(); //Start the server in a new thread
@@ -86,8 +86,9 @@ public class MainMenu extends Menu{
 			canvas.setState(State.PLAYING_SINGLE);
 			break;
 		case "multi":
-			action = Action.IP;
-			canvas.showConfirmation(this, Action.IP,  "Enter IP Address");//Displayer the box to type IP into
+			action = Action.CHOOSE;
+			canvas.showConfirmation(this, Action.CHOOSE, "Enter Player Name", null);
+			//canvas.showConfirmation(this, Action.IP,  "Enter IP Address");//Displayer the box to type IP into
 			break;
 		case "new":
 			state = MenuState.NEW;

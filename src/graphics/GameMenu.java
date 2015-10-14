@@ -59,7 +59,7 @@ public class GameMenu extends Menu{
 			break;
 		case "quit":
 			action = Action.QUIT;
-			canvas.showConfirmation(this, Action.QUIT, "Exit to main menu?");
+			canvas.showConfirmation(this, Action.QUIT, "Exit to main menu?", null);
 				
 			break;
 		case "resume":

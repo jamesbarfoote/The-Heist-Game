@@ -1,5 +1,7 @@
 package graphics;
 
+import game.Player;
+
 import java.awt.Graphics;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
@@ -11,7 +13,7 @@ public class Confirmation extends Dialogue{
 	private Menu listener;
 	private String message;
 	
-	public Confirmation(Menu m, String message, GameCanvas cv){
+	public Confirmation(Menu m, String message, GameCanvas cv, Player player){
 		canvas = cv;
 		menuBack = GameCanvas.loadImage("popup.png");
 		menuX = (canvas.getWidth()/2) - (menuBack.getWidth(null)/2);

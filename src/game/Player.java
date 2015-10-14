@@ -79,10 +79,9 @@ public class Player implements Serializable{
 	 * @param p The players location represented as a point on the canvas
 	 * @param t The players type (robber or guard)
 	 */
-	public Player(String name, Weapon w, Point p, Type t)
+	public Player(String name, Point p, Type t)
 	{
 		this.name = name;
-		this.weapon = w;
 		this.currentPosition = p;
 		this.oldPosition  = p;
 		this.t = t;

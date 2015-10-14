@@ -216,12 +216,15 @@ public class GameCanvas extends Canvas{
 	}
 	
 	/**open up a confirmation window**/
-	public void showConfirmation(Menu listener, Menu.Action action, String message){
+	public void showConfirmation(Menu listener, Menu.Action action, String message, Player player){
 		if(action.equals(Action.QUIT)){
-			dialogue = new Confirmation(listener, message, this);
+			dialogue = new Confirmation(listener, message, this, null);
 		}
-		else if(action.equals(Action.TEXT) || action.equals(Action.IP)){
-			dialogue = new TextDialogue(listener, message, this);
+		else if(action.equals(Action.IP)){
+			dialogue = new TextDialogue(listener, message, this, player);
+		}
+		else if(action.equals(Action.CHOOSE)){
+			dialogue = new PlayerForm(listener, message, this);
 		}
 	}
 	

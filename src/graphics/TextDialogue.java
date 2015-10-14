@@ -1,5 +1,7 @@
 package graphics;
 
+import game.Player;
+
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.event.KeyEvent;
@@ -14,7 +16,7 @@ public class TextDialogue extends Dialogue{
 	private String text;
 	public final int LIMIT = 170; //max string length
 	
-	public TextDialogue(Menu m, String message, GameCanvas cv){
+	public TextDialogue(Menu m, String message, GameCanvas cv, Player player){
 		canvas = cv;
 		menuBack = GameCanvas.loadImage("popup.png");
 		menuX = (canvas.getWidth()/2) - (menuBack.getWidth(null)/2);
